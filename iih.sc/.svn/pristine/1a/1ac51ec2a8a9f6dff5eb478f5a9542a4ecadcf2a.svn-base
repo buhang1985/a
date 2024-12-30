@@ -1,0 +1,31 @@
+package iih.sc.apt.s.listener.bp;
+
+import java.util.List;
+
+import iih.sc.comm.ScSqlUtils;
+import xap.mw.core.data.BizException;
+import xap.mw.core.utils.StringUtil;
+import xap.sys.jdbc.facade.DAException;
+import xap.sys.jdbc.facade.DAFacade;
+
+public class OpLisRisAfterFeeBP {
+	public void exec(List<String> idorlist)throws BizException{
+		String cond = ScSqlUtils.getInSqlByIds("id_or", idorlist);
+		if(!StringUtil.isEmpty(cond)){
+			this.updScAptApplFgBl(cond);
+		}
+	}
+	
+	/**
+	 * 根据id_or 更新预约申请单fg_bl标识
+	 * @param cond
+	 * @throws DAException 
+	 */
+	private void updScAptApplFgBl(String cond) throws DAException{
+		DAFacade dafacade = new DAFacade();
+		StringBuffer sql = new StringBuffer();
+		sql.append("update sc_apt_appl set fg_bl ='Y' where ")
+		.append(cond);
+		dafacade.execUpdate(sql.toString());
+	}
+}

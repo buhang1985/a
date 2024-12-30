@@ -1,0 +1,44 @@
+package iih.sc.sch.s.bp;
+
+import iih.sc.sch.sctick.d.ScSchTickDO;
+import iih.sc.sch.sctick.d.desc.ScSchTickDODesc;
+import iih.sc.sch.sctick.i.ISctickRService;
+import iih.sc.sch.sctick.s.SctickCrudServiceImpl;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.DOStatus;
+import xap.mw.core.utils.ArrayUtil;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.BeanHandler;
+import xap.sys.jdbc.kernel.SqlParam;
+
+/**
+ * 号位查询BP
+ * @author yankan
+ * @since 2015-11-21
+ *
+ */
+public class GetTickBySchAndTickNoBP {
+	public GetTickBySchAndTickNoBP(){}	
+
+	/**
+	 * 获取号位
+	 * 统一排班，票号唯一
+	 * @param schId 排班
+	 * @param tickNo 票号
+	 * @return
+	 * @throws BizException
+	 */
+	public ScSchTickDO exec(String schId,Integer tickNo) throws BizException {
+		ISctickRService tickRService = ServiceFinder.find(ISctickRService.class);
+		String whereStr = String.format("%s.id_sch='%s' and %s.queno='%s'", 
+				ScSchTickDODesc.TABLE_ALIAS_NAME,schId,ScSchTickDODesc.TABLE_ALIAS_NAME,tickNo);
+		ScSchTickDO[] tickDOs = tickRService.find(whereStr, null, FBoolean.TRUE);
+		if(ArrayUtil.isEmpty(tickDOs)){
+			return null;
+		}
+		return tickDOs[0];
+	}
+	
+}

@@ -1,0 +1,246 @@
+package iih.sc.apt.s.bp.mt;
+
+
+import java.util.List;
+import iih.bd.bc.udi.pub.IScDictCodeConst;
+import iih.en.pv.i.IEnOutCmdService;
+import iih.sc.apt.dto.d.OpAptDTO;
+import iih.sc.apt.s.bp.opt.OptAptCiObsOperateBP;
+import iih.sc.apt.s.ep.AptEP;
+import iih.sc.apt.s.ep.MtAptEP;
+import iih.sc.apt.scapt.d.ScAptDO;
+import iih.sc.apt.scapt.i.IScaptMDORService;
+import iih.sc.apt.scaptappl.d.ScAptApplDO;
+import iih.sc.apt.scaptappl.i.IScaptapplMDOCudService;
+import iih.sc.apt.scaptappl.i.IScaptapplMDORService;
+import iih.sc.comm.IScMsgConst;
+import iih.sc.comm.ScAppUtils;
+import iih.sc.comm.ScContextUtils;
+import iih.sc.comm.ScLogUtil;
+import iih.sc.comm.ScValidator;
+import iih.sc.sch.i.IScSchOutCmdService;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.DOStatus;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.coreitf.d.FDateTime;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.BeanListHandler;
+import xap.sys.jdbc.kernel.SqlParam;
+
+/**
+ * 取消手术预约
+ * @author maxy
+ * @date 2018年7月11日14:34:10
+ */
+public class CancScAptApplBP {
+
+	/**
+	 * 取消手术预约
+	 * @param id_or
+	 * @param id_emp_canc
+	 * @param dt_canc
+	 * @throws BizException
+	 */
+	public void exec(String id_or, String id_emp_canc, FDateTime dt_canc) throws BizException{
+		//1.查询预约记录、预约申请记录
+		ScAptApplDO scApplDO = this.getScAptAppl(id_or);//预约申请
+		
+		//2.取消申请单
+		if(scApplDO != null)
+		{
+			this.CancelAptAppl(scApplDO, id_emp_canc, dt_canc);
+			//3.取消预约
+			ScAptDO scAptDO = this.getScApt(scApplDO.getId_scapt());//预约记录
+			if(scAptDO != null)
+			{
+				if(!scAptDO.getFg_canc().booleanValue())
+				{
+				this.CancelScApt(scAptDO,scApplDO);
+			}
+		}
+	}
+	}
+	
+	/**
+	 * 获取预约记录
+	 * @param id_or
+	 * @return
+	 * @throws BizException
+	 */
+	@SuppressWarnings("unchecked")
+	private ScAptDO getScApt(String id_apt)throws BizException
+	{
+		StringBuilder sql = new StringBuilder();
+		sql.append(" select t.* ");
+		sql.append(" from sc_apt t");
+		sql.append(" where t.id_apt = ?");
+		SqlParam param = new SqlParam();
+		param.addParam(id_apt);
+		
+		List<ScAptDO> list = (List<ScAptDO>) new DAFacade().execQuery(sql.toString(),param,new BeanListHandler(ScAptDO.class));
+		
+		if(list == null || list.size()==0)
+		{
+			return null;
+		}
+		else
+		{
+			return list.get(0);
+		}
+	}
+	
+	/**
+	 * 获取预约申请记录
+	 * @param id_or
+	 * @return
+	 * @throws BizException
+	 */
+	private ScAptApplDO getScAptAppl(String id_or) throws BizException
+	{
+		IScaptapplMDORService scaptapplRService =  ServiceFinder.find(IScaptapplMDORService.class);
+		ScAptApplDO[] dos = scaptapplRService.find(" id_or = '"+ id_or +"' and  fg_canc='N' ", "", FBoolean.FALSE);
+		if(dos == null || dos.length==0)
+		{
+			ScLogUtil.getInstance().logError("未找到预约申请记录,id_or:"+id_or);
+			return null;
+		}
+		return dos[0];
+	}
+	
+	/**
+	 * 取消预约
+	 * @param scAptDO
+	 * @param scApplDO
+	 * @throws BizException
+	 */
+	private void CancelScApt(ScAptDO scAptDO,ScAptApplDO scApplDO)throws BizException
+	{
+		// 验证预约信息
+		this.validateApt(scAptDO);
+
+		// 处理票号
+		this.processTick(scApplDO.getId_ent(), scAptDO);
+		
+		// 更新医嘱申请单状态--回写手术申请单状态
+		new OptAptCiObsOperateBP().rewriteCancApt(scApplDO.getId_or());
+		
+		// 更新医嘱申请单状态
+		if (scApplDO.getSd_sctp().equals(IScDictCodeConst.SD_SCTP_MT)) {
+			this.updateOrderStatus(scApplDO.getId_or());
+		} else {
+			// 回写手术申请单状态
+			this.rewriteOptAppStatus(scApplDO.getId_or());
+		}
+		// 更新预约申请表
+		this.updateAptAppl(scApplDO);
+	}
+
+	/**
+	 * 更新预约申请
+	 *
+	 * @author zhengcm
+	 * 
+	 * @param appDTO
+	 * @throws BizException
+	 */
+	private void updateAptAppl(ScAptApplDO aptApplDO) throws BizException {
+		MtAptEP mtAptEP = new MtAptEP();
+		// 未确认的申请单不取消
+		if (null == aptApplDO || null == aptApplDO.getFg_comfirm() || !aptApplDO.getFg_comfirm().booleanValue()) {
+			return;
+		}
+		aptApplDO.setStatus(DOStatus.UPDATED);
+		aptApplDO.setFg_comfirm(FBoolean.FALSE);
+		if(!aptApplDO.getSd_sctp().equals(IScDictCodeConst.SD_SCTP_OT))
+		{
+			aptApplDO.setId_emp_canc(ScContextUtils.getPsnId());
+			aptApplDO.setDt_canc(ScAppUtils.getServerDateTime());
+	}
+		// 更新预约申请
+		mtAptEP.saveAptAppl(new ScAptApplDO[] { aptApplDO });
+	}
+	/**
+	 * 更新医嘱状态
+	 *
+	 * @param mtAppDTO
+	 * @throws BizException
+	 * @author zhengcm
+	 */
+	private void updateOrderStatus(String id_or) throws BizException {
+		ScValidator.validateParam("id_or", id_or);
+		new MtAptCiObsOperateBP().rewriteObsStatus(id_or, Boolean.FALSE,null);
+	}
+
+	/**
+	 * 回写手术申请单状态
+	 * 
+	 * @author zhengcm
+	 *
+	 * @param appDTO
+	 * @throws BizException
+	 */
+	private void rewriteOptAppStatus(String id_or) throws BizException {
+		new OptAptCiObsOperateBP().rewriteCancApt(id_or);
+	}
+
+	/**
+	 * 取消申请单
+	 * @param scApplDO
+	 * @param id_emp_canc
+	 * @param dt_canc
+	 * @throws BizException
+	 */
+	private void CancelAptAppl(ScAptApplDO scApplDO, String id_emp_canc, FDateTime dt_canc) throws BizException
+	{
+		scApplDO.setStatus(DOStatus.UPDATED);
+		scApplDO.setFg_canc(FBoolean.TRUE);
+		scApplDO.setId_emp_canc(id_emp_canc);
+		scApplDO.setDt_canc(dt_canc);
+		IScaptapplMDOCudService scaptapplCudService= ServiceFinder.find(IScaptapplMDOCudService.class);
+		scaptapplCudService.save(new ScAptApplDO[]{scApplDO});
+	}
+	
+	/**
+	 * 验证预约信息
+	 * 
+	 * @param scAptDO
+	 * @throws BizException
+	 */
+	private void validateApt(ScAptDO scAptDO) throws BizException {
+		if (scAptDO == null) {
+			throw new BizException(IScMsgConst.SC_APT_NOT_EXIST);
+		}
+		// 校验预约状态
+		if (IScDictCodeConst.SD_APTSTATUS_FINISH.equals(scAptDO.getSd_status())) {
+			throw new BizException(IScMsgConst.SC_APT_OP_HAS_TAKEN);
+		} else if (IScDictCodeConst.SD_APTSTATUS_CANCEL.equals(scAptDO.getSd_status())) {
+			throw new BizException(IScMsgConst.SC_APT_OP_HAS_CANCELED);
+		}
+	}
+	
+	/**
+	 * 处理票号
+	 *
+	 * @param id_ent 就诊id
+	 * @param scAptDO
+	 * @throws BizException
+	 * @author zhengcm
+	 */
+	private void processTick(String id_ent,ScAptDO scAptDO) throws BizException {
+		if (scAptDO.getFg_payment() == FBoolean.TRUE) {
+			// 如果已经结算，直接走退号逻辑,需退钱
+			IEnOutCmdService entService = ServiceFinder.find(IEnOutCmdService.class);
+			OpAptDTO aptDTO = new OpAptDTO();
+			aptDTO.setId_apt(scAptDO.getId_apt());
+			aptDTO.setId_ent(id_ent);
+			entService.cancEnt(aptDTO);
+		} else {
+			// 退号
+			IScSchOutCmdService schService = ServiceFinder.find(IScSchOutCmdService.class);
+			schService.drawbackTick(scAptDO.getId_tick());
+			// 取消预约
+			new AptEP().cancApt(null,scAptDO);
+		}
+	}
+}

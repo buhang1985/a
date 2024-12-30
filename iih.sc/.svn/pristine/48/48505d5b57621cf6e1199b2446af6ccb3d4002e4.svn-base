@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	
+	<!-- 预约渠道  -->    
+	<bean id="ISchedulechlCudService" class="iih.sc.scbd.schedulechl.s.SchedulechlCrudServiceImpl"></bean>
+	<bean id="ISchedulechlRService" class="iih.sc.scbd.schedulechl.s.SchedulechlCrudServiceImpl"></bean>
+	<bean id="ISchedulechlMDOCudService" class="iih.sc.scbd.schedulechl.s.SchedulechlMDOCrudServiceImpl"></bean>
+	<bean id="IScChlPeriodDOCudService" class="iih.sc.scbd.schedulechl.s.ScChlPeriodDOCrudServiceImpl"></bean>
+	<!-- 排班资源 -->
+	<bean id="IScheduleresRService" class="iih.sc.scbd.scheduleres.s.ScheduleresCrudServiceImpl"></bean> 
+	<!-- 排班服务 -->
+	<bean id="ISchedulesrvMDOCudService" class="iih.sc.scbd.schedulesrv.s.SchedulesrvMDOCrudServiceImpl"></bean>
+	<!-- 互斥服务 -->
+	<bean id="IScsrvexclCudService" class="iih.sc.scbd.scsrvexcl.s.ScsrvexclCrudServiceImpl"></bean>
+	<!-- 排班分类数据 -->
+	<bean id="ISchedulecaRService" class="iih.sc.scbd.scheduleca.s.SchedulecaCrudServiceImpl"></bean>
+	<!-- 预约规则 -->
+	<bean id="IScapptruleCudService" class="iih.sc.scbd.scapptrule.s.ScapptruleCrudServiceImpl"></bean>
+	<!-- 排班服务AggDO -->
+	<bean id="ISchedulesrvCrudService" class="iih.sc.scbd.schedulesrv.s.SchedulesrvCrudServiceImpl"></bean>
+	<!-- 排班服务渠道 -->
+	<bean id="IScheduleSrvChlDOCudService" class="iih.sc.scbd.schedulesrv.s.ScheduleSrvChlDOCrudServiceImpl"></bean>
+	<!-- 排班 资源对照-->
+	<bean id="IScheduleSrvRelDOCudService" class="iih.sc.scbd.schedulesrv.s.ScheduleSrvRelDOCrudServiceImpl"></bean>
+	
+	<!-- 日志记录服务 -->
+	<bean id="ISclogrecCudService" class="iih.sc.scbd.log.s.SclogrecCrudServiceImpl"></bean>
+	<!-- 日志配置服务 -->
+	<bean id="ISclogsettingCudService" class="iih.sc.scbd.log.s.SclogsettingCrudServiceImpl"></bean>
+	<!-- 执行域预约日志服务 -->
+	<bean id="IScLogService" class="iih.sc.scbd.s.ScLogServiceImpl"></bean>
+	<!-- 排班部门参数Agg服务 -->
+	<bean id="IScdeptparamCudService" class="iih.sc.scbd.scdeptparam.s.ScdeptparamCrudServiceImpl"></bean>
+	<!-- 排班部门参数服务 -->
+	<bean id="IScdeptparamMDOCudService" class="iih.sc.scbd.scdeptparam.s.ScdeptparamMDOCrudServiceImpl"></bean>
+	<!-- 排班部门参数时段设置服务 -->
+	<bean id="IScDeptParamDsDOCudService" class="iih.sc.scbd.scdeptparam.s.ScDeptParamDsDOCrudServiceImpl"></bean>	
+	<!-- 排班基础数据查询服务 -->
+	<bean id="IScBdQryService" class="iih.sc.scbd.s.ScBdQryServiceImpl"></bean>
+	<!-- 排班基础数据命令服务 -->
+	<bean id="IScBdCmdService" class="iih.sc.scbd.s.ScBdCmdServiceImpl"></bean>
+	<xap:service ref="IScBdCmdService" interface="iih.sc.scbd.i.IScBdCmdService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<!-- 排班基础数据对外查询服务 -->
+	<bean id="IScBdOutQryService" class="iih.sc.scbd.s.ScBdOutQryServiceImpl"></bean>
+	<!-- 日期分组服务 -->
+	<bean id="IScDaysLotService" class="iih.sc.scbd.s.ScDaysLotServiceImpl"></bean>	
+	<!--排班服务类别参数服务-->
+	<bean id="IScsrvkinddoMDOCudService" class="iih.sc.scbd.schedulesrv.s.ScsrvkinddoMDOCrudServiceImpl"></bean>
+	<xap:service ref="IScsrvkinddoMDOCudService" interface="iih.sc.scbd.schedulesrv.i.IScsrvkinddoMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<!-- 排班服务类别维护 -->
+	<bean id="IScsrvkinddoCudService" class="iih.sc.scbd.schedulesrv.s.ScsrvkinddoCrudServiceImpl"></bean>
+	<!-- 排班服务类别维护详细  -->
+	<bean id="IScSrvKindItmCudService" class="iih.sc.scbd.schedulesrv.s.ScSrvKindItmCrudServiceImpl"></bean>
+		<xap:service ref="IScSrvKindItmCudService" interface="iih.sc.scbd.schedulesrv.i.IScSrvKindItmCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<!-- 排班计划医疗服务 -->
+	<bean id="IScbdsrvCudService" class="iih.sc.scbd.bdsrv.s.ScbdsrvCrudServiceImpl"></bean>
+	<bean id="IScbdsrvRService" class="iih.sc.scbd.bdsrv.s.ScbdsrvCrudServiceImpl"></bean>
+	
+	<!-- 排班释放规则查询服务 -->
+	<bean id="IScreleaseruleRService" class="iih.sc.scbd.screleaserule.s.ScreleaseruleCrudServiceImpl"/>
+	<!--排班释放规则命令服务 -->
+	<bean id="IScreleaseruleCudService" class="iih.sc.scbd.screleaserule.s.ScreleaseruleCrudServiceImpl"/>
+	<xap:service ref="IScreleaseruleCudService" interface="iih.sc.scbd.screleaserule.i.IScreleaseruleCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IScreleaseruleMDORService" class="iih.sc.scbd.screleaserule.s.ScreleaseruleMDOCrudServiceImpl"></bean>
+	<bean id="IScreleaseruleMDOCudService" class="iih.sc.scbd.screleaserule.s.ScreleaseruleMDOCrudServiceImpl"></bean>
+	<xap:service ref="IScreleaseruleMDOCudService" interface="iih.sc.scbd.screleaserule.i.IScreleaseruleMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IScReleaseRuleItmDORService" class="iih.sc.scbd.screleaserule.s.ScReleaseRuleItmDOCrudServiceImpl"></bean>
+	<bean id="IScReleaseRuleItmDOCudService" class="iih.sc.scbd.screleaserule.s.ScReleaseRuleItmDOCrudServiceImpl"></bean>
+	<xap:service ref="IScReleaseRuleItmDOCudService" interface="iih.sc.scbd.screleaserule.i.IScReleaseRuleItmDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 预约打印模板查询服务 -->
+	<bean id="IScprttmplRService" class="iih.sc.scbd.scprttmpl.s.ScprttmplCrudServiceImpl"/>
+	<!--预约打印模板命令服务 -->
+	<bean id="IScprttmplCudService" class="iih.sc.scbd.scprttmpl.s.ScprttmplCrudServiceImpl"/>
+	<xap:service ref="IScprttmplCudService" interface="iih.sc.scbd.scprttmpl.i.IScprttmplCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--预约打印模板配置查询服务 -->
+	<bean id="IScprtcfgRService" class="iih.sc.scbd.scprtcfg.s.ScprtcfgCrudServiceImpl"/>
+	<!--预约打印模板配置命令服务 -->
+	<bean id="IScprtcfgCudService" class="iih.sc.scbd.scprtcfg.s.ScprtcfgCrudServiceImpl"/>
+	<xap:service ref="IScprtcfgCudService" interface="iih.sc.scbd.scprtcfg.i.IScprtcfgCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 预约释放规则配置查询服务 -->
+	<bean id="IScaptrlsruleRService" class="iih.sc.scbd.screleaserule.s.ScaptrlsruleCrudServiceImpl"/>
+	<!-- 预约释放规则配置命令服务 -->
+	<bean id="IScaptrlsruleCudService" class="iih.sc.scbd.screleaserule.s.ScaptrlsruleCrudServiceImpl"/>
+	<xap:service ref="IScaptrlsruleCudService" interface="iih.sc.scbd.screleaserule.i.IScaptrlsruleCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+</beans>

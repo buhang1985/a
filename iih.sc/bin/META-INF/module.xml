@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module group="iih.sc" name="iih.sc" version="0.2.0-sdlanling2-SNAPSHOT">
+    <libraries>
+        <library>
+            <group>iih</group>
+            <artifactId>iih.sc.apt</artifactId>
+            <version>0.2.0-sdlanling2-SNAPSHOT</version>
+        </library>
+        <library>
+            <group>iih</group>
+            <artifactId>iih.sc.att</artifactId>
+            <version>0.2.0-sdlanling2-SNAPSHOT</version>
+        </library>
+        <library>
+            <group>iih</group>
+            <artifactId>iih.sc.scbd</artifactId>
+            <version>0.2.0-sdlanling2-SNAPSHOT</version>
+        </library>
+        <library>
+            <group>iih</group>
+            <artifactId>iih.sc.sch</artifactId>
+            <version>0.2.0-sdlanling2-SNAPSHOT</version>
+        </library>
+        <library>
+            <group>iih</group>
+            <artifactId>iih.sc.scp</artifactId>
+            <version>0.2.0-sdlanling2-SNAPSHOT</version>
+        </library>
+    </libraries>
+</module>

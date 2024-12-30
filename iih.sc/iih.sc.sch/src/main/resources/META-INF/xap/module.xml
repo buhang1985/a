@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	<!-- 排班服务 -->
+	<bean id="iScSchOptsrvCrudService" class="iih.sc.sch.scsch.s.ScSchOptsrvDOCrudServiceImpl"></bean>
+	<bean id="iScschChlCrudService" class="iih.sc.sch.scsch.s.ScschCrudServiceImpl"></bean>
+	<bean id="iScschEnCrudService" class="iih.sc.sch.scsch.s.ScSchEnDOCrudServiceImpl"></bean>
+	<bean id="iScschEmpCrudService" class="iih.sc.sch.scsch.s.ScSchEmpDOCrudServiceImpl"></bean>
+	<bean id="iScschMDOCrudService" class="iih.sc.sch.scsch.s.ScschMDOCrudServiceImpl"></bean>
+	<bean id="IScschMDORService" class="iih.sc.sch.scsch.s.ScschMDOCrudServiceImpl"></bean>
+	<!-- 号位服务 -->
+	<bean id="iSctickCrudService" class="iih.sc.sch.sctick.s.SctickCrudServiceImpl"></bean>
+	<!-- 号位B服务 -->
+	<bean id="iSctickbCrudService" class="iih.sc.sch.sctickb.s.SctickbCrudServiceImpl"></bean>
+	<!-- 事务配置 -->
+	<xap:service ref="ISctickCrudService" interface="iih.sc.sch.sctick.i.ISctickCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IScticksCrudService" interface="iih.sc.sch.scticks.i.IScticksCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 号段服务 -->
+	<bean id="IScticksCrudService" class="iih.sc.sch.scticks.s.ScticksCrudServiceImpl"></bean>
+	<!-- 排班人员管理 -->
+	<bean id="IScSchEmpDOCrudService" class="iih.sc.sch.scsch.s.ScSchEmpDOCrudServiceImpl"></bean>
+	<!-- 排班资源占用 -->
+	<bean id="ISchocpresCudService" class="iih.sc.sch.scsch.s.SchocpresCrudServiceImpl"></bean>
+	
+	<!-- 排班查询服务 -->
+	<bean id="IScSchQryService" class="iih.sc.sch.s.ScSchQryServiceImpl"></bean>	
+	<!-- 排班命令服务 -->
+	<bean id="IScSchCmdService" class="iih.sc.sch.s.ScSchCmdServiceImpl"></bean>
+	<xap:service ref="IScSchCmdService" interface="iih.sc.sch.i.IScSchCmdService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	
+	<!-- 排班对外查询服务 -->
+	<bean id="IScSchOutQryService" class="iih.sc.sch.s.ScSchOutQryServiceImpl"></bean>	
+	<!-- 排班对外命令服务 -->
+	<bean id="IScSchOutCmdService" class="iih.sc.sch.s.ScSchOutCmdServiceImpl"></bean>
+	<xap:service ref="IScSchOutCmdService" interface="iih.sc.sch.i.IScSchOutCmdService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<!-- 排班锁查询服务 -->
+	<bean id="IScschlockdoRService" class="iih.sc.sch.sclock.s.ScschlockdoCrudServiceImpl"></bean>	
+	<!-- 排班锁命令服务 -->
+	<bean id="IScschlockdoCudService" class="iih.sc.sch.sclock.s.ScschlockdoCrudServiceImpl"></bean>
+	<xap:service ref="IScschlockdoCudService" interface="iih.sc.sch.sclock.i.IScschlockdoCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+</beans>

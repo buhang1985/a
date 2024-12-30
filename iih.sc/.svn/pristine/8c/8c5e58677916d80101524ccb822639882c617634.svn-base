@@ -1,0 +1,377 @@
+package iih.sc.sch.s.task.bp.overduetick;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+
+import iih.bd.base.utils.ArrayListUtil;
+import iih.bd.bc.udi.pub.IScDictCodeConst;
+import iih.sc.comm.ScParamUtils;
+import iih.sc.comm.ScSqlUtils;
+import iih.sc.sch.scsch.d.ScSchDO;
+import iih.sc.sch.scsch.i.IScschMDOCudService;
+import iih.sc.sch.scsch.i.IScschMDORService;
+import iih.sc.sch.sctick.d.ScSchTickDO;
+import iih.sc.sch.sctick.i.ISctickCudService;
+import iih.sc.sch.sctick.i.ISctickRService;
+import iih.sc.sch.sctickb.d.ScSchTickBDO;
+import iih.sc.sch.sctickb.i.ISctickbCudService;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.Context;
+import xap.mw.core.data.DOStatus;
+import xap.mw.core.utils.ArrayUtil;
+import xap.mw.core.utils.ListUtil;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.appfw.orm.utils.ListToArrayUtil;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.ColumnListHandler;
+import xap.sys.jdbc.kernel.SqlParam;
+
+/**
+ * 预约过期号位处理
+ * 
+ * @author li.wm
+ *
+ */
+public class ScOverdueTickHandleTaskBP {
+	private static final String Key_Id_Org = "id_org";
+	private static final String Key_Id_Grp = "id_grp";
+	/**
+	 * 执行任务
+	 * 
+	 * @param map
+	 * @throws BizException
+	 */
+	public void exec(Map<String, Object> map) throws BizException {
+		// 1.参数校验
+		validate(map);
+		// 2.设置上下文
+		setContext(map);
+		
+		// 3.1 获取门诊 保留sc_tick时长
+		String id_org = map.get(Key_Id_Org).toString();
+		Integer opDuration =  ScParamUtils.getScScpOpDuration(id_org);
+		// 3.2 获取医技 保留sc_tick时长
+		Integer mtDuration =  ScParamUtils.getScScpMtDuration(id_org);
+		// 3.3 获取手术 保留sc_tick时长
+		Integer optDuration =  ScParamUtils.getScScpOptDuration(id_org);
+		// 3.4 获取其他 保留sc_tick时长
+		Integer otherDuration =  ScParamUtils.getScScpOtherDuration(id_org);
+		
+		// 4.1获取 门诊 过期的号位信息
+		List<ScSchTickDO> opScTickDos = getAllOverdueTick(IScDictCodeConst.SD_SCTP_OP,id_org,opDuration);
+		// 4.1获取 医技 过期的号位信息
+		List<ScSchTickDO> mtScTickDos = getAllOverdueTick(IScDictCodeConst.SD_SCTP_MT,id_org,mtDuration);
+		// 4.1获取 手术 过期的号位信息
+		List<ScSchTickDO> optScTickDos = getAllOverdueTick(IScDictCodeConst.SD_SCTP_OT,id_org,optDuration);
+		// 4.1获取 其他 过期的号位信息
+		List<ScSchTickDO> otherScTickDos = getAllOverdueTick(null,id_org,otherDuration);
+		
+		// 数据合并,转化数据
+		
+		HashSet<String> hashSet = new HashSet<String>();
+		List<ScSchTickBDO> mergeDate = mergeDate(opScTickDos, mtScTickDos, optScTickDos, otherScTickDos,hashSet);
+		
+		// 把 sc_tick 查询到的数据 迁移到 sc_tickb
+		ISctickbCudService service = ServiceFinder.find(ISctickbCudService.class);
+		ScSchTickBDO[] convertToArray = new ListToArrayUtil<ScSchTickBDO>().convertToArray(mergeDate);
+		service.save(convertToArray);
+		
+		
+		// 删除 sc_tick 表里的数据
+		ISctickCudService sctickCudService = ServiceFinder.find(ISctickCudService.class);
+		if(!ListUtil.isEmpty(opScTickDos)){
+			sctickCudService.delete(new ListToArrayUtil<ScSchTickDO>().convertToArray(opScTickDos));
+		}
+		// 设置SsSchDO
+		ScSchDO[] setDate = setDate(hashSet);
+		if(ArrayUtil.isEmpty(setDate)){
+			return;
+		}
+		// 修改 sc_sch  表 fg_transed 变为Y
+		IScschMDOCudService scSchService = ServiceFinder.find(IScschMDOCudService.class);
+		scSchService.update(setDate);
+	}
+	/**
+	 * 参数校验
+	 * 
+	 * @param map
+	 * @throws BizException
+	 */
+	private void validate(Map<String, Object> map) throws BizException {
+		if(map == null)
+			throw new BizException("参数不能为空！");
+		if(!map.containsKey(Key_Id_Grp) || map.get(Key_Id_Grp) == null)
+			throw new BizException("参数id_grp不能为空！");
+		if(!map.containsKey(Key_Id_Org) || map.get(Key_Id_Org) == null)
+			throw new BizException("参数id_org不能为空！");
+	}
+	/**
+	 * 设置上下文
+	 * 
+	 * @param map
+	 * @throws BizException
+	 */
+	private void setContext(Map<String, Object> map)throws BizException {
+		Context.get().setGroupId((String) map.get(Key_Id_Grp));
+		Context.get().setOrgId((String) map.get(Key_Id_Org));
+	}
+	
+	
+	/**
+	 * 获取过期的号位信息
+	 * @param type
+	 * @param param
+	 * @return
+	 * @throws BizException
+	 */
+	@SuppressWarnings("unchecked")
+	private  List<ScSchTickDO> getAllOverdueTick(String type,String id_org, Integer param) throws  BizException {
+		// 1.根据号位保留时长，获取所有之前号位ID
+		StringBuffer sql = new StringBuffer();
+		SqlParam sqlParam = new SqlParam();
+		sql.append(" SELECT TICK.ID_TICK ");
+		sql.append(" FROM SC_TICK TICK  ");
+		sql.append(" LEFT JOIN SC_SCH SCSCH ON SCSCH.ID_SCH = TICK.ID_SCH ");
+		if(type == null){
+			sql.append(" WHERE SCSCH.SD_SCTP IN (?,?,?) ");
+		}else{
+			sql.append(" WHERE SCSCH.SD_SCTP = ? ");
+		}
+		sql.append(" AND SCSCH.ID_ORG = ?  ");
+		//sql.append(" AND TICK.EU_USED = ? ");
+		sql.append(" AND SCSCH.ID_SCH = ? ");
+		sql.append(" AND ((ABS(TO_DATE(TO_CHAR(SYSDATE, 'yyyy-MM-dd'), 'yyyy-MM-dd') - ");
+	    sql.append(" TRUNC(TO_DATE(SUBSTR(SCSCH.D_SCH, 0,10), 'yyyy-MM-dd'))))+1) > ?");
+	    if(type == null){
+	    	sqlParam.addParam(IScDictCodeConst.SD_SCTP_IP);
+	    	sqlParam.addParam(IScDictCodeConst.SD_SCTP_JZ);
+	    	sqlParam.addParam(IScDictCodeConst.SD_SCTP_TY);
+		}else{
+			sqlParam.addParam(type);
+		}
+	    sqlParam.addParam(id_org);
+	    sqlParam.addParam("1001BZ100000002BY4JG");
+	    sqlParam.addParam(param);
+	     List<String> list = (List<String>)new DAFacade().execQuery(sql.toString(), sqlParam, new ColumnListHandler());
+	     if(ListUtil.isEmpty(list)){
+	    	 return null;
+	     }
+	    // 2.根据号位，获取完整的号位信息
+	    ISctickRService service = ServiceFinder.find(ISctickRService.class);
+	    ScSchTickDO[] schTickDOs = service.findByBIds(new ListToArrayUtil<String>().convertToArray(list), FBoolean.FALSE);
+		return (schTickDOs == null || schTickDOs.length<=0)?null:ArrayListUtil.ConvertToArrayList(schTickDOs);
+	}
+	/**
+	 * 数据合并
+	 * @param op mt opt other
+	 * @return
+	 * @throws BizException
+	 */
+	private List<ScSchTickBDO>  mergeDate(List<ScSchTickDO> op,List<ScSchTickDO> mt,List<ScSchTickDO> opt,List<ScSchTickDO> other,HashSet<String> set) throws BizException {
+		ArrayList<ScSchTickBDO> value = new ArrayList<ScSchTickBDO>();
+		ScSchTickBDO scSchTickBDO = new ScSchTickBDO();
+		scSchTickBDO.setStatus(DOStatus.NEW);
+		Integer integer = 0;
+		if(!ListUtil.isEmpty(op)){
+			for (ScSchTickDO scSchTickDO : op) {
+				
+				if(10 == (integer+1)){
+					Integer integer2 = 1;
+					integer2++;
+					
+				}
+				ScSchTickBDO schTickBDO = new ScSchTickBDO();
+				schTickBDO.setStatus(DOStatus.NEW);
+				schTickBDO.setId_tick(scSchTickDO.getId_tick()); 
+				schTickBDO.setId_grp(scSchTickDO.getId_grp());
+				schTickBDO.setId_org(scSchTickDO.getId_org());
+				schTickBDO.setId_sch(scSchTickDO.getId_sch());
+				schTickBDO.setId_ticks(scSchTickDO.getId_ticks());
+				schTickBDO.setCode(scSchTickDO.getCode());
+				schTickBDO.setName(scSchTickDO.getName());
+				schTickBDO.setQueno(scSchTickDO.getQueno());
+				schTickBDO.setT_b(scSchTickDO.getT_b());
+				schTickBDO.setT_e(scSchTickDO.getT_e());
+				schTickBDO.setEu_used(scSchTickDO.getEu_used());
+				schTickBDO.setEu_usescope(scSchTickDO.getEu_usescope());
+				schTickBDO.setFg_active(scSchTickDO.getFg_active());
+				schTickBDO.setEu_add(scSchTickDO.getEu_add());
+				schTickBDO.setId_scsrv(scSchTickDO.getId_scsrv());
+				schTickBDO.setPolno_used(scSchTickDO.getPolno_used());
+				schTickBDO.setId_tick_occupier(scSchTickDO.getId_tick_occupier());
+				schTickBDO.setPrjfld1(scSchTickDO.getPrjfld1());
+				schTickBDO.setPrjfld2(scSchTickDO.getPrjfld2());
+				schTickBDO.setPrjfld3(scSchTickDO.getPrjfld3());
+				schTickBDO.setPrjfld4(scSchTickDO.getPrjfld4());
+				schTickBDO.setPrjfld5(scSchTickDO.getPrjfld5());
+				schTickBDO.setPrjfld6(scSchTickDO.getPrjfld6());
+				schTickBDO.setFg_add(scSchTickDO.getFg_add());
+				schTickBDO.setId_reserve_rsn(scSchTickDO.getId_reserve_rsn());
+				schTickBDO.setSd_reserve_rsn(scSchTickDO.getSd_reserve_rsn());
+				schTickBDO.setNote_reserve(scSchTickDO.getNote_reserve());
+				schTickBDO.setIds_scchl(scSchTickDO.getIds_scchl());
+				schTickBDO.setPolno(scSchTickDO.getPolno());
+				schTickBDO.setCreatedby(scSchTickDO.getCreatedby());
+				schTickBDO.setCreatedtime(scSchTickDO.getCreatedtime());
+				schTickBDO.setModifiedby(scSchTickDO.getModifiedby());
+				schTickBDO.setModifiedtime(scSchTickDO.getModifiedtime());
+				schTickBDO.setIds_kinditm(scSchTickDO.getIds_kinditm());
+				schTickBDO.setDs(scSchTickDO.getDs());
+				schTickBDO.setSv(scSchTickDO.getSv());
+				set.add(scSchTickDO.getId_sch());
+				value.add(integer,schTickBDO);
+				integer++;
+				
+			}
+		}
+		if(!ListUtil.isEmpty(mt)){
+			for (ScSchTickDO scSchTickDO : mt) {
+				scSchTickBDO.setId_tick(scSchTickDO.getId_tick()); 
+				scSchTickBDO.setId_grp(scSchTickDO.getId_grp());
+				scSchTickBDO.setId_org(scSchTickDO.getId_org());
+				scSchTickBDO.setId_sch(scSchTickDO.getId_sch());
+				scSchTickBDO.setId_ticks(scSchTickDO.getId_ticks());
+				scSchTickBDO.setCode(scSchTickDO.getCode());
+				scSchTickBDO.setName(scSchTickDO.getName());
+				scSchTickBDO.setQueno(scSchTickDO.getQueno());
+				scSchTickBDO.setT_b(scSchTickDO.getT_b());
+				scSchTickBDO.setT_e(scSchTickDO.getT_e());
+				scSchTickBDO.setEu_used(scSchTickDO.getEu_used());
+				scSchTickBDO.setEu_usescope(scSchTickDO.getEu_usescope());
+				scSchTickBDO.setFg_active(scSchTickDO.getFg_active());
+				scSchTickBDO.setEu_add(scSchTickDO.getEu_add());
+				scSchTickBDO.setId_scsrv(scSchTickDO.getId_scsrv());
+				scSchTickBDO.setPolno_used(scSchTickDO.getPolno_used());
+				scSchTickBDO.setId_tick_occupier(scSchTickDO.getId_grp());
+				scSchTickBDO.setPrjfld1(scSchTickDO.getPrjfld1());
+				scSchTickBDO.setPrjfld2(scSchTickDO.getPrjfld2());
+				scSchTickBDO.setPrjfld3(scSchTickDO.getPrjfld3());
+				scSchTickBDO.setPrjfld4(scSchTickDO.getPrjfld4());
+				scSchTickBDO.setPrjfld5(scSchTickDO.getPrjfld5());
+				scSchTickBDO.setPrjfld6(scSchTickDO.getPrjfld6());
+				scSchTickBDO.setFg_add(scSchTickDO.getFg_add());
+				scSchTickBDO.setId_reserve_rsn(scSchTickDO.getId_reserve_rsn());
+				scSchTickBDO.setSd_reserve_rsn(scSchTickDO.getSd_reserve_rsn());
+				scSchTickBDO.setNote_reserve(scSchTickDO.getNote_reserve());
+				scSchTickBDO.setId_sch(scSchTickDO.getId_grp());
+				scSchTickBDO.setPolno(scSchTickDO.getPolno());
+				scSchTickBDO.setCreatedby(scSchTickDO.getCreatedby());
+				scSchTickBDO.setCreatedtime(scSchTickDO.getCreatedtime());
+				scSchTickBDO.setModifiedby(scSchTickDO.getModifiedby());
+				scSchTickBDO.setModifiedtime(scSchTickDO.getModifiedtime());
+				scSchTickBDO.setIds_kinditm(scSchTickDO.getIds_kinditm());
+				set.add(scSchTickDO.getId_sch());
+				value.add(scSchTickBDO);
+			}
+		}
+		if(!ListUtil.isEmpty(opt)){
+			for (ScSchTickDO scSchTickDO : opt) {
+				scSchTickBDO.setId_tick(scSchTickDO.getId_tick()); 
+				scSchTickBDO.setId_grp(scSchTickDO.getId_grp());
+				scSchTickBDO.setId_org(scSchTickDO.getId_org());
+				scSchTickBDO.setId_sch(scSchTickDO.getId_sch());
+				scSchTickBDO.setId_ticks(scSchTickDO.getId_ticks());
+				scSchTickBDO.setCode(scSchTickDO.getCode());
+				scSchTickBDO.setName(scSchTickDO.getName());
+				scSchTickBDO.setQueno(scSchTickDO.getQueno());
+				scSchTickBDO.setT_b(scSchTickDO.getT_b());
+				scSchTickBDO.setT_e(scSchTickDO.getT_e());
+				scSchTickBDO.setEu_used(scSchTickDO.getEu_used());
+				scSchTickBDO.setEu_usescope(scSchTickDO.getEu_usescope());
+				scSchTickBDO.setFg_active(scSchTickDO.getFg_active());
+				scSchTickBDO.setEu_add(scSchTickDO.getEu_add());
+				scSchTickBDO.setId_scsrv(scSchTickDO.getId_scsrv());
+				scSchTickBDO.setPolno_used(scSchTickDO.getPolno_used());
+				scSchTickBDO.setId_tick_occupier(scSchTickDO.getId_grp());
+				scSchTickBDO.setPrjfld1(scSchTickDO.getPrjfld1());
+				scSchTickBDO.setPrjfld2(scSchTickDO.getPrjfld2());
+				scSchTickBDO.setPrjfld3(scSchTickDO.getPrjfld3());
+				scSchTickBDO.setPrjfld4(scSchTickDO.getPrjfld4());
+				scSchTickBDO.setPrjfld5(scSchTickDO.getPrjfld5());
+				scSchTickBDO.setPrjfld6(scSchTickDO.getPrjfld6());
+				scSchTickBDO.setFg_add(scSchTickDO.getFg_add());
+				scSchTickBDO.setId_reserve_rsn(scSchTickDO.getId_reserve_rsn());
+				scSchTickBDO.setSd_reserve_rsn(scSchTickDO.getSd_reserve_rsn());
+				scSchTickBDO.setNote_reserve(scSchTickDO.getNote_reserve());
+				scSchTickBDO.setId_sch(scSchTickDO.getId_grp());
+				scSchTickBDO.setPolno(scSchTickDO.getPolno());
+				scSchTickBDO.setCreatedby(scSchTickDO.getCreatedby());
+				scSchTickBDO.setCreatedtime(scSchTickDO.getCreatedtime());
+				scSchTickBDO.setModifiedby(scSchTickDO.getModifiedby());
+				scSchTickBDO.setModifiedtime(scSchTickDO.getModifiedtime());
+				scSchTickBDO.setIds_kinditm(scSchTickDO.getIds_kinditm());
+				set.add(scSchTickDO.getId_sch());
+				value.add(scSchTickBDO);
+			}
+		}
+		if(!ListUtil.isEmpty(other)){
+			for (ScSchTickDO scSchTickDO : other) {
+				scSchTickBDO.setId_tick(scSchTickDO.getId_tick()); 
+				scSchTickBDO.setId_grp(scSchTickDO.getId_grp());
+				scSchTickBDO.setId_org(scSchTickDO.getId_org());
+				scSchTickBDO.setId_sch(scSchTickDO.getId_sch());
+				scSchTickBDO.setId_ticks(scSchTickDO.getId_ticks());
+				scSchTickBDO.setCode(scSchTickDO.getCode());
+				scSchTickBDO.setName(scSchTickDO.getName());
+				scSchTickBDO.setQueno(scSchTickDO.getQueno());
+				scSchTickBDO.setT_b(scSchTickDO.getT_b());
+				scSchTickBDO.setT_e(scSchTickDO.getT_e());
+				scSchTickBDO.setEu_used(scSchTickDO.getEu_used());
+				scSchTickBDO.setEu_usescope(scSchTickDO.getEu_usescope());
+				scSchTickBDO.setFg_active(scSchTickDO.getFg_active());
+				scSchTickBDO.setEu_add(scSchTickDO.getEu_add());
+				scSchTickBDO.setId_scsrv(scSchTickDO.getId_scsrv());
+				scSchTickBDO.setPolno_used(scSchTickDO.getPolno_used());
+				scSchTickBDO.setId_tick_occupier(scSchTickDO.getId_grp());
+				scSchTickBDO.setPrjfld1(scSchTickDO.getPrjfld1());
+				scSchTickBDO.setPrjfld2(scSchTickDO.getPrjfld2());
+				scSchTickBDO.setPrjfld3(scSchTickDO.getPrjfld3());
+				scSchTickBDO.setPrjfld4(scSchTickDO.getPrjfld4());
+				scSchTickBDO.setPrjfld5(scSchTickDO.getPrjfld5());
+				scSchTickBDO.setPrjfld6(scSchTickDO.getPrjfld6());
+				scSchTickBDO.setFg_add(scSchTickDO.getFg_add());
+				scSchTickBDO.setId_reserve_rsn(scSchTickDO.getId_reserve_rsn());
+				scSchTickBDO.setSd_reserve_rsn(scSchTickDO.getSd_reserve_rsn());
+				scSchTickBDO.setNote_reserve(scSchTickDO.getNote_reserve());
+				scSchTickBDO.setId_sch(scSchTickDO.getId_grp());
+				scSchTickBDO.setPolno(scSchTickDO.getPolno());
+				scSchTickBDO.setCreatedby(scSchTickDO.getCreatedby());
+				scSchTickBDO.setCreatedtime(scSchTickDO.getCreatedtime());
+				scSchTickBDO.setModifiedby(scSchTickDO.getModifiedby());
+				scSchTickBDO.setModifiedtime(scSchTickDO.getModifiedtime());
+				scSchTickBDO.setIds_kinditm(scSchTickDO.getIds_kinditm());
+				set.add(scSchTickDO.getId_sch());
+				value.add(scSchTickBDO);
+			}
+		}
+		if(ListUtil.isEmpty(value)){
+			return null;
+		}
+		return value;
+	}
+	/**
+	 * set中不重复的数据放到list中，
+	 * @param set
+	 * @return
+	 * @throws BizException
+	 */
+	private ScSchDO[] setDate(HashSet<String> set) throws BizException{
+		IScschMDORService scSchService = ServiceFinder.find(IScschMDORService.class);
+		ArrayList<String> list = new ArrayList<String>();
+		for (String id_sch : set) {
+			list.add(id_sch);
+		}
+		ScSchDO[] scSchDos = scSchService.find(ScSqlUtils.getInSqlByIds(" ID_SCH ", list), null , FBoolean.FALSE);
+		for (int i=0;i<scSchDos.length;i++) {
+			ScSchDO schDO = scSchDos[i];
+			schDO.setFg_transed(FBoolean.TRUE);
+			scSchDos[i] = schDO;
+		}
+		return ArrayUtil.isEmpty(scSchDos)? null:scSchDos;
+	}
+		
+
+}
