@@ -1,0 +1,13 @@
+package iih.pe.phm.i;
+
+import xap.mw.core.data.BizException;
+
+public interface IPetcmconMaintainService{
+	
+	//保存中医体质评分
+	public boolean setEval(String id_pepsnappt) throws BizException;
+	
+	//根据id_pepsnappt新增一套中医体质数据
+	public void createSeries(String id_pepsnappt) throws BizException;
+	
+} 

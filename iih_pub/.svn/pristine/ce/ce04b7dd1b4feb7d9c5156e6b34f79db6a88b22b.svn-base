@@ -1,0 +1,22 @@
+/**
+ * 
+ */
+package iih.ci.diag.cidiag.ref;
+
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
+import iih.bd.srv.diagdef.d.DiagDefDO;
+import iih.bd.srv.diagdef.d.desc.DiagDefDODesc;
+
+/**
+ * @ClassName: RefCiDiagItemDO
+ * @Description: TODO
+ * @author 张万青
+ * @date 2018年12月27日 下午2:20:45
+ * @Package iih.ci.diag.cidiag.ref Copyright: Copyright (c) 2011 Company: 北大医疗信息技术有限责任公司
+ */
+public class RefBdDiagItemDO extends RefCiDiagItemDO {
+
+}

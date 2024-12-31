@@ -1,0 +1,80 @@
+package iih.pis.ivx.admin.i;
+
+import iih.pis.ivx.pisivxaccount.d.PisIvxAccountDO;
+import iih.pis.ivx.pisivxmenu.d.PisivxMenuDO;
+import iih.pis.ivx.pisivxmodule.d.PisivxModuleDO;
+import iih.pis.ivx.pisivxmsgtmpl.d.PisivxMsgTmplDO;
+import iih.pis.ivx.pisivxsetting.d.PisIvxSettingDO;
+import iih.pis.ivx.pisivxsetting.d.PisivxTagsDO;
+
+import java.util.List;
+
+import xap.mw.core.data.BizException;
+
+public interface IAdminService {
+	public List<PisivxMenuDO> getMenuList() throws BizException;
+	public List<PisivxModuleDO> getModule() throws BizException;
+	public void saveMenu(List<PisivxMenuDO> menu) throws BizException;
+	/*
+	 * 创建菜单(自定义，个性化通用)
+	 */
+	public void releaseMenu(PisivxTagsDO pisivxTagsDO) throws BizException;
+	
+	public void disableMenu() throws BizException;
+	
+	/*
+	 * 群发文本消息
+	 */
+	public void msgPushText(String msgid) throws BizException;
+	/*
+	 * 循环群发文本消息
+	 */
+	public void msgPushTextLoop(String msgid) throws BizException;
+	
+	/*
+	 * 群发标签用户文本消息
+	 */
+	public void tagUserMsgPushText(String id_pisivxtags,String msgContent) throws BizException;
+	
+	/*
+	 * 群发模板消息
+	 */
+	public void msgPushTmpl(PisivxMsgTmplDO pisivxMsgTmplDO) throws BizException;
+	
+	/*
+	 * 关注后，发送欢迎消息
+	 */
+	public void msgWelcomPushText(String openId) throws BizException;
+
+	/*
+	 * 给特定openid发送指定消息
+	 */
+	public void msgPushTextSingle(String openId, String msgContent) throws BizException;
+	/*
+	 * 订阅或关注事件
+	 */
+	public void subscribe(PisIvxAccountDO account) throws BizException;
+	
+	/*
+	 * 取消订阅或取消关注事件
+	 */
+	public void unsubscribe(String openId) throws BizException;
+	
+	/*
+	 * 用户标签创建
+	 * */
+	public void createTags(PisivxTagsDO pisivxTagsDO) throws BizException;
+	
+	/*
+	 *同步全部openid 
+	 */
+	public void synOpenid(PisIvxSettingDO setting) throws BizException;
+	/*
+	 *同步全部单个openid 
+	 */
+	public PisIvxAccountDO synSingleOpenid(String openid) throws BizException;
+	/*
+	 * 获取课程培训链接地址
+	 */
+	public String[] getCourseUrl(String[] courseid) throws BizException;
+}

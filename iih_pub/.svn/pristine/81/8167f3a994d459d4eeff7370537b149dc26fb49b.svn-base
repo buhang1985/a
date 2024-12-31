@@ -1,0 +1,41 @@
+package iih.bd.srv.udidoc.refs;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import iih.bd.base.refs.BdRefGridModel;
+import iih.bd.bc.udi.pub.IBdSrvDictCodeTypeConst;
+import xap.mw.coreitf.i.IBaseDO;
+import xap.sys.xbd.udi.d.UdidocDO;
+
+/**
+ * 服务类型
+ * 
+ * @author hao_wu
+ *
+ */
+public class MedSrvTpRefModel extends BdRefGridModel {
+
+	@Override
+	protected IBaseDO getDo() {
+		return new UdidocDO();
+	}
+
+	@Override
+	protected StringBuilder buildWhereParter() {
+		StringBuilder sqlBuilder = super.buildWhereParter();
+
+		String wherePart = String.format(" and id_udidoclist = '%s'", IBdSrvDictCodeTypeConst.ID_SRVTP);
+		sqlBuilder.append(wherePart);
+		return sqlBuilder;
+	}
+
+	@Override
+	public List<String> getOrderPart() {
+		List<String> orderPartList = new ArrayList<>();
+		orderPartList.add(UdidocDO.CODE);
+		orderPartList.add(UdidocDO.ID_UDIDOC);
+		return orderPartList;
+	}
+
+}

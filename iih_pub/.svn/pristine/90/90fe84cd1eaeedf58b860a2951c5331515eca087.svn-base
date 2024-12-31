@@ -1,0 +1,212 @@
+package iih.bd.bs.workcalendar.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.bd.bs.workcalendar.d.desc.WorkCalendarDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 工作日历 DO数据 
+ * 
+ */
+public class WorkCalendarDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_WORKCALENDAR= "Id_workcalendar";
+	public static final String ID_GROUP= "Id_group";
+	public static final String ID_ORG= "Id_org";
+	public static final String ID_WORKCALENDRULE= "Id_workcalendrule";
+	public static final String CODE= "Code";
+	public static final String NAME= "Name";
+	public static final String ISDEFAULT= "Isdefault";
+	public static final String BEGINDATE= "Begindate";
+	public static final String ENDDATE= "Enddate";
+	public static final String YEARSTARTDATE= "Yearstartdate";
+	public static final String ACTIVESTATE= "Activestate";
+	public static final String FIRSTDAYPERWEEK= "Firstdayperweek";
+	public static final String DATAFROMTYPE= "Datafromtype";
+	public static final String ID_HOLIDAYCATE= "Id_holidaycate";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String WORKCALENDARRULE_CODE= "Workcalendarrule_code";
+	public static final String WORKCALENDARRULE_NAME= "Workcalendarrule_name";
+	public static final String HOLIDAYCATE_CODE= "Holidaycate_code";
+	public static final String HOLIDAYCATE_NAME= "Holidaycate_name";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_workcalendar() {
+		return ((String) getAttrVal("Id_workcalendar"));
+	}	
+	public void setId_workcalendar(String Id_workcalendar) {
+		setAttrVal("Id_workcalendar", Id_workcalendar);
+	}
+	public String getId_group() {
+		return ((String) getAttrVal("Id_group"));
+	}	
+	public void setId_group(String Id_group) {
+		setAttrVal("Id_group", Id_group);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getId_workcalendrule() {
+		return ((String) getAttrVal("Id_workcalendrule"));
+	}	
+	public void setId_workcalendrule(String Id_workcalendrule) {
+		setAttrVal("Id_workcalendrule", Id_workcalendrule);
+	}
+	public String getCode() {
+		return ((String) getAttrVal("Code"));
+	}	
+	public void setCode(String Code) {
+		setAttrVal("Code", Code);
+	}
+	public String getName() {
+		return ((String) getAttrVal("Name"));
+	}	
+	public void setName(String Name) {
+		setAttrVal("Name", Name);
+	}
+	public FBoolean getIsdefault() {
+		return ((FBoolean) getAttrVal("Isdefault"));
+	}	
+	public void setIsdefault(FBoolean Isdefault) {
+		setAttrVal("Isdefault", Isdefault);
+	}
+	public FDate getBegindate() {
+		return ((FDate) getAttrVal("Begindate"));
+	}	
+	public void setBegindate(FDate Begindate) {
+		setAttrVal("Begindate", Begindate);
+	}
+	public FDate getEnddate() {
+		return ((FDate) getAttrVal("Enddate"));
+	}	
+	public void setEnddate(FDate Enddate) {
+		setAttrVal("Enddate", Enddate);
+	}
+	public FDate getYearstartdate() {
+		return ((FDate) getAttrVal("Yearstartdate"));
+	}	
+	public void setYearstartdate(FDate Yearstartdate) {
+		setAttrVal("Yearstartdate", Yearstartdate);
+	}
+	public Integer getActivestate() {
+		return ((Integer) getAttrVal("Activestate"));
+	}	
+	public void setActivestate(Integer Activestate) {
+		setAttrVal("Activestate", Activestate);
+	}
+	public Integer getFirstdayperweek() {
+		return ((Integer) getAttrVal("Firstdayperweek"));
+	}	
+	public void setFirstdayperweek(Integer Firstdayperweek) {
+		setAttrVal("Firstdayperweek", Firstdayperweek);
+	}
+	public Integer getDatafromtype() {
+		return ((Integer) getAttrVal("Datafromtype"));
+	}	
+	public void setDatafromtype(Integer Datafromtype) {
+		setAttrVal("Datafromtype", Datafromtype);
+	}
+	public String getId_holidaycate() {
+		return ((String) getAttrVal("Id_holidaycate"));
+	}	
+	public void setId_holidaycate(String Id_holidaycate) {
+		setAttrVal("Id_holidaycate", Id_holidaycate);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public String getWorkcalendarrule_code() {
+		return ((String) getAttrVal("Workcalendarrule_code"));
+	}	
+	public void setWorkcalendarrule_code(String Workcalendarrule_code) {
+		setAttrVal("Workcalendarrule_code", Workcalendarrule_code);
+	}
+	public String getWorkcalendarrule_name() {
+		return ((String) getAttrVal("Workcalendarrule_name"));
+	}	
+	public void setWorkcalendarrule_name(String Workcalendarrule_name) {
+		setAttrVal("Workcalendarrule_name", Workcalendarrule_name);
+	}
+	public String getHolidaycate_code() {
+		return ((String) getAttrVal("Holidaycate_code"));
+	}	
+	public void setHolidaycate_code(String Holidaycate_code) {
+		setAttrVal("Holidaycate_code", Holidaycate_code);
+	}
+	public String getHolidaycate_name() {
+		return ((String) getAttrVal("Holidaycate_name"));
+	}	
+	public void setHolidaycate_name(String Holidaycate_name) {
+		setAttrVal("Holidaycate_name", Holidaycate_name);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_workcalendar";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "bd_workcalendar";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(WorkCalendarDODesc.class);
+	}
+	
+}

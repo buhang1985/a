@@ -1,0 +1,198 @@
+package iih.ci.mr.cimrvs.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.ci.mr.cimrvs.d.desc.CiMrVsDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 体征测量记录 DO数据 
+ * 
+ */
+public class CiMrVsDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_MR_VS= "Id_mr_vs";
+	public static final String ID_ORG= "Id_org";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_MR= "Id_mr";
+	public static final String ID_ENT= "Id_ent";
+	public static final String ID_OR= "Id_or";
+	public static final String DT_VT= "Dt_vt";
+	public static final String ID_DEP_PHY= "Id_dep_phy";
+	public static final String ID_DEP_NUR= "Id_dep_nur";
+	public static final String ID_EMP= "Id_emp";
+	public static final String ID_DEP= "Id_dep";
+	public static final String DT_OPER= "Dt_oper";
+	public static final String DT_ACTUAL= "Dt_actual";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String NAME_DEP_PHY= "Name_dep_phy";
+	public static final String NAME_DEP_NUR= "Name_dep_nur";
+	public static final String NAME_EMP= "Name_emp";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_mr_vs() {
+		return ((String) getAttrVal("Id_mr_vs"));
+	}	
+	public void setId_mr_vs(String Id_mr_vs) {
+		setAttrVal("Id_mr_vs", Id_mr_vs);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_mr() {
+		return ((String) getAttrVal("Id_mr"));
+	}	
+	public void setId_mr(String Id_mr) {
+		setAttrVal("Id_mr", Id_mr);
+	}
+	public String getId_ent() {
+		return ((String) getAttrVal("Id_ent"));
+	}	
+	public void setId_ent(String Id_ent) {
+		setAttrVal("Id_ent", Id_ent);
+	}
+	public String getId_or() {
+		return ((String) getAttrVal("Id_or"));
+	}	
+	public void setId_or(String Id_or) {
+		setAttrVal("Id_or", Id_or);
+	}
+	public FDateTime getDt_vt() {
+		return ((FDateTime) getAttrVal("Dt_vt"));
+	}	
+	public void setDt_vt(FDateTime Dt_vt) {
+		setAttrVal("Dt_vt", Dt_vt);
+	}
+	public String getId_dep_phy() {
+		return ((String) getAttrVal("Id_dep_phy"));
+	}	
+	public void setId_dep_phy(String Id_dep_phy) {
+		setAttrVal("Id_dep_phy", Id_dep_phy);
+	}
+	public String getId_dep_nur() {
+		return ((String) getAttrVal("Id_dep_nur"));
+	}	
+	public void setId_dep_nur(String Id_dep_nur) {
+		setAttrVal("Id_dep_nur", Id_dep_nur);
+	}
+	public String getId_emp() {
+		return ((String) getAttrVal("Id_emp"));
+	}	
+	public void setId_emp(String Id_emp) {
+		setAttrVal("Id_emp", Id_emp);
+	}
+	public String getId_dep() {
+		return ((String) getAttrVal("Id_dep"));
+	}	
+	public void setId_dep(String Id_dep) {
+		setAttrVal("Id_dep", Id_dep);
+	}
+	public FDateTime getDt_oper() {
+		return ((FDateTime) getAttrVal("Dt_oper"));
+	}	
+	public void setDt_oper(FDateTime Dt_oper) {
+		setAttrVal("Dt_oper", Dt_oper);
+	}
+	public FDateTime getDt_actual() {
+		return ((FDateTime) getAttrVal("Dt_actual"));
+	}	
+	public void setDt_actual(FDateTime Dt_actual) {
+		setAttrVal("Dt_actual", Dt_actual);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public String getName_dep_phy() {
+		return ((String) getAttrVal("Name_dep_phy"));
+	}	
+	public void setName_dep_phy(String Name_dep_phy) {
+		setAttrVal("Name_dep_phy", Name_dep_phy);
+	}
+	public String getName_dep_nur() {
+		return ((String) getAttrVal("Name_dep_nur"));
+	}	
+	public void setName_dep_nur(String Name_dep_nur) {
+		setAttrVal("Name_dep_nur", Name_dep_nur);
+	}
+	public String getName_emp() {
+		return ((String) getAttrVal("Name_emp"));
+	}	
+	public void setName_emp(String Name_emp) {
+		setAttrVal("Name_emp", Name_emp);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_mr_vs";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "CI_MR_VS";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(CiMrVsDODesc.class);
+	}
+	
+}

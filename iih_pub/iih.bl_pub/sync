@@ -1,0 +1,27 @@
+#/bin/bash
+BASE_PATH=$(cd `dirname $0`; pwd)
+TARGET_DIR="$BASE_PATH/src/main/java"
+
+#同步sys模块下所有pub工程代码
+echo "deleting $TARGET_DIR ..."
+rm -rf $TARGET_DIR
+if [ "$?" != "0" ]; then
+	echo "delete $TARGET_DIR error"
+	exit 1
+fi
+
+echo "exporting public resources ..."
+SVN_BASE=http://172.18.65.166/svn/XAP2/PrjSrc/serversrc/iih.bl/
+components=("iih.bl.cc_pub" "iih.bl.cg_pub" "iih.bl.inc_pub" "iih.bl.pay_pub" "iih.bl.prop_pub" "iih.bl.st_pub")
+for c in ${components[@]}
+do
+	svn export --force "$SVN_BASE$c/src" $TARGET_DIR
+	if [ "$?" != "0" ]; then
+		echo "error"
+		exit 1
+	fi
+	rm -rf $TARGET_DIR/lib
+	rm -rf $TARGET_DIR/META-INF
+done
+
+echo "success"

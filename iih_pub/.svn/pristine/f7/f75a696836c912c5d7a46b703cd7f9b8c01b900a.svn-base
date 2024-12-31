@@ -1,0 +1,13 @@
+package iih.ci.event.ord.utils;
+/**
+ * 系统参数
+ * @author F
+ *
+ * @date 2019年11月26日下午4:10:38
+ *
+ * @classpath iih.ci.event.ord.utils.IOrdEventParams
+ */
+public interface IOrdEventParams {
+
+	public static final String SYS_PARAM_EVENT_CODE_ENTP="CIOR0526";//集成平台自定义就诊类型
+}

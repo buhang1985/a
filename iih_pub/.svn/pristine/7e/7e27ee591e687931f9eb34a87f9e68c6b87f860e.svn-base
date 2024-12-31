@@ -1,0 +1,133 @@
+package iih.pis.ivx.invoice.d;
+
+/**
+ * 发票接口返回值
+ * @author chen.zhao
+ * @since 2019/11/06
+ *
+ */
+public class InvoiceResult {
+	
+	//错误码
+	private Integer errcode;
+	
+	//错误信息
+	private String errmsg;
+	
+	//开票平台专用的授权链接
+	private String invoice_url;
+	
+	//当错误码为 0 时，返回发票卡券模板的编号，用于后续该商户发票生成后，作为必填参数在调用插卡接口时传入
+	private String card_id;
+	
+	//临时票据，用于在获取授权链接时作为参数传入
+	private String ticket;
+	
+	//ticket 的有效期，一般为 7200 秒
+	private Integer expires_in;
+
+	//授权链接
+	private String auth_url;
+	
+	//发票code
+	private String code;
+	
+	//发票用户openid
+	private String openid;
+	
+	//只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段
+	private String unionid;
+	
+	//64位整数，在 将发票卡券插入用户卡包 时使用用于关联pdf和发票卡券，
+	//s_media_id有效期有3天，3天内若未将s_media_id关联到发票卡券，pdf将自动销毁
+	private String s_media_id;
+	
+	public Integer getErrcode() {
+		return errcode;
+	}
+
+	public void setErrcode(Integer errcode) {
+		this.errcode = errcode;
+	}
+
+	public String getErrmsg() {
+		return errmsg;
+	}
+
+	public void setErrmsg(String errmsg) {
+		this.errmsg = errmsg;
+	}
+
+	public String getInvoice_url() {
+		return invoice_url;
+	}
+
+	public void setInvoice_url(String invoice_url) {
+		this.invoice_url = invoice_url;
+	}
+
+	public String getCard_id() {
+		return card_id;
+	}
+
+	public void setCard_id(String card_id) {
+		this.card_id = card_id;
+	}
+
+	public String getTicket() {
+		return ticket;
+	}
+
+	public void setTicket(String ticket) {
+		this.ticket = ticket;
+	}
+
+	public Integer getExpires_in() {
+		return expires_in;
+	}
+
+	public void setExpires_in(Integer expires_in) {
+		this.expires_in = expires_in;
+	}
+
+	public String getAuth_url() {
+		return auth_url;
+	}
+
+	public void setAuth_url(String auth_url) {
+		this.auth_url = auth_url;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public String getOpenid() {
+		return openid;
+	}
+
+	public String getUnionid() {
+		return unionid;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public void setOpenid(String openid) {
+		this.openid = openid;
+	}
+
+	public void setUnionid(String unionid) {
+		this.unionid = unionid;
+	}
+
+	public String getS_media_id() {
+		return s_media_id;
+	}
+
+	public void setS_media_id(String s_media_id) {
+		this.s_media_id = s_media_id;
+	}
+	
+}

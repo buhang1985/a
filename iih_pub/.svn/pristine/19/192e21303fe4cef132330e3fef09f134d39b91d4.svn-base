@@ -1,0 +1,33 @@
+package iih.ci.ord.i.meta;
+
+import iih.ci.ord.i.common.b.BaseCiDTO;
+
+public class OrderOperateDTO extends BaseCiDTO {
+	/**
+	 * 完全复制
+	 */
+	public static final String FULLCOPY = "0";
+	/**
+	 * 复制开立
+	 */
+	public static final String COPYOPEN = "1";
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 功能操作码 0,完全复制用于门诊撤回作废逻辑中的复制;1，复制开立
+	 * @return
+	 */
+	public String getFuncCode(){
+		return ((String) getAttrVal("FuncCode"));
+	}
+	/**
+	 * 功能操作码
+	 * @param FuncCode
+	 */
+	public void setFuncCode(String FuncCode){
+		setAttrVal("FuncCode", FuncCode);
+	}
+
+}

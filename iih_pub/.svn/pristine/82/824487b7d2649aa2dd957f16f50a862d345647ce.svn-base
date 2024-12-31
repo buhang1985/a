@@ -1,0 +1,15 @@
+package iih.bl.itf.tasktransfered.i;
+
+import xap.mw.core.data.BizException;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+import iih.bl.itf.tasktransfered.d.TaskTransferedDTO;
+
+public interface TaskTransferService {
+/**
+ * 查询待转账任务的数据
+ * @return
+ * @throws BizException
+ * @author dongjiye
+ */
+	public abstract TaskTransferedDTO[]  taskTransferedQry(QryRootNodeDTO qryNode) throws BizException;
+}

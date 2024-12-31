@@ -1,0 +1,156 @@
+package iih.pe.pitm.perstdidef.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.pe.pitm.perstdidef.d.desc.PeDiagSuppDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 体检诊断补充 DO数据 
+ * 
+ */
+public class PeDiagSuppDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_PEDIAGSUPP= "Id_pediagsupp";
+	public static final String ID_PERSTDIDEF= "Id_perstdidef";
+	public static final String ID_PERSTDISUPPDEF= "Id_perstdisuppdef";
+	public static final String SORTNO= "Sortno";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String NAME_DIAG= "Name_diag";
+	public static final String NAME_SUPP= "Name_supp";
+	public static final String CODE_SUPP= "Code_supp";
+	public static final String UNIT_SUPP= "Unit_supp";
+	public static final String NO_GROUP_SUPP= "No_group_supp";
+	public static final String SORTNO_SUPP= "Sortno_supp";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_pediagsupp() {
+		return ((String) getAttrVal("Id_pediagsupp"));
+	}	
+	public void setId_pediagsupp(String Id_pediagsupp) {
+		setAttrVal("Id_pediagsupp", Id_pediagsupp);
+	}
+	public String getId_perstdidef() {
+		return ((String) getAttrVal("Id_perstdidef"));
+	}	
+	public void setId_perstdidef(String Id_perstdidef) {
+		setAttrVal("Id_perstdidef", Id_perstdidef);
+	}
+	public String getId_perstdisuppdef() {
+		return ((String) getAttrVal("Id_perstdisuppdef"));
+	}	
+	public void setId_perstdisuppdef(String Id_perstdisuppdef) {
+		setAttrVal("Id_perstdisuppdef", Id_perstdisuppdef);
+	}
+	public Integer getSortno() {
+		return ((Integer) getAttrVal("Sortno"));
+	}	
+	public void setSortno(Integer Sortno) {
+		setAttrVal("Sortno", Sortno);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public String getName_diag() {
+		return ((String) getAttrVal("Name_diag"));
+	}	
+	public void setName_diag(String Name_diag) {
+		setAttrVal("Name_diag", Name_diag);
+	}
+	public String getName_supp() {
+		return ((String) getAttrVal("Name_supp"));
+	}	
+	public void setName_supp(String Name_supp) {
+		setAttrVal("Name_supp", Name_supp);
+	}
+	public String getCode_supp() {
+		return ((String) getAttrVal("Code_supp"));
+	}	
+	public void setCode_supp(String Code_supp) {
+		setAttrVal("Code_supp", Code_supp);
+	}
+	public String getUnit_supp() {
+		return ((String) getAttrVal("Unit_supp"));
+	}	
+	public void setUnit_supp(String Unit_supp) {
+		setAttrVal("Unit_supp", Unit_supp);
+	}
+	public String getNo_group_supp() {
+		return ((String) getAttrVal("No_group_supp"));
+	}	
+	public void setNo_group_supp(String No_group_supp) {
+		setAttrVal("No_group_supp", No_group_supp);
+	}
+	public String getSortno_supp() {
+		return ((String) getAttrVal("Sortno_supp"));
+	}	
+	public void setSortno_supp(String Sortno_supp) {
+		setAttrVal("Sortno_supp", Sortno_supp);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_pediagsupp";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "pe_itm_pediagsupp";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(PeDiagSuppDODesc.class);
+	}
+	
+}

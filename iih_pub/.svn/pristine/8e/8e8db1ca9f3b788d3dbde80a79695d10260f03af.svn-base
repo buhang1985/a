@@ -1,0 +1,13 @@
+package iih.pe.wx.i;
+
+import xap.mw.core.data.BizException;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import iih.pe.wx.dto.pepsnreport.d.PeReportDTO;
+
+@WebService
+public interface IPeWxQueryService {
+
+	public abstract PeReportDTO searchPeReport(@WebParam(name="peapptid") String peapptid) throws BizException;
+
+}

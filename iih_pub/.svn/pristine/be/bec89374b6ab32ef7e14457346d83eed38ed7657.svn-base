@@ -1,0 +1,247 @@
+package iih.pe.pitm.perstdidef.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.pe.pitm.perstdidef.d.desc.PeRstDiDefDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 体检诊断定义 DO数据 
+ * 
+ */
+public class PeRstDiDefDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_PERSTDIDEF= "Id_perstdidef";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_ORG= "Id_org";
+	public static final String ID_PERSTDITP= "Id_perstditp";
+	public static final String CODE= "Code";
+	public static final String NAME= "Name";
+	public static final String ENAME= "Ename";
+	public static final String DIAGKEYWORD= "Diagkeyword";
+	public static final String ADVICE= "Advice";
+	public static final String ADVICE_DOC= "Advice_doc";
+	public static final String SORTNO= "Sortno";
+	public static final String RISKS= "Risks";
+	public static final String FOLLOWS= "Follows";
+	public static final String FG_AUTOOVAL= "Fg_autooval";
+	public static final String FRQ= "Frq";
+	public static final String FG_POSI= "Fg_posi";
+	public static final String FG_ACTIVE= "Fg_active";
+	public static final String FG_DOUBT= "Fg_doubt";
+	public static final String WBCODE= "Wbcode";
+	public static final String PYCODE= "Pycode";
+	public static final String MNECODE= "Mnecode";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String CODE_TP= "Code_tp";
+	public static final String NAME_TP= "Name_tp";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_perstdidef() {
+		return ((String) getAttrVal("Id_perstdidef"));
+	}	
+	public void setId_perstdidef(String Id_perstdidef) {
+		setAttrVal("Id_perstdidef", Id_perstdidef);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getId_perstditp() {
+		return ((String) getAttrVal("Id_perstditp"));
+	}	
+	public void setId_perstditp(String Id_perstditp) {
+		setAttrVal("Id_perstditp", Id_perstditp);
+	}
+	public String getCode() {
+		return ((String) getAttrVal("Code"));
+	}	
+	public void setCode(String Code) {
+		setAttrVal("Code", Code);
+	}
+	public String getName() {
+		return ((String) getAttrVal("Name"));
+	}	
+	public void setName(String Name) {
+		setAttrVal("Name", Name);
+	}
+	public String getEname() {
+		return ((String) getAttrVal("Ename"));
+	}	
+	public void setEname(String Ename) {
+		setAttrVal("Ename", Ename);
+	}
+	public String getDiagkeyword() {
+		return ((String) getAttrVal("Diagkeyword"));
+	}	
+	public void setDiagkeyword(String Diagkeyword) {
+		setAttrVal("Diagkeyword", Diagkeyword);
+	}
+	public String getAdvice() {
+		return ((String) getAttrVal("Advice"));
+	}	
+	public void setAdvice(String Advice) {
+		setAttrVal("Advice", Advice);
+	}
+	public String getAdvice_doc() {
+		return ((String) getAttrVal("Advice_doc"));
+	}	
+	public void setAdvice_doc(String Advice_doc) {
+		setAttrVal("Advice_doc", Advice_doc);
+	}
+	public Integer getSortno() {
+		return ((Integer) getAttrVal("Sortno"));
+	}	
+	public void setSortno(Integer Sortno) {
+		setAttrVal("Sortno", Sortno);
+	}
+	public Integer getRisks() {
+		return ((Integer) getAttrVal("Risks"));
+	}	
+	public void setRisks(Integer Risks) {
+		setAttrVal("Risks", Risks);
+	}
+	public Integer getFollows() {
+		return ((Integer) getAttrVal("Follows"));
+	}	
+	public void setFollows(Integer Follows) {
+		setAttrVal("Follows", Follows);
+	}
+	public FBoolean getFg_autooval() {
+		return ((FBoolean) getAttrVal("Fg_autooval"));
+	}	
+	public void setFg_autooval(FBoolean Fg_autooval) {
+		setAttrVal("Fg_autooval", Fg_autooval);
+	}
+	public Integer getFrq() {
+		return ((Integer) getAttrVal("Frq"));
+	}	
+	public void setFrq(Integer Frq) {
+		setAttrVal("Frq", Frq);
+	}
+	public FBoolean getFg_posi() {
+		return ((FBoolean) getAttrVal("Fg_posi"));
+	}	
+	public void setFg_posi(FBoolean Fg_posi) {
+		setAttrVal("Fg_posi", Fg_posi);
+	}
+	public FBoolean getFg_active() {
+		return ((FBoolean) getAttrVal("Fg_active"));
+	}	
+	public void setFg_active(FBoolean Fg_active) {
+		setAttrVal("Fg_active", Fg_active);
+	}
+	public FBoolean getFg_doubt() {
+		return ((FBoolean) getAttrVal("Fg_doubt"));
+	}	
+	public void setFg_doubt(FBoolean Fg_doubt) {
+		setAttrVal("Fg_doubt", Fg_doubt);
+	}
+	public String getWbcode() {
+		return ((String) getAttrVal("Wbcode"));
+	}	
+	public void setWbcode(String Wbcode) {
+		setAttrVal("Wbcode", Wbcode);
+	}
+	public String getPycode() {
+		return ((String) getAttrVal("Pycode"));
+	}	
+	public void setPycode(String Pycode) {
+		setAttrVal("Pycode", Pycode);
+	}
+	public String getMnecode() {
+		return ((String) getAttrVal("Mnecode"));
+	}	
+	public void setMnecode(String Mnecode) {
+		setAttrVal("Mnecode", Mnecode);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public String getCode_tp() {
+		return ((String) getAttrVal("Code_tp"));
+	}	
+	public void setCode_tp(String Code_tp) {
+		setAttrVal("Code_tp", Code_tp);
+	}
+	public String getName_tp() {
+		return ((String) getAttrVal("Name_tp"));
+	}	
+	public void setName_tp(String Name_tp) {
+		setAttrVal("Name_tp", Name_tp);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_perstdidef";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "pe_itm_perstdidef";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(PeRstDiDefDODesc.class);
+	}
+	
+}

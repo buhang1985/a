@@ -1,0 +1,128 @@
+package iih.pe.pqn.petcmconstcadef.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.pe.pqn.petcmconstcadef.d.desc.PeTCMJudgeQaDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 体检中医体质分析判定问卷 DO数据 
+ * 
+ */
+public class PeTCMJudgeQaDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_PETCMCONSTCAJUDGEQA= "Id_petcmconstcajudgeqa";
+	public static final String ID_PETCMCONSTCADEF= "Id_petcmconstcadef";
+	public static final String CODE= "Code";
+	public static final String NAME= "Name";
+	public static final String ENAME= "Ename";
+	public static final String NO_GROUP= "No_group";
+	public static final String SORTNO= "Sortno";
+	public static final String SEXLIMIT= "Sexlimit";
+	public static final String SCORE= "Score";
+	public static final String SCORETP= "Scoretp";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_petcmconstcajudgeqa() {
+		return ((String) getAttrVal("Id_petcmconstcajudgeqa"));
+	}	
+	public void setId_petcmconstcajudgeqa(String Id_petcmconstcajudgeqa) {
+		setAttrVal("Id_petcmconstcajudgeqa", Id_petcmconstcajudgeqa);
+	}
+	public String getId_petcmconstcadef() {
+		return ((String) getAttrVal("Id_petcmconstcadef"));
+	}	
+	public void setId_petcmconstcadef(String Id_petcmconstcadef) {
+		setAttrVal("Id_petcmconstcadef", Id_petcmconstcadef);
+	}
+	public String getCode() {
+		return ((String) getAttrVal("Code"));
+	}	
+	public void setCode(String Code) {
+		setAttrVal("Code", Code);
+	}
+	public String getName() {
+		return ((String) getAttrVal("Name"));
+	}	
+	public void setName(String Name) {
+		setAttrVal("Name", Name);
+	}
+	public String getEname() {
+		return ((String) getAttrVal("Ename"));
+	}	
+	public void setEname(String Ename) {
+		setAttrVal("Ename", Ename);
+	}
+	public Integer getNo_group() {
+		return ((Integer) getAttrVal("No_group"));
+	}	
+	public void setNo_group(Integer No_group) {
+		setAttrVal("No_group", No_group);
+	}
+	public Integer getSortno() {
+		return ((Integer) getAttrVal("Sortno"));
+	}	
+	public void setSortno(Integer Sortno) {
+		setAttrVal("Sortno", Sortno);
+	}
+	public Integer getSexlimit() {
+		return ((Integer) getAttrVal("Sexlimit"));
+	}	
+	public void setSexlimit(Integer Sexlimit) {
+		setAttrVal("Sexlimit", Sexlimit);
+	}
+	public Integer getScore() {
+		return ((Integer) getAttrVal("Score"));
+	}	
+	public void setScore(Integer Score) {
+		setAttrVal("Score", Score);
+	}
+	public Integer getScoretp() {
+		return ((Integer) getAttrVal("Scoretp"));
+	}	
+	public void setScoretp(Integer Scoretp) {
+		setAttrVal("Scoretp", Scoretp);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_petcmconstcajudgeqa";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "pe_qn_petcmjudgeqa";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(PeTCMJudgeQaDODesc.class);
+	}
+	
+}

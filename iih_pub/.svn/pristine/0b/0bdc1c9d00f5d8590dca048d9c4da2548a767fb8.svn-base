@@ -1,0 +1,191 @@
+package iih.en.pv.enres.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.en.pv.enres.d.desc.EnDepDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 患者就诊_科室病区 DO数据 
+ * 
+ */
+public class EnDepDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_ENTDEP= "Id_entdep";
+	public static final String ID_ENT= "Id_ent";
+	public static final String ID_DEP= "Id_dep";
+	public static final String ID_ENTDEPROLE= "Id_entdeprole";
+	public static final String SD_ENTDEPROLE= "Sd_entdeprole";
+	public static final String ID_DEP_FROM= "Id_dep_from";
+	public static final String ID_DEP_TO= "Id_dep_to";
+	public static final String DT_B= "Dt_b";
+	public static final String DT_E= "Dt_e";
+	public static final String FG_ADMIT= "Fg_admit";
+	public static final String FG_DISCHARGE= "Fg_discharge";
+	public static final String ID_STATUS= "Id_status";
+	public static final String SD_STATUS= "Sd_status";
+	public static final String DT_DCG_BILL= "Dt_dcg_bill";
+	public static final String FG_CANC= "Fg_canc";
+	public static final String DEP_NAME= "Dep_name";
+	public static final String NAME_ENTDEPROLE= "Name_entdeprole";
+	public static final String NAME_DEP_FROM= "Name_dep_from";
+	public static final String NAME_DEP_TO= "Name_dep_to";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_entdep() {
+		return ((String) getAttrVal("Id_entdep"));
+	}	
+	public void setId_entdep(String Id_entdep) {
+		setAttrVal("Id_entdep", Id_entdep);
+	}
+	public String getId_ent() {
+		return ((String) getAttrVal("Id_ent"));
+	}	
+	public void setId_ent(String Id_ent) {
+		setAttrVal("Id_ent", Id_ent);
+	}
+	public String getId_dep() {
+		return ((String) getAttrVal("Id_dep"));
+	}	
+	public void setId_dep(String Id_dep) {
+		setAttrVal("Id_dep", Id_dep);
+	}
+	public String getId_entdeprole() {
+		return ((String) getAttrVal("Id_entdeprole"));
+	}	
+	public void setId_entdeprole(String Id_entdeprole) {
+		setAttrVal("Id_entdeprole", Id_entdeprole);
+	}
+	public String getSd_entdeprole() {
+		return ((String) getAttrVal("Sd_entdeprole"));
+	}	
+	public void setSd_entdeprole(String Sd_entdeprole) {
+		setAttrVal("Sd_entdeprole", Sd_entdeprole);
+	}
+	public String getId_dep_from() {
+		return ((String) getAttrVal("Id_dep_from"));
+	}	
+	public void setId_dep_from(String Id_dep_from) {
+		setAttrVal("Id_dep_from", Id_dep_from);
+	}
+	public String getId_dep_to() {
+		return ((String) getAttrVal("Id_dep_to"));
+	}	
+	public void setId_dep_to(String Id_dep_to) {
+		setAttrVal("Id_dep_to", Id_dep_to);
+	}
+	public FDateTime getDt_b() {
+		return ((FDateTime) getAttrVal("Dt_b"));
+	}	
+	public void setDt_b(FDateTime Dt_b) {
+		setAttrVal("Dt_b", Dt_b);
+	}
+	public FDateTime getDt_e() {
+		return ((FDateTime) getAttrVal("Dt_e"));
+	}	
+	public void setDt_e(FDateTime Dt_e) {
+		setAttrVal("Dt_e", Dt_e);
+	}
+	public FBoolean getFg_admit() {
+		return ((FBoolean) getAttrVal("Fg_admit"));
+	}	
+	public void setFg_admit(FBoolean Fg_admit) {
+		setAttrVal("Fg_admit", Fg_admit);
+	}
+	public FBoolean getFg_discharge() {
+		return ((FBoolean) getAttrVal("Fg_discharge"));
+	}	
+	public void setFg_discharge(FBoolean Fg_discharge) {
+		setAttrVal("Fg_discharge", Fg_discharge);
+	}
+	public String getId_status() {
+		return ((String) getAttrVal("Id_status"));
+	}	
+	public void setId_status(String Id_status) {
+		setAttrVal("Id_status", Id_status);
+	}
+	public String getSd_status() {
+		return ((String) getAttrVal("Sd_status"));
+	}	
+	public void setSd_status(String Sd_status) {
+		setAttrVal("Sd_status", Sd_status);
+	}
+	public FDateTime getDt_dcg_bill() {
+		return ((FDateTime) getAttrVal("Dt_dcg_bill"));
+	}	
+	public void setDt_dcg_bill(FDateTime Dt_dcg_bill) {
+		setAttrVal("Dt_dcg_bill", Dt_dcg_bill);
+	}
+	public FBoolean getFg_canc() {
+		return ((FBoolean) getAttrVal("Fg_canc"));
+	}	
+	public void setFg_canc(FBoolean Fg_canc) {
+		setAttrVal("Fg_canc", Fg_canc);
+	}
+	public String getDep_name() {
+		return ((String) getAttrVal("Dep_name"));
+	}	
+	public void setDep_name(String Dep_name) {
+		setAttrVal("Dep_name", Dep_name);
+	}
+	public String getName_entdeprole() {
+		return ((String) getAttrVal("Name_entdeprole"));
+	}	
+	public void setName_entdeprole(String Name_entdeprole) {
+		setAttrVal("Name_entdeprole", Name_entdeprole);
+	}
+	public String getName_dep_from() {
+		return ((String) getAttrVal("Name_dep_from"));
+	}	
+	public void setName_dep_from(String Name_dep_from) {
+		setAttrVal("Name_dep_from", Name_dep_from);
+	}
+	public String getName_dep_to() {
+		return ((String) getAttrVal("Name_dep_to"));
+	}	
+	public void setName_dep_to(String Name_dep_to) {
+		setAttrVal("Name_dep_to", Name_dep_to);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_entdep";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "en_ent_dep";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(EnDepDODesc.class);
+	}
+	
+}

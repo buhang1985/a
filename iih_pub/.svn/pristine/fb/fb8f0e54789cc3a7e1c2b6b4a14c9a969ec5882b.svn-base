@@ -1,0 +1,73 @@
+package iih.ci.mi.ord.i.meta;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import xap.mw.core.data.FArrayList;
+import xap.mw.coreitf.d.FBoolean;
+
+/**
+ * 医保规则校验结果
+ * @author HUMS
+ *
+ */
+public class OrdRuleRstDTO extends OrdMiBaseDTO{
+
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 校验是否通过
+	 * @return FBoolean
+	 */
+	public FBoolean getFg_result() {
+		
+		for(OrdSrvRuleRstDTO ordSrvRst : this.getOrdSrvRuleRstList()){
+			if(!FBoolean.TRUE.equals(ordSrvRst.getFg_result())){
+				return FBoolean.FALSE;
+			}
+		}
+		return FBoolean.TRUE;
+	}
+	
+	/**
+	 * 医保规则校验结果
+	 * @return FArrayList
+	 */
+	public FArrayList getOrdSrvRuleRstFList() {
+		return ((FArrayList) getAttrVal("OrdSrvRuleRstFList"));
+	}
+	/**
+	 * 医保规则校验结果
+	 * @param Erroritm_list
+	 */
+	public void setOrdSrvRuleRstFList(FArrayList OrdSrvRuleRstFList) {
+		setAttrVal("OrdSrvRuleRstFList", OrdSrvRuleRstFList);
+	}
+	
+	/**
+	 * 医保规则校验结果
+	 * @return FArrayList
+	 */
+	public List<OrdSrvRuleRstDTO> getOrdSrvRuleRstList() {
+		
+		List<OrdSrvRuleRstDTO> ordSrvList = new ArrayList<OrdSrvRuleRstDTO>();
+		FArrayList ordSrvFList = this.getOrdSrvRuleRstFList();
+		if(ordSrvFList == null || ordSrvFList.size() ==0){
+			return ordSrvList;
+		}
+		
+		for(Object obj : ordSrvFList){
+			ordSrvList.add((OrdSrvRuleRstDTO)obj);	
+		}
+		return ordSrvList;
+	}
+	
+	public void addChild(OrdSrvRuleRstDTO ordSrvRuleRst){
+		FArrayList ordSrvFList = ((FArrayList) getAttrVal("OrdSrvRuleRstFList"));
+		if(ordSrvFList == null){
+			ordSrvFList = new FArrayList();
+			this.setOrdSrvRuleRstFList(ordSrvFList);
+		}
+		ordSrvFList.add(ordSrvRuleRst);
+	}
+}

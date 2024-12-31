@@ -1,0 +1,222 @@
+
+package iih.pe.pqn.pestrokemodel.d.desc;
+
+import java.sql.Types;
+import java.util.HashMap;
+import java.util.Map;
+
+import xap.sys.appfw.orm.desc.db.ColumnDesc;
+import xap.sys.appfw.orm.desc.db.DsColumn;
+import xap.sys.appfw.orm.desc.db.SvColumn;
+import xap.sys.appfw.orm.desc.db.TableDesc;
+import xap.sys.appfw.orm.desc.ent.dataobject.Attr;
+import xap.sys.appfw.orm.desc.ent.dataobject.DODesc;
+import xap.sys.appfw.orm.desc.ent.dataobject.DsAttr;
+import xap.sys.appfw.orm.desc.ent.dataobject.SvAttr;
+import xap.mw.coreitf.i.IAttrDesc;
+import xap.mw.coreitf.i.IColumnDesc;
+import xap.mw.coreitf.i.ITableDesc;
+import xap.mw.coreitf.d.FType;
+import java.math.BigDecimal;
+
+/**
+ * 健康评估模型_脑卒中_总分 DO 元数据信息
+ */
+public class PeStrokeModelTotalDODesc extends DODesc {
+	public static final String CLASS_FULLNAME = "iih.pe.pqn.pestrokemodel.d.PeStrokeModelTotalDO";
+	public static final String CLASS_DISPALYNAME = "健康评估模型_脑卒中_总分";
+	public static final String CLASS_RESID = "";
+	public static final String CLASS_RESMODULE = "";
+	public static final String TABLE_NAME = "pe_qn_pestrokemodeltotal";
+	public static final String TABLE_ALIAS_NAME = "a4";
+	public static final String PRIMARYKEY_FIELDNAME="Id_pestrokemodeltotal";
+	private ColumnDesc dsColumn=null;
+	private ColumnDesc svColumn=null;
+	
+	/**
+	 * 无参构造函数
+	 */
+	public PeStrokeModelTotalDODesc(){
+		init();
+	}
+	
+	/**
+	 * 数据初始化
+	 */
+	private void init(){		
+		this.setResID(CLASS_RESID);
+		this.setResNode(CLASS_RESMODULE);
+		this.setLabel(CLASS_DISPALYNAME);
+		this.setEntityName(CLASS_FULLNAME);
+		ITableDesc tblDesc=getTableDesc();
+		this.setKeyDesc(getId_pestrokemodeltotalADesc(tblDesc));
+		this.setIBDDataInfoFldMap();
+		this.setIAuditInfoFldMap();
+		this.setDefaultValueMap();
+		this.setFKeyDesc(getId_pestrokemodelADesc(tblDesc));
+		this.add(getId_pestrokemodeltotalADesc(tblDesc));
+		this.add(getId_pestrokemodelADesc(tblDesc));
+		this.add(getScore_totalADesc(tblDesc));
+		this.add(getRiskADesc(tblDesc));
+		this.add(new DsAttr(dsColumn,this));
+		this.add(new SvAttr(svColumn,this));
+		
+	}
+		
+	/**
+	 * 获得表元数据
+	 * @return
+	 */
+	private ITableDesc getTableDesc(){
+		TableDesc tblDesc=new TableDesc(TABLE_NAME,TABLE_ALIAS_NAME);
+		tblDesc.setLabel(CLASS_DISPALYNAME);
+		tblDesc.setPrimaryKey(getId_pestrokemodeltotalCDesc(tblDesc));
+		tblDesc.add(getId_pestrokemodeltotalCDesc(tblDesc));
+		tblDesc.add(getId_pestrokemodelCDesc(tblDesc));
+		tblDesc.add(getScore_totalCDesc(tblDesc));
+		tblDesc.add(getRiskCDesc(tblDesc));
+		dsColumn=new DsColumn(tblDesc);
+		svColumn=new SvColumn(tblDesc);
+	
+		return tblDesc;
+	}
+	
+	/**
+	 * 脑卒中评估模型总分评估主键标识属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getId_pestrokemodeltotalADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Id_pestrokemodeltotal",  getId_pestrokemodeltotalCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.String);
+		attrDesc.setLabel("脑卒中评估模型总分评估主键标识");
+		attrDesc.setNullable(false);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 脑卒中评估模型ID属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getId_pestrokemodelADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Id_pestrokemodel",  getId_pestrokemodelCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.String);
+		attrDesc.setLabel("脑卒中评估模型ID");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(true);
+		return attrDesc;
+	}
+	/**
+	 * 总分属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getScore_totalADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Score_total",  getScore_totalCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.Integer);
+		attrDesc.setLabel("总分");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 危险属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getRiskADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Risk",  getRiskCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.FDouble);
+		attrDesc.setLabel("危险");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 获取脑卒中评估模型总分评估主键标识表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getId_pestrokemodeltotalCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Id_pestrokemodeltotal");
+		column.setLength(20);
+        column.setSqlType(Types.CHAR);
+		column.setNullable(true);
+		column.setLabel("脑卒中评估模型总分评估主键标识"); 
+		return column;
+	}
+	/**
+	 * 获取脑卒中评估模型ID表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getId_pestrokemodelCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Id_pestrokemodel");
+		column.setLength(20);
+        column.setSqlType(Types.VARCHAR);
+		column.setNullable(true);
+		column.setLabel("脑卒中评估模型ID"); 
+		return column;
+	}
+	/**
+	 * 获取总分表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getScore_totalCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Score_total");
+		column.setLength(10);
+        column.setSqlType(Types.INTEGER);
+		column.setNullable(true);
+		column.setLabel("总分"); 
+		return column;
+	}
+	/**
+	 * 获取危险表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getRiskCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Risk");
+		column.setLength(16);
+        column.setPrecision(2);
+        column.setSqlType(Types.DECIMAL);
+		column.setNullable(true);
+		column.setLabel("危险"); 
+		return column;
+	}
+	/**
+	 * 设置IBDataInfo接口映射数据
+	 */
+	private void setIBDDataInfoFldMap(){
+		iBDDataInfoFldMap=new HashMap<String, String>();
+		iBDDataInfoFldMap.put("id","Id_pestrokemodeltotal");
+	}
+
+	/**
+	 * 设置实体审计信息数据映射关系 
+	 */
+	private void setIAuditInfoFldMap(){
+	}
+	
+	/**
+	 * 设置实体默认值
+	 */
+	private void setDefaultValueMap(){
+		defaultValueMap=new HashMap<String, Object>();
+	}
+	
+}

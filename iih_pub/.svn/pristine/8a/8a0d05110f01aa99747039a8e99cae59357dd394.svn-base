@@ -1,0 +1,18 @@
+package iih.hp.cp.i;
+
+/**
+ * 
+ * @author chenxiang
+ *
+ * @date 2019年10月12日下午5:07:10
+ *
+ * @classpath iih.hp.cp.i.IHpCpSysParamConst
+ *
+ * description: 临床路径定义相关参数
+ *
+ */
+public class IHpCpSysParamConst {
+	
+	//患者出院时是否校验患者在径状态，组织级
+	public static final String SYS_PARAM_VALIDATE_HPCP_COMPLETE="HPCP0600"; 
+}

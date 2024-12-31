@@ -1,0 +1,27 @@
+package iih.pis.ivx.invoice.d;
+
+public class Contact {
+	
+	//开票超时时间
+	private Integer time_out;
+	
+	//联系电话
+	private String phone;
+
+	public Integer getTime_out() {
+		return time_out;
+	}
+
+	public void setTime_out(Integer time_out) {
+		this.time_out = time_out;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	
+}

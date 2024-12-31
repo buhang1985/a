@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+XAP-Component-Version: 0.2.0-sdlanling2-SNAPSHOT
+XAP-Component-Name: iih.syn_pub
+XAP-Component-Namespace: iih
+XAP-Component-Dependencies: iih/iih.mp_pub/0.2.0-sdlanling2-SNAPSHOT,i
+ ih/iih.en_pub/0.2.0-sdlanling2-SNAPSHOT,iih/iih.nmr_pub/0.2.0-sdlanli
+ ng2-SNAPSHOT
+

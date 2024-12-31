@@ -1,0 +1,23 @@
+/*
+ * 健康评估维护服务
+ * 
+ * 
+ */
+package iih.pe.phm.i;
+
+import java.lang.reflect.InvocationTargetException;
+
+import iih.pe.papt.dto.pehmapptdto.d.PeHmApptDTO;
+import iih.pe.phm.pegencond.d.PeGenCondDO;
+import xap.mw.core.data.BizException;
+
+public interface IPeHmEvalGenMaintainService{
+	
+    /*
+     * 
+     * 一般健康状况评估
+     * 2020-03-05, nielisheng
+     */
+	PeGenCondDO evalGen(PeHmApptDTO hmappt, PeGenCondDO gen) throws BizException;	
+	
+} 

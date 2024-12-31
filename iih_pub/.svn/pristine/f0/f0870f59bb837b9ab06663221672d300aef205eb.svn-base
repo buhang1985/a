@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+XAP-Component-Version: 0.2.0-sdlanling2-SNAPSHOT
+XAP-Component-Name: iih.mm_pub
+XAP-Component-Namespace: iih
+XAP-Component-Dependencies: xap.sys/xap.sys_pub/xapstd-2.0.0-SNAPSHOT,
+ xap.sys/xap.sys.core/xapstd-2.0.0-SNAPSHOT,iih/iih.bd_pub/0.2.0-sdlan
+ ling2-SNAPSHOT,com.founder.xap/xap.mw.sf.core/xapstd-2.0.0-SNAPSHOT,c
+ om.founder.xap/xap.mw.core/xapstd-2.0.0-SNAPSHOT,xap.lui/xap.portal.s
+ erver/1.0-SNAPSHOT,xap.lui/xap.lui.wfmgr.3.0/1.0.0-SNAPSHOT,com.found
+ er.xap/xap.mw.log/xapstd-2.0.0-SNAPSHOT
+

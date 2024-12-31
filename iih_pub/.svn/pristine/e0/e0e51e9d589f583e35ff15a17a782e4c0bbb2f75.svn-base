@@ -1,0 +1,30 @@
+/**
+ * 
+ */
+package iih.ci.diag.cidiag.ref;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
+import iih.bd.bc.udi.pub.ICiDictCodeConst;
+import iih.ci.diag.cidiag.d.CiDiagDO;
+import iih.ci.diag.cidiag.d.CiDiagItemDO;
+import iih.ci.diag.cidiag.d.desc.CiDiagItemDODesc;
+import xap.mw.core.data.BizRuntimeException;
+import xap.sys.appfw.orm.handle.dataobject.paging.PaginationInfo;
+import xap.sys.appfw.refinfo.RefGridModel;
+import xap.sys.appfw.refinfo.RefResultSet;
+import xap.sys.jdbc.facade.DAException;
+import xap.sys.jdbc.facade.DAFacade;
+
+/**
+ * @ClassName: RefCiDiagItemEmsDO
+ * @Description: TODO 
+ * @author GH  主用作bug：0116820: 中医诊断未显示症候名称  新需求  临床诊断参照列表 如果为中医诊断 则需要合并诊断和症候 例： 中医诊断（症候）
+ * @createTime 2018年5月26日 11点56分
+ * (c) 2011 Company: 北大医疗信息技术有限责任公司
+ */
+public class RefCiDiagItemEmsDO extends RefCiDiagItemDO {}

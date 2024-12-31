@@ -1,0 +1,14 @@
+package iih.bl.itf.transferqry.i;
+import iih.bl.itf.transferqry.d.TransferInfoDTO;
+import xap.mw.core.data.BizException;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+
+public interface TransferInfoQryService {
+/**
+ * 转账查询
+ * @param qryNode
+ * @return
+ * @throws BizException
+ */
+	public abstract TransferInfoDTO[]  transferInfoQry(QryRootNodeDTO qryNode) throws BizException;
+}

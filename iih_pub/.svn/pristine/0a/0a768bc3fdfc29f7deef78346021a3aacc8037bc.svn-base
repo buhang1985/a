@@ -1,0 +1,5 @@
+package iih.pis.ivx.survey.i;
+
+public interface IQuestionAddressService {
+	public String getAddress();
+}

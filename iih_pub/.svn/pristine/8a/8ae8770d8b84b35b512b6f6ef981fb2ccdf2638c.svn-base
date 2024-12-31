@@ -1,0 +1,93 @@
+package iih.pe.phm.petcmconstcaeval.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.pe.phm.petcmconstcaeval.d.desc.PeTCMConDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 体检中医评估得分 DO数据 
+ * 
+ */
+public class PeTCMConDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_PETCMCON= "Id_petcmcon";
+	public static final String ID_PEPSNAPPT= "Id_pepsnappt";
+	public static final String ID_PETCMCONSTCADEF= "Id_petcmconstcadef";
+	public static final String RST= "Rst";
+	public static final String RST_SCORE= "Rst_score";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_petcmcon() {
+		return ((String) getAttrVal("Id_petcmcon"));
+	}	
+	public void setId_petcmcon(String Id_petcmcon) {
+		setAttrVal("Id_petcmcon", Id_petcmcon);
+	}
+	public String getId_pepsnappt() {
+		return ((String) getAttrVal("Id_pepsnappt"));
+	}	
+	public void setId_pepsnappt(String Id_pepsnappt) {
+		setAttrVal("Id_pepsnappt", Id_pepsnappt);
+	}
+	public String getId_petcmconstcadef() {
+		return ((String) getAttrVal("Id_petcmconstcadef"));
+	}	
+	public void setId_petcmconstcadef(String Id_petcmconstcadef) {
+		setAttrVal("Id_petcmconstcadef", Id_petcmconstcadef);
+	}
+	public Integer getRst() {
+		return ((Integer) getAttrVal("Rst"));
+	}	
+	public void setRst(Integer Rst) {
+		setAttrVal("Rst", Rst);
+	}
+	public FDouble getRst_score() {
+		return ((FDouble) getAttrVal("Rst_score"));
+	}	
+	public void setRst_score(FDouble Rst_score) {
+		setAttrVal("Rst_score", Rst_score);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_petcmcon";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "pe_hm_petcmcon";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(PeTCMConDODesc.class);
+	}
+	
+}

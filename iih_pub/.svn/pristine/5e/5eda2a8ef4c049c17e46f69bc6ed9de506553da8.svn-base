@@ -1,0 +1,44 @@
+package iih.bl.inc.i;
+
+import iih.bl.inc.dto.blinctf.d.BlIncTfCondDTO;
+import iih.bl.st.dto.d.BlStIpPayInvoceInfoDTO;
+import xap.mw.core.data.BizException;
+
+/**
+ * 票据命令服务
+ * @author yankan
+ * @since 2017-06-15
+ *
+ */
+public interface IBlIncCmdService {
+	
+	/**
+	 * 重打发票操作
+	 * @Title: ReprintInc   
+	 * @Description: TODO  
+	 * @param blincIpDo
+	 * @return
+	 * @throws BizException      
+	 * @return: BlStIpPayInvoceInfoDTO 
+	 * @author: wq.li     
+	 * @throws
+	 */
+	public abstract BlStIpPayInvoceInfoDTO ReprintInc(String incId) throws BizException;
+
+	/**
+	 * 票据领用转移
+	 * @param cond 转移条件
+	 * @throws BizException
+	 * @author ly 2019/02/19
+	 */
+	public abstract void incTransfer(BlIncTfCondDTO cond) throws BizException;
+	
+	/**
+	 * 票据领用转移撤销
+	 * @param cond 撤销条件
+	 * @throws BizException
+	 * @author ly 2019/02/19
+	 */
+	public abstract void incTransferRevoke(BlIncTfCondDTO cond) throws BizException;
+	
+}

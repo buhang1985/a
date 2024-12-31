@@ -1,0 +1,205 @@
+package iih.mm.st.stockpriceadjust.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.mm.st.stockpriceadjust.d.desc.StockPriceAdjustItmDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 库存调价明细 DO数据 
+ * 
+ */
+public class StockPriceAdjustItmDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_STPRIITM= "Id_stpriitm";
+	public static final String ID_STPRI= "Id_stpri";
+	public static final String ID_BL= "Id_bl";
+	public static final String SORTNO= "Sortno";
+	public static final String ID_WH= "Id_wh";
+	public static final String ID_MM= "Id_mm";
+	public static final String BATCH= "Batch";
+	public static final String DATE_EXPI= "Date_expi";
+	public static final String ONLYCODE= "Onlycode";
+	public static final String ID_MMPKGU_SALES= "Id_mmpkgu_sales";
+	public static final String PRI_ACT= "Pri_act";
+	public static final String PRI_OLD_SALES= "Pri_old_sales";
+	public static final String PRI_NEW_SALES= "Pri_new_sales";
+	public static final String QUAN= "Quan";
+	public static final String DES= "Des";
+	public static final String FG_ADJUST= "Fg_adjust";
+	public static final String WH_NAME= "Wh_name";
+	public static final String MM_NAME= "Mm_name";
+	public static final String MM_SPEC= "Mm_spec";
+	public static final String MM_CODE= "Mm_code";
+	public static final String MMPKGU_SALES_NAME= "Mmpkgu_sales_name";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_stpriitm() {
+		return ((String) getAttrVal("Id_stpriitm"));
+	}	
+	public void setId_stpriitm(String Id_stpriitm) {
+		setAttrVal("Id_stpriitm", Id_stpriitm);
+	}
+	public String getId_stpri() {
+		return ((String) getAttrVal("Id_stpri"));
+	}	
+	public void setId_stpri(String Id_stpri) {
+		setAttrVal("Id_stpri", Id_stpri);
+	}
+	public String getId_bl() {
+		return ((String) getAttrVal("Id_bl"));
+	}	
+	public void setId_bl(String Id_bl) {
+		setAttrVal("Id_bl", Id_bl);
+	}
+	public Integer getSortno() {
+		return ((Integer) getAttrVal("Sortno"));
+	}	
+	public void setSortno(Integer Sortno) {
+		setAttrVal("Sortno", Sortno);
+	}
+	public String getId_wh() {
+		return ((String) getAttrVal("Id_wh"));
+	}	
+	public void setId_wh(String Id_wh) {
+		setAttrVal("Id_wh", Id_wh);
+	}
+	public String getId_mm() {
+		return ((String) getAttrVal("Id_mm"));
+	}	
+	public void setId_mm(String Id_mm) {
+		setAttrVal("Id_mm", Id_mm);
+	}
+	public String getBatch() {
+		return ((String) getAttrVal("Batch"));
+	}	
+	public void setBatch(String Batch) {
+		setAttrVal("Batch", Batch);
+	}
+	public FDate getDate_expi() {
+		return ((FDate) getAttrVal("Date_expi"));
+	}	
+	public void setDate_expi(FDate Date_expi) {
+		setAttrVal("Date_expi", Date_expi);
+	}
+	public String getOnlycode() {
+		return ((String) getAttrVal("Onlycode"));
+	}	
+	public void setOnlycode(String Onlycode) {
+		setAttrVal("Onlycode", Onlycode);
+	}
+	public String getId_mmpkgu_sales() {
+		return ((String) getAttrVal("Id_mmpkgu_sales"));
+	}	
+	public void setId_mmpkgu_sales(String Id_mmpkgu_sales) {
+		setAttrVal("Id_mmpkgu_sales", Id_mmpkgu_sales);
+	}
+	public FDouble getPri_act() {
+		return ((FDouble) getAttrVal("Pri_act"));
+	}	
+	public void setPri_act(FDouble Pri_act) {
+		setAttrVal("Pri_act", Pri_act);
+	}
+	public FDouble getPri_old_sales() {
+		return ((FDouble) getAttrVal("Pri_old_sales"));
+	}	
+	public void setPri_old_sales(FDouble Pri_old_sales) {
+		setAttrVal("Pri_old_sales", Pri_old_sales);
+	}
+	public FDouble getPri_new_sales() {
+		return ((FDouble) getAttrVal("Pri_new_sales"));
+	}	
+	public void setPri_new_sales(FDouble Pri_new_sales) {
+		setAttrVal("Pri_new_sales", Pri_new_sales);
+	}
+	public FDouble getQuan() {
+		return ((FDouble) getAttrVal("Quan"));
+	}	
+	public void setQuan(FDouble Quan) {
+		setAttrVal("Quan", Quan);
+	}
+	public String getDes() {
+		return ((String) getAttrVal("Des"));
+	}	
+	public void setDes(String Des) {
+		setAttrVal("Des", Des);
+	}
+	public FBoolean getFg_adjust() {
+		return ((FBoolean) getAttrVal("Fg_adjust"));
+	}	
+	public void setFg_adjust(FBoolean Fg_adjust) {
+		setAttrVal("Fg_adjust", Fg_adjust);
+	}
+	public String getWh_name() {
+		return ((String) getAttrVal("Wh_name"));
+	}	
+	public void setWh_name(String Wh_name) {
+		setAttrVal("Wh_name", Wh_name);
+	}
+	public String getMm_name() {
+		return ((String) getAttrVal("Mm_name"));
+	}	
+	public void setMm_name(String Mm_name) {
+		setAttrVal("Mm_name", Mm_name);
+	}
+	public String getMm_spec() {
+		return ((String) getAttrVal("Mm_spec"));
+	}	
+	public void setMm_spec(String Mm_spec) {
+		setAttrVal("Mm_spec", Mm_spec);
+	}
+	public String getMm_code() {
+		return ((String) getAttrVal("Mm_code"));
+	}	
+	public void setMm_code(String Mm_code) {
+		setAttrVal("Mm_code", Mm_code);
+	}
+	public String getMmpkgu_sales_name() {
+		return ((String) getAttrVal("Mmpkgu_sales_name"));
+	}	
+	public void setMmpkgu_sales_name(String Mmpkgu_sales_name) {
+		setAttrVal("Mmpkgu_sales_name", Mmpkgu_sales_name);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_stpriitm";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "MM_ST_PRI_ITM";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(StockPriceAdjustItmDODesc.class);
+	}
+	
+}

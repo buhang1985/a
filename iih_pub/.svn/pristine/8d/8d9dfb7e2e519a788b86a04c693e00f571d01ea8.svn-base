@@ -1,0 +1,177 @@
+package iih.pe.pwf.pewfdep.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.pe.pwf.pewfdep.d.desc.PeWfDepDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 体检登记科室 DO数据 
+ * 
+ */
+public class PeWfDepDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_PEWFDEP= "Id_pewfdep";
+	public static final String ID_PEPSNAPPT= "Id_pepsnappt";
+	public static final String ID_PEDEPTSET= "Id_pedeptset";
+	public static final String DEPST= "Depst";
+	public static final String ITM_COUNT= "Itm_count";
+	public static final String NOTE= "Note";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String DU_CHK= "Du_chk";
+	public static final String SORTNO= "Sortno";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String INQUIRY= "Inquiry";
+	public static final String COMPLAIN= "Complain";
+	public static final String DEP_RST= "Dep_rst";
+	public static final String CODE_DEP= "Code_dep";
+	public static final String NAME_DEP= "Name_dep";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_pewfdep() {
+		return ((String) getAttrVal("Id_pewfdep"));
+	}	
+	public void setId_pewfdep(String Id_pewfdep) {
+		setAttrVal("Id_pewfdep", Id_pewfdep);
+	}
+	public String getId_pepsnappt() {
+		return ((String) getAttrVal("Id_pepsnappt"));
+	}	
+	public void setId_pepsnappt(String Id_pepsnappt) {
+		setAttrVal("Id_pepsnappt", Id_pepsnappt);
+	}
+	public String getId_pedeptset() {
+		return ((String) getAttrVal("Id_pedeptset"));
+	}	
+	public void setId_pedeptset(String Id_pedeptset) {
+		setAttrVal("Id_pedeptset", Id_pedeptset);
+	}
+	public Integer getDepst() {
+		return ((Integer) getAttrVal("Depst"));
+	}	
+	public void setDepst(Integer Depst) {
+		setAttrVal("Depst", Depst);
+	}
+	public Integer getItm_count() {
+		return ((Integer) getAttrVal("Itm_count"));
+	}	
+	public void setItm_count(Integer Itm_count) {
+		setAttrVal("Itm_count", Itm_count);
+	}
+	public String getNote() {
+		return ((String) getAttrVal("Note"));
+	}	
+	public void setNote(String Note) {
+		setAttrVal("Note", Note);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public Integer getDu_chk() {
+		return ((Integer) getAttrVal("Du_chk"));
+	}	
+	public void setDu_chk(Integer Du_chk) {
+		setAttrVal("Du_chk", Du_chk);
+	}
+	public Integer getSortno() {
+		return ((Integer) getAttrVal("Sortno"));
+	}	
+	public void setSortno(Integer Sortno) {
+		setAttrVal("Sortno", Sortno);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public String getInquiry() {
+		return ((String) getAttrVal("Inquiry"));
+	}	
+	public void setInquiry(String Inquiry) {
+		setAttrVal("Inquiry", Inquiry);
+	}
+	public String getComplain() {
+		return ((String) getAttrVal("Complain"));
+	}	
+	public void setComplain(String Complain) {
+		setAttrVal("Complain", Complain);
+	}
+	public String getDep_rst() {
+		return ((String) getAttrVal("Dep_rst"));
+	}	
+	public void setDep_rst(String Dep_rst) {
+		setAttrVal("Dep_rst", Dep_rst);
+	}
+	public String getCode_dep() {
+		return ((String) getAttrVal("Code_dep"));
+	}	
+	public void setCode_dep(String Code_dep) {
+		setAttrVal("Code_dep", Code_dep);
+	}
+	public String getName_dep() {
+		return ((String) getAttrVal("Name_dep"));
+	}	
+	public void setName_dep(String Name_dep) {
+		setAttrVal("Name_dep", Name_dep);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_pewfdep";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "pe_wf_pewfdep";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(PeWfDepDODesc.class);
+	}
+	
+}

@@ -1,0 +1,10 @@
+package iih.bd.pp.accountsrv.i;
+
+/**
+ * 核算科目与收费项目的关联关系数据扩展查询服务
+ * 
+ * @author hao_wu 2018-10-27
+ *
+ */
+public interface IAccountsrvExtRService {
+}

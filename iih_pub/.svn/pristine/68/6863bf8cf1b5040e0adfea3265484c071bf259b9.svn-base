@@ -1,0 +1,22 @@
+package iih.ci.mrqc.mrterminalqc.i;
+
+import iih.ci.mrqc.itmdto.d.ItmDTO;
+import iih.ci.mrqc.qapatlist.d.QaPatListDTO;
+import xap.mw.core.data.BizException;
+
+public interface IMrTerminalQcMaintainService {
+
+	/**
+	 * 获取终末评分项目列表
+	 * @param sd_qctype
+	 * @return
+	 * @throws BizException
+	 */
+    public abstract  ItmDTO[] getMrQcTerminalItmList(QaPatListDTO qaPatDto) throws BizException;
+    /**
+     * 保存终末评分
+     * @return
+     * @throws BizException
+     */
+    public abstract  boolean saveMrQcTerminalItmList(ItmDTO[] itmDtoArr,QaPatListDTO qaPatListDto) throws BizException;
+}

@@ -1,0 +1,359 @@
+package iih.en.pv.inpatient.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.en.pv.inpatient.d.desc.NewbornDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 新生儿记录 DO数据 
+ * 
+ */
+public class NewbornDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_ENTNB= "Id_entnb";
+	public static final String ID_ENT_BB= "Id_ent_bb";
+	public static final String ID_PAT_BB= "Id_pat_bb";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_ORG= "Id_org";
+	public static final String ID_ENT_MOM= "Id_ent_mom";
+	public static final String ID_PAT_MOM= "Id_pat_mom";
+	public static final String NO_BB= "No_bb";
+	public static final String NAME_BB= "Name_bb";
+	public static final String ID_SEX= "Id_sex";
+	public static final String SD_SEX= "Sd_sex";
+	public static final String NO_BIRTHCERT= "No_birthcert";
+	public static final String DT_BIRTH= "Dt_birth";
+	public static final String GESTATION= "Gestation";
+	public static final String GESTATION_DIS= "Gestation_dis";
+	public static final String ID_NEWBB_HEALTH= "Id_newbb_health";
+	public static final String SD_NEWBB_HEALTH= "Sd_newbb_health";
+	public static final String WEIGHT= "Weight";
+	public static final String HEIGHT= "Height";
+	public static final String ID_BIRTHTP= "Id_birthtp";
+	public static final String SD_BIRTHTP= "Sd_birthtp";
+	public static final String NAME_DAD= "Name_dad";
+	public static final String AGE_DAD= "Age_dad";
+	public static final String ID_COUNTRY_DAD= "Id_country_dad";
+	public static final String SD_COUNTRY_DAD= "Sd_country_dad";
+	public static final String ID_NATION_DAD= "Id_nation_dad";
+	public static final String SD_NATION_DAD= "Sd_nation_dad";
+	public static final String ID_IDTP_DAD= "Id_idtp_dad";
+	public static final String SD_IDTP_DAD= "Sd_idtp_dad";
+	public static final String NO_ID_DAD= "No_id_dad";
+	public static final String ID_EMP_REG= "Id_emp_reg";
+	public static final String DT_REG= "Dt_reg";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String WEIGHT_REG= "Weight_reg";
+	public static final String NAME_SEX= "Name_sex";
+	public static final String NAME_HEALTHY= "Name_healthy";
+	public static final String NAME_BIRTHTP= "Name_birthtp";
+	public static final String NAME_COUNTRY= "Name_country";
+	public static final String NAME_NATION= "Name_nation";
+	public static final String NAME_IDTP= "Name_idtp";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_entnb() {
+		return ((String) getAttrVal("Id_entnb"));
+	}	
+	public void setId_entnb(String Id_entnb) {
+		setAttrVal("Id_entnb", Id_entnb);
+	}
+	public String getId_ent_bb() {
+		return ((String) getAttrVal("Id_ent_bb"));
+	}	
+	public void setId_ent_bb(String Id_ent_bb) {
+		setAttrVal("Id_ent_bb", Id_ent_bb);
+	}
+	public String getId_pat_bb() {
+		return ((String) getAttrVal("Id_pat_bb"));
+	}	
+	public void setId_pat_bb(String Id_pat_bb) {
+		setAttrVal("Id_pat_bb", Id_pat_bb);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getId_ent_mom() {
+		return ((String) getAttrVal("Id_ent_mom"));
+	}	
+	public void setId_ent_mom(String Id_ent_mom) {
+		setAttrVal("Id_ent_mom", Id_ent_mom);
+	}
+	public String getId_pat_mom() {
+		return ((String) getAttrVal("Id_pat_mom"));
+	}	
+	public void setId_pat_mom(String Id_pat_mom) {
+		setAttrVal("Id_pat_mom", Id_pat_mom);
+	}
+	public Integer getNo_bb() {
+		return ((Integer) getAttrVal("No_bb"));
+	}	
+	public void setNo_bb(Integer No_bb) {
+		setAttrVal("No_bb", No_bb);
+	}
+	public String getName_bb() {
+		return ((String) getAttrVal("Name_bb"));
+	}	
+	public void setName_bb(String Name_bb) {
+		setAttrVal("Name_bb", Name_bb);
+	}
+	public String getId_sex() {
+		return ((String) getAttrVal("Id_sex"));
+	}	
+	public void setId_sex(String Id_sex) {
+		setAttrVal("Id_sex", Id_sex);
+	}
+	public String getSd_sex() {
+		return ((String) getAttrVal("Sd_sex"));
+	}	
+	public void setSd_sex(String Sd_sex) {
+		setAttrVal("Sd_sex", Sd_sex);
+	}
+	public String getNo_birthcert() {
+		return ((String) getAttrVal("No_birthcert"));
+	}	
+	public void setNo_birthcert(String No_birthcert) {
+		setAttrVal("No_birthcert", No_birthcert);
+	}
+	public FDateTime getDt_birth() {
+		return ((FDateTime) getAttrVal("Dt_birth"));
+	}	
+	public void setDt_birth(FDateTime Dt_birth) {
+		setAttrVal("Dt_birth", Dt_birth);
+	}
+	public FDouble getGestation() {
+		return ((FDouble) getAttrVal("Gestation"));
+	}	
+	public void setGestation(FDouble Gestation) {
+		setAttrVal("Gestation", Gestation);
+	}
+	public String getGestation_dis() {
+		return ((String) getAttrVal("Gestation_dis"));
+	}	
+	public void setGestation_dis(String Gestation_dis) {
+		setAttrVal("Gestation_dis", Gestation_dis);
+	}
+	public String getId_newbb_health() {
+		return ((String) getAttrVal("Id_newbb_health"));
+	}	
+	public void setId_newbb_health(String Id_newbb_health) {
+		setAttrVal("Id_newbb_health", Id_newbb_health);
+	}
+	public String getSd_newbb_health() {
+		return ((String) getAttrVal("Sd_newbb_health"));
+	}	
+	public void setSd_newbb_health(String Sd_newbb_health) {
+		setAttrVal("Sd_newbb_health", Sd_newbb_health);
+	}
+	public FDouble getWeight() {
+		return ((FDouble) getAttrVal("Weight"));
+	}	
+	public void setWeight(FDouble Weight) {
+		setAttrVal("Weight", Weight);
+	}
+	public FDouble getHeight() {
+		return ((FDouble) getAttrVal("Height"));
+	}	
+	public void setHeight(FDouble Height) {
+		setAttrVal("Height", Height);
+	}
+	public String getId_birthtp() {
+		return ((String) getAttrVal("Id_birthtp"));
+	}	
+	public void setId_birthtp(String Id_birthtp) {
+		setAttrVal("Id_birthtp", Id_birthtp);
+	}
+	public String getSd_birthtp() {
+		return ((String) getAttrVal("Sd_birthtp"));
+	}	
+	public void setSd_birthtp(String Sd_birthtp) {
+		setAttrVal("Sd_birthtp", Sd_birthtp);
+	}
+	public String getName_dad() {
+		return ((String) getAttrVal("Name_dad"));
+	}	
+	public void setName_dad(String Name_dad) {
+		setAttrVal("Name_dad", Name_dad);
+	}
+	public String getAge_dad() {
+		return ((String) getAttrVal("Age_dad"));
+	}	
+	public void setAge_dad(String Age_dad) {
+		setAttrVal("Age_dad", Age_dad);
+	}
+	public String getId_country_dad() {
+		return ((String) getAttrVal("Id_country_dad"));
+	}	
+	public void setId_country_dad(String Id_country_dad) {
+		setAttrVal("Id_country_dad", Id_country_dad);
+	}
+	public String getSd_country_dad() {
+		return ((String) getAttrVal("Sd_country_dad"));
+	}	
+	public void setSd_country_dad(String Sd_country_dad) {
+		setAttrVal("Sd_country_dad", Sd_country_dad);
+	}
+	public String getId_nation_dad() {
+		return ((String) getAttrVal("Id_nation_dad"));
+	}	
+	public void setId_nation_dad(String Id_nation_dad) {
+		setAttrVal("Id_nation_dad", Id_nation_dad);
+	}
+	public String getSd_nation_dad() {
+		return ((String) getAttrVal("Sd_nation_dad"));
+	}	
+	public void setSd_nation_dad(String Sd_nation_dad) {
+		setAttrVal("Sd_nation_dad", Sd_nation_dad);
+	}
+	public String getId_idtp_dad() {
+		return ((String) getAttrVal("Id_idtp_dad"));
+	}	
+	public void setId_idtp_dad(String Id_idtp_dad) {
+		setAttrVal("Id_idtp_dad", Id_idtp_dad);
+	}
+	public String getSd_idtp_dad() {
+		return ((String) getAttrVal("Sd_idtp_dad"));
+	}	
+	public void setSd_idtp_dad(String Sd_idtp_dad) {
+		setAttrVal("Sd_idtp_dad", Sd_idtp_dad);
+	}
+	public String getNo_id_dad() {
+		return ((String) getAttrVal("No_id_dad"));
+	}	
+	public void setNo_id_dad(String No_id_dad) {
+		setAttrVal("No_id_dad", No_id_dad);
+	}
+	public String getId_emp_reg() {
+		return ((String) getAttrVal("Id_emp_reg"));
+	}	
+	public void setId_emp_reg(String Id_emp_reg) {
+		setAttrVal("Id_emp_reg", Id_emp_reg);
+	}
+	public FDateTime getDt_reg() {
+		return ((FDateTime) getAttrVal("Dt_reg"));
+	}	
+	public void setDt_reg(FDateTime Dt_reg) {
+		setAttrVal("Dt_reg", Dt_reg);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public FDouble getWeight_reg() {
+		return ((FDouble) getAttrVal("Weight_reg"));
+	}	
+	public void setWeight_reg(FDouble Weight_reg) {
+		setAttrVal("Weight_reg", Weight_reg);
+	}
+	public String getName_sex() {
+		return ((String) getAttrVal("Name_sex"));
+	}	
+	public void setName_sex(String Name_sex) {
+		setAttrVal("Name_sex", Name_sex);
+	}
+	public String getName_healthy() {
+		return ((String) getAttrVal("Name_healthy"));
+	}	
+	public void setName_healthy(String Name_healthy) {
+		setAttrVal("Name_healthy", Name_healthy);
+	}
+	public String getName_birthtp() {
+		return ((String) getAttrVal("Name_birthtp"));
+	}	
+	public void setName_birthtp(String Name_birthtp) {
+		setAttrVal("Name_birthtp", Name_birthtp);
+	}
+	public String getName_country() {
+		return ((String) getAttrVal("Name_country"));
+	}	
+	public void setName_country(String Name_country) {
+		setAttrVal("Name_country", Name_country);
+	}
+	public String getName_nation() {
+		return ((String) getAttrVal("Name_nation"));
+	}	
+	public void setName_nation(String Name_nation) {
+		setAttrVal("Name_nation", Name_nation);
+	}
+	public String getName_idtp() {
+		return ((String) getAttrVal("Name_idtp"));
+	}	
+	public void setName_idtp(String Name_idtp) {
+		setAttrVal("Name_idtp", Name_idtp);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_entnb";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "EN_ENT_NB";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(NewbornDODesc.class);
+	}
+	
+}

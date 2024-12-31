@@ -1,0 +1,219 @@
+package iih.pi.acc.account.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.pi.acc.account.d.desc.PiPatAccDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 患者账户 DO数据 
+ * 
+ */
+public class PiPatAccDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_PATACC= "Id_patacc";
+	public static final String ID_PAT= "Id_pat";
+	public static final String CODE= "Code";
+	public static final String NAME= "Name";
+	public static final String PREPAY= "Prepay";
+	public static final String CRED= "Cred";
+	public static final String ACC_LOCK= "Acc_lock";
+	public static final String SD_ACCSTA= "Sd_accsta";
+	public static final String ID_ACCSTA= "Id_accsta";
+	public static final String FG_ACTIVE= "Fg_active";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String PATCRED= "Patcred";
+	public static final String PAT_CODE= "Pat_code";
+	public static final String PAT_NAME= "Pat_name";
+	public static final String ID_ACCSTA_CODE= "Id_accsta_code";
+	public static final String ID_ACCSTA_NAME= "Id_accsta_name";
+	public static final String CREBY_NAME= "Creby_name";
+	public static final String CREBY_CODE= "Creby_code";
+	public static final String MODFIBY_NAME= "Modfiby_name";
+	public static final String MODFIBY_CODE= "Modfiby_code";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_patacc() {
+		return ((String) getAttrVal("Id_patacc"));
+	}	
+	public void setId_patacc(String Id_patacc) {
+		setAttrVal("Id_patacc", Id_patacc);
+	}
+	public String getId_pat() {
+		return ((String) getAttrVal("Id_pat"));
+	}	
+	public void setId_pat(String Id_pat) {
+		setAttrVal("Id_pat", Id_pat);
+	}
+	public String getCode() {
+		return ((String) getAttrVal("Code"));
+	}	
+	public void setCode(String Code) {
+		setAttrVal("Code", Code);
+	}
+	public String getName() {
+		return ((String) getAttrVal("Name"));
+	}	
+	public void setName(String Name) {
+		setAttrVal("Name", Name);
+	}
+	public FDouble getPrepay() {
+		return ((FDouble) getAttrVal("Prepay"));
+	}	
+	public void setPrepay(FDouble Prepay) {
+		setAttrVal("Prepay", Prepay);
+	}
+	public FDouble getCred() {
+		return ((FDouble) getAttrVal("Cred"));
+	}	
+	public void setCred(FDouble Cred) {
+		setAttrVal("Cred", Cred);
+	}
+	public FDouble getAcc_lock() {
+		return ((FDouble) getAttrVal("Acc_lock"));
+	}	
+	public void setAcc_lock(FDouble Acc_lock) {
+		setAttrVal("Acc_lock", Acc_lock);
+	}
+	public String getSd_accsta() {
+		return ((String) getAttrVal("Sd_accsta"));
+	}	
+	public void setSd_accsta(String Sd_accsta) {
+		setAttrVal("Sd_accsta", Sd_accsta);
+	}
+	public String getId_accsta() {
+		return ((String) getAttrVal("Id_accsta"));
+	}	
+	public void setId_accsta(String Id_accsta) {
+		setAttrVal("Id_accsta", Id_accsta);
+	}
+	public FBoolean getFg_active() {
+		return ((FBoolean) getAttrVal("Fg_active"));
+	}	
+	public void setFg_active(FBoolean Fg_active) {
+		setAttrVal("Fg_active", Fg_active);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public FDouble getPatcred() {
+		return ((FDouble) getAttrVal("Patcred"));
+	}	
+	public void setPatcred(FDouble Patcred) {
+		setAttrVal("Patcred", Patcred);
+	}
+	public String getPat_code() {
+		return ((String) getAttrVal("Pat_code"));
+	}	
+	public void setPat_code(String Pat_code) {
+		setAttrVal("Pat_code", Pat_code);
+	}
+	public String getPat_name() {
+		return ((String) getAttrVal("Pat_name"));
+	}	
+	public void setPat_name(String Pat_name) {
+		setAttrVal("Pat_name", Pat_name);
+	}
+	public String getId_accsta_code() {
+		return ((String) getAttrVal("Id_accsta_code"));
+	}	
+	public void setId_accsta_code(String Id_accsta_code) {
+		setAttrVal("Id_accsta_code", Id_accsta_code);
+	}
+	public String getId_accsta_name() {
+		return ((String) getAttrVal("Id_accsta_name"));
+	}	
+	public void setId_accsta_name(String Id_accsta_name) {
+		setAttrVal("Id_accsta_name", Id_accsta_name);
+	}
+	public String getCreby_name() {
+		return ((String) getAttrVal("Creby_name"));
+	}	
+	public void setCreby_name(String Creby_name) {
+		setAttrVal("Creby_name", Creby_name);
+	}
+	public String getCreby_code() {
+		return ((String) getAttrVal("Creby_code"));
+	}	
+	public void setCreby_code(String Creby_code) {
+		setAttrVal("Creby_code", Creby_code);
+	}
+	public String getModfiby_name() {
+		return ((String) getAttrVal("Modfiby_name"));
+	}	
+	public void setModfiby_name(String Modfiby_name) {
+		setAttrVal("Modfiby_name", Modfiby_name);
+	}
+	public String getModfiby_code() {
+		return ((String) getAttrVal("Modfiby_code"));
+	}	
+	public void setModfiby_code(String Modfiby_code) {
+		setAttrVal("Modfiby_code", Modfiby_code);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_patacc";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "pi_pat_acc";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(PiPatAccDODesc.class);
+	}
+	
+}

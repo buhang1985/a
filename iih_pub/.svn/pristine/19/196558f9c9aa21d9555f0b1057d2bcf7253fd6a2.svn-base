@@ -1,0 +1,184 @@
+package iih.en.pv.enthptfin.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.en.pv.enthptfin.d.desc.EnEntHpTfInDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 就诊医保计划_转诊_转入 DO数据 
+ * 
+ */
+public class EnEntHpTfInDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_ENTHPTFIN= "Id_enthptfin";
+	public static final String ID_ENTHP= "Id_enthp";
+	public static final String ID_ENT= "Id_ent";
+	public static final String ID_HP= "Id_hp";
+	public static final String TF_IN_NO= "Tf_in_no";
+	public static final String ID_EMP= "Id_emp";
+	public static final String ID_EMP_ORG= "Id_emp_org";
+	public static final String DT_TF= "Dt_tf";
+	public static final String FG_CANC= "Fg_canc";
+	public static final String DT_CANC= "Dt_canc";
+	public static final String ID_CANC_EMP= "Id_canc_emp";
+	public static final String ID_CANC_EMP_ORG= "Id_canc_emp_org";
+	public static final String SD_CANC_RES= "Sd_canc_res";
+	public static final String DES_CANC= "Des_canc";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_enthptfin() {
+		return ((String) getAttrVal("Id_enthptfin"));
+	}	
+	public void setId_enthptfin(String Id_enthptfin) {
+		setAttrVal("Id_enthptfin", Id_enthptfin);
+	}
+	public String getId_enthp() {
+		return ((String) getAttrVal("Id_enthp"));
+	}	
+	public void setId_enthp(String Id_enthp) {
+		setAttrVal("Id_enthp", Id_enthp);
+	}
+	public String getId_ent() {
+		return ((String) getAttrVal("Id_ent"));
+	}	
+	public void setId_ent(String Id_ent) {
+		setAttrVal("Id_ent", Id_ent);
+	}
+	public String getId_hp() {
+		return ((String) getAttrVal("Id_hp"));
+	}	
+	public void setId_hp(String Id_hp) {
+		setAttrVal("Id_hp", Id_hp);
+	}
+	public String getTf_in_no() {
+		return ((String) getAttrVal("Tf_in_no"));
+	}	
+	public void setTf_in_no(String Tf_in_no) {
+		setAttrVal("Tf_in_no", Tf_in_no);
+	}
+	public String getId_emp() {
+		return ((String) getAttrVal("Id_emp"));
+	}	
+	public void setId_emp(String Id_emp) {
+		setAttrVal("Id_emp", Id_emp);
+	}
+	public String getId_emp_org() {
+		return ((String) getAttrVal("Id_emp_org"));
+	}	
+	public void setId_emp_org(String Id_emp_org) {
+		setAttrVal("Id_emp_org", Id_emp_org);
+	}
+	public FDateTime getDt_tf() {
+		return ((FDateTime) getAttrVal("Dt_tf"));
+	}	
+	public void setDt_tf(FDateTime Dt_tf) {
+		setAttrVal("Dt_tf", Dt_tf);
+	}
+	public FBoolean getFg_canc() {
+		return ((FBoolean) getAttrVal("Fg_canc"));
+	}	
+	public void setFg_canc(FBoolean Fg_canc) {
+		setAttrVal("Fg_canc", Fg_canc);
+	}
+	public FDateTime getDt_canc() {
+		return ((FDateTime) getAttrVal("Dt_canc"));
+	}	
+	public void setDt_canc(FDateTime Dt_canc) {
+		setAttrVal("Dt_canc", Dt_canc);
+	}
+	public String getId_canc_emp() {
+		return ((String) getAttrVal("Id_canc_emp"));
+	}	
+	public void setId_canc_emp(String Id_canc_emp) {
+		setAttrVal("Id_canc_emp", Id_canc_emp);
+	}
+	public String getId_canc_emp_org() {
+		return ((String) getAttrVal("Id_canc_emp_org"));
+	}	
+	public void setId_canc_emp_org(String Id_canc_emp_org) {
+		setAttrVal("Id_canc_emp_org", Id_canc_emp_org);
+	}
+	public String getSd_canc_res() {
+		return ((String) getAttrVal("Sd_canc_res"));
+	}	
+	public void setSd_canc_res(String Sd_canc_res) {
+		setAttrVal("Sd_canc_res", Sd_canc_res);
+	}
+	public String getDes_canc() {
+		return ((String) getAttrVal("Des_canc"));
+	}	
+	public void setDes_canc(String Des_canc) {
+		setAttrVal("Des_canc", Des_canc);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_enthptfin";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "en_ent_hp_tf_in";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(EnEntHpTfInDODesc.class);
+	}
+	
+}

@@ -1,0 +1,114 @@
+package iih.mm.bl.blreserve.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.mm.bl.blreserve.d.desc.StockBlReserveItemDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 物品结存预留处理明细表 DO数据 
+ * 
+ */
+public class StockBlReserveItemDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_RSVITM= "Id_rsvitm";
+	public static final String ID_RSV= "Id_rsv";
+	public static final String ID_BL= "Id_bl";
+	public static final String PRI_SALE= "Pri_sale";
+	public static final String QUAN_RESERVE= "Quan_reserve";
+	public static final String QUAN_STOCK= "Quan_stock";
+	public static final String QUAN_BK= "Quan_bk";
+	public static final String REQ_NUM= "Req_num";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_rsvitm() {
+		return ((String) getAttrVal("Id_rsvitm"));
+	}	
+	public void setId_rsvitm(String Id_rsvitm) {
+		setAttrVal("Id_rsvitm", Id_rsvitm);
+	}
+	public String getId_rsv() {
+		return ((String) getAttrVal("Id_rsv"));
+	}	
+	public void setId_rsv(String Id_rsv) {
+		setAttrVal("Id_rsv", Id_rsv);
+	}
+	public String getId_bl() {
+		return ((String) getAttrVal("Id_bl"));
+	}	
+	public void setId_bl(String Id_bl) {
+		setAttrVal("Id_bl", Id_bl);
+	}
+	public FDouble getPri_sale() {
+		return ((FDouble) getAttrVal("Pri_sale"));
+	}	
+	public void setPri_sale(FDouble Pri_sale) {
+		setAttrVal("Pri_sale", Pri_sale);
+	}
+	public FDouble getQuan_reserve() {
+		return ((FDouble) getAttrVal("Quan_reserve"));
+	}	
+	public void setQuan_reserve(FDouble Quan_reserve) {
+		setAttrVal("Quan_reserve", Quan_reserve);
+	}
+	public FDouble getQuan_stock() {
+		return ((FDouble) getAttrVal("Quan_stock"));
+	}	
+	public void setQuan_stock(FDouble Quan_stock) {
+		setAttrVal("Quan_stock", Quan_stock);
+	}
+	public FDouble getQuan_bk() {
+		return ((FDouble) getAttrVal("Quan_bk"));
+	}	
+	public void setQuan_bk(FDouble Quan_bk) {
+		setAttrVal("Quan_bk", Quan_bk);
+	}
+	public FDouble getReq_num() {
+		return ((FDouble) getAttrVal("Req_num"));
+	}	
+	public void setReq_num(FDouble Req_num) {
+		setAttrVal("Req_num", Req_num);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_rsvitm";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "mm_bl_reserve_itm";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(StockBlReserveItemDODesc.class);
+	}
+	
+}

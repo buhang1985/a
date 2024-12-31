@@ -1,0 +1,42 @@
+package iih.ei.std.d.v1.en.patopapt.d;
+
+import xap.mw.core.data.*;
+import xap.mw.coreitf.d.*;
+import java.math.BigDecimal;
+
+/**
+ * 患者预约记录出参 DTO数据 
+ * 
+ */
+public class PatOpAptListResultDTO extends BaseDTO {
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 预约记录
+	 * @return String
+	 */
+	public FArrayList getPatopapt() {
+		return ((FArrayList) getAttrVal("Patopapt"));
+	}	
+	/**
+	 * 预约记录
+	 * @param Patopapt
+	 */
+	public void setPatopapt(FArrayList Patopapt) {
+		setAttrVal("Patopapt", Patopapt);
+	}
+	/**
+	 * 分页信息
+	 * @return String
+	 */
+	public FArrayList getPageinfo() {
+		return ((FArrayList) getAttrVal("Pageinfo"));
+	}	
+	/**
+	 * 分页信息
+	 * @param Pageinfo
+	 */
+	public void setPageinfo(FArrayList Pageinfo) {
+		setAttrVal("Pageinfo", Pageinfo);
+	}
+}

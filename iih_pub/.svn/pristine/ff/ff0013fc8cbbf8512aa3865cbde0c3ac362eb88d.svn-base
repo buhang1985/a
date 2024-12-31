@@ -1,0 +1,11 @@
+package iih.en.ip.i;
+
+/**
+ * 住院查询服务2
+ * 
+ * @author liubin
+ *
+ */
+public interface IEnIpQryService2 {
+	
+}

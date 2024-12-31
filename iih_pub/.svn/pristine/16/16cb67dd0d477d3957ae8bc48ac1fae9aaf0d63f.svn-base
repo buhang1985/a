@@ -1,0 +1,184 @@
+package iih.en.pv.deptrans.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.en.pv.deptrans.d.desc.EnDepTransDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 就诊转科 DO数据 
+ * 
+ */
+public class EnDepTransDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_DEP_TRANS= "Id_dep_trans";
+	public static final String ID_ENT= "Id_ent";
+	public static final String ID_DEP_TO= "Id_dep_to";
+	public static final String ID_DEP_NUR_TO= "Id_dep_nur_to";
+	public static final String ID_BED_TO= "Id_bed_to";
+	public static final String ID_DEP_FROM= "Id_dep_from";
+	public static final String ID_DEP_NUR_FROM= "Id_dep_nur_from";
+	public static final String ID_BED_FROM= "Id_bed_from";
+	public static final String EU_TRANS= "Eu_trans";
+	public static final String ID_OR= "Id_or";
+	public static final String DT_APPLY= "Dt_apply";
+	public static final String DT_ACPT= "Dt_acpt";
+	public static final String ID_EMP_APPL= "Id_emp_appl";
+	public static final String ID_EMP_ACPT= "Id_emp_acpt";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_dep_trans() {
+		return ((String) getAttrVal("Id_dep_trans"));
+	}	
+	public void setId_dep_trans(String Id_dep_trans) {
+		setAttrVal("Id_dep_trans", Id_dep_trans);
+	}
+	public String getId_ent() {
+		return ((String) getAttrVal("Id_ent"));
+	}	
+	public void setId_ent(String Id_ent) {
+		setAttrVal("Id_ent", Id_ent);
+	}
+	public String getId_dep_to() {
+		return ((String) getAttrVal("Id_dep_to"));
+	}	
+	public void setId_dep_to(String Id_dep_to) {
+		setAttrVal("Id_dep_to", Id_dep_to);
+	}
+	public String getId_dep_nur_to() {
+		return ((String) getAttrVal("Id_dep_nur_to"));
+	}	
+	public void setId_dep_nur_to(String Id_dep_nur_to) {
+		setAttrVal("Id_dep_nur_to", Id_dep_nur_to);
+	}
+	public String getId_bed_to() {
+		return ((String) getAttrVal("Id_bed_to"));
+	}	
+	public void setId_bed_to(String Id_bed_to) {
+		setAttrVal("Id_bed_to", Id_bed_to);
+	}
+	public String getId_dep_from() {
+		return ((String) getAttrVal("Id_dep_from"));
+	}	
+	public void setId_dep_from(String Id_dep_from) {
+		setAttrVal("Id_dep_from", Id_dep_from);
+	}
+	public String getId_dep_nur_from() {
+		return ((String) getAttrVal("Id_dep_nur_from"));
+	}	
+	public void setId_dep_nur_from(String Id_dep_nur_from) {
+		setAttrVal("Id_dep_nur_from", Id_dep_nur_from);
+	}
+	public String getId_bed_from() {
+		return ((String) getAttrVal("Id_bed_from"));
+	}	
+	public void setId_bed_from(String Id_bed_from) {
+		setAttrVal("Id_bed_from", Id_bed_from);
+	}
+	public Integer getEu_trans() {
+		return ((Integer) getAttrVal("Eu_trans"));
+	}	
+	public void setEu_trans(Integer Eu_trans) {
+		setAttrVal("Eu_trans", Eu_trans);
+	}
+	public String getId_or() {
+		return ((String) getAttrVal("Id_or"));
+	}	
+	public void setId_or(String Id_or) {
+		setAttrVal("Id_or", Id_or);
+	}
+	public FDateTime getDt_apply() {
+		return ((FDateTime) getAttrVal("Dt_apply"));
+	}	
+	public void setDt_apply(FDateTime Dt_apply) {
+		setAttrVal("Dt_apply", Dt_apply);
+	}
+	public FDateTime getDt_acpt() {
+		return ((FDateTime) getAttrVal("Dt_acpt"));
+	}	
+	public void setDt_acpt(FDateTime Dt_acpt) {
+		setAttrVal("Dt_acpt", Dt_acpt);
+	}
+	public String getId_emp_appl() {
+		return ((String) getAttrVal("Id_emp_appl"));
+	}	
+	public void setId_emp_appl(String Id_emp_appl) {
+		setAttrVal("Id_emp_appl", Id_emp_appl);
+	}
+	public String getId_emp_acpt() {
+		return ((String) getAttrVal("Id_emp_acpt"));
+	}	
+	public void setId_emp_acpt(String Id_emp_acpt) {
+		setAttrVal("Id_emp_acpt", Id_emp_acpt);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_dep_trans";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "en_dep_trans";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(EnDepTransDODesc.class);
+	}
+	
+}

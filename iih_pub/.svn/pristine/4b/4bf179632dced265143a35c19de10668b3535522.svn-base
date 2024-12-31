@@ -1,0 +1,93 @@
+package iih.sc.sch.scsch.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.sc.sch.scsch.d.desc.ScSchEmpDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 计划排班_排班_人员 DO数据 
+ * 
+ */
+public class ScSchEmpDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_SCHEMP= "Id_schemp";
+	public static final String ID_SCH= "Id_sch";
+	public static final String ID_EMP= "Id_emp";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_ORG= "Id_org";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_schemp() {
+		return ((String) getAttrVal("Id_schemp"));
+	}	
+	public void setId_schemp(String Id_schemp) {
+		setAttrVal("Id_schemp", Id_schemp);
+	}
+	public String getId_sch() {
+		return ((String) getAttrVal("Id_sch"));
+	}	
+	public void setId_sch(String Id_sch) {
+		setAttrVal("Id_sch", Id_sch);
+	}
+	public String getId_emp() {
+		return ((String) getAttrVal("Id_emp"));
+	}	
+	public void setId_emp(String Id_emp) {
+		setAttrVal("Id_emp", Id_emp);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_schemp";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "sc_sch_emp";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(ScSchEmpDODesc.class);
+	}
+	
+}

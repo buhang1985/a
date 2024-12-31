@@ -1,0 +1,527 @@
+package iih.sc.sch.scsch.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.sc.sch.scsch.d.desc.ScSchDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 计划排班_排班 DO数据 
+ * 
+ */
+public class ScSchDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_SCH= "Id_sch";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_ORG= "Id_org";
+	public static final String ID_SCPL= "Id_scpl";
+	public static final String ID_SCTP= "Id_sctp";
+	public static final String SD_SCTP= "Sd_sctp";
+	public static final String ID_SCCA= "Id_scca";
+	public static final String D_SCH= "D_sch";
+	public static final String ID_DAYSLOT= "Id_dayslot";
+	public static final String SCPOLCN= "Scpolcn";
+	public static final String ID_TICKMD= "Id_tickmd";
+	public static final String SD_TICKMD= "Sd_tickmd";
+	public static final String ID_APPTRU= "Id_apptru";
+	public static final String QUAN_TOTAL= "Quan_total";
+	public static final String QUAN_TOTAL_APPT= "Quan_total_appt";
+	public static final String QUAN_TOTAL_USED= "Quan_total_used";
+	public static final String QUAN0_APPT= "Quan0_appt";
+	public static final String QUAN0_USED= "Quan0_used";
+	public static final String QUAN1_APPT= "Quan1_appt";
+	public static final String QUAN1_USED= "Quan1_used";
+	public static final String QUAN2_APPT= "Quan2_appt";
+	public static final String QUAN2_USED= "Quan2_used";
+	public static final String QUAN3_APPT= "Quan3_appt";
+	public static final String QUAN3_USED= "Quan3_used";
+	public static final String QUAN4_APPT= "Quan4_appt";
+	public static final String QUAN4_USED= "Quan4_used";
+	public static final String QUAN5_APPT= "Quan5_appt";
+	public static final String QUAN5_USED= "Quan5_used";
+	public static final String QUAN6_APPT= "Quan6_appt";
+	public static final String QUAN6_USED= "Quan6_used";
+	public static final String QUAN7_APPT= "Quan7_appt";
+	public static final String QUAN7_USED= "Quan7_used";
+	public static final String QUAN8_APPT= "Quan8_appt";
+	public static final String QUAN8_USED= "Quan8_used";
+	public static final String QUAN9_APPT= "Quan9_appt";
+	public static final String QUAN9_USED= "Quan9_used";
+	public static final String ADDQUECN= "Addquecn";
+	public static final String T_B_ACPT= "T_b_acpt";
+	public static final String T_E_ACPT= "T_e_acpt";
+	public static final String FG_STD_ACPT= "Fg_std_acpt";
+	public static final String SRVSLOT= "Srvslot";
+	public static final String SUGEST_EXMINT= "Sugest_exmint";
+	public static final String SUGEST_NUM_TICK= "Sugest_num_tick";
+	public static final String SUGEST_NUM_MINT= "Sugest_num_mint";
+	public static final String T_E_REG= "T_e_reg";
+	public static final String FG_ACTIVE= "Fg_active";
+	public static final String DEF1= "Def1";
+	public static final String DEF2= "Def2";
+	public static final String DEF3= "Def3";
+	public static final String DEF4= "Def4";
+	public static final String DEF5= "Def5";
+	public static final String DEF6= "Def6";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String ID_QUESITE= "Id_quesite";
+	public static final String ID_EMP_NURSE= "Id_emp_nurse";
+	public static final String ID_DEPPARAM= "Id_depparam";
+	public static final String MAX_NUM_ADD= "Max_num_add";
+	public static final String ID_SCSCH_CANCTO= "Id_scsch_cancto";
+	public static final String FG_AUTO_RELEASE= "Fg_auto_release";
+	public static final String FG_SETENTP= "Fg_setentp";
+	public static final String FG_AUTO_APT= "Fg_auto_apt";
+	public static final String NAME_DAYSLOT= "Name_dayslot";
+	public static final String SD_SCHRULE= "Sd_schrule";
+	public static final String VER= "Ver";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_sch() {
+		return ((String) getAttrVal("Id_sch"));
+	}	
+	public void setId_sch(String Id_sch) {
+		setAttrVal("Id_sch", Id_sch);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getId_scpl() {
+		return ((String) getAttrVal("Id_scpl"));
+	}	
+	public void setId_scpl(String Id_scpl) {
+		setAttrVal("Id_scpl", Id_scpl);
+	}
+	public String getId_sctp() {
+		return ((String) getAttrVal("Id_sctp"));
+	}	
+	public void setId_sctp(String Id_sctp) {
+		setAttrVal("Id_sctp", Id_sctp);
+	}
+	public String getSd_sctp() {
+		return ((String) getAttrVal("Sd_sctp"));
+	}	
+	public void setSd_sctp(String Sd_sctp) {
+		setAttrVal("Sd_sctp", Sd_sctp);
+	}
+	public String getId_scca() {
+		return ((String) getAttrVal("Id_scca"));
+	}	
+	public void setId_scca(String Id_scca) {
+		setAttrVal("Id_scca", Id_scca);
+	}
+	public FDate getD_sch() {
+		return ((FDate) getAttrVal("D_sch"));
+	}	
+	public void setD_sch(FDate D_sch) {
+		setAttrVal("D_sch", D_sch);
+	}
+	public String getId_dayslot() {
+		return ((String) getAttrVal("Id_dayslot"));
+	}	
+	public void setId_dayslot(String Id_dayslot) {
+		setAttrVal("Id_dayslot", Id_dayslot);
+	}
+	public Integer getScpolcn() {
+		return ((Integer) getAttrVal("Scpolcn"));
+	}	
+	public void setScpolcn(Integer Scpolcn) {
+		setAttrVal("Scpolcn", Scpolcn);
+	}
+	public String getId_tickmd() {
+		return ((String) getAttrVal("Id_tickmd"));
+	}	
+	public void setId_tickmd(String Id_tickmd) {
+		setAttrVal("Id_tickmd", Id_tickmd);
+	}
+	public String getSd_tickmd() {
+		return ((String) getAttrVal("Sd_tickmd"));
+	}	
+	public void setSd_tickmd(String Sd_tickmd) {
+		setAttrVal("Sd_tickmd", Sd_tickmd);
+	}
+	public String getId_apptru() {
+		return ((String) getAttrVal("Id_apptru"));
+	}	
+	public void setId_apptru(String Id_apptru) {
+		setAttrVal("Id_apptru", Id_apptru);
+	}
+	public Integer getQuan_total() {
+		return ((Integer) getAttrVal("Quan_total"));
+	}	
+	public void setQuan_total(Integer Quan_total) {
+		setAttrVal("Quan_total", Quan_total);
+	}
+	public Integer getQuan_total_appt() {
+		return ((Integer) getAttrVal("Quan_total_appt"));
+	}	
+	public void setQuan_total_appt(Integer Quan_total_appt) {
+		setAttrVal("Quan_total_appt", Quan_total_appt);
+	}
+	public Integer getQuan_total_used() {
+		return ((Integer) getAttrVal("Quan_total_used"));
+	}	
+	public void setQuan_total_used(Integer Quan_total_used) {
+		setAttrVal("Quan_total_used", Quan_total_used);
+	}
+	public Integer getQuan0_appt() {
+		return ((Integer) getAttrVal("Quan0_appt"));
+	}	
+	public void setQuan0_appt(Integer Quan0_appt) {
+		setAttrVal("Quan0_appt", Quan0_appt);
+	}
+	public Integer getQuan0_used() {
+		return ((Integer) getAttrVal("Quan0_used"));
+	}	
+	public void setQuan0_used(Integer Quan0_used) {
+		setAttrVal("Quan0_used", Quan0_used);
+	}
+	public Integer getQuan1_appt() {
+		return ((Integer) getAttrVal("Quan1_appt"));
+	}	
+	public void setQuan1_appt(Integer Quan1_appt) {
+		setAttrVal("Quan1_appt", Quan1_appt);
+	}
+	public Integer getQuan1_used() {
+		return ((Integer) getAttrVal("Quan1_used"));
+	}	
+	public void setQuan1_used(Integer Quan1_used) {
+		setAttrVal("Quan1_used", Quan1_used);
+	}
+	public Integer getQuan2_appt() {
+		return ((Integer) getAttrVal("Quan2_appt"));
+	}	
+	public void setQuan2_appt(Integer Quan2_appt) {
+		setAttrVal("Quan2_appt", Quan2_appt);
+	}
+	public Integer getQuan2_used() {
+		return ((Integer) getAttrVal("Quan2_used"));
+	}	
+	public void setQuan2_used(Integer Quan2_used) {
+		setAttrVal("Quan2_used", Quan2_used);
+	}
+	public Integer getQuan3_appt() {
+		return ((Integer) getAttrVal("Quan3_appt"));
+	}	
+	public void setQuan3_appt(Integer Quan3_appt) {
+		setAttrVal("Quan3_appt", Quan3_appt);
+	}
+	public Integer getQuan3_used() {
+		return ((Integer) getAttrVal("Quan3_used"));
+	}	
+	public void setQuan3_used(Integer Quan3_used) {
+		setAttrVal("Quan3_used", Quan3_used);
+	}
+	public Integer getQuan4_appt() {
+		return ((Integer) getAttrVal("Quan4_appt"));
+	}	
+	public void setQuan4_appt(Integer Quan4_appt) {
+		setAttrVal("Quan4_appt", Quan4_appt);
+	}
+	public Integer getQuan4_used() {
+		return ((Integer) getAttrVal("Quan4_used"));
+	}	
+	public void setQuan4_used(Integer Quan4_used) {
+		setAttrVal("Quan4_used", Quan4_used);
+	}
+	public Integer getQuan5_appt() {
+		return ((Integer) getAttrVal("Quan5_appt"));
+	}	
+	public void setQuan5_appt(Integer Quan5_appt) {
+		setAttrVal("Quan5_appt", Quan5_appt);
+	}
+	public Integer getQuan5_used() {
+		return ((Integer) getAttrVal("Quan5_used"));
+	}	
+	public void setQuan5_used(Integer Quan5_used) {
+		setAttrVal("Quan5_used", Quan5_used);
+	}
+	public Integer getQuan6_appt() {
+		return ((Integer) getAttrVal("Quan6_appt"));
+	}	
+	public void setQuan6_appt(Integer Quan6_appt) {
+		setAttrVal("Quan6_appt", Quan6_appt);
+	}
+	public Integer getQuan6_used() {
+		return ((Integer) getAttrVal("Quan6_used"));
+	}	
+	public void setQuan6_used(Integer Quan6_used) {
+		setAttrVal("Quan6_used", Quan6_used);
+	}
+	public Integer getQuan7_appt() {
+		return ((Integer) getAttrVal("Quan7_appt"));
+	}	
+	public void setQuan7_appt(Integer Quan7_appt) {
+		setAttrVal("Quan7_appt", Quan7_appt);
+	}
+	public Integer getQuan7_used() {
+		return ((Integer) getAttrVal("Quan7_used"));
+	}	
+	public void setQuan7_used(Integer Quan7_used) {
+		setAttrVal("Quan7_used", Quan7_used);
+	}
+	public Integer getQuan8_appt() {
+		return ((Integer) getAttrVal("Quan8_appt"));
+	}	
+	public void setQuan8_appt(Integer Quan8_appt) {
+		setAttrVal("Quan8_appt", Quan8_appt);
+	}
+	public Integer getQuan8_used() {
+		return ((Integer) getAttrVal("Quan8_used"));
+	}	
+	public void setQuan8_used(Integer Quan8_used) {
+		setAttrVal("Quan8_used", Quan8_used);
+	}
+	public Integer getQuan9_appt() {
+		return ((Integer) getAttrVal("Quan9_appt"));
+	}	
+	public void setQuan9_appt(Integer Quan9_appt) {
+		setAttrVal("Quan9_appt", Quan9_appt);
+	}
+	public Integer getQuan9_used() {
+		return ((Integer) getAttrVal("Quan9_used"));
+	}	
+	public void setQuan9_used(Integer Quan9_used) {
+		setAttrVal("Quan9_used", Quan9_used);
+	}
+	public Integer getAddquecn() {
+		return ((Integer) getAttrVal("Addquecn"));
+	}	
+	public void setAddquecn(Integer Addquecn) {
+		setAttrVal("Addquecn", Addquecn);
+	}
+	public FTime getT_b_acpt() {
+		return ((FTime) getAttrVal("T_b_acpt"));
+	}	
+	public void setT_b_acpt(FTime T_b_acpt) {
+		setAttrVal("T_b_acpt", T_b_acpt);
+	}
+	public FTime getT_e_acpt() {
+		return ((FTime) getAttrVal("T_e_acpt"));
+	}	
+	public void setT_e_acpt(FTime T_e_acpt) {
+		setAttrVal("T_e_acpt", T_e_acpt);
+	}
+	public FBoolean getFg_std_acpt() {
+		return ((FBoolean) getAttrVal("Fg_std_acpt"));
+	}	
+	public void setFg_std_acpt(FBoolean Fg_std_acpt) {
+		setAttrVal("Fg_std_acpt", Fg_std_acpt);
+	}
+	public Integer getSrvslot() {
+		return ((Integer) getAttrVal("Srvslot"));
+	}	
+	public void setSrvslot(Integer Srvslot) {
+		setAttrVal("Srvslot", Srvslot);
+	}
+	public Integer getSugest_exmint() {
+		return ((Integer) getAttrVal("Sugest_exmint"));
+	}	
+	public void setSugest_exmint(Integer Sugest_exmint) {
+		setAttrVal("Sugest_exmint", Sugest_exmint);
+	}
+	public Integer getSugest_num_tick() {
+		return ((Integer) getAttrVal("Sugest_num_tick"));
+	}	
+	public void setSugest_num_tick(Integer Sugest_num_tick) {
+		setAttrVal("Sugest_num_tick", Sugest_num_tick);
+	}
+	public Integer getSugest_num_mint() {
+		return ((Integer) getAttrVal("Sugest_num_mint"));
+	}	
+	public void setSugest_num_mint(Integer Sugest_num_mint) {
+		setAttrVal("Sugest_num_mint", Sugest_num_mint);
+	}
+	public FTime getT_e_reg() {
+		return ((FTime) getAttrVal("T_e_reg"));
+	}	
+	public void setT_e_reg(FTime T_e_reg) {
+		setAttrVal("T_e_reg", T_e_reg);
+	}
+	public FBoolean getFg_active() {
+		return ((FBoolean) getAttrVal("Fg_active"));
+	}	
+	public void setFg_active(FBoolean Fg_active) {
+		setAttrVal("Fg_active", Fg_active);
+	}
+	public String getDef1() {
+		return ((String) getAttrVal("Def1"));
+	}	
+	public void setDef1(String Def1) {
+		setAttrVal("Def1", Def1);
+	}
+	public String getDef2() {
+		return ((String) getAttrVal("Def2"));
+	}	
+	public void setDef2(String Def2) {
+		setAttrVal("Def2", Def2);
+	}
+	public String getDef3() {
+		return ((String) getAttrVal("Def3"));
+	}	
+	public void setDef3(String Def3) {
+		setAttrVal("Def3", Def3);
+	}
+	public String getDef4() {
+		return ((String) getAttrVal("Def4"));
+	}	
+	public void setDef4(String Def4) {
+		setAttrVal("Def4", Def4);
+	}
+	public String getDef5() {
+		return ((String) getAttrVal("Def5"));
+	}	
+	public void setDef5(String Def5) {
+		setAttrVal("Def5", Def5);
+	}
+	public String getDef6() {
+		return ((String) getAttrVal("Def6"));
+	}	
+	public void setDef6(String Def6) {
+		setAttrVal("Def6", Def6);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public String getId_quesite() {
+		return ((String) getAttrVal("Id_quesite"));
+	}	
+	public void setId_quesite(String Id_quesite) {
+		setAttrVal("Id_quesite", Id_quesite);
+	}
+	public String getId_emp_nurse() {
+		return ((String) getAttrVal("Id_emp_nurse"));
+	}	
+	public void setId_emp_nurse(String Id_emp_nurse) {
+		setAttrVal("Id_emp_nurse", Id_emp_nurse);
+	}
+	public String getId_depparam() {
+		return ((String) getAttrVal("Id_depparam"));
+	}	
+	public void setId_depparam(String Id_depparam) {
+		setAttrVal("Id_depparam", Id_depparam);
+	}
+	public Integer getMax_num_add() {
+		return ((Integer) getAttrVal("Max_num_add"));
+	}	
+	public void setMax_num_add(Integer Max_num_add) {
+		setAttrVal("Max_num_add", Max_num_add);
+	}
+	public String getId_scsch_cancto() {
+		return ((String) getAttrVal("Id_scsch_cancto"));
+	}	
+	public void setId_scsch_cancto(String Id_scsch_cancto) {
+		setAttrVal("Id_scsch_cancto", Id_scsch_cancto);
+	}
+	public FBoolean getFg_auto_release() {
+		return ((FBoolean) getAttrVal("Fg_auto_release"));
+	}	
+	public void setFg_auto_release(FBoolean Fg_auto_release) {
+		setAttrVal("Fg_auto_release", Fg_auto_release);
+	}
+	public FBoolean getFg_setentp() {
+		return ((FBoolean) getAttrVal("Fg_setentp"));
+	}	
+	public void setFg_setentp(FBoolean Fg_setentp) {
+		setAttrVal("Fg_setentp", Fg_setentp);
+	}
+	public FBoolean getFg_auto_apt() {
+		return ((FBoolean) getAttrVal("Fg_auto_apt"));
+	}	
+	public void setFg_auto_apt(FBoolean Fg_auto_apt) {
+		setAttrVal("Fg_auto_apt", Fg_auto_apt);
+	}
+	public String getName_dayslot() {
+		return ((String) getAttrVal("Name_dayslot"));
+	}	
+	public void setName_dayslot(String Name_dayslot) {
+		setAttrVal("Name_dayslot", Name_dayslot);
+	}
+	public String getSd_schrule() {
+		return ((String) getAttrVal("Sd_schrule"));
+	}	
+	public void setSd_schrule(String Sd_schrule) {
+		setAttrVal("Sd_schrule", Sd_schrule);
+	}
+	public Integer getVer() {
+		return ((Integer) getAttrVal("Ver"));
+	}	
+	public void setVer(Integer Ver) {
+		setAttrVal("Ver", Ver);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_sch";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "sc_sch";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(ScSchDODesc.class);
+	}
+	
+}

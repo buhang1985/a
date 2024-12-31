@@ -1,0 +1,14 @@
+package iih.ci.mi.ord.i;
+
+import iih.ci.mi.ord.i.meta.OrdMiRstDTO;
+import xap.mw.core.data.BizException;
+
+/**
+ * 医保数据更新接口
+ * @author HUMS
+ *
+ */
+public interface ICiMiOrdCudService {
+
+	public OrdMiRstDTO[] updateOrdMiInfo(OrdMiRstDTO[] OrdMiRsts) throws BizException;
+}

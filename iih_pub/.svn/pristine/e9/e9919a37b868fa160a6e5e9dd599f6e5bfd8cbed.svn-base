@@ -1,0 +1,14 @@
+package iih.pe.por.i;
+
+import iih.pe.por.dto.pecorpchargedto.d.PeCorpChargeDTO;
+import xap.mw.core.data.BizException;
+
+public interface IPeCorpChargeQueryService {
+    /// <summary>
+    /// 查询体检团体费用
+    /// </summary>
+    /// <param name="id_pecorpappt"></param>
+    /// <returns></returns>
+	public PeCorpChargeDTO[] findPeCorpCharge(String id_pecorpappt, String id_pecorpcharge, String fg_chargesum) throws BizException;
+
+}

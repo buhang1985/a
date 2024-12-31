@@ -1,0 +1,47 @@
+package iih.bl.params.check;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import xap.mw.core.utils.StringUtil;
+import xap.mw.coreitf.d.FBoolean;
+import xap.sys.devcfg.paramset.d.ParamSetDO;
+import xap.sys.devcfg.paramset.i.ICheckPara;
+import xap.sys.devcfg.paramset.util.CheckParaDO;
+
+/**
+ * 
+ * 参数BLPAY008校验器
+ * @author ly 2019/10/28
+ *
+ */
+public class BLPAY008Checker implements ICheckPara {
+
+	private String[] range =  new String[]{"0","1","2","3","4","5","6"};
+	
+	@Override
+	public CheckParaDO paraBeforeSavingCheck(ParamSetDO arg0) {
+		
+		CheckParaDO rlt = new CheckParaDO();
+		
+		String pmValue = arg0.getValue();
+		if(StringUtil.isEmpty(pmValue)){
+			rlt.setIsLegal(FBoolean.FALSE);
+			rlt.setErrMsg("参数值不能为空");
+			return rlt;
+		}
+		
+		List<String> rangeList = new ArrayList<String>();
+		rangeList.addAll(Arrays.asList(this.range));
+		
+		if(!rangeList.contains(pmValue)){
+			rlt.setIsLegal(FBoolean.FALSE);
+			rlt.setErrMsg("参数值范围不正确，请参考参数说明");
+			return rlt;
+		}
+		
+		rlt.setIsLegal(FBoolean.TRUE);
+		return rlt;
+	}
+}

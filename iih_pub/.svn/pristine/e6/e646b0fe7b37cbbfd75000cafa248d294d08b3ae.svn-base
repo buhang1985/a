@@ -1,0 +1,240 @@
+package iih.pe.pitm.perstsuggdef.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.pe.pitm.perstsuggdef.d.desc.PeRstSuggDefDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 体检建议定义 DO数据 
+ * 
+ */
+public class PeRstSuggDefDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_PERSTSUGGDEF= "Id_perstsuggdef";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_ORG= "Id_org";
+	public static final String CODE= "Code";
+	public static final String NAME= "Name";
+	public static final String ENAME= "Ename";
+	public static final String SUGGKEYWORD= "Suggkeyword";
+	public static final String SORTNO= "Sortno";
+	public static final String LINKTP= "Linktp";
+	public static final String FRQ= "Frq";
+	public static final String FG_RECHECK= "Fg_recheck";
+	public static final String REMIND_DAYS= "Remind_days";
+	public static final String CONT= "Cont";
+	public static final String ECONT= "Econt";
+	public static final String NOTE= "Note";
+	public static final String FG_ACTIVE= "Fg_active";
+	public static final String ID_PERSTSUGGTP= "Id_perstsuggtp";
+	public static final String WBCODE= "Wbcode";
+	public static final String PYCODE= "Pycode";
+	public static final String MNECODE= "Mnecode";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String CODE_SUGGCA= "Code_suggca";
+	public static final String NAME_SUGGCA= "Name_suggca";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_perstsuggdef() {
+		return ((String) getAttrVal("Id_perstsuggdef"));
+	}	
+	public void setId_perstsuggdef(String Id_perstsuggdef) {
+		setAttrVal("Id_perstsuggdef", Id_perstsuggdef);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getCode() {
+		return ((String) getAttrVal("Code"));
+	}	
+	public void setCode(String Code) {
+		setAttrVal("Code", Code);
+	}
+	public String getName() {
+		return ((String) getAttrVal("Name"));
+	}	
+	public void setName(String Name) {
+		setAttrVal("Name", Name);
+	}
+	public String getEname() {
+		return ((String) getAttrVal("Ename"));
+	}	
+	public void setEname(String Ename) {
+		setAttrVal("Ename", Ename);
+	}
+	public String getSuggkeyword() {
+		return ((String) getAttrVal("Suggkeyword"));
+	}	
+	public void setSuggkeyword(String Suggkeyword) {
+		setAttrVal("Suggkeyword", Suggkeyword);
+	}
+	public Integer getSortno() {
+		return ((Integer) getAttrVal("Sortno"));
+	}	
+	public void setSortno(Integer Sortno) {
+		setAttrVal("Sortno", Sortno);
+	}
+	public Integer getLinktp() {
+		return ((Integer) getAttrVal("Linktp"));
+	}	
+	public void setLinktp(Integer Linktp) {
+		setAttrVal("Linktp", Linktp);
+	}
+	public Integer getFrq() {
+		return ((Integer) getAttrVal("Frq"));
+	}	
+	public void setFrq(Integer Frq) {
+		setAttrVal("Frq", Frq);
+	}
+	public FBoolean getFg_recheck() {
+		return ((FBoolean) getAttrVal("Fg_recheck"));
+	}	
+	public void setFg_recheck(FBoolean Fg_recheck) {
+		setAttrVal("Fg_recheck", Fg_recheck);
+	}
+	public Integer getRemind_days() {
+		return ((Integer) getAttrVal("Remind_days"));
+	}	
+	public void setRemind_days(Integer Remind_days) {
+		setAttrVal("Remind_days", Remind_days);
+	}
+	public String getCont() {
+		return ((String) getAttrVal("Cont"));
+	}	
+	public void setCont(String Cont) {
+		setAttrVal("Cont", Cont);
+	}
+	public String getEcont() {
+		return ((String) getAttrVal("Econt"));
+	}	
+	public void setEcont(String Econt) {
+		setAttrVal("Econt", Econt);
+	}
+	public String getNote() {
+		return ((String) getAttrVal("Note"));
+	}	
+	public void setNote(String Note) {
+		setAttrVal("Note", Note);
+	}
+	public FBoolean getFg_active() {
+		return ((FBoolean) getAttrVal("Fg_active"));
+	}	
+	public void setFg_active(FBoolean Fg_active) {
+		setAttrVal("Fg_active", Fg_active);
+	}
+	public String getId_perstsuggtp() {
+		return ((String) getAttrVal("Id_perstsuggtp"));
+	}	
+	public void setId_perstsuggtp(String Id_perstsuggtp) {
+		setAttrVal("Id_perstsuggtp", Id_perstsuggtp);
+	}
+	public String getWbcode() {
+		return ((String) getAttrVal("Wbcode"));
+	}	
+	public void setWbcode(String Wbcode) {
+		setAttrVal("Wbcode", Wbcode);
+	}
+	public String getPycode() {
+		return ((String) getAttrVal("Pycode"));
+	}	
+	public void setPycode(String Pycode) {
+		setAttrVal("Pycode", Pycode);
+	}
+	public String getMnecode() {
+		return ((String) getAttrVal("Mnecode"));
+	}	
+	public void setMnecode(String Mnecode) {
+		setAttrVal("Mnecode", Mnecode);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public String getCode_suggca() {
+		return ((String) getAttrVal("Code_suggca"));
+	}	
+	public void setCode_suggca(String Code_suggca) {
+		setAttrVal("Code_suggca", Code_suggca);
+	}
+	public String getName_suggca() {
+		return ((String) getAttrVal("Name_suggca"));
+	}	
+	public void setName_suggca(String Name_suggca) {
+		setAttrVal("Name_suggca", Name_suggca);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_perstsuggdef";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "pe_itm_perstsuggdef";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(PeRstSuggDefDODesc.class);
+	}
+	
+}

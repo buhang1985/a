@@ -1,0 +1,10 @@
+package iih.bl.inc.i;
+
+/**
+ * 电子票据查询服务
+ * @author ly 2019/12/04
+ *
+ */
+public interface IBlEcIncQryService {
+
+}

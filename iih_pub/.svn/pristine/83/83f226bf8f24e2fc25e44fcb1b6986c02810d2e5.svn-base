@@ -1,0 +1,149 @@
+package iih.pe.pwf.pewfovaladv.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.pe.pwf.pewfovaladv.d.desc.PeWfOvalAdvDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 体检总检指导建议 DO数据 
+ * 
+ */
+public class PeWfOvalAdvDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_PEWFOVALADV= "Id_pewfovaladv";
+	public static final String ID_PEPSNAPPT= "Id_pepsnappt";
+	public static final String ID_PERSTSUGGDEF= "Id_perstsuggdef";
+	public static final String SORTNO= "Sortno";
+	public static final String NAME_ADVICE= "Name_advice";
+	public static final String ADV= "Adv";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String CODE_ADV= "Code_adv";
+	public static final String NAME_ADV= "Name_adv";
+	public static final String CONT_ADV= "Cont_adv";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_pewfovaladv() {
+		return ((String) getAttrVal("Id_pewfovaladv"));
+	}	
+	public void setId_pewfovaladv(String Id_pewfovaladv) {
+		setAttrVal("Id_pewfovaladv", Id_pewfovaladv);
+	}
+	public String getId_pepsnappt() {
+		return ((String) getAttrVal("Id_pepsnappt"));
+	}	
+	public void setId_pepsnappt(String Id_pepsnappt) {
+		setAttrVal("Id_pepsnappt", Id_pepsnappt);
+	}
+	public String getId_perstsuggdef() {
+		return ((String) getAttrVal("Id_perstsuggdef"));
+	}	
+	public void setId_perstsuggdef(String Id_perstsuggdef) {
+		setAttrVal("Id_perstsuggdef", Id_perstsuggdef);
+	}
+	public Integer getSortno() {
+		return ((Integer) getAttrVal("Sortno"));
+	}	
+	public void setSortno(Integer Sortno) {
+		setAttrVal("Sortno", Sortno);
+	}
+	public String getName_advice() {
+		return ((String) getAttrVal("Name_advice"));
+	}	
+	public void setName_advice(String Name_advice) {
+		setAttrVal("Name_advice", Name_advice);
+	}
+	public String getAdv() {
+		return ((String) getAttrVal("Adv"));
+	}	
+	public void setAdv(String Adv) {
+		setAttrVal("Adv", Adv);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public String getCode_adv() {
+		return ((String) getAttrVal("Code_adv"));
+	}	
+	public void setCode_adv(String Code_adv) {
+		setAttrVal("Code_adv", Code_adv);
+	}
+	public String getName_adv() {
+		return ((String) getAttrVal("Name_adv"));
+	}	
+	public void setName_adv(String Name_adv) {
+		setAttrVal("Name_adv", Name_adv);
+	}
+	public String getCont_adv() {
+		return ((String) getAttrVal("Cont_adv"));
+	}	
+	public void setCont_adv(String Cont_adv) {
+		setAttrVal("Cont_adv", Cont_adv);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_pewfovaladv";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "pe_wf_pewfovaladv";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(PeWfOvalAdvDODesc.class);
+	}
+	
+}

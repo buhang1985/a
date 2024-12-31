@@ -1,0 +1,11 @@
+package iih.pe.pwf.i;
+
+import iih.pe.pwf.dto.pereglistdto.d.PeRegListDTO;
+import iih.pe.pwf.dto.pewfnextrmdto.d.PeWfNextrmDTO;
+import iih.pe.pwf.dto.pewfqcheckeddto.d.PeWfQcheckedDTO;
+import xap.mw.core.data.BizException;
+
+public interface IPewfqcheckedQueryService {
+  
+	public PeWfQcheckedDTO[] findByDTO(String regDate,String newDate, String deptId) throws BizException;
+}

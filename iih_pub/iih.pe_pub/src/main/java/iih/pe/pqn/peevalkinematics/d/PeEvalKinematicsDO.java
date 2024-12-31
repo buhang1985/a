@@ -1,0 +1,250 @@
+package iih.pe.pqn.peevalkinematics.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.pe.pqn.peevalkinematics.d.desc.PeEvalKinematicsDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 健康评估-运动评估定义 DO数据 
+ * 
+ */
+public class PeEvalKinematicsDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	//健康运动评估定义主键标识
+	public static final String ID_PEEVALKINEMATICS= "Id_peevalkinematics";
+	//健康运动评估定义父ID
+	public static final String ID_PEEVALKINEMATICS_PAR= "Id_peevalkinematics_par";
+	//所属集团
+	public static final String ID_GRP= "Id_grp";
+	//所属组织
+	public static final String ID_ORG= "Id_org";
+	//编码
+	public static final String CODE= "Code";
+	//名称
+	public static final String NAME= "Name";
+	//序号
+	public static final String SORTNO= "Sortno";
+	//警示分值
+	public static final String SCORE_THRESHOLD= "Score_threshold";
+	//创建人
+	public static final String CREATEDBY= "Createdby";
+	//创建时间
+	public static final String CREATEDTIME= "Createdtime";
+	//最后修改人
+	public static final String MODIFIEDBY= "Modifiedby";
+	//最后修改时间
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	/**
+	 * 健康运动评估定义主键标识
+	 * @return String
+	 */
+	public String getId_peevalkinematics() {
+		return ((String) getAttrVal("Id_peevalkinematics"));
+	}	
+	/**
+	 * 健康运动评估定义主键标识
+	 * @param Id_peevalkinematics
+	 */
+	public void setId_peevalkinematics(String Id_peevalkinematics) {
+		setAttrVal("Id_peevalkinematics", Id_peevalkinematics);
+	}
+	/**
+	 * 健康运动评估定义父ID
+	 * @return String
+	 */
+	public String getId_peevalkinematics_par() {
+		return ((String) getAttrVal("Id_peevalkinematics_par"));
+	}	
+	/**
+	 * 健康运动评估定义父ID
+	 * @param Id_peevalkinematics_par
+	 */
+	public void setId_peevalkinematics_par(String Id_peevalkinematics_par) {
+		setAttrVal("Id_peevalkinematics_par", Id_peevalkinematics_par);
+	}
+	/**
+	 * 所属集团
+	 * @return String
+	 */
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	/**
+	 * 所属集团
+	 * @param Id_grp
+	 */
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	/**
+	 * 所属组织
+	 * @return String
+	 */
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	/**
+	 * 所属组织
+	 * @param Id_org
+	 */
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	/**
+	 * 编码
+	 * @return String
+	 */
+	public String getCode() {
+		return ((String) getAttrVal("Code"));
+	}	
+	/**
+	 * 编码
+	 * @param Code
+	 */
+	public void setCode(String Code) {
+		setAttrVal("Code", Code);
+	}
+	/**
+	 * 名称
+	 * @return String
+	 */
+	public String getName() {
+		return ((String) getAttrVal("Name"));
+	}	
+	/**
+	 * 名称
+	 * @param Name
+	 */
+	public void setName(String Name) {
+		setAttrVal("Name", Name);
+	}
+	/**
+	 * 序号
+	 * @return Integer
+	 */
+	public Integer getSortno() {
+		return ((Integer) getAttrVal("Sortno"));
+	}	
+	/**
+	 * 序号
+	 * @param Sortno
+	 */
+	public void setSortno(Integer Sortno) {
+		setAttrVal("Sortno", Sortno);
+	}
+	/**
+	 * 警示分值
+	 * @return Integer
+	 */
+	public Integer getScore_threshold() {
+		return ((Integer) getAttrVal("Score_threshold"));
+	}	
+	/**
+	 * 警示分值
+	 * @param Score_threshold
+	 */
+	public void setScore_threshold(Integer Score_threshold) {
+		setAttrVal("Score_threshold", Score_threshold);
+	}
+	/**
+	 * 创建人
+	 * @return String
+	 */
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	/**
+	 * 创建人
+	 * @param Createdby
+	 */
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	/**
+	 * 创建时间
+	 * @return FDateTime
+	 */
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	/**
+	 * 创建时间
+	 * @param Createdtime
+	 */
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	/**
+	 * 最后修改人
+	 * @return String
+	 */
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	/**
+	 * 最后修改人
+	 * @param Modifiedby
+	 */
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	/**
+	 * 最后修改时间
+	 * @return FDateTime
+	 */
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	/**
+	 * 最后修改时间
+	 * @param Modifiedtime
+	 */
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_peevalkinematics";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "pe_qn_peevalkinematics";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(PeEvalKinematicsDODesc.class);
+	}
+	
+}

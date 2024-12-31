@@ -1,0 +1,28 @@
+package iih.ei.std.d.v1.mp.purchasedrug.d;
+
+import xap.mw.core.data.*;
+import xap.mw.coreitf.d.*;
+import java.math.BigDecimal;
+
+/**
+ * 采购药品入参 DTO数据 
+ * 
+ */
+public class PurchaseDrugParamDTO extends BaseDTO {
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 采购药品信息
+	 * @return String
+	 */
+	public FArrayList getPurchasedruginfo() {
+		return ((FArrayList) getAttrVal("Purchasedruginfo"));
+	}	
+	/**
+	 * 采购药品信息
+	 * @param Purchasedruginfo
+	 */
+	public void setPurchasedruginfo(FArrayList Purchasedruginfo) {
+		setAttrVal("Purchasedruginfo", Purchasedruginfo);
+	}
+}

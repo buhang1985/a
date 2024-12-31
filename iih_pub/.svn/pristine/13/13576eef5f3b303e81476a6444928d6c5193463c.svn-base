@@ -1,0 +1,72 @@
+package iih.mbh.ci.order.d;
+
+/**
+ * 报告集合
+ * 
+ */
+public class CirptLabItemDTO {
+
+	/** 项目名称 */
+	private String name_srv;
+	/** 检验结果 */
+	private String val_rstrptlab;
+	/** 参考范围 */
+	private String reference_ranges;
+	/** 报告ID */
+	private String id_rptlab;
+	/** 检验结果编码 */
+	private String result_code;
+	/** 检验结果名称 */
+	private String result_name;
+
+	/** getter and setter */
+
+	public String getName_srv() {
+		return this.name_srv;
+	}
+
+	public void setName_srv(String name_srv) {
+		this.name_srv = name_srv;
+	}
+
+	public String getVal_rstrptlab() {
+		return this.val_rstrptlab;
+	}
+
+	public void setVal_rstrptlab(String val_rstrptlab) {
+		this.val_rstrptlab = val_rstrptlab;
+	}
+
+	public String getReference_ranges() {
+		return this.reference_ranges;
+	}
+
+	public void setReference_ranges(String reference_ranges) {
+		this.reference_ranges = reference_ranges;
+	}
+
+	public String getId_rptlab() {
+		return this.id_rptlab;
+	}
+
+	public void setId_rptlab(String id_rptlab) {
+		this.id_rptlab = id_rptlab;
+	}
+
+	public String getResult_code() {
+		return result_code;
+	}
+
+	public void setResult_code(String result_code) {
+		this.result_code = result_code;
+	}
+
+	public String getResult_name() {
+		return result_name;
+	}
+
+	public void setResult_name(String result_name) {
+		this.result_name = result_name;
+	}
+	
+}

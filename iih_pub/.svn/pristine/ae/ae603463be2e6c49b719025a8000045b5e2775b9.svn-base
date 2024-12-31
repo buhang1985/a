@@ -1,0 +1,21 @@
+package iih.bl.itf.accountinfo.i;
+
+import iih.bl.itf.accountinformation.d.AccountInfomationDTO;
+import xap.mw.core.data.BizException;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+
+public interface AccountInfomationService {
+	/**
+	 * 获取选中待转账任务数据时候该患者本次就诊下的账户信息 
+	 * 数据来源 en_ent_bankAcc
+	 * @param id_pat
+	 * @param beginDate
+	 * @param endDate
+	 * @return
+	 * @throws BizException
+	 * @author dongjiye
+	 */
+	public abstract AccountInfomationDTO[] getAccountInfo(QryRootNodeDTO qryNode) throws BizException;
+	
+
+}

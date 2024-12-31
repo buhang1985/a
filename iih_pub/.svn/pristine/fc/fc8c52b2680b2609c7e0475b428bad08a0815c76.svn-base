@@ -1,0 +1,401 @@
+package iih.bl.cc.blcc.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.bl.cc.blcc.d.desc.BlCcDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 结账 DO数据 
+ * 
+ */
+public class BlCcDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_CC= "Id_cc";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_ORG= "Id_org";
+	public static final String CODE_CC= "Code_cc";
+	public static final String ID_CCTP= "Id_cctp";
+	public static final String SD_CCTP= "Sd_cctp";
+	public static final String ID_EMP= "Id_emp";
+	public static final String DT_B= "Dt_b";
+	public static final String DT_E= "Dt_e";
+	public static final String AMT= "Amt";
+	public static final String AMT_RETURN= "Amt_return";
+	public static final String INCNOS= "Incnos";
+	public static final String INCCN= "Inccn";
+	public static final String INCCN_RE= "Inccn_re";
+	public static final String INCNOS_RE= "Incnos_re";
+	public static final String INCNOS_CANC= "Incnos_canc";
+	public static final String INCCN_CANC= "Inccn_canc";
+	public static final String CHQCN= "Chqcn";
+	public static final String CHQNOS= "Chqnos";
+	public static final String FG_CANC= "Fg_canc";
+	public static final String DT_CANC= "Dt_canc";
+	public static final String AMT_ST= "Amt_st";
+	public static final String AMT_ST_RET= "Amt_st_ret";
+	public static final String AMT_PVPREPAY= "Amt_pvprepay";
+	public static final String AMT_PVPREPAY_RET= "Amt_pvprepay_ret";
+	public static final String AMT_ENTPREPAY= "Amt_entprepay";
+	public static final String AMT_ENTPREPAY_RET= "Amt_entprepay_ret";
+	public static final String INCNOS_PVPREPAY= "Incnos_pvprepay";
+	public static final String INCNOS_PVPREPAY_RET= "Incnos_pvprepay_ret";
+	public static final String INCCN_PVPREPAY= "Inccn_pvprepay";
+	public static final String INCCN_PVPREPAY_RET= "Inccn_pvprepay_ret";
+	public static final String DT_CC= "Dt_cc";
+	public static final String FG_FI= "Fg_fi";
+	public static final String DT_FI= "Dt_fi";
+	public static final String ID_FI= "Id_fi";
+	public static final String DT_PT= "Dt_pt";
+	public static final String AMT_DIF= "Amt_dif";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String NAME_GRP= "Name_grp";
+	public static final String CODE_GRP= "Code_grp";
+	public static final String NAME_ORG= "Name_org";
+	public static final String CODE_ORG= "Code_org";
+	public static final String CCTP_CODE= "Cctp_code";
+	public static final String CCTP_NAME= "Cctp_name";
+	public static final String EMP_CODE= "Emp_code";
+	public static final String EMP_NAME= "Emp_name";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_cc() {
+		return ((String) getAttrVal("Id_cc"));
+	}	
+	public void setId_cc(String Id_cc) {
+		setAttrVal("Id_cc", Id_cc);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getCode_cc() {
+		return ((String) getAttrVal("Code_cc"));
+	}	
+	public void setCode_cc(String Code_cc) {
+		setAttrVal("Code_cc", Code_cc);
+	}
+	public String getId_cctp() {
+		return ((String) getAttrVal("Id_cctp"));
+	}	
+	public void setId_cctp(String Id_cctp) {
+		setAttrVal("Id_cctp", Id_cctp);
+	}
+	public String getSd_cctp() {
+		return ((String) getAttrVal("Sd_cctp"));
+	}	
+	public void setSd_cctp(String Sd_cctp) {
+		setAttrVal("Sd_cctp", Sd_cctp);
+	}
+	public String getId_emp() {
+		return ((String) getAttrVal("Id_emp"));
+	}	
+	public void setId_emp(String Id_emp) {
+		setAttrVal("Id_emp", Id_emp);
+	}
+	public FDateTime getDt_b() {
+		return ((FDateTime) getAttrVal("Dt_b"));
+	}	
+	public void setDt_b(FDateTime Dt_b) {
+		setAttrVal("Dt_b", Dt_b);
+	}
+	public FDateTime getDt_e() {
+		return ((FDateTime) getAttrVal("Dt_e"));
+	}	
+	public void setDt_e(FDateTime Dt_e) {
+		setAttrVal("Dt_e", Dt_e);
+	}
+	public FDouble getAmt() {
+		return ((FDouble) getAttrVal("Amt"));
+	}	
+	public void setAmt(FDouble Amt) {
+		setAttrVal("Amt", Amt);
+	}
+	public FDouble getAmt_return() {
+		return ((FDouble) getAttrVal("Amt_return"));
+	}	
+	public void setAmt_return(FDouble Amt_return) {
+		setAttrVal("Amt_return", Amt_return);
+	}
+	public String getIncnos() {
+		return ((String) getAttrVal("Incnos"));
+	}	
+	public void setIncnos(String Incnos) {
+		setAttrVal("Incnos", Incnos);
+	}
+	public Integer getInccn() {
+		return ((Integer) getAttrVal("Inccn"));
+	}	
+	public void setInccn(Integer Inccn) {
+		setAttrVal("Inccn", Inccn);
+	}
+	public Integer getInccn_re() {
+		return ((Integer) getAttrVal("Inccn_re"));
+	}	
+	public void setInccn_re(Integer Inccn_re) {
+		setAttrVal("Inccn_re", Inccn_re);
+	}
+	public String getIncnos_re() {
+		return ((String) getAttrVal("Incnos_re"));
+	}	
+	public void setIncnos_re(String Incnos_re) {
+		setAttrVal("Incnos_re", Incnos_re);
+	}
+	public String getIncnos_canc() {
+		return ((String) getAttrVal("Incnos_canc"));
+	}	
+	public void setIncnos_canc(String Incnos_canc) {
+		setAttrVal("Incnos_canc", Incnos_canc);
+	}
+	public Integer getInccn_canc() {
+		return ((Integer) getAttrVal("Inccn_canc"));
+	}	
+	public void setInccn_canc(Integer Inccn_canc) {
+		setAttrVal("Inccn_canc", Inccn_canc);
+	}
+	public Integer getChqcn() {
+		return ((Integer) getAttrVal("Chqcn"));
+	}	
+	public void setChqcn(Integer Chqcn) {
+		setAttrVal("Chqcn", Chqcn);
+	}
+	public String getChqnos() {
+		return ((String) getAttrVal("Chqnos"));
+	}	
+	public void setChqnos(String Chqnos) {
+		setAttrVal("Chqnos", Chqnos);
+	}
+	public FBoolean getFg_canc() {
+		return ((FBoolean) getAttrVal("Fg_canc"));
+	}	
+	public void setFg_canc(FBoolean Fg_canc) {
+		setAttrVal("Fg_canc", Fg_canc);
+	}
+	public FDateTime getDt_canc() {
+		return ((FDateTime) getAttrVal("Dt_canc"));
+	}	
+	public void setDt_canc(FDateTime Dt_canc) {
+		setAttrVal("Dt_canc", Dt_canc);
+	}
+	public FDouble getAmt_st() {
+		return ((FDouble) getAttrVal("Amt_st"));
+	}	
+	public void setAmt_st(FDouble Amt_st) {
+		setAttrVal("Amt_st", Amt_st);
+	}
+	public FDouble getAmt_st_ret() {
+		return ((FDouble) getAttrVal("Amt_st_ret"));
+	}	
+	public void setAmt_st_ret(FDouble Amt_st_ret) {
+		setAttrVal("Amt_st_ret", Amt_st_ret);
+	}
+	public FDouble getAmt_pvprepay() {
+		return ((FDouble) getAttrVal("Amt_pvprepay"));
+	}	
+	public void setAmt_pvprepay(FDouble Amt_pvprepay) {
+		setAttrVal("Amt_pvprepay", Amt_pvprepay);
+	}
+	public FDouble getAmt_pvprepay_ret() {
+		return ((FDouble) getAttrVal("Amt_pvprepay_ret"));
+	}	
+	public void setAmt_pvprepay_ret(FDouble Amt_pvprepay_ret) {
+		setAttrVal("Amt_pvprepay_ret", Amt_pvprepay_ret);
+	}
+	public FDouble getAmt_entprepay() {
+		return ((FDouble) getAttrVal("Amt_entprepay"));
+	}	
+	public void setAmt_entprepay(FDouble Amt_entprepay) {
+		setAttrVal("Amt_entprepay", Amt_entprepay);
+	}
+	public FDouble getAmt_entprepay_ret() {
+		return ((FDouble) getAttrVal("Amt_entprepay_ret"));
+	}	
+	public void setAmt_entprepay_ret(FDouble Amt_entprepay_ret) {
+		setAttrVal("Amt_entprepay_ret", Amt_entprepay_ret);
+	}
+	public String getIncnos_pvprepay() {
+		return ((String) getAttrVal("Incnos_pvprepay"));
+	}	
+	public void setIncnos_pvprepay(String Incnos_pvprepay) {
+		setAttrVal("Incnos_pvprepay", Incnos_pvprepay);
+	}
+	public String getIncnos_pvprepay_ret() {
+		return ((String) getAttrVal("Incnos_pvprepay_ret"));
+	}	
+	public void setIncnos_pvprepay_ret(String Incnos_pvprepay_ret) {
+		setAttrVal("Incnos_pvprepay_ret", Incnos_pvprepay_ret);
+	}
+	public Integer getInccn_pvprepay() {
+		return ((Integer) getAttrVal("Inccn_pvprepay"));
+	}	
+	public void setInccn_pvprepay(Integer Inccn_pvprepay) {
+		setAttrVal("Inccn_pvprepay", Inccn_pvprepay);
+	}
+	public Integer getInccn_pvprepay_ret() {
+		return ((Integer) getAttrVal("Inccn_pvprepay_ret"));
+	}	
+	public void setInccn_pvprepay_ret(Integer Inccn_pvprepay_ret) {
+		setAttrVal("Inccn_pvprepay_ret", Inccn_pvprepay_ret);
+	}
+	public FDateTime getDt_cc() {
+		return ((FDateTime) getAttrVal("Dt_cc"));
+	}	
+	public void setDt_cc(FDateTime Dt_cc) {
+		setAttrVal("Dt_cc", Dt_cc);
+	}
+	public FBoolean getFg_fi() {
+		return ((FBoolean) getAttrVal("Fg_fi"));
+	}	
+	public void setFg_fi(FBoolean Fg_fi) {
+		setAttrVal("Fg_fi", Fg_fi);
+	}
+	public FDateTime getDt_fi() {
+		return ((FDateTime) getAttrVal("Dt_fi"));
+	}	
+	public void setDt_fi(FDateTime Dt_fi) {
+		setAttrVal("Dt_fi", Dt_fi);
+	}
+	public String getId_fi() {
+		return ((String) getAttrVal("Id_fi"));
+	}	
+	public void setId_fi(String Id_fi) {
+		setAttrVal("Id_fi", Id_fi);
+	}
+	public FDateTime getDt_pt() {
+		return ((FDateTime) getAttrVal("Dt_pt"));
+	}	
+	public void setDt_pt(FDateTime Dt_pt) {
+		setAttrVal("Dt_pt", Dt_pt);
+	}
+	public FDouble getAmt_dif() {
+		return ((FDouble) getAttrVal("Amt_dif"));
+	}	
+	public void setAmt_dif(FDouble Amt_dif) {
+		setAttrVal("Amt_dif", Amt_dif);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public String getName_grp() {
+		return ((String) getAttrVal("Name_grp"));
+	}	
+	public void setName_grp(String Name_grp) {
+		setAttrVal("Name_grp", Name_grp);
+	}
+	public String getCode_grp() {
+		return ((String) getAttrVal("Code_grp"));
+	}	
+	public void setCode_grp(String Code_grp) {
+		setAttrVal("Code_grp", Code_grp);
+	}
+	public String getName_org() {
+		return ((String) getAttrVal("Name_org"));
+	}	
+	public void setName_org(String Name_org) {
+		setAttrVal("Name_org", Name_org);
+	}
+	public String getCode_org() {
+		return ((String) getAttrVal("Code_org"));
+	}	
+	public void setCode_org(String Code_org) {
+		setAttrVal("Code_org", Code_org);
+	}
+	public String getCctp_code() {
+		return ((String) getAttrVal("Cctp_code"));
+	}	
+	public void setCctp_code(String Cctp_code) {
+		setAttrVal("Cctp_code", Cctp_code);
+	}
+	public String getCctp_name() {
+		return ((String) getAttrVal("Cctp_name"));
+	}	
+	public void setCctp_name(String Cctp_name) {
+		setAttrVal("Cctp_name", Cctp_name);
+	}
+	public String getEmp_code() {
+		return ((String) getAttrVal("Emp_code"));
+	}	
+	public void setEmp_code(String Emp_code) {
+		setAttrVal("Emp_code", Emp_code);
+	}
+	public String getEmp_name() {
+		return ((String) getAttrVal("Emp_name"));
+	}	
+	public void setEmp_name(String Emp_name) {
+		setAttrVal("Emp_name", Emp_name);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_cc";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "bl_cc";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(BlCcDODesc.class);
+	}
+	
+}

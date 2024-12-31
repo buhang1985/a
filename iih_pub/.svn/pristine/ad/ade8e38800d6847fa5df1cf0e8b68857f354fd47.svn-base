@@ -1,0 +1,22 @@
+package iih.bd.srv.medsrv.refs.sql.ip.relhp;
+
+import iih.bd.srv.medsrv.refs.sql.hptype.HptypeDisplay;
+import iih.bd.srv.medsrv.refs.sql.ip.IpOrderRefSrvSQLBuilder;
+/**
+ * 组装物品的参照信息
+ * @author zhangwq
+ *
+ */
+public class IpOrderRefSrvRelHpSQLBuilder extends IpOrderRefSrvSQLBuilder{
+
+	@Override
+	public String getDesField() {
+		StringBuffer sql = new StringBuffer();
+		sql.append("(case " );
+		sql.append(String.format("  when hpsrvca.code is null and srv.fg_bl = 'Y' then '%s ' else hptp.name end )",HptypeDisplay.getInstance().getHptyDisplay()));
+		sql.append("       ||srv.des||decode(hpsrvca.des,null,'',' '||hpsrvca.des)||decode(hpsrvca.note,null,'',' '||hpsrvca.note) " );
+		sql.append("        des, " );
+		return sql.toString();
+	}
+	
+}

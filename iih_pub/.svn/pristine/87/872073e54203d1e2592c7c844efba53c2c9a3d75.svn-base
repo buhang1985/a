@@ -1,0 +1,338 @@
+package iih.sc.scbd.schedulesrv.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.sc.scbd.schedulesrv.d.desc.ScheduleSrvDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 排班服务 DO数据 
+ * 
+ */
+public class ScheduleSrvDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_SCSRV= "Id_scsrv";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_ORG= "Id_org";
+	public static final String SD_SCTP= "Sd_sctp";
+	public static final String ID_SCTP= "Id_sctp";
+	public static final String ID_SCCA= "Id_scca";
+	public static final String CODE= "Code";
+	public static final String INNERCODE= "Innercode";
+	public static final String NAME= "Name";
+	public static final String DES= "Des";
+	public static final String SCPOLCN= "Scpolcn";
+	public static final String SD_TICKMD= "Sd_tickmd";
+	public static final String ID_TICKMD= "Id_tickmd";
+	public static final String ID_SRVTP= "Id_srvtp";
+	public static final String SD_SRVTP= "Sd_srvtp";
+	public static final String SRVSLOT= "Srvslot";
+	public static final String FG_TICK= "Fg_tick";
+	public static final String ID_APPTRU= "Id_apptru";
+	public static final String ID_PARENT= "Id_parent";
+	public static final String PATH= "Path";
+	public static final String FG_ACTIVE= "Fg_active";
+	public static final String WBCODE= "Wbcode";
+	public static final String PYCODE= "Pycode";
+	public static final String MNECODE= "Mnecode";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String NOTE= "Note";
+	public static final String CODE_SCTP= "Code_sctp";
+	public static final String NAME_SCTP= "Name_sctp";
+	public static final String CODE_SCCA= "Code_scca";
+	public static final String NAME_SCCA= "Name_scca";
+	public static final String NAME_TICKMD= "Name_tickmd";
+	public static final String CODE_TICKMD= "Code_tickmd";
+	public static final String CODE_SRVTP= "Code_srvtp";
+	public static final String NAME_SRVTP= "Name_srvtp";
+	public static final String CODE_APPTRU= "Code_apptru";
+	public static final String NAME_APPTRU= "Name_apptru";
+	public static final String SD_SCHRULE= "Sd_schrule";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_scsrv() {
+		return ((String) getAttrVal("Id_scsrv"));
+	}	
+	public void setId_scsrv(String Id_scsrv) {
+		setAttrVal("Id_scsrv", Id_scsrv);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getSd_sctp() {
+		return ((String) getAttrVal("Sd_sctp"));
+	}	
+	public void setSd_sctp(String Sd_sctp) {
+		setAttrVal("Sd_sctp", Sd_sctp);
+	}
+	public String getId_sctp() {
+		return ((String) getAttrVal("Id_sctp"));
+	}	
+	public void setId_sctp(String Id_sctp) {
+		setAttrVal("Id_sctp", Id_sctp);
+	}
+	public String getId_scca() {
+		return ((String) getAttrVal("Id_scca"));
+	}	
+	public void setId_scca(String Id_scca) {
+		setAttrVal("Id_scca", Id_scca);
+	}
+	public String getCode() {
+		return ((String) getAttrVal("Code"));
+	}	
+	public void setCode(String Code) {
+		setAttrVal("Code", Code);
+	}
+	public String getInnercode() {
+		return ((String) getAttrVal("Innercode"));
+	}	
+	public void setInnercode(String Innercode) {
+		setAttrVal("Innercode", Innercode);
+	}
+	public String getName() {
+		return ((String) getAttrVal("Name"));
+	}	
+	public void setName(String Name) {
+		setAttrVal("Name", Name);
+	}
+	public String getDes() {
+		return ((String) getAttrVal("Des"));
+	}	
+	public void setDes(String Des) {
+		setAttrVal("Des", Des);
+	}
+	public Integer getScpolcn() {
+		return ((Integer) getAttrVal("Scpolcn"));
+	}	
+	public void setScpolcn(Integer Scpolcn) {
+		setAttrVal("Scpolcn", Scpolcn);
+	}
+	public String getSd_tickmd() {
+		return ((String) getAttrVal("Sd_tickmd"));
+	}	
+	public void setSd_tickmd(String Sd_tickmd) {
+		setAttrVal("Sd_tickmd", Sd_tickmd);
+	}
+	public String getId_tickmd() {
+		return ((String) getAttrVal("Id_tickmd"));
+	}	
+	public void setId_tickmd(String Id_tickmd) {
+		setAttrVal("Id_tickmd", Id_tickmd);
+	}
+	public String getId_srvtp() {
+		return ((String) getAttrVal("Id_srvtp"));
+	}	
+	public void setId_srvtp(String Id_srvtp) {
+		setAttrVal("Id_srvtp", Id_srvtp);
+	}
+	public String getSd_srvtp() {
+		return ((String) getAttrVal("Sd_srvtp"));
+	}	
+	public void setSd_srvtp(String Sd_srvtp) {
+		setAttrVal("Sd_srvtp", Sd_srvtp);
+	}
+	public Integer getSrvslot() {
+		return ((Integer) getAttrVal("Srvslot"));
+	}	
+	public void setSrvslot(Integer Srvslot) {
+		setAttrVal("Srvslot", Srvslot);
+	}
+	public FBoolean getFg_tick() {
+		return ((FBoolean) getAttrVal("Fg_tick"));
+	}	
+	public void setFg_tick(FBoolean Fg_tick) {
+		setAttrVal("Fg_tick", Fg_tick);
+	}
+	public String getId_apptru() {
+		return ((String) getAttrVal("Id_apptru"));
+	}	
+	public void setId_apptru(String Id_apptru) {
+		setAttrVal("Id_apptru", Id_apptru);
+	}
+	public String getId_parent() {
+		return ((String) getAttrVal("Id_parent"));
+	}	
+	public void setId_parent(String Id_parent) {
+		setAttrVal("Id_parent", Id_parent);
+	}
+	public String getPath() {
+		return ((String) getAttrVal("Path"));
+	}	
+	public void setPath(String Path) {
+		setAttrVal("Path", Path);
+	}
+	public FBoolean getFg_active() {
+		return ((FBoolean) getAttrVal("Fg_active"));
+	}	
+	public void setFg_active(FBoolean Fg_active) {
+		setAttrVal("Fg_active", Fg_active);
+	}
+	public String getWbcode() {
+		return ((String) getAttrVal("Wbcode"));
+	}	
+	public void setWbcode(String Wbcode) {
+		setAttrVal("Wbcode", Wbcode);
+	}
+	public String getPycode() {
+		return ((String) getAttrVal("Pycode"));
+	}	
+	public void setPycode(String Pycode) {
+		setAttrVal("Pycode", Pycode);
+	}
+	public String getMnecode() {
+		return ((String) getAttrVal("Mnecode"));
+	}	
+	public void setMnecode(String Mnecode) {
+		setAttrVal("Mnecode", Mnecode);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public String getNote() {
+		return ((String) getAttrVal("Note"));
+	}	
+	public void setNote(String Note) {
+		setAttrVal("Note", Note);
+	}
+	public String getCode_sctp() {
+		return ((String) getAttrVal("Code_sctp"));
+	}	
+	public void setCode_sctp(String Code_sctp) {
+		setAttrVal("Code_sctp", Code_sctp);
+	}
+	public String getName_sctp() {
+		return ((String) getAttrVal("Name_sctp"));
+	}	
+	public void setName_sctp(String Name_sctp) {
+		setAttrVal("Name_sctp", Name_sctp);
+	}
+	public String getCode_scca() {
+		return ((String) getAttrVal("Code_scca"));
+	}	
+	public void setCode_scca(String Code_scca) {
+		setAttrVal("Code_scca", Code_scca);
+	}
+	public String getName_scca() {
+		return ((String) getAttrVal("Name_scca"));
+	}	
+	public void setName_scca(String Name_scca) {
+		setAttrVal("Name_scca", Name_scca);
+	}
+	public String getName_tickmd() {
+		return ((String) getAttrVal("Name_tickmd"));
+	}	
+	public void setName_tickmd(String Name_tickmd) {
+		setAttrVal("Name_tickmd", Name_tickmd);
+	}
+	public String getCode_tickmd() {
+		return ((String) getAttrVal("Code_tickmd"));
+	}	
+	public void setCode_tickmd(String Code_tickmd) {
+		setAttrVal("Code_tickmd", Code_tickmd);
+	}
+	public String getCode_srvtp() {
+		return ((String) getAttrVal("Code_srvtp"));
+	}	
+	public void setCode_srvtp(String Code_srvtp) {
+		setAttrVal("Code_srvtp", Code_srvtp);
+	}
+	public String getName_srvtp() {
+		return ((String) getAttrVal("Name_srvtp"));
+	}	
+	public void setName_srvtp(String Name_srvtp) {
+		setAttrVal("Name_srvtp", Name_srvtp);
+	}
+	public String getCode_apptru() {
+		return ((String) getAttrVal("Code_apptru"));
+	}	
+	public void setCode_apptru(String Code_apptru) {
+		setAttrVal("Code_apptru", Code_apptru);
+	}
+	public String getName_apptru() {
+		return ((String) getAttrVal("Name_apptru"));
+	}	
+	public void setName_apptru(String Name_apptru) {
+		setAttrVal("Name_apptru", Name_apptru);
+	}
+	public String getSd_schrule() {
+		return ((String) getAttrVal("Sd_schrule"));
+	}	
+	public void setSd_schrule(String Sd_schrule) {
+		setAttrVal("Sd_schrule", Sd_schrule);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_scsrv";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "sc_srv";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(ScheduleSrvDODesc.class);
+	}
+	
+}

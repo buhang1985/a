@@ -1,0 +1,8 @@
+package iih.pe.pitm.i;
+
+import xap.mw.core.data.BizException;
+
+public interface IPitmMaintainService {
+
+    public abstract void importDataFromThirdpart() throws BizException;
+}

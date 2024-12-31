@@ -1,0 +1,58 @@
+package iih.bl.st.blstmgoep.i;
+
+import xap.mw.core.data.BizException;
+import iih.bl.st.blstmgoep.d.BlStMgOepDO;
+import xap.sys.appfw.orm.handle.dataobject.errlog.DOWithErrLog;
+
+/**
+* 门诊合票重结结算关系数据维护服务
+*/
+public interface IBlstmgoepCudService {
+	/**
+	*  门诊合票重结结算关系数据真删除
+	*/
+    public abstract void delete(BlStMgOepDO[] aggdos) throws BizException;
+    
+    /**
+	*  门诊合票重结结算关系数据插入保存
+	*/
+	public abstract BlStMgOepDO[] insert(BlStMgOepDO[] aggdos) throws BizException;
+	
+    /**
+	*  门诊合票重结结算关系数据保存
+	*/
+	public abstract BlStMgOepDO[] save(BlStMgOepDO[] aggdos) throws BizException;
+	
+    /**
+	*  门诊合票重结结算关系数据更新
+	*/
+	public abstract BlStMgOepDO[] update(BlStMgOepDO[] aggdos) throws BizException;
+	
+	/**
+	*  门诊合票重结结算关系数据逻辑删除
+	*/
+	public abstract void logicDelete(BlStMgOepDO[] aggdos) throws BizException;
+
+	/**
+	 * 批量启用：全部都启用；或者出现异常，启用全部失败
+	 */
+	public BlStMgOepDO[] enableWithoutFilter(BlStMgOepDO[] dos) throws BizException ;
+
+	/**
+	 * 批量启用：可部分启用成功；
+	 * 启用成功的记录可通过返回值的getDos方法得到，启用不成功的记录附加日志可通过返回值的getErrLogList方法得到
+	 */
+	public DOWithErrLog enableDO(BlStMgOepDO[] dos) throws BizException ;
+
+	/**
+	 * 批量停用：要不全部都停用；或者出现异常，停用全部失败
+	 */
+	public BlStMgOepDO[] disableVOWithoutFilter(BlStMgOepDO[] dos) throws BizException;
+
+
+	/**
+	 * 批量停用：可部分停用成功；
+	 * 停用成功的记录可通过返回值的getDos方法得到，停用不成功的记录附加日志可通过返回值的getErrLogList方法得到
+	 */
+	public DOWithErrLog disableDO(BlStMgOepDO[] dos) throws BizException ;
+}

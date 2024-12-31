@@ -1,0 +1,84 @@
+package iih.ci.preop.ems.d;
+
+import xap.mw.core.data.*;
+import xap.mw.coreitf.d.*;
+import java.math.BigDecimal;
+
+/**
+ * 套内项目 DTO数据 
+ * 
+ */
+public class EmsSrvSetViewDTO extends BaseDTO {
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 服务ID
+	 * @return String
+	 */
+	public String getId_srv() {
+		return ((String) getAttrVal("Id_srv"));
+	}
+	/**
+	 * 服务ID
+	 * @param Id_srv
+	 */
+	public void setId_srv(String Id_srv) {
+		setAttrVal("Id_srv", Id_srv);
+	}
+	/**
+	 * 服务名称
+	 * @return String
+	 */
+	public String getName_srv() {
+		return ((String) getAttrVal("Name_srv"));
+	}
+	/**
+	 * 服务名称
+	 * @param Name_srv
+	 */
+	public void setName_srv(String Name_srv) {
+		setAttrVal("Name_srv", Name_srv);
+	}
+	/**
+	 * 身体部位ID
+	 * @return String
+	 */
+	public String getId_body() {
+		return ((String) getAttrVal("Id_body"));
+	}
+	/**
+	 * 身体部位ID
+	 * @param Id_body
+	 */
+	public void setId_body(String Id_body) {
+		setAttrVal("Id_body", Id_body);
+	}
+	/**
+	 * 身体部位SD
+	 * @return String
+	 */
+	public String getSd_body() {
+		return ((String) getAttrVal("Sd_body"));
+	}
+	/**
+	 * 身体部位SD
+	 * @param Sd_body
+	 */
+	public void setSd_body(String Sd_body) {
+		setAttrVal("Sd_body", Sd_body);
+	}
+	/**
+	 * 身体部位名称
+	 * @return String
+	 */
+	public String getName_body() {
+		return ((String) getAttrVal("Name_body"));
+	}
+	/**
+	 * 身体部位名称
+	 * @param Name_body
+	 */
+	public void setName_body(String Name_body) {
+		setAttrVal("Name_body", Name_body);
+	}
+}

@@ -1,0 +1,170 @@
+package iih.mm.bl.blreserve.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.mm.bl.blreserve.d.desc.StockBlReserveDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 物品结存预留处理表 DO数据 
+ * 
+ */
+public class StockBlReserveDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_RSV= "Id_rsv";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_ORG= "Id_org";
+	public static final String ID_WH= "Id_wh";
+	public static final String ID_MM= "Id_mm";
+	public static final String REQ_UNIT_ID= "Req_unit_id";
+	public static final String ID_ORSRV= "Id_orsrv";
+	public static final String CODE_ENTP= "Code_entp";
+	public static final String EN_OPERTYPE= "En_opertype";
+	public static final String ID_EMP_OPE= "Id_emp_ope";
+	public static final String DT_OPER= "Dt_oper";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String EMP_CANCEL_NAME= "Emp_cancel_name";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_rsv() {
+		return ((String) getAttrVal("Id_rsv"));
+	}	
+	public void setId_rsv(String Id_rsv) {
+		setAttrVal("Id_rsv", Id_rsv);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getId_wh() {
+		return ((String) getAttrVal("Id_wh"));
+	}	
+	public void setId_wh(String Id_wh) {
+		setAttrVal("Id_wh", Id_wh);
+	}
+	public String getId_mm() {
+		return ((String) getAttrVal("Id_mm"));
+	}	
+	public void setId_mm(String Id_mm) {
+		setAttrVal("Id_mm", Id_mm);
+	}
+	public String getReq_unit_id() {
+		return ((String) getAttrVal("Req_unit_id"));
+	}	
+	public void setReq_unit_id(String Req_unit_id) {
+		setAttrVal("Req_unit_id", Req_unit_id);
+	}
+	public String getId_orsrv() {
+		return ((String) getAttrVal("Id_orsrv"));
+	}	
+	public void setId_orsrv(String Id_orsrv) {
+		setAttrVal("Id_orsrv", Id_orsrv);
+	}
+	public String getCode_entp() {
+		return ((String) getAttrVal("Code_entp"));
+	}	
+	public void setCode_entp(String Code_entp) {
+		setAttrVal("Code_entp", Code_entp);
+	}
+	public Integer getEn_opertype() {
+		return ((Integer) getAttrVal("En_opertype"));
+	}	
+	public void setEn_opertype(Integer En_opertype) {
+		setAttrVal("En_opertype", En_opertype);
+	}
+	public String getId_emp_ope() {
+		return ((String) getAttrVal("Id_emp_ope"));
+	}	
+	public void setId_emp_ope(String Id_emp_ope) {
+		setAttrVal("Id_emp_ope", Id_emp_ope);
+	}
+	public FDateTime getDt_oper() {
+		return ((FDateTime) getAttrVal("Dt_oper"));
+	}	
+	public void setDt_oper(FDateTime Dt_oper) {
+		setAttrVal("Dt_oper", Dt_oper);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public String getEmp_cancel_name() {
+		return ((String) getAttrVal("Emp_cancel_name"));
+	}	
+	public void setEmp_cancel_name(String Emp_cancel_name) {
+		setAttrVal("Emp_cancel_name", Emp_cancel_name);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_rsv";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "MM_BL_RESERVE";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(StockBlReserveDODesc.class);
+	}
+	
+}

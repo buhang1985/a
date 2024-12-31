@@ -1,0 +1,25 @@
+package iih.ei.bl.ecinc.i;
+
+import java.util.List;
+
+import iih.ei.bl.ecinc.d.EcIncManagePaperIncCodeInDTO;
+import iih.ei.bl.ecinc.d.EcIncManagePaperIncCodeOutDTO;
+import iih.ei.bl.ecinc.d.EcIncResultDTO;
+import xap.mw.core.data.BizException;
+
+/**
+ * 电子票据票据管理接口
+ * @author ly 2019/12/02
+ *
+ */
+public interface IEcIncManageService {
+
+	/**
+	 * 获取纸质发票有效票据代码
+	 * @param dto
+	 * @return
+	 * @throws BizException
+	 * @author ly 2020/01/02
+	 */
+	public abstract EcIncResultDTO<List<EcIncManagePaperIncCodeOutDTO>> getPaperActiveIncCode(EcIncManagePaperIncCodeInDTO dto) throws BizException;
+}

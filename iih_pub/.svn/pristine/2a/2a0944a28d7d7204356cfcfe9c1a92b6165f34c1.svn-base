@@ -1,0 +1,57 @@
+/*
+ * 健康评估维护服务
+ * 
+ * 
+ */
+package iih.pe.phm.i;
+
+import iih.pe.papt.dto.pehmapptdto.d.PeHmApptDTO;
+import iih.pe.phm.pegencond.d.PeGenCondDO;
+import iih.pe.phm.pekinematics.d.PeKinematicsDO;
+import xap.mw.core.data.BizException;
+
+public interface IPeHmEvalGenMaintainService{
+	
+    /*
+     * 
+     * 一般健康状况评估
+     * 2020-03-05, nielisheng
+     */
+	PeGenCondDO evalGen(PeHmApptDTO hmappt, PeGenCondDO gen) throws BizException;	
+	
+	/**
+	 * 缺血性冠心病评估
+	 * @param peHmApptDTO
+	 * @throws BizException
+	 */
+	void evalIcvd(PeHmApptDTO peHmApptDTO) throws BizException;
+	
+	/**
+	 * 健康问卷摘要汇总
+	 * @param peHmApptDTO
+	 * @throws BizException
+	 */
+	void suvDigestSummary(PeHmApptDTO peHmApptDTO) throws BizException;
+	
+	/**
+	 * 生活方式评估评估
+	 * @param peHmApptDTO
+	 * @throws BizException
+	 */
+	void lifestyleAssess(PeHmApptDTO peHmApptDTO) throws BizException;
+	
+	/**
+	 * 营养评估评估
+	 * @param peHmApptDTO
+	 * @throws BizException
+	 */
+	void nutritionAssess(PeHmApptDTO peHmApptDTO) throws BizException;
+	
+	/**
+	 * 运动评估评估
+	 * @param peHmApptDTO
+	 * @throws BizException
+	 */
+	void kinematicsAssess(PeKinematicsDO peKinematicsDO) throws BizException;
+	
+} 

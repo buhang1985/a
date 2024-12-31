@@ -1,0 +1,135 @@
+package iih.bl.cc.blcc.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.bl.cc.blcc.d.desc.BlCcPmDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 结账_付款方式信息 DO数据 
+ * 
+ */
+public class BlCcPmDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_CCPM= "Id_ccpm";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_ORG= "Id_org";
+	public static final String ID_CC= "Id_cc";
+	public static final String ID_PM= "Id_pm";
+	public static final String AMT= "Amt";
+	public static final String CN_AMT= "Cn_amt";
+	public static final String AMT_RETURN= "Amt_return";
+	public static final String CN_AMTRETURN= "Cn_amtreturn";
+	public static final String CODE= "Code";
+	public static final String NAME= "Name";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_ccpm() {
+		return ((String) getAttrVal("Id_ccpm"));
+	}	
+	public void setId_ccpm(String Id_ccpm) {
+		setAttrVal("Id_ccpm", Id_ccpm);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getId_cc() {
+		return ((String) getAttrVal("Id_cc"));
+	}	
+	public void setId_cc(String Id_cc) {
+		setAttrVal("Id_cc", Id_cc);
+	}
+	public String getId_pm() {
+		return ((String) getAttrVal("Id_pm"));
+	}	
+	public void setId_pm(String Id_pm) {
+		setAttrVal("Id_pm", Id_pm);
+	}
+	public FDouble getAmt() {
+		return ((FDouble) getAttrVal("Amt"));
+	}	
+	public void setAmt(FDouble Amt) {
+		setAttrVal("Amt", Amt);
+	}
+	public Integer getCn_amt() {
+		return ((Integer) getAttrVal("Cn_amt"));
+	}	
+	public void setCn_amt(Integer Cn_amt) {
+		setAttrVal("Cn_amt", Cn_amt);
+	}
+	public FDouble getAmt_return() {
+		return ((FDouble) getAttrVal("Amt_return"));
+	}	
+	public void setAmt_return(FDouble Amt_return) {
+		setAttrVal("Amt_return", Amt_return);
+	}
+	public Integer getCn_amtreturn() {
+		return ((Integer) getAttrVal("Cn_amtreturn"));
+	}	
+	public void setCn_amtreturn(Integer Cn_amtreturn) {
+		setAttrVal("Cn_amtreturn", Cn_amtreturn);
+	}
+	public String getCode() {
+		return ((String) getAttrVal("Code"));
+	}	
+	public void setCode(String Code) {
+		setAttrVal("Code", Code);
+	}
+	public String getName() {
+		return ((String) getAttrVal("Name"));
+	}	
+	public void setName(String Name) {
+		setAttrVal("Name", Name);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_ccpm";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "bl_cc_pm";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(BlCcPmDODesc.class);
+	}
+	
+}

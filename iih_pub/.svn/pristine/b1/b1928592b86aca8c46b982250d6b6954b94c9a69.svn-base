@@ -1,0 +1,114 @@
+package iih.bl.cc.blcc.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.bl.cc.blcc.d.desc.BlCcIncCancDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 结账_作废发票明细 DO数据 
+ * 
+ */
+public class BlCcIncCancDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_CCINCCANC= "Id_ccinccanc";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_ORG= "Id_org";
+	public static final String ID_CC= "Id_cc";
+	public static final String ID_INCCA= "Id_incca";
+	public static final String INCNO_CANC= "Incno_canc";
+	public static final String DT_CANC= "Dt_canc";
+	public static final String NOTE_CANC= "Note_canc";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_ccinccanc() {
+		return ((String) getAttrVal("Id_ccinccanc"));
+	}	
+	public void setId_ccinccanc(String Id_ccinccanc) {
+		setAttrVal("Id_ccinccanc", Id_ccinccanc);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getId_cc() {
+		return ((String) getAttrVal("Id_cc"));
+	}	
+	public void setId_cc(String Id_cc) {
+		setAttrVal("Id_cc", Id_cc);
+	}
+	public String getId_incca() {
+		return ((String) getAttrVal("Id_incca"));
+	}	
+	public void setId_incca(String Id_incca) {
+		setAttrVal("Id_incca", Id_incca);
+	}
+	public String getIncno_canc() {
+		return ((String) getAttrVal("Incno_canc"));
+	}	
+	public void setIncno_canc(String Incno_canc) {
+		setAttrVal("Incno_canc", Incno_canc);
+	}
+	public FDateTime getDt_canc() {
+		return ((FDateTime) getAttrVal("Dt_canc"));
+	}	
+	public void setDt_canc(FDateTime Dt_canc) {
+		setAttrVal("Dt_canc", Dt_canc);
+	}
+	public String getNote_canc() {
+		return ((String) getAttrVal("Note_canc"));
+	}	
+	public void setNote_canc(String Note_canc) {
+		setAttrVal("Note_canc", Note_canc);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_ccinccanc";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "bl_cc_inc_canc";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(BlCcIncCancDODesc.class);
+	}
+	
+}

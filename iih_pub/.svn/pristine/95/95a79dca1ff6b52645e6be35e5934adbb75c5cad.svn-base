@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+XAP-Component-Version: 0.2.0-sdlanling2-SNAPSHOT
+XAP-Component-Name: iih.pi_pub
+XAP-Component-Namespace: iih
+XAP-Component-Dependencies: xap.sys/xap.sys.core/xapstd-2.0.0-SNAPSHOT
+ ,iih/iih.bd_pub/0.2.0-sdlanling2-SNAPSHOT,com.founder.xap/xap.mw.jdbc
+ /xapstd-2.0.0-SNAPSHOT,com.founder.xap/xap.mw.core/xapstd-2.0.0-SNAPS
+ HOT
+

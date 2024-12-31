@@ -1,0 +1,186 @@
+package iih.pe.pqn.peevalchrodef.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.pe.pqn.peevalchrodef.d.desc.PeChroRiskDefDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 体检慢性病相关风险因素 DO数据 
+ * 
+ */
+public class PeChroRiskDefDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	//体检慢性病风险因素主键标识
+	public static final String ID_PEEVALCHRORISKDEF= "Id_peevalchroriskdef";
+	//体检慢性病定义ID
+	public static final String ID_PEEVALCHRODEF= "Id_peevalchrodef";
+	//所属集团
+	public static final String ID_GRP= "Id_grp";
+	//所属组织
+	public static final String ID_ORG= "Id_org";
+	//风险因素
+	public static final String ID_PECHRORISK= "Id_pechrorisk";
+	//序号
+	public static final String SORTNO= "Sortno";
+	//风险因素编码
+	public static final String CODE_RISK= "Code_risk";
+	//风险因素名称
+	public static final String NAME_RISK= "Name_risk";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	/**
+	 * 体检慢性病风险因素主键标识
+	 * @return String
+	 */
+	public String getId_peevalchroriskdef() {
+		return ((String) getAttrVal("Id_peevalchroriskdef"));
+	}	
+	/**
+	 * 体检慢性病风险因素主键标识
+	 * @param Id_peevalchroriskdef
+	 */
+	public void setId_peevalchroriskdef(String Id_peevalchroriskdef) {
+		setAttrVal("Id_peevalchroriskdef", Id_peevalchroriskdef);
+	}
+	/**
+	 * 体检慢性病定义ID
+	 * @return String
+	 */
+	public String getId_peevalchrodef() {
+		return ((String) getAttrVal("Id_peevalchrodef"));
+	}	
+	/**
+	 * 体检慢性病定义ID
+	 * @param Id_peevalchrodef
+	 */
+	public void setId_peevalchrodef(String Id_peevalchrodef) {
+		setAttrVal("Id_peevalchrodef", Id_peevalchrodef);
+	}
+	/**
+	 * 所属集团
+	 * @return String
+	 */
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	/**
+	 * 所属集团
+	 * @param Id_grp
+	 */
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	/**
+	 * 所属组织
+	 * @return String
+	 */
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	/**
+	 * 所属组织
+	 * @param Id_org
+	 */
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	/**
+	 * 风险因素
+	 * @return String
+	 */
+	public String getId_pechrorisk() {
+		return ((String) getAttrVal("Id_pechrorisk"));
+	}	
+	/**
+	 * 风险因素
+	 * @param Id_pechrorisk
+	 */
+	public void setId_pechrorisk(String Id_pechrorisk) {
+		setAttrVal("Id_pechrorisk", Id_pechrorisk);
+	}
+	/**
+	 * 序号
+	 * @return Integer
+	 */
+	public Integer getSortno() {
+		return ((Integer) getAttrVal("Sortno"));
+	}	
+	/**
+	 * 序号
+	 * @param Sortno
+	 */
+	public void setSortno(Integer Sortno) {
+		setAttrVal("Sortno", Sortno);
+	}
+	/**
+	 * 风险因素编码
+	 * @return String
+	 */
+	public String getCode_risk() {
+		return ((String) getAttrVal("Code_risk"));
+	}	
+	/**
+	 * 风险因素编码
+	 * @param Code_risk
+	 */
+	public void setCode_risk(String Code_risk) {
+		setAttrVal("Code_risk", Code_risk);
+	}
+	/**
+	 * 风险因素名称
+	 * @return String
+	 */
+	public String getName_risk() {
+		return ((String) getAttrVal("Name_risk"));
+	}	
+	/**
+	 * 风险因素名称
+	 * @param Name_risk
+	 */
+	public void setName_risk(String Name_risk) {
+		setAttrVal("Name_risk", Name_risk);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_peevalchroriskdef";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "pe_qn_pechroriskdef";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(PeChroRiskDefDODesc.class);
+	}
+	
+}

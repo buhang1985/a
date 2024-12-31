@@ -1,0 +1,114 @@
+package iih.bd.bs.workcalendar.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.bd.bs.workcalendar.d.desc.WorkCalendDateDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 日期信息 DO数据 
+ * 
+ */
+public class WorkCalendDateDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_WORKCALENDDATE= "Id_workcalenddate";
+	public static final String CALENDARDATE= "Calendardate";
+	public static final String DATEWORKTYPE= "Dateworktype";
+	public static final String ONDUTYTIME= "Ondutytime";
+	public static final String OFFDUTYTIME= "Offdutytime";
+	public static final String DES= "Des";
+	public static final String DATAFROMTYPE= "Datafromtype";
+	public static final String ID_WORKCALENDAR= "Id_workcalendar";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_workcalenddate() {
+		return ((String) getAttrVal("Id_workcalenddate"));
+	}	
+	public void setId_workcalenddate(String Id_workcalenddate) {
+		setAttrVal("Id_workcalenddate", Id_workcalenddate);
+	}
+	public FDate getCalendardate() {
+		return ((FDate) getAttrVal("Calendardate"));
+	}	
+	public void setCalendardate(FDate Calendardate) {
+		setAttrVal("Calendardate", Calendardate);
+	}
+	public Integer getDateworktype() {
+		return ((Integer) getAttrVal("Dateworktype"));
+	}	
+	public void setDateworktype(Integer Dateworktype) {
+		setAttrVal("Dateworktype", Dateworktype);
+	}
+	public FTime getOndutytime() {
+		return ((FTime) getAttrVal("Ondutytime"));
+	}	
+	public void setOndutytime(FTime Ondutytime) {
+		setAttrVal("Ondutytime", Ondutytime);
+	}
+	public FTime getOffdutytime() {
+		return ((FTime) getAttrVal("Offdutytime"));
+	}	
+	public void setOffdutytime(FTime Offdutytime) {
+		setAttrVal("Offdutytime", Offdutytime);
+	}
+	public String getDes() {
+		return ((String) getAttrVal("Des"));
+	}	
+	public void setDes(String Des) {
+		setAttrVal("Des", Des);
+	}
+	public Integer getDatafromtype() {
+		return ((Integer) getAttrVal("Datafromtype"));
+	}	
+	public void setDatafromtype(Integer Datafromtype) {
+		setAttrVal("Datafromtype", Datafromtype);
+	}
+	public String getId_workcalendar() {
+		return ((String) getAttrVal("Id_workcalendar"));
+	}	
+	public void setId_workcalendar(String Id_workcalendar) {
+		setAttrVal("Id_workcalendar", Id_workcalendar);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_workcalenddate";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "bd_workcalenddate";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(WorkCalendDateDODesc.class);
+	}
+	
+}

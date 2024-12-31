@@ -1,0 +1,17 @@
+package iih.sfda.aeh.evrptflow.listener.flowconfig;
+
+import xap.mw.core.data.Context;
+import xap.wf.af.event.IActorListener;
+import xap.wf.af.server.WfFormInfoCtx;
+
+public class CommitActorListener extends SetAerRptCurrhdlUsers implements IActorListener {
+
+	@Override
+	public String[] getActors(WfFormInfoCtx wfFormInfoCtx) throws Exception {
+		String curr_user = Context.get().getUserId();
+		String[] users = new String[] { curr_user };
+		this.exec(users, wfFormInfoCtx);
+		return users;
+	}
+
+}

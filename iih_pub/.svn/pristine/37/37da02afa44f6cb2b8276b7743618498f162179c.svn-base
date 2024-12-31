@@ -1,0 +1,65 @@
+package iih.pe.pqn.peqacontentdef.refs;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import iih.pe.pqn.peqacontentdef.d.PeQacontentDefDO;
+import iih.pe.comm.utils.PeEnvContextUtil;
+import xap.mw.core.utils.StringUtil;
+import xap.mw.coreitf.d.FDateTime;
+import xap.sys.appfw.refinfo.RefGridModel;
+
+public class PeQacontentDefRefModel extends RefGridModel {
+
+
+	@Override
+	public String[] getShowFieldCode() {
+		return new String[] { PeQacontentDefDO.CODE, PeQacontentDefDO.NAME };
+	}
+
+	@Override
+	public String[] getHiddenFieldCode() {
+		return new String[] { PeQacontentDefDO.ID_PEQACONTENTDEF };
+	}
+
+	@Override
+	public String[] getShowFieldName() {
+		return new String[] { "编码", "名称" };
+	}
+
+	@Override
+	public String getPkFieldCode() {
+		return PeQacontentDefDO.ID_PEQACONTENTDEF;
+	}
+
+	@Override
+	public String getRefCodeField() {
+		return PeQacontentDefDO.CODE;
+	}
+
+	@Override
+	public String getRefNameField() {
+		return PeQacontentDefDO.NAME;
+	}
+
+	@Override
+	public String getTableName() {
+		return new PeQacontentDefDO().getTableName();
+	}
+
+	@Override
+	public List<String> getOrderPart(){
+		List<String> listOrderParts = new ArrayList<String>();
+		listOrderParts.addAll(super.getOrderPart());
+		return listOrderParts;
+	}
+	
+
+	@Override
+	public List<String> getWherePart() {
+		List<String> listWhereParts = new ArrayList<String>();
+		listWhereParts.addAll(super.getWherePart());
+		listWhereParts.add(PeEnvContextUtil.processEnvContext(new PeQacontentDefDO(), false));
+		return listWhereParts;
+	}
+}

@@ -1,0 +1,43 @@
+package iih.pe.phm.pehmriskdef.refs;
+
+import iih.pe.phm.pehmriskdef.d.PeHmRiskDefDO;
+import xap.sys.appfw.refinfo.RefGridModel;
+
+public class PeHmRiskDefRefModel extends RefGridModel {
+	
+	@Override
+	public String[] getShowFieldCode() {
+		return new String[]{PeHmRiskDefDO.CODE,PeHmRiskDefDO.NAME};
+	}
+	
+	@Override
+	public String[] getHiddenFieldCode() {
+		return new String[]{PeHmRiskDefDO.ID_RISKDEF};
+	}
+	
+	@Override
+	public String[] getShowFieldName() {
+		return new String[]{"编码","名称"};
+	}
+	
+	@Override
+	public String getPkFieldCode() {
+		return PeHmRiskDefDO.ID_RISKDEF;
+	}
+	
+	@Override
+	public String getRefCodeField() {
+		return PeHmRiskDefDO.CODE;
+	}
+	
+	@Override
+	public String getRefNameField() {
+		return PeHmRiskDefDO.CODE;
+	}
+	
+	@Override
+	public String getTableName() {
+		return new PeHmRiskDefDO().getTableName();
+	}
+
+}

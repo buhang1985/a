@@ -1,0 +1,140 @@
+package iih.bl.itf.transferdetails.d;
+
+import xap.mw.core.data.*;
+import xap.mw.coreitf.d.*;
+import java.math.BigDecimal;
+
+/**
+ * 转账处理出参 DTO数据 
+ * 
+ */
+public class BankTransferOutInfoDTO extends BaseDTO {
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 转账流水号
+	 * @return String
+	 */
+	public String getTransacc_no() {
+		return ((String) getAttrVal("Transacc_no"));
+	}
+	/**
+	 * 转账流水号
+	 * @param Transacc_no
+	 */
+	public void setTransacc_no(String Transacc_no) {
+		setAttrVal("Transacc_no", Transacc_no);
+	}
+	/**
+	 * 转账成功标志
+	 * @return FBoolean
+	 */
+	public FBoolean getFg_succ() {
+		return ((FBoolean) getAttrVal("Fg_succ"));
+	}
+	/**
+	 * 转账成功标志
+	 * @param Fg_succ
+	 */
+	public void setFg_succ(FBoolean Fg_succ) {
+		setAttrVal("Fg_succ", Fg_succ);
+	}
+	/**
+	 * 转入账户
+	 * @return String
+	 */
+	public String getNo_cc() {
+		return ((String) getAttrVal("No_cc"));
+	}
+	/**
+	 * 转入账户
+	 * @param No_cc
+	 */
+	public void setNo_cc(String No_cc) {
+		setAttrVal("No_cc", No_cc);
+	}
+	/**
+	 * 转入账户名
+	 * @return String
+	 */
+	public String getName_acc() {
+		return ((String) getAttrVal("Name_acc"));
+	}
+	/**
+	 * 转入账户名
+	 * @param Name_acc
+	 */
+	public void setName_acc(String Name_acc) {
+		setAttrVal("Name_acc", Name_acc);
+	}
+	/**
+	 * 转入银行名称
+	 * @return String
+	 */
+	public String getBank_name() {
+		return ((String) getAttrVal("Bank_name"));
+	}
+	/**
+	 * 转入银行名称
+	 * @param Bank_name
+	 */
+	public void setBank_name(String Bank_name) {
+		setAttrVal("Bank_name", Bank_name);
+	}
+	/**
+	 * 转入联行号
+	 * @return String
+	 */
+	public String getBank_id_code() {
+		return ((String) getAttrVal("Bank_id_code"));
+	}
+	/**
+	 * 转入联行号
+	 * @param Bank_id_code
+	 */
+	public void setBank_id_code(String Bank_id_code) {
+		setAttrVal("Bank_id_code", Bank_id_code);
+	}
+	/**
+	 * 转账金额
+	 * @return String
+	 */
+	public String getAmt() {
+		return ((String) getAttrVal("Amt"));
+	}
+	/**
+	 * 转账金额
+	 * @param Amt
+	 */
+	public void setAmt(String Amt) {
+		setAttrVal("Amt", Amt);
+	}
+	/**
+	 * 转账入参
+	 * @return String
+	 */
+	public String getInputinfo() {
+		return ((String) getAttrVal("Inputinfo"));
+	}
+	/**
+	 * 转账入参
+	 * @param Inputinfo
+	 */
+	public void setInputinfo(String Inputinfo) {
+		setAttrVal("Inputinfo", Inputinfo);
+	}
+	/**
+	 * 转账出参
+	 * @return String
+	 */
+	public String getOutputinfo() {
+		return ((String) getAttrVal("Outputinfo"));
+	}
+	/**
+	 * 转账出参
+	 * @param Outputinfo
+	 */
+	public void setOutputinfo(String Outputinfo) {
+		setAttrVal("Outputinfo", Outputinfo);
+	}
+}

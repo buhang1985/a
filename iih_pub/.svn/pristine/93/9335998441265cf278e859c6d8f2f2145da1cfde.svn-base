@@ -1,0 +1,135 @@
+package iih.nm.net.examtrapl.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.nm.net.examtrapl.d.desc.ExamtraplpsnDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 培训计划参加人员 DO数据 
+ * 
+ */
+public class ExamtraplpsnDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_EXAM_TRAPL_PSN= "Id_exam_trapl_psn";
+	public static final String ID_EXAM_TRAPL= "Id_exam_trapl";
+	public static final String ID_PSNDOC= "Id_psndoc";
+	public static final String NAME= "Name";
+	public static final String EMPNO= "Empno";
+	public static final String ID_DEP_NUR= "Id_dep_nur";
+	public static final String PYCODE= "Pycode";
+	public static final String WBCODE= "Wbcode";
+	public static final String MNECODE= "Mnecode";
+	public static final String NAME_PSNDOC= "Name_psndoc";
+	public static final String NAME_DEP_NUR= "Name_dep_nur";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_exam_trapl_psn() {
+		return ((String) getAttrVal("Id_exam_trapl_psn"));
+	}	
+	public void setId_exam_trapl_psn(String Id_exam_trapl_psn) {
+		setAttrVal("Id_exam_trapl_psn", Id_exam_trapl_psn);
+	}
+	public String getId_exam_trapl() {
+		return ((String) getAttrVal("Id_exam_trapl"));
+	}	
+	public void setId_exam_trapl(String Id_exam_trapl) {
+		setAttrVal("Id_exam_trapl", Id_exam_trapl);
+	}
+	public String getId_psndoc() {
+		return ((String) getAttrVal("Id_psndoc"));
+	}	
+	public void setId_psndoc(String Id_psndoc) {
+		setAttrVal("Id_psndoc", Id_psndoc);
+	}
+	public String getName() {
+		return ((String) getAttrVal("Name"));
+	}	
+	public void setName(String Name) {
+		setAttrVal("Name", Name);
+	}
+	public String getEmpno() {
+		return ((String) getAttrVal("Empno"));
+	}	
+	public void setEmpno(String Empno) {
+		setAttrVal("Empno", Empno);
+	}
+	public String getId_dep_nur() {
+		return ((String) getAttrVal("Id_dep_nur"));
+	}	
+	public void setId_dep_nur(String Id_dep_nur) {
+		setAttrVal("Id_dep_nur", Id_dep_nur);
+	}
+	public String getPycode() {
+		return ((String) getAttrVal("Pycode"));
+	}	
+	public void setPycode(String Pycode) {
+		setAttrVal("Pycode", Pycode);
+	}
+	public String getWbcode() {
+		return ((String) getAttrVal("Wbcode"));
+	}	
+	public void setWbcode(String Wbcode) {
+		setAttrVal("Wbcode", Wbcode);
+	}
+	public String getMnecode() {
+		return ((String) getAttrVal("Mnecode"));
+	}	
+	public void setMnecode(String Mnecode) {
+		setAttrVal("Mnecode", Mnecode);
+	}
+	public String getName_psndoc() {
+		return ((String) getAttrVal("Name_psndoc"));
+	}	
+	public void setName_psndoc(String Name_psndoc) {
+		setAttrVal("Name_psndoc", Name_psndoc);
+	}
+	public String getName_dep_nur() {
+		return ((String) getAttrVal("Name_dep_nur"));
+	}	
+	public void setName_dep_nur(String Name_dep_nur) {
+		setAttrVal("Name_dep_nur", Name_dep_nur);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_exam_trapl_psn";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "nm_exam_trapl_psn";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(ExamtraplpsnDODesc.class);
+	}
+	
+}

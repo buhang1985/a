@@ -1,0 +1,8 @@
+package iih.pe.pwf.i;
+
+import iih.pe.pwf.dto.persthistdto.d.PeRstHistDTO;
+import xap.mw.core.data.BizException;
+
+public interface IPeRstHistDTOQueryService {
+	public PeRstHistDTO[] findById(String id_pepsnappt, int times) throws BizException;
+}

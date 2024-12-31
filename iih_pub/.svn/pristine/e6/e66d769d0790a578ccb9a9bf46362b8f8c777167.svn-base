@@ -1,0 +1,163 @@
+package iih.bd.srv.medsrv.refs;
+
+import java.util.List;
+
+import iih.bd.pp.bddepcg.d.BdDepCgDO;
+import iih.bd.srv.medsrv.d.MedSrvDO;
+import xap.mw.core.utils.ListUtil;
+import xap.mw.core.utils.StringUtil;
+import xap.mw.coreitf.d.FBoolean;
+import xap.sys.appfw.refinfo.DaoUtil;
+import xap.sys.appfw.refinfo.RefGridModel;
+import xap.sys.appfw.refinfo.RefResultSet;
+import xap.sys.jdbc.facade.DAException;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.permfw.pub.EnvContextUtil;
+/**
+ * 简易收费流程中的服务参照
+ * @author zhangwq
+ *
+ */
+public class MedsrvTidyFeeRefMode extends RefGridModel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Override
+	public String[] getShowFieldCode() {
+		return new String[] { "Name_srv","Code_srv","Name_mm","Spec","price" };
+	}
+
+	@Override
+	public String[] getHiddenFieldCode() {
+		return new String[] { "Id_pk","Id_srv","Id_srvtp","Sd_srvtp","Id_srvca","Quan_med",
+				"Id_unit_pkg","Name_unit_med",
+				"Id_unit_pkgsp","Id_unit_pkgbase",
+				"Fg_mm","Id_mm","Srv_wbcode","Srv_pycode","Factor","Factor_mb","Id_route","Fg_otc","quan_cur","Eu_blmd"};
+	}
+
+	@Override
+	public String[] getShowFieldName() {
+		return new String[] {"服务名称","编码","物品名称","规格","参考价"};
+	}
+
+	@Override
+	public String getPkFieldCode() {
+		return "Id_pk";
+	}
+
+	@Override
+	public String getRefCodeField() {
+		return "code";
+	}
+
+	@Override
+	public String getRefNameField() {
+		return "name_srv";
+	}
+
+	@Override
+	public String getTableName() {
+		return "srv1";
+	}
+
+	@Override
+	public void addWherePart(String wherePart) {
+
+		getWherePart().add(wherePart);
+	}
+
+	@Override 
+	public String getRefSql() {
+		String id_dep = (String) this.getExtendAttributeValue("Id_dep");
+		// 取的科室的黑白名单标识
+		FBoolean fg_black = this.getDepFgblack(id_dep);
+		StringBuilder sb = new StringBuilder();
+		sb.append("select ");
+		sb.append(" srv1.name as name_srv,srv1.code as code_srv,bd_mm.name as name_mm,bd_mm.spec,case when srv1.fg_mm='N' then srv1.pri else bd_mm.price end as price,");
+		sb.append(" srv1.id_srv||bd_mm.id_mm as id_pk,");
+		sb.append(" srv1.id_srv,srv1.id_srvtp,srv1.sd_srvtp,srv1.id_srvca,");
+		sb.append(" srv1.quan_med as quan_med,");
+		sb.append(" case when nvl(bd_mm.id_mm,'~')='~' then srv1.id_unit_med else bd_mm.id_unit_pkgsp end as id_unit_pkg,");
+		sb.append(" case when nvl(bd_mm.id_mm,'~')='~' then srvdoc.name else mmdoc.name end as name_unit_med,");
+		sb.append(" bd_mm.id_unit_pkgsp,");
+		sb.append(" bd_mm.id_unit_pkgbase,");
+		sb.append(" srv1.fg_mm,bd_mm.id_mm,srv1.wbcode as srv_wbcode,srv1.pycode as srv_pycode,");
+		sb.append(" bd_mm.factor_sb as factor,bd_mm.factor_mb,srv1.id_route,bd_mm.fg_otc,");
+		sb.append(" 1 as quan_cur, ");
+		sb.append(" srv1.eu_blmd ");
+		if(fg_black==null){
+			sb.append(" from bd_srv srv1 left join bd_mm on srv1.id_srv = bd_mm.id_srv");
+			sb.append(" left join bd_measdoc srvdoc on srv1.id_unit_med = srvdoc.id_measdoc");
+			sb.append(" left join bd_measdoc mmdoc on bd_mm.id_unit_pkgsp = mmdoc.id_measdoc");
+		}else if(fg_black.booleanValue()){
+			sb.append(" from (select * from bd_srv srv where srv.id_srv not in(");
+			sb.append(" select itm.id_srv from bd_dep_cg limt");
+			sb.append(" inner join bd_dep_cg_itm itm on limt.id_depcg=itm.id_depcg and limt.fg_black='Y'  and limt.id_dep='"+id_dep+"' ))");
+			sb.append(" srv1 left join bd_mm on srv1.id_srv = bd_mm.id_srv");
+			sb.append(" left join bd_measdoc srvdoc on srv1.id_unit_med = srvdoc.id_measdoc");
+			sb.append(" left join bd_measdoc mmdoc on bd_mm.id_unit_pkgsp = mmdoc.id_measdoc");
+		}else{
+			sb.append(" from (select * from bd_srv srv where srv.id_srv in(");
+			sb.append(" select itm.id_srv from bd_dep_cg limt");
+			sb.append(" inner join bd_dep_cg_itm itm on limt.id_depcg=itm.id_depcg and limt.fg_black='N'  and limt.id_dep='"+id_dep+"' ))");
+			sb.append(" srv1 left join bd_mm on srv1.id_srv = bd_mm.id_srv");
+			sb.append(" left join bd_measdoc srvdoc on srv1.id_unit_med = srvdoc.id_measdoc");
+			sb.append(" left join bd_measdoc mmdoc on bd_mm.id_unit_pkgsp = mmdoc.id_measdoc");
+		}
+		sb.append(" where 1=1 and srv1.fg_active = 'Y' and (bd_mm.fg_active is null or bd_mm.fg_active = 'Y') ");
+		String sqlContext = " and " + EnvContextUtil.processEnvContext("", new MedSrvDO(), "srv1");//增加组织隔离
+		sb.append(sqlContext);
+		List<String> whereList = this.getWherePart();
+		if(whereList != null && whereList.size() > 0){
+			for (String part : whereList) {
+				sb.append(" and (").append(part).append(") ");
+			}
+		}
+		
+		return sb.toString();
+	}
+
+	private FBoolean getDepFgblack(String id_dep) {
+		if (StringUtil.isEmpty(id_dep)) {
+			return null;
+		}
+		try {
+			List<BdDepCgDO> results = (List<BdDepCgDO>) new DAFacade().findByAttrValString(BdDepCgDO.class,
+					BdDepCgDO.ID_DEP, id_dep, new String[] { BdDepCgDO.FG_BLACK });
+			if (!ListUtil.isEmpty(results)) {
+				return results.get(0).getFg_black();
+			} else {
+				return null;
+			}
+		} catch (DAException daException) {
+			return null;
+		}
+	}
+	@Override
+	public String[] getBlurFields() {
+		return new String[] { "name","pycode","code", "wbcode" };
+	}
+
+	@Override
+	public RefResultSet filterRefPks(String[] filterPks) {
+		String filterPksText = DaoUtil.joinQryArrays((String[]) filterPks);
+		//String pkFieled = this.getPkFieldCode();
+		StringBuilder buff = new StringBuilder();
+		buff.append("srv1.id_srv||bd_mm.id_mm");
+		if (filterPks.length == 1) {
+			buff.append(" = ").append(filterPksText);
+		} else {
+			buff.append(" in (").append(filterPksText).append(")");
+		}
+		String wherePart = buff.toString();
+		this.addWherePart(wherePart);
+		try {
+			RefResultSet refResultSet = this.getRefData();
+			return refResultSet;
+		} finally {
+			this.removeWherePart(wherePart);
+		}
+	}
+}

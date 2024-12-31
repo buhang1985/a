@@ -1,0 +1,436 @@
+package iih.bl.inc.blincip.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.bl.inc.blincip.d.desc.BlIncIpDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 住院发票 DO数据 
+ * 
+ */
+public class BlIncIpDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_INCIP= "Id_incip";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_ORG= "Id_org";
+	public static final String ID_PAT= "Id_pat";
+	public static final String ID_ENT= "Id_ent";
+	public static final String ID_STIP= "Id_stip";
+	public static final String ID_ENTTP= "Id_enttp";
+	public static final String CODE_ENTTP= "Code_enttp";
+	public static final String EU_DIRECT= "Eu_direct";
+	public static final String ID_INCCA= "Id_incca";
+	public static final String CODE_INCPKG= "Code_incpkg";
+	public static final String INCNO= "Incno";
+	public static final String DT_INC= "Dt_inc";
+	public static final String AMT= "Amt";
+	public static final String AMT_PAT= "Amt_pat";
+	public static final String AMT_RATIO= "Amt_ratio";
+	public static final String AMT_HP= "Amt_hp";
+	public static final String AMT_STD= "Amt_std";
+	public static final String NOTE= "Note";
+	public static final String ID_EMP_INC= "Id_emp_inc";
+	public static final String TIMES_PRN= "Times_prn";
+	public static final String FG_CANC= "Fg_canc";
+	public static final String ID_REASON_CANC= "Id_reason_canc";
+	public static final String SD_REASON_CANC= "Sd_reason_canc";
+	public static final String DES_REASON_CANC= "Des_reason_canc";
+	public static final String DT_CANC= "Dt_canc";
+	public static final String ID_EMP_CANC= "Id_emp_canc";
+	public static final String FG_PRINT= "Fg_print";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String FG_CC_OUT= "Fg_cc_out";
+	public static final String ID_CC_OUT= "Id_cc_out";
+	public static final String FG_CC_IN= "Fg_cc_in";
+	public static final String ID_CC_IN= "Id_cc_in";
+	public static final String EU_FREEMD= "Eu_freemd";
+	public static final String AMT_FREE= "Amt_free";
+	public static final String ID_DEP_INC= "Id_dep_inc";
+	public static final String ID_DEP_CANC= "Id_dep_canc";
+	public static final String ID_PC= "Id_pc";
+	public static final String PATCODE= "Patcode";
+	public static final String PATNAME= "Patname";
+	public static final String ENT_CODE= "Ent_code";
+	public static final String CODE= "Code";
+	public static final String NAME= "Name";
+	public static final String INCCACODE= "Inccacode";
+	public static final String INCCANAME= "Inccaname";
+	public static final String IP_CODE_INCPKG= "Ip_code_incpkg";
+	public static final String NAME_EMP_INC= "Name_emp_inc";
+	public static final String REASON_CANC_CODE= "Reason_canc_code";
+	public static final String REASON_CANC_NAME= "Reason_canc_name";
+	public static final String EMP_CANC_CODE= "Emp_canc_code";
+	public static final String EMP_CANC_NAME= "Emp_canc_name";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_incip() {
+		return ((String) getAttrVal("Id_incip"));
+	}	
+	public void setId_incip(String Id_incip) {
+		setAttrVal("Id_incip", Id_incip);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getId_pat() {
+		return ((String) getAttrVal("Id_pat"));
+	}	
+	public void setId_pat(String Id_pat) {
+		setAttrVal("Id_pat", Id_pat);
+	}
+	public String getId_ent() {
+		return ((String) getAttrVal("Id_ent"));
+	}	
+	public void setId_ent(String Id_ent) {
+		setAttrVal("Id_ent", Id_ent);
+	}
+	public String getId_stip() {
+		return ((String) getAttrVal("Id_stip"));
+	}	
+	public void setId_stip(String Id_stip) {
+		setAttrVal("Id_stip", Id_stip);
+	}
+	public String getId_enttp() {
+		return ((String) getAttrVal("Id_enttp"));
+	}	
+	public void setId_enttp(String Id_enttp) {
+		setAttrVal("Id_enttp", Id_enttp);
+	}
+	public String getCode_enttp() {
+		return ((String) getAttrVal("Code_enttp"));
+	}	
+	public void setCode_enttp(String Code_enttp) {
+		setAttrVal("Code_enttp", Code_enttp);
+	}
+	public Integer getEu_direct() {
+		return ((Integer) getAttrVal("Eu_direct"));
+	}	
+	public void setEu_direct(Integer Eu_direct) {
+		setAttrVal("Eu_direct", Eu_direct);
+	}
+	public String getId_incca() {
+		return ((String) getAttrVal("Id_incca"));
+	}	
+	public void setId_incca(String Id_incca) {
+		setAttrVal("Id_incca", Id_incca);
+	}
+	public String getCode_incpkg() {
+		return ((String) getAttrVal("Code_incpkg"));
+	}	
+	public void setCode_incpkg(String Code_incpkg) {
+		setAttrVal("Code_incpkg", Code_incpkg);
+	}
+	public String getIncno() {
+		return ((String) getAttrVal("Incno"));
+	}	
+	public void setIncno(String Incno) {
+		setAttrVal("Incno", Incno);
+	}
+	public FDateTime getDt_inc() {
+		return ((FDateTime) getAttrVal("Dt_inc"));
+	}	
+	public void setDt_inc(FDateTime Dt_inc) {
+		setAttrVal("Dt_inc", Dt_inc);
+	}
+	public FDouble getAmt() {
+		return ((FDouble) getAttrVal("Amt"));
+	}	
+	public void setAmt(FDouble Amt) {
+		setAttrVal("Amt", Amt);
+	}
+	public FDouble getAmt_pat() {
+		return ((FDouble) getAttrVal("Amt_pat"));
+	}	
+	public void setAmt_pat(FDouble Amt_pat) {
+		setAttrVal("Amt_pat", Amt_pat);
+	}
+	public FDouble getAmt_ratio() {
+		return ((FDouble) getAttrVal("Amt_ratio"));
+	}	
+	public void setAmt_ratio(FDouble Amt_ratio) {
+		setAttrVal("Amt_ratio", Amt_ratio);
+	}
+	public FDouble getAmt_hp() {
+		return ((FDouble) getAttrVal("Amt_hp"));
+	}	
+	public void setAmt_hp(FDouble Amt_hp) {
+		setAttrVal("Amt_hp", Amt_hp);
+	}
+	public FDouble getAmt_std() {
+		return ((FDouble) getAttrVal("Amt_std"));
+	}	
+	public void setAmt_std(FDouble Amt_std) {
+		setAttrVal("Amt_std", Amt_std);
+	}
+	public String getNote() {
+		return ((String) getAttrVal("Note"));
+	}	
+	public void setNote(String Note) {
+		setAttrVal("Note", Note);
+	}
+	public String getId_emp_inc() {
+		return ((String) getAttrVal("Id_emp_inc"));
+	}	
+	public void setId_emp_inc(String Id_emp_inc) {
+		setAttrVal("Id_emp_inc", Id_emp_inc);
+	}
+	public Integer getTimes_prn() {
+		return ((Integer) getAttrVal("Times_prn"));
+	}	
+	public void setTimes_prn(Integer Times_prn) {
+		setAttrVal("Times_prn", Times_prn);
+	}
+	public FBoolean getFg_canc() {
+		return ((FBoolean) getAttrVal("Fg_canc"));
+	}	
+	public void setFg_canc(FBoolean Fg_canc) {
+		setAttrVal("Fg_canc", Fg_canc);
+	}
+	public String getId_reason_canc() {
+		return ((String) getAttrVal("Id_reason_canc"));
+	}	
+	public void setId_reason_canc(String Id_reason_canc) {
+		setAttrVal("Id_reason_canc", Id_reason_canc);
+	}
+	public String getSd_reason_canc() {
+		return ((String) getAttrVal("Sd_reason_canc"));
+	}	
+	public void setSd_reason_canc(String Sd_reason_canc) {
+		setAttrVal("Sd_reason_canc", Sd_reason_canc);
+	}
+	public String getDes_reason_canc() {
+		return ((String) getAttrVal("Des_reason_canc"));
+	}	
+	public void setDes_reason_canc(String Des_reason_canc) {
+		setAttrVal("Des_reason_canc", Des_reason_canc);
+	}
+	public FDateTime getDt_canc() {
+		return ((FDateTime) getAttrVal("Dt_canc"));
+	}	
+	public void setDt_canc(FDateTime Dt_canc) {
+		setAttrVal("Dt_canc", Dt_canc);
+	}
+	public String getId_emp_canc() {
+		return ((String) getAttrVal("Id_emp_canc"));
+	}	
+	public void setId_emp_canc(String Id_emp_canc) {
+		setAttrVal("Id_emp_canc", Id_emp_canc);
+	}
+	public FBoolean getFg_print() {
+		return ((FBoolean) getAttrVal("Fg_print"));
+	}	
+	public void setFg_print(FBoolean Fg_print) {
+		setAttrVal("Fg_print", Fg_print);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public FBoolean getFg_cc_out() {
+		return ((FBoolean) getAttrVal("Fg_cc_out"));
+	}	
+	public void setFg_cc_out(FBoolean Fg_cc_out) {
+		setAttrVal("Fg_cc_out", Fg_cc_out);
+	}
+	public String getId_cc_out() {
+		return ((String) getAttrVal("Id_cc_out"));
+	}	
+	public void setId_cc_out(String Id_cc_out) {
+		setAttrVal("Id_cc_out", Id_cc_out);
+	}
+	public FBoolean getFg_cc_in() {
+		return ((FBoolean) getAttrVal("Fg_cc_in"));
+	}	
+	public void setFg_cc_in(FBoolean Fg_cc_in) {
+		setAttrVal("Fg_cc_in", Fg_cc_in);
+	}
+	public String getId_cc_in() {
+		return ((String) getAttrVal("Id_cc_in"));
+	}	
+	public void setId_cc_in(String Id_cc_in) {
+		setAttrVal("Id_cc_in", Id_cc_in);
+	}
+	public Integer getEu_freemd() {
+		return ((Integer) getAttrVal("Eu_freemd"));
+	}	
+	public void setEu_freemd(Integer Eu_freemd) {
+		setAttrVal("Eu_freemd", Eu_freemd);
+	}
+	public FDouble getAmt_free() {
+		return ((FDouble) getAttrVal("Amt_free"));
+	}	
+	public void setAmt_free(FDouble Amt_free) {
+		setAttrVal("Amt_free", Amt_free);
+	}
+	public String getId_dep_inc() {
+		return ((String) getAttrVal("Id_dep_inc"));
+	}	
+	public void setId_dep_inc(String Id_dep_inc) {
+		setAttrVal("Id_dep_inc", Id_dep_inc);
+	}
+	public String getId_dep_canc() {
+		return ((String) getAttrVal("Id_dep_canc"));
+	}	
+	public void setId_dep_canc(String Id_dep_canc) {
+		setAttrVal("Id_dep_canc", Id_dep_canc);
+	}
+	public String getId_pc() {
+		return ((String) getAttrVal("Id_pc"));
+	}	
+	public void setId_pc(String Id_pc) {
+		setAttrVal("Id_pc", Id_pc);
+	}
+	public String getPatcode() {
+		return ((String) getAttrVal("Patcode"));
+	}	
+	public void setPatcode(String Patcode) {
+		setAttrVal("Patcode", Patcode);
+	}
+	public String getPatname() {
+		return ((String) getAttrVal("Patname"));
+	}	
+	public void setPatname(String Patname) {
+		setAttrVal("Patname", Patname);
+	}
+	public String getEnt_code() {
+		return ((String) getAttrVal("Ent_code"));
+	}	
+	public void setEnt_code(String Ent_code) {
+		setAttrVal("Ent_code", Ent_code);
+	}
+	public String getCode() {
+		return ((String) getAttrVal("Code"));
+	}	
+	public void setCode(String Code) {
+		setAttrVal("Code", Code);
+	}
+	public String getName() {
+		return ((String) getAttrVal("Name"));
+	}	
+	public void setName(String Name) {
+		setAttrVal("Name", Name);
+	}
+	public String getInccacode() {
+		return ((String) getAttrVal("Inccacode"));
+	}	
+	public void setInccacode(String Inccacode) {
+		setAttrVal("Inccacode", Inccacode);
+	}
+	public String getInccaname() {
+		return ((String) getAttrVal("Inccaname"));
+	}	
+	public void setInccaname(String Inccaname) {
+		setAttrVal("Inccaname", Inccaname);
+	}
+	public String getIp_code_incpkg() {
+		return ((String) getAttrVal("Ip_code_incpkg"));
+	}	
+	public void setIp_code_incpkg(String Ip_code_incpkg) {
+		setAttrVal("Ip_code_incpkg", Ip_code_incpkg);
+	}
+	public String getName_emp_inc() {
+		return ((String) getAttrVal("Name_emp_inc"));
+	}	
+	public void setName_emp_inc(String Name_emp_inc) {
+		setAttrVal("Name_emp_inc", Name_emp_inc);
+	}
+	public String getReason_canc_code() {
+		return ((String) getAttrVal("Reason_canc_code"));
+	}	
+	public void setReason_canc_code(String Reason_canc_code) {
+		setAttrVal("Reason_canc_code", Reason_canc_code);
+	}
+	public String getReason_canc_name() {
+		return ((String) getAttrVal("Reason_canc_name"));
+	}	
+	public void setReason_canc_name(String Reason_canc_name) {
+		setAttrVal("Reason_canc_name", Reason_canc_name);
+	}
+	public String getEmp_canc_code() {
+		return ((String) getAttrVal("Emp_canc_code"));
+	}	
+	public void setEmp_canc_code(String Emp_canc_code) {
+		setAttrVal("Emp_canc_code", Emp_canc_code);
+	}
+	public String getEmp_canc_name() {
+		return ((String) getAttrVal("Emp_canc_name"));
+	}	
+	public void setEmp_canc_name(String Emp_canc_name) {
+		setAttrVal("Emp_canc_name", Emp_canc_name);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_incip";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "bl_inc_ip";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(BlIncIpDODesc.class);
+	}
+	
+}

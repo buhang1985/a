@@ -1,0 +1,191 @@
+package iih.bl.st.blpaypatoep.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.bl.st.blpaypatoep.d.desc.BlPayItmPatOepDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 门急诊患者收付款明细 DO数据 
+ * 
+ */
+public class BlPayItmPatOepDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_PAYITMPATOEP= "Id_payitmpatoep";
+	public static final String ID_PAYPATOEP= "Id_paypatoep";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_ORG= "Id_org";
+	public static final String EU_DIRECT= "Eu_direct";
+	public static final String FG_REALPAY= "Fg_realpay";
+	public static final String ID_CUST= "Id_cust";
+	public static final String ID_PM= "Id_pm";
+	public static final String SD_PM= "Sd_pm";
+	public static final String AMT= "Amt";
+	public static final String ID_BANK= "Id_bank";
+	public static final String BANKNO= "Bankno";
+	public static final String PAYMODENODE= "Paymodenode";
+	public static final String NAME_PM= "Name_pm";
+	public static final String ID_PAYPAT= "Id_paypat";
+	public static final String FG_MANUAL= "Fg_manual";
+	public static final String CUST_NAME= "Cust_name";
+	public static final String PM_CODE= "Pm_code";
+	public static final String PM_NAME= "Pm_name";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_payitmpatoep() {
+		return ((String) getAttrVal("Id_payitmpatoep"));
+	}	
+	public void setId_payitmpatoep(String Id_payitmpatoep) {
+		setAttrVal("Id_payitmpatoep", Id_payitmpatoep);
+	}
+	public String getId_paypatoep() {
+		return ((String) getAttrVal("Id_paypatoep"));
+	}	
+	public void setId_paypatoep(String Id_paypatoep) {
+		setAttrVal("Id_paypatoep", Id_paypatoep);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public Integer getEu_direct() {
+		return ((Integer) getAttrVal("Eu_direct"));
+	}	
+	public void setEu_direct(Integer Eu_direct) {
+		setAttrVal("Eu_direct", Eu_direct);
+	}
+	public FBoolean getFg_realpay() {
+		return ((FBoolean) getAttrVal("Fg_realpay"));
+	}	
+	public void setFg_realpay(FBoolean Fg_realpay) {
+		setAttrVal("Fg_realpay", Fg_realpay);
+	}
+	public String getId_cust() {
+		return ((String) getAttrVal("Id_cust"));
+	}	
+	public void setId_cust(String Id_cust) {
+		setAttrVal("Id_cust", Id_cust);
+	}
+	public String getId_pm() {
+		return ((String) getAttrVal("Id_pm"));
+	}	
+	public void setId_pm(String Id_pm) {
+		setAttrVal("Id_pm", Id_pm);
+	}
+	public String getSd_pm() {
+		return ((String) getAttrVal("Sd_pm"));
+	}	
+	public void setSd_pm(String Sd_pm) {
+		setAttrVal("Sd_pm", Sd_pm);
+	}
+	public FDouble getAmt() {
+		return ((FDouble) getAttrVal("Amt"));
+	}	
+	public void setAmt(FDouble Amt) {
+		setAttrVal("Amt", Amt);
+	}
+	public String getId_bank() {
+		return ((String) getAttrVal("Id_bank"));
+	}	
+	public void setId_bank(String Id_bank) {
+		setAttrVal("Id_bank", Id_bank);
+	}
+	public String getBankno() {
+		return ((String) getAttrVal("Bankno"));
+	}	
+	public void setBankno(String Bankno) {
+		setAttrVal("Bankno", Bankno);
+	}
+	public String getPaymodenode() {
+		return ((String) getAttrVal("Paymodenode"));
+	}	
+	public void setPaymodenode(String Paymodenode) {
+		setAttrVal("Paymodenode", Paymodenode);
+	}
+	public String getName_pm() {
+		return ((String) getAttrVal("Name_pm"));
+	}	
+	public void setName_pm(String Name_pm) {
+		setAttrVal("Name_pm", Name_pm);
+	}
+	public String getId_paypat() {
+		return ((String) getAttrVal("Id_paypat"));
+	}	
+	public void setId_paypat(String Id_paypat) {
+		setAttrVal("Id_paypat", Id_paypat);
+	}
+	public FBoolean getFg_manual() {
+		return ((FBoolean) getAttrVal("Fg_manual"));
+	}	
+	public void setFg_manual(FBoolean Fg_manual) {
+		setAttrVal("Fg_manual", Fg_manual);
+	}
+	public String getCust_name() {
+		return ((String) getAttrVal("Cust_name"));
+	}	
+	public void setCust_name(String Cust_name) {
+		setAttrVal("Cust_name", Cust_name);
+	}
+	public String getPm_code() {
+		return ((String) getAttrVal("Pm_code"));
+	}	
+	public void setPm_code(String Pm_code) {
+		setAttrVal("Pm_code", Pm_code);
+	}
+	public String getPm_name() {
+		return ((String) getAttrVal("Pm_name"));
+	}	
+	public void setPm_name(String Pm_name) {
+		setAttrVal("Pm_name", Pm_name);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_payitmpatoep";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "bl_pay_itm_pat_oep";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(BlPayItmPatOepDODesc.class);
+	}
+	
+}

@@ -1,0 +1,41 @@
+package iih.bl.inc.i;
+
+import xap.mw.core.data.BizException;
+import xap.mw.coreitf.d.FBoolean;
+
+/**
+ * 发票域校验服务
+ * @author ly 2018/04/04
+ *
+ */
+public interface IBlIncValidateService {
+
+	/**
+	 * 是否打印红冲发票
+	 * @param entId 就诊ID
+	 * @return FBoolean
+	 * @throws BizException
+	 * @author yanglu
+	 */
+	public abstract FBoolean isPrintRedInc(String entId) throws BizException;
+	
+	/**
+	 * 是否打印红冲发票
+	 * @param hpId 医保产品id
+	 * @param fgEnt 是否挂号发票
+	 * @return 判断结果
+	 * @throws BizException
+	 * @author ly 2018/12/13
+	 */
+	public abstract FBoolean isPrintRedInc2(String hpId, FBoolean fgEnt) throws BizException;
+	
+	/**
+	 * 发票是否属于当前PC或者人员
+	 * @param inccaId 票据分类id
+	 * @param incno 发票号
+	 * @return true:属于 false:不属于
+	 * @throws BizException
+	 * @author ly 2018/09/14
+	 */
+	public abstract FBoolean isIncThisPCOrPsn(String inccaId, String incno) throws BizException;
+}

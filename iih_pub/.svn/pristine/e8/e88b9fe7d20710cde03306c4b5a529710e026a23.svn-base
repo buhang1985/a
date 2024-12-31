@@ -1,0 +1,657 @@
+
+package iih.en.pv.enthptfin.d.desc;
+
+import java.sql.Types;
+import java.util.HashMap;
+import java.util.Map;
+
+import xap.sys.appfw.orm.desc.db.ColumnDesc;
+import xap.sys.appfw.orm.desc.db.DsColumn;
+import xap.sys.appfw.orm.desc.db.SvColumn;
+import xap.sys.appfw.orm.desc.db.TableDesc;
+import xap.sys.appfw.orm.desc.ent.dataobject.Attr;
+import xap.sys.appfw.orm.desc.ent.dataobject.DODesc;
+import xap.sys.appfw.orm.desc.ent.dataobject.DsAttr;
+import xap.sys.appfw.orm.desc.ent.dataobject.SvAttr;
+import xap.mw.coreitf.i.IAttrDesc;
+import xap.mw.coreitf.i.IColumnDesc;
+import xap.mw.coreitf.i.ITableDesc;
+import xap.mw.coreitf.d.FType;
+import java.math.BigDecimal;
+
+/**
+ * 就诊医保计划_转诊_转入 DO 元数据信息
+ */
+public class EnEntHpTfInDODesc extends DODesc {
+	public static final String CLASS_FULLNAME = "iih.en.pv.enthptfin.d.EnEntHpTfInDO";
+	public static final String CLASS_DISPALYNAME = "就诊医保计划_转诊_转入";
+	public static final String CLASS_RESID = "";
+	public static final String CLASS_RESMODULE = "";
+	public static final String TABLE_NAME = "en_ent_hp_tf_in";
+	public static final String TABLE_ALIAS_NAME = "a0";
+	public static final String PRIMARYKEY_FIELDNAME="Id_enthptfin";
+	private ColumnDesc dsColumn=null;
+	private ColumnDesc svColumn=null;
+	
+	/**
+	 * 无参构造函数
+	 */
+	public EnEntHpTfInDODesc(){
+		init();
+	}
+	
+	/**
+	 * 数据初始化
+	 */
+	private void init(){		
+		this.setResID(CLASS_RESID);
+		this.setResNode(CLASS_RESMODULE);
+		this.setLabel(CLASS_DISPALYNAME);
+		this.setEntityName(CLASS_FULLNAME);
+		ITableDesc tblDesc=getTableDesc();
+		this.setKeyDesc(getId_enthptfinADesc(tblDesc));
+		this.setIBDDataInfoFldMap();
+		this.setIAuditInfoFldMap();
+		this.setDefaultValueMap();
+		this.add(getId_enthptfinADesc(tblDesc));
+		this.add(getId_enthpADesc(tblDesc));
+		this.add(getId_entADesc(tblDesc));
+		this.add(getId_hpADesc(tblDesc));
+		this.add(getTf_in_noADesc(tblDesc));
+		this.add(getId_empADesc(tblDesc));
+		this.add(getId_emp_orgADesc(tblDesc));
+		this.add(getDt_tfADesc(tblDesc));
+		this.add(getFg_cancADesc(tblDesc));
+		this.add(getDt_cancADesc(tblDesc));
+		this.add(getId_canc_empADesc(tblDesc));
+		this.add(getId_canc_emp_orgADesc(tblDesc));
+		this.add(getSd_canc_resADesc(tblDesc));
+		this.add(getDes_cancADesc(tblDesc));
+		this.add(getCreatedbyADesc(tblDesc));
+		this.add(getCreatedtimeADesc(tblDesc));
+		this.add(getModifiedbyADesc(tblDesc));
+		this.add(getModifiedtimeADesc(tblDesc));
+		this.add(new DsAttr(dsColumn,this));
+		this.add(new SvAttr(svColumn,this));
+		
+	}
+		
+	/**
+	 * 获得表元数据
+	 * @return
+	 */
+	private ITableDesc getTableDesc(){
+		TableDesc tblDesc=new TableDesc(TABLE_NAME,TABLE_ALIAS_NAME);
+		tblDesc.setLabel(CLASS_DISPALYNAME);
+		tblDesc.setPrimaryKey(getId_enthptfinCDesc(tblDesc));
+		tblDesc.add(getId_enthptfinCDesc(tblDesc));
+		tblDesc.add(getId_enthpCDesc(tblDesc));
+		tblDesc.add(getId_entCDesc(tblDesc));
+		tblDesc.add(getId_hpCDesc(tblDesc));
+		tblDesc.add(getTf_in_noCDesc(tblDesc));
+		tblDesc.add(getId_empCDesc(tblDesc));
+		tblDesc.add(getId_emp_orgCDesc(tblDesc));
+		tblDesc.add(getDt_tfCDesc(tblDesc));
+		tblDesc.add(getFg_cancCDesc(tblDesc));
+		tblDesc.add(getDt_cancCDesc(tblDesc));
+		tblDesc.add(getId_canc_empCDesc(tblDesc));
+		tblDesc.add(getId_canc_emp_orgCDesc(tblDesc));
+		tblDesc.add(getSd_canc_resCDesc(tblDesc));
+		tblDesc.add(getDes_cancCDesc(tblDesc));
+		tblDesc.add(getCreatedbyCDesc(tblDesc));
+		tblDesc.add(getCreatedtimeCDesc(tblDesc));
+		tblDesc.add(getModifiedbyCDesc(tblDesc));
+		tblDesc.add(getModifiedtimeCDesc(tblDesc));
+		dsColumn=new DsColumn(tblDesc);
+		svColumn=new SvColumn(tblDesc);
+	
+		return tblDesc;
+	}
+	
+	/**
+	 * 医保转诊转入主键属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getId_enthptfinADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Id_enthptfin",  getId_enthptfinCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.String);
+		attrDesc.setLabel("医保转诊转入主键");
+		attrDesc.setNullable(false);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 患者就诊医保计划主键属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getId_enthpADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Id_enthp",  getId_enthpCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.String);
+		attrDesc.setLabel("患者就诊医保计划主键");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 患者就诊属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getId_entADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Id_ent",  getId_entCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.String);
+		attrDesc.setLabel("患者就诊");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 医保计划属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getId_hpADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Id_hp",  getId_hpCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.String);
+		attrDesc.setLabel("医保计划");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 转入的转诊单号属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getTf_in_noADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Tf_in_no",  getTf_in_noCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.String);
+		attrDesc.setLabel("转入的转诊单号");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 转诊操作员属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getId_empADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Id_emp",  getId_empCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.String);
+		attrDesc.setLabel("转诊操作员");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 转诊操作员所在组织属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getId_emp_orgADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Id_emp_org",  getId_emp_orgCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.String);
+		attrDesc.setLabel("转诊操作员所在组织");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 转诊时间属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getDt_tfADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Dt_tf",  getDt_tfCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.FDateTime);
+		attrDesc.setLabel("转诊时间");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 是否取消属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getFg_cancADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Fg_canc",  getFg_cancCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.FBoolean);
+		attrDesc.setLabel("是否取消");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 取消时间属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getDt_cancADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Dt_canc",  getDt_cancCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.FDateTime);
+		attrDesc.setLabel("取消时间");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 取消转诊操作员ID属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getId_canc_empADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Id_canc_emp",  getId_canc_empCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.String);
+		attrDesc.setLabel("取消转诊操作员ID");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 取消转诊操作员所在组织属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getId_canc_emp_orgADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Id_canc_emp_org",  getId_canc_emp_orgCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.String);
+		attrDesc.setLabel("取消转诊操作员所在组织");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 取消原因属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getSd_canc_resADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Sd_canc_res",  getSd_canc_resCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.String);
+		attrDesc.setLabel("取消原因");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 取消原因描述属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getDes_cancADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Des_canc",  getDes_cancCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.String);
+		attrDesc.setLabel("取消原因描述");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 创建人属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getCreatedbyADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Createdby",  getCreatedbyCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.String);
+		attrDesc.setLabel("创建人");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(true);
+		return attrDesc;
+	}
+	/**
+	 * 创建时间属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getCreatedtimeADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Createdtime",  getCreatedtimeCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.FDateTime);
+		attrDesc.setLabel("创建时间");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 最后修改人属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getModifiedbyADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Modifiedby",  getModifiedbyCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.String);
+		attrDesc.setLabel("最后修改人");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(true);
+		return attrDesc;
+	}
+	/**
+	 * 最后修改时间属性元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IAttrDesc getModifiedtimeADesc(ITableDesc tblDesc){
+		Attr attrDesc=new Attr("Modifiedtime",  getModifiedtimeCDesc(tblDesc), this);
+		attrDesc.setJavaType(FType.FDateTime);
+		attrDesc.setLabel("最后修改时间");
+		attrDesc.setNullable(true);
+		attrDesc.setPersistence(true);
+		attrDesc.setSerializable(true);
+		attrDesc.setStatic(false);
+		attrDesc.setRefType(false);
+		return attrDesc;
+	}
+	/**
+	 * 获取医保转诊转入主键表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getId_enthptfinCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Id_enthptfin");
+		column.setLength(20);
+        column.setSqlType(Types.CHAR);
+		column.setNullable(true);
+		column.setLabel("医保转诊转入主键"); 
+		return column;
+	}
+	/**
+	 * 获取患者就诊医保计划主键表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getId_enthpCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Id_enthp");
+		column.setLength(20);
+        column.setSqlType(Types.VARCHAR);
+		column.setNullable(true);
+		column.setLabel("患者就诊医保计划主键"); 
+		return column;
+	}
+	/**
+	 * 获取患者就诊表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getId_entCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Id_ent");
+		column.setLength(20);
+        column.setSqlType(Types.VARCHAR);
+		column.setNullable(true);
+		column.setLabel("患者就诊"); 
+		return column;
+	}
+	/**
+	 * 获取医保计划表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getId_hpCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Id_hp");
+		column.setLength(20);
+        column.setSqlType(Types.VARCHAR);
+		column.setNullable(true);
+		column.setLabel("医保计划"); 
+		return column;
+	}
+	/**
+	 * 获取转入的转诊单号表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getTf_in_noCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Tf_in_no");
+		column.setLength(50);
+        column.setSqlType(Types.VARCHAR);
+		column.setNullable(true);
+		column.setLabel("转入的转诊单号"); 
+		return column;
+	}
+	/**
+	 * 获取转诊操作员表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getId_empCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Id_emp");
+		column.setLength(20);
+        column.setSqlType(Types.VARCHAR);
+		column.setNullable(true);
+		column.setLabel("转诊操作员"); 
+		return column;
+	}
+	/**
+	 * 获取转诊操作员所在组织表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getId_emp_orgCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Id_emp_org");
+		column.setLength(20);
+        column.setSqlType(Types.VARCHAR);
+		column.setNullable(true);
+		column.setLabel("转诊操作员所在组织"); 
+		return column;
+	}
+	/**
+	 * 获取转诊时间表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getDt_tfCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Dt_tf");
+		column.setLength(19);
+        column.setSqlType(Types.CHAR);
+		column.setNullable(true);
+		column.setLabel("转诊时间"); 
+		return column;
+	}
+	/**
+	 * 获取是否取消表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getFg_cancCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Fg_canc");
+		column.setLength(1);
+        column.setSqlType(Types.CHAR);
+		column.setNullable(true);
+		column.setLabel("是否取消"); 
+		return column;
+	}
+	/**
+	 * 获取取消时间表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getDt_cancCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Dt_canc");
+		column.setLength(19);
+        column.setSqlType(Types.CHAR);
+		column.setNullable(true);
+		column.setLabel("取消时间"); 
+		return column;
+	}
+	/**
+	 * 获取取消转诊操作员ID表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getId_canc_empCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Id_canc_emp");
+		column.setLength(20);
+        column.setSqlType(Types.VARCHAR);
+		column.setNullable(true);
+		column.setLabel("取消转诊操作员ID"); 
+		return column;
+	}
+	/**
+	 * 获取取消转诊操作员所在组织表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getId_canc_emp_orgCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Id_canc_emp_org");
+		column.setLength(20);
+        column.setSqlType(Types.VARCHAR);
+		column.setNullable(true);
+		column.setLabel("取消转诊操作员所在组织"); 
+		return column;
+	}
+	/**
+	 * 获取取消原因表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getSd_canc_resCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Sd_canc_res");
+		column.setLength(20);
+        column.setSqlType(Types.VARCHAR);
+		column.setNullable(true);
+		column.setLabel("取消原因"); 
+		return column;
+	}
+	/**
+	 * 获取取消原因描述表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getDes_cancCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Des_canc");
+		column.setLength(300);
+        column.setSqlType(Types.VARCHAR);
+		column.setNullable(true);
+		column.setLabel("取消原因描述"); 
+		return column;
+	}
+	/**
+	 * 获取创建人表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getCreatedbyCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Createdby");
+		column.setLength(20);
+        column.setSqlType(Types.VARCHAR);
+		column.setNullable(true);
+		column.setLabel("创建人"); 
+		return column;
+	}
+	/**
+	 * 获取创建时间表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getCreatedtimeCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Createdtime");
+		column.setLength(19);
+        column.setSqlType(Types.CHAR);
+		column.setNullable(true);
+		column.setLabel("创建时间"); 
+		return column;
+	}
+	/**
+	 * 获取最后修改人表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getModifiedbyCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Modifiedby");
+		column.setLength(20);
+        column.setSqlType(Types.VARCHAR);
+		column.setNullable(true);
+		column.setLabel("最后修改人"); 
+		return column;
+	}
+	/**
+	 * 获取最后修改时间表列元数据
+	 * @param tblDesc
+	 * @return
+	 */
+	private IColumnDesc getModifiedtimeCDesc(ITableDesc tblDesc){
+		ColumnDesc column=new ColumnDesc(tblDesc,"Modifiedtime");
+		column.setLength(19);
+        column.setSqlType(Types.CHAR);
+		column.setNullable(true);
+		column.setLabel("最后修改时间"); 
+		return column;
+	}
+	/**
+	 * 设置IBDataInfo接口映射数据
+	 */
+	private void setIBDDataInfoFldMap(){
+	}
+
+	/**
+	 * 设置实体审计信息数据映射关系 
+	 */
+	private void setIAuditInfoFldMap(){
+		iAuditInfoFldMap=new HashMap<String, String>();
+		iAuditInfoFldMap.put("createdby","Createdby");
+		iAuditInfoFldMap.put("createdtime","Createdtime");
+		iAuditInfoFldMap.put("modifiedby","Modifiedby");
+		iAuditInfoFldMap.put("modifiedtime","Modifiedtime");
+	}
+	
+	/**
+	 * 设置实体默认值
+	 */
+	private void setDefaultValueMap(){
+		defaultValueMap=new HashMap<String, Object>();
+	}
+	
+}

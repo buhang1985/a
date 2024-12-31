@@ -1,0 +1,75 @@
+package iih.pe.listener.qry;
+
+import xap.sys.appfw.orm.utils.ITransQry;
+import xap.sys.jdbc.kernel.SqlParam;
+
+public class SubItemQry implements ITransQry {
+
+	String id_pepsnappt;
+	String item_name;
+	
+	public SubItemQry(String id_pepsnappt,String item_name){
+		this.id_pepsnappt = id_pepsnappt;
+		this.item_name = item_name;
+	}
+	
+	@Override
+	public SqlParam getQryParameter(StringBuffer arg0) {
+		SqlParam param = new SqlParam();
+		param.addParam(id_pepsnappt);
+		param.addParam(item_name);
+		return param;
+	}
+
+	@Override
+	public String getQrySQLStr() {
+		StringBuffer sb = new StringBuffer();
+		/*sb.append("select itm.val_reference as Reference_range,");
+		sb.append("       itm.val_max       as Val_max,");
+		sb.append("       itm.val_min       as val_min,");
+		sb.append("       itm.val_rstrptlab as Lab_sub_text_value,");
+		sb.append("       itm.name_unit     as Lab_sub_que_value_unit,");
+		sb.append("       itm.mark_arrow    as Unusual_desc,");
+		sb.append("       itm.name_srv      as Lab_sub_item_name,");
+		sb.append("       itm.code_srv      as Lab_sub_item_code");
+		sb.append("  from pe_wf_perstlis lis");
+		sb.append(" inner join pe_wf_perstlisitm itm");
+		sb.append("    on lis.id_rptlab = itm.id_rptlab");
+		sb.append("  inner join pe_itm_lisitem item");
+		sb.append("    on item.code = itm.code_srv");
+		sb.append(" inner join pe_itm_pesrvitem srv");
+		sb.append("	on srv.name = item.name");
+		sb.append("		 inner join pe_itm_pesrvbcatlogitm cat");
+		sb.append("    on cat.id_pesrvitem = srv.id_pesrvitem");
+		sb.append(" inner join pe_itm_pesrvbcatlog s");
+		sb.append("    on s.id_pesrvbcatlog = cat.id_pesrvbcatlog");
+		sb.append(" where lis.id_pepsnappt = '" + this.id_pepsnappt + "'");
+		sb.append("   and s.name = '" + this.item_name + "'");*///在lis中直接查询的方案
+		
+		//直接在rst中取值
+		sb.append("select item.sortno    as Display_order,");
+		sb.append("       rst.rst        as Lab_sub_text_value,");
+		sb.append("       rst.unit       Lab_sub_que_value_unit,");
+		sb.append("       rst.ref        Reference_range,");
+		sb.append("       rst.mark_arrow Unusual_desc,");
+		sb.append("       rst.ref_min    as Val_min,");
+		sb.append("       rst.ref_min    as Val_max,");
+		sb.append("       item.name      as Lab_sub_item_name,");
+		sb.append("       item.code      as Lab_sub_item_code");
+		sb.append("  from pe_wf_perst rst");
+		sb.append(" inner join pe_itm_pesrvbcatlog cat");
+		sb.append("    on rst.id_pesrvbcatlog = cat.id_pesrvbcatlog");
+		sb.append(" inner join pe_itm_pesrvbcatlogitm itm");
+		sb.append("    on itm.id_pesrvbcatlog = cat.id_pesrvbcatlog");
+		sb.append("   and itm.id_pesrvitem = rst.id_pesrvitem");
+		sb.append(" inner join pe_itm_pesrvitem item");
+		sb.append("    on item.id_pesrvitem = itm.id_pesrvitem");
+		sb.append(" where rst.id_pedeptset = '1001BZ100000000VPBYP'");
+		sb.append(" and rst.id_pepsnappt = ? ");
+		sb.append(" and cat.name = ? ");
+		sb.append(" and rst.rst is not null");
+		
+		return sb.toString();
+	}
+
+}

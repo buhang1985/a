@@ -1,0 +1,11 @@
+package iih.ci.mi.diag.i;
+
+/**
+ * 
+ * @author HUMS
+ *
+ */
+public interface ICiMiDiagService {
+
+	
+}

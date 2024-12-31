@@ -1,0 +1,373 @@
+package iih.bd.bs.holiday.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.bd.bs.holiday.d.desc.HolidayDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 假日定义 DO数据 
+ * 
+ */
+public class HolidayDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_HOLIDAY= "Id_holiday";
+	public static final String ID_HOLIDAYCATE= "Id_holidaycate";
+	public static final String ID_GROUP= "Id_group";
+	public static final String ID_ORG= "Id_org";
+	public static final String CODE= "Code";
+	public static final String NAME= "Name";
+	public static final String HOLIDAYYEAR= "Holidayyear";
+	public static final String DES= "Des";
+	public static final String STARTTIME= "Starttime";
+	public static final String ENDTIME= "Endtime";
+	public static final String ISDEFTIME= "Isdeftime";
+	public static final String SWITCH1= "Switch1";
+	public static final String SWITCH1TO= "Switch1to";
+	public static final String SWITCH2= "Switch2";
+	public static final String SWITCH2TO= "Switch2to";
+	public static final String SWITCH3= "Switch3";
+	public static final String SWITCH3TO= "Switch3to";
+	public static final String SWITCH4= "Switch4";
+	public static final String SWITCH4TO= "Switch4to";
+	public static final String SWITCH5= "Switch5";
+	public static final String SWITCH5TO= "Switch5to";
+	public static final String SWITCH6= "Switch6";
+	public static final String SWITCH6TO= "Switch6to";
+	public static final String SWITCH7= "Switch7";
+	public static final String SWITCH7TO= "Switch7to";
+	public static final String SWITCH8= "Switch8";
+	public static final String SWITCH8TO= "Switch8to";
+	public static final String ISALLPSN= "Isallpsn";
+	public static final String FORMULARSTR= "Formularstr";
+	public static final String FORMULA= "Formula";
+	public static final String DATAFROMTYPE= "Datafromtype";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String HOLIDAY_CODE= "Holiday_code";
+	public static final String HOLIDAY_NAME= "Holiday_name";
+	public static final String GRPCODE= "Grpcode";
+	public static final String GRPNAME= "Grpname";
+	public static final String ORGCODE= "Orgcode";
+	public static final String ORGNAME= "Orgname";
+	public static final String CREATEDBY_NAME= "Createdby_name";
+	public static final String CREATEDBY_CODE= "Createdby_code";
+	public static final String MODIFIEDBY_NAME= "Modifiedby_name";
+	public static final String MODIFIEDBY_CODE= "Modifiedby_code";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_holiday() {
+		return ((String) getAttrVal("Id_holiday"));
+	}	
+	public void setId_holiday(String Id_holiday) {
+		setAttrVal("Id_holiday", Id_holiday);
+	}
+	public String getId_holidaycate() {
+		return ((String) getAttrVal("Id_holidaycate"));
+	}	
+	public void setId_holidaycate(String Id_holidaycate) {
+		setAttrVal("Id_holidaycate", Id_holidaycate);
+	}
+	public String getId_group() {
+		return ((String) getAttrVal("Id_group"));
+	}	
+	public void setId_group(String Id_group) {
+		setAttrVal("Id_group", Id_group);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getCode() {
+		return ((String) getAttrVal("Code"));
+	}	
+	public void setCode(String Code) {
+		setAttrVal("Code", Code);
+	}
+	public String getName() {
+		return ((String) getAttrVal("Name"));
+	}	
+	public void setName(String Name) {
+		setAttrVal("Name", Name);
+	}
+	public String getHolidayyear() {
+		return ((String) getAttrVal("Holidayyear"));
+	}	
+	public void setHolidayyear(String Holidayyear) {
+		setAttrVal("Holidayyear", Holidayyear);
+	}
+	public String getDes() {
+		return ((String) getAttrVal("Des"));
+	}	
+	public void setDes(String Des) {
+		setAttrVal("Des", Des);
+	}
+	public FDate getStarttime() {
+		return ((FDate) getAttrVal("Starttime"));
+	}	
+	public void setStarttime(FDate Starttime) {
+		setAttrVal("Starttime", Starttime);
+	}
+	public FDate getEndtime() {
+		return ((FDate) getAttrVal("Endtime"));
+	}	
+	public void setEndtime(FDate Endtime) {
+		setAttrVal("Endtime", Endtime);
+	}
+	public FBoolean getIsdeftime() {
+		return ((FBoolean) getAttrVal("Isdeftime"));
+	}	
+	public void setIsdeftime(FBoolean Isdeftime) {
+		setAttrVal("Isdeftime", Isdeftime);
+	}
+	public FDate getSwitch1() {
+		return ((FDate) getAttrVal("Switch1"));
+	}	
+	public void setSwitch1(FDate Switch1) {
+		setAttrVal("Switch1", Switch1);
+	}
+	public FDate getSwitch1to() {
+		return ((FDate) getAttrVal("Switch1to"));
+	}	
+	public void setSwitch1to(FDate Switch1to) {
+		setAttrVal("Switch1to", Switch1to);
+	}
+	public FDate getSwitch2() {
+		return ((FDate) getAttrVal("Switch2"));
+	}	
+	public void setSwitch2(FDate Switch2) {
+		setAttrVal("Switch2", Switch2);
+	}
+	public FDate getSwitch2to() {
+		return ((FDate) getAttrVal("Switch2to"));
+	}	
+	public void setSwitch2to(FDate Switch2to) {
+		setAttrVal("Switch2to", Switch2to);
+	}
+	public FDate getSwitch3() {
+		return ((FDate) getAttrVal("Switch3"));
+	}	
+	public void setSwitch3(FDate Switch3) {
+		setAttrVal("Switch3", Switch3);
+	}
+	public FDate getSwitch3to() {
+		return ((FDate) getAttrVal("Switch3to"));
+	}	
+	public void setSwitch3to(FDate Switch3to) {
+		setAttrVal("Switch3to", Switch3to);
+	}
+	public FDate getSwitch4() {
+		return ((FDate) getAttrVal("Switch4"));
+	}	
+	public void setSwitch4(FDate Switch4) {
+		setAttrVal("Switch4", Switch4);
+	}
+	public FDate getSwitch4to() {
+		return ((FDate) getAttrVal("Switch4to"));
+	}	
+	public void setSwitch4to(FDate Switch4to) {
+		setAttrVal("Switch4to", Switch4to);
+	}
+	public FDate getSwitch5() {
+		return ((FDate) getAttrVal("Switch5"));
+	}	
+	public void setSwitch5(FDate Switch5) {
+		setAttrVal("Switch5", Switch5);
+	}
+	public FDate getSwitch5to() {
+		return ((FDate) getAttrVal("Switch5to"));
+	}	
+	public void setSwitch5to(FDate Switch5to) {
+		setAttrVal("Switch5to", Switch5to);
+	}
+	public FDate getSwitch6() {
+		return ((FDate) getAttrVal("Switch6"));
+	}	
+	public void setSwitch6(FDate Switch6) {
+		setAttrVal("Switch6", Switch6);
+	}
+	public FDate getSwitch6to() {
+		return ((FDate) getAttrVal("Switch6to"));
+	}	
+	public void setSwitch6to(FDate Switch6to) {
+		setAttrVal("Switch6to", Switch6to);
+	}
+	public FDate getSwitch7() {
+		return ((FDate) getAttrVal("Switch7"));
+	}	
+	public void setSwitch7(FDate Switch7) {
+		setAttrVal("Switch7", Switch7);
+	}
+	public FDate getSwitch7to() {
+		return ((FDate) getAttrVal("Switch7to"));
+	}	
+	public void setSwitch7to(FDate Switch7to) {
+		setAttrVal("Switch7to", Switch7to);
+	}
+	public FDate getSwitch8() {
+		return ((FDate) getAttrVal("Switch8"));
+	}	
+	public void setSwitch8(FDate Switch8) {
+		setAttrVal("Switch8", Switch8);
+	}
+	public FDate getSwitch8to() {
+		return ((FDate) getAttrVal("Switch8to"));
+	}	
+	public void setSwitch8to(FDate Switch8to) {
+		setAttrVal("Switch8to", Switch8to);
+	}
+	public FBoolean getIsallpsn() {
+		return ((FBoolean) getAttrVal("Isallpsn"));
+	}	
+	public void setIsallpsn(FBoolean Isallpsn) {
+		setAttrVal("Isallpsn", Isallpsn);
+	}
+	public String getFormularstr() {
+		return ((String) getAttrVal("Formularstr"));
+	}	
+	public void setFormularstr(String Formularstr) {
+		setAttrVal("Formularstr", Formularstr);
+	}
+	public String getFormula() {
+		return ((String) getAttrVal("Formula"));
+	}	
+	public void setFormula(String Formula) {
+		setAttrVal("Formula", Formula);
+	}
+	public Integer getDatafromtype() {
+		return ((Integer) getAttrVal("Datafromtype"));
+	}	
+	public void setDatafromtype(Integer Datafromtype) {
+		setAttrVal("Datafromtype", Datafromtype);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public String getHoliday_code() {
+		return ((String) getAttrVal("Holiday_code"));
+	}	
+	public void setHoliday_code(String Holiday_code) {
+		setAttrVal("Holiday_code", Holiday_code);
+	}
+	public String getHoliday_name() {
+		return ((String) getAttrVal("Holiday_name"));
+	}	
+	public void setHoliday_name(String Holiday_name) {
+		setAttrVal("Holiday_name", Holiday_name);
+	}
+	public String getGrpcode() {
+		return ((String) getAttrVal("Grpcode"));
+	}	
+	public void setGrpcode(String Grpcode) {
+		setAttrVal("Grpcode", Grpcode);
+	}
+	public String getGrpname() {
+		return ((String) getAttrVal("Grpname"));
+	}	
+	public void setGrpname(String Grpname) {
+		setAttrVal("Grpname", Grpname);
+	}
+	public String getOrgcode() {
+		return ((String) getAttrVal("Orgcode"));
+	}	
+	public void setOrgcode(String Orgcode) {
+		setAttrVal("Orgcode", Orgcode);
+	}
+	public String getOrgname() {
+		return ((String) getAttrVal("Orgname"));
+	}	
+	public void setOrgname(String Orgname) {
+		setAttrVal("Orgname", Orgname);
+	}
+	public String getCreatedby_name() {
+		return ((String) getAttrVal("Createdby_name"));
+	}	
+	public void setCreatedby_name(String Createdby_name) {
+		setAttrVal("Createdby_name", Createdby_name);
+	}
+	public String getCreatedby_code() {
+		return ((String) getAttrVal("Createdby_code"));
+	}	
+	public void setCreatedby_code(String Createdby_code) {
+		setAttrVal("Createdby_code", Createdby_code);
+	}
+	public String getModifiedby_name() {
+		return ((String) getAttrVal("Modifiedby_name"));
+	}	
+	public void setModifiedby_name(String Modifiedby_name) {
+		setAttrVal("Modifiedby_name", Modifiedby_name);
+	}
+	public String getModifiedby_code() {
+		return ((String) getAttrVal("Modifiedby_code"));
+	}	
+	public void setModifiedby_code(String Modifiedby_code) {
+		setAttrVal("Modifiedby_code", Modifiedby_code);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_holiday";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "bd_holiday";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(HolidayDODesc.class);
+	}
+	
+}

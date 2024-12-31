@@ -1,0 +1,32 @@
+package iih.pe.phm.pehmriskdef.d.desc;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.sys.appfw.orm.desc.ent.agg.AbstractAggDesc;
+import iih.pe.phm.pehmriskdef.d.PeHmRiskDefDO;
+import iih.pe.phm.pehmriskdef.d.PeHmRiskRangeDO;
+import iih.pe.phm.pehmriskdef.d.desc.PeHmRiskRangeDODesc;
+
+/**
+ * 健康危险因素定义
+ * @author
+ *
+ */
+public class PehmriskdefAggDODesc extends AbstractAggDesc {
+	
+	 /**
+	  * 无参构造函数
+	  */
+	 public PehmriskdefAggDODesc()
+	  {
+	    init();
+	  }
+
+	  /**
+	   * 数据初始化
+	   */
+	  private void init() {
+	    setParent(PeHmRiskDefDO.class);
+        addChildren(PeHmRiskRangeDO.class);
+        addChildForeignKey(DescManager.getInstance().getDODesc(PeHmRiskRangeDODesc.class).getFKAttrDesc());        
+	  }	  
+}

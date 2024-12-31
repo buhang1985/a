@@ -1,0 +1,84 @@
+package iih.ci.mi.ord.i.meta;
+
+import xap.mw.coreitf.d.FDouble;
+
+public class OrdSrvRuleParamDTO extends OrdSrvIndicParamDTO{
+
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 频次
+	 * @return String
+	 */
+	public String getId_freq() {
+		return ((String) getAttrVal("Id_freq"));
+	}
+	/**
+	 * 频次
+	 * @param Id_freq
+	 */
+	public void setId_freq(String Id_freq) {
+		setAttrVal("Id_freq", Id_freq);
+	}
+	
+	/**
+	 * 剂型
+	 * @return String
+	 */
+	public String getId_dosage() {
+		return ((String) getAttrVal("Id_dosage"));
+	}
+	/**
+	 * 剂型
+	 * @param Id_dosage
+	 */
+	public void setId_dosage(String Id_dosage) {
+		setAttrVal("Id_dosage", Id_dosage);
+	}
+	
+	/**
+	 * 当前物品持有天数
+	 * @return Integer
+	 */
+	public Integer getDays_available() {
+		return ((Integer) getAttrVal("Days_available"));
+	}	
+	/**
+	 * 当前物品持有天数
+	 * @param Days_available
+	 */
+	public void setDays_available(Integer Days_available) {
+		setAttrVal("Days_available", Days_available);
+	}
+	
+	/**
+	 * 换算系数
+	 * @return Integer
+	 */
+	public FDouble getFactor() {
+		return ((FDouble) getAttrVal("Factor"));
+	}	
+	/**
+	 * 换算系数
+	 * @param Factor
+	 */
+	public void setFactor(FDouble Factor) {
+		setAttrVal("Factor", Factor);
+	}
+	
+	/**
+	 * 换算系数_医疗基本
+	 * @return Integer
+	 */
+	public FDouble getFactor_mb() {
+		return ((FDouble) getAttrVal("Factor_mb"));
+	}	
+	/**
+	 * 换算系数_医疗基本
+	 * @param Factor_mb
+	 */
+	public void setFactor_mb(FDouble Factor_mb) {
+		setAttrVal("Factor_mb", Factor_mb);
+	}
+	
+	
+}

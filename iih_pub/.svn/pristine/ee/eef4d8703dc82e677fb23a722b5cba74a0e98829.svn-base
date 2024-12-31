@@ -1,0 +1,13 @@
+package iih.pe.papt.pepsnapptset.d;
+
+import xap.sys.appfw.orm.desc.ent.dataobject.DmEnumDesc;
+
+public interface PeSetSelectEnum {
+
+    @DmEnumDesc(name="体检套餐",description="体检套餐")
+	public static final Integer PESET=0; //体检套餐
+    @DmEnumDesc(name="套餐内减项",description="套餐内减项")
+	public static final Integer PEREMOVE=1; //套餐内减项
+    @DmEnumDesc(name="加选项目",description="加选项目")
+	public static final Integer PEADD=2; //加选项目
+}	

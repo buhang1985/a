@@ -1,0 +1,19 @@
+package iih.bl.itf.transferdetails.i;
+
+import iih.bl.itf.transferdetails.d.TransferDetailsDTO;
+import xap.mw.core.data.BizException;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+
+public interface TransferDetailsService {
+	/**
+	 * 获取转账详细信息
+	 * @param id_pat
+	 * @param beginDate
+	 * @param endDate
+	 * @return
+	 * @throws BizException
+	 * @author dongjiye
+	 */
+	public abstract TransferDetailsDTO[] transferDetailsQry(QryRootNodeDTO qryNode) throws BizException;
+
+}

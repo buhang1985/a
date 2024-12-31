@@ -1,0 +1,13 @@
+package iih.pe.papt.pepsnappt.d;
+
+import xap.sys.appfw.orm.desc.ent.dataobject.DmEnumDesc;
+
+public interface PePsnInfoTpEnum {
+
+    @DmEnumDesc(name="普通",description="普通")
+	public static final Integer PEPSNINFOCOMM=0; //普通
+    @DmEnumDesc(name="VIP",description="VIP")
+	public static final Integer PEPSNINFOVIP=1; //VIP
+    @DmEnumDesc(name="VVIP",description="VVIP")
+	public static final Integer PEPSNINFOVVIP=2; //VVIP
+}	

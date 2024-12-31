@@ -1,0 +1,19 @@
+package iih.pis.cqs.i;
+
+import javax.jws.WebService;
+
+import xap.mw.core.data.BizException;
+/***
+ * 显示屏对外接口
+ * @author fanlq
+ * @date: 2019年10月14日 下午1:56:17
+ */
+@WebService
+public interface ICqsOutCmdService {
+
+	/***
+	 * @Description:注册显示屏
+	 * @param xml
+	 */
+	void registCqs(String xml) throws BizException;
+}

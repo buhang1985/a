@@ -1,0 +1,8 @@
+package iih.pe.papi.i.ris;
+
+import xap.mw.core.data.BizException;
+
+public interface IPeButtRisService {
+
+	public abstract Boolean pePatientConnectRis (String id_pepsnappt) throws BizException;
+}

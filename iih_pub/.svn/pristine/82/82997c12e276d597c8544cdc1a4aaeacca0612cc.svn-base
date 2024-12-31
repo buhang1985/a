@@ -1,0 +1,163 @@
+package iih.ci.mrqc.cimrqcrandomrule.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.ci.mrqc.cimrqcrandomrule.d.desc.CiMrQcRandomRuleDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 质控抽查设置规则 DO数据 
+ * 
+ */
+public class CiMrQcRandomRuleDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_MR_QC_RANDOM_RULE= "Id_mr_qc_random_rule";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_ORG= "Id_org";
+	public static final String ID_DEP_RANDOM_RULE= "Id_dep_random_rule";
+	public static final String COUNT_RANDOM_RULE= "Count_random_rule";
+	public static final String DT_RANDOM_RULE= "Dt_random_rule";
+	public static final String DT_BEGIN_RANDOM= "Dt_begin_random";
+	public static final String DT_END_RANDOM= "Dt_end_random";
+	public static final String DES_RANDOM_RULE= "Des_random_rule";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String CREATEDBY= "Createdby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String CODE_DEP_RANDOM_RULE= "Code_dep_random_rule";
+	public static final String NAME_DEP_RANDOM_RULE= "Name_dep_random_rule";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_mr_qc_random_rule() {
+		return ((String) getAttrVal("Id_mr_qc_random_rule"));
+	}	
+	public void setId_mr_qc_random_rule(String Id_mr_qc_random_rule) {
+		setAttrVal("Id_mr_qc_random_rule", Id_mr_qc_random_rule);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getId_dep_random_rule() {
+		return ((String) getAttrVal("Id_dep_random_rule"));
+	}	
+	public void setId_dep_random_rule(String Id_dep_random_rule) {
+		setAttrVal("Id_dep_random_rule", Id_dep_random_rule);
+	}
+	public Integer getCount_random_rule() {
+		return ((Integer) getAttrVal("Count_random_rule"));
+	}	
+	public void setCount_random_rule(Integer Count_random_rule) {
+		setAttrVal("Count_random_rule", Count_random_rule);
+	}
+	public FDate getDt_random_rule() {
+		return ((FDate) getAttrVal("Dt_random_rule"));
+	}	
+	public void setDt_random_rule(FDate Dt_random_rule) {
+		setAttrVal("Dt_random_rule", Dt_random_rule);
+	}
+	public FDateTime getDt_begin_random() {
+		return ((FDateTime) getAttrVal("Dt_begin_random"));
+	}	
+	public void setDt_begin_random(FDateTime Dt_begin_random) {
+		setAttrVal("Dt_begin_random", Dt_begin_random);
+	}
+	public FDateTime getDt_end_random() {
+		return ((FDateTime) getAttrVal("Dt_end_random"));
+	}	
+	public void setDt_end_random(FDateTime Dt_end_random) {
+		setAttrVal("Dt_end_random", Dt_end_random);
+	}
+	public String getDes_random_rule() {
+		return ((String) getAttrVal("Des_random_rule"));
+	}	
+	public void setDes_random_rule(String Des_random_rule) {
+		setAttrVal("Des_random_rule", Des_random_rule);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public String getCode_dep_random_rule() {
+		return ((String) getAttrVal("Code_dep_random_rule"));
+	}	
+	public void setCode_dep_random_rule(String Code_dep_random_rule) {
+		setAttrVal("Code_dep_random_rule", Code_dep_random_rule);
+	}
+	public String getName_dep_random_rule() {
+		return ((String) getAttrVal("Name_dep_random_rule"));
+	}	
+	public void setName_dep_random_rule(String Name_dep_random_rule) {
+		setAttrVal("Name_dep_random_rule", Name_dep_random_rule);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_mr_qc_random_rule";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "ci_mr_qc_random_rule";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(CiMrQcRandomRuleDODesc.class);
+	}
+	
+}

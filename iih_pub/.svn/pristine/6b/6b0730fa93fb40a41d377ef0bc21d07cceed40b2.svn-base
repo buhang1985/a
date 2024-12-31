@@ -1,0 +1,12 @@
+package iih.pe.pwf.i;
+
+import iih.pe.pwf.dto.pepsninfodto.d.PePsnInfoDTO;
+import xap.mw.core.data.BizException;
+
+public interface IPePsnInfoDTOQueryService {
+	public PePsnInfoDTO[] findByDTO(String x,String y) throws BizException;
+	
+	public PePsnInfoDTO[] findDtoByPecode(String code,String multiGroupValue) throws BizException;
+
+	public PePsnInfoDTO findDtoByIdPepsnbinfo(String idPepsnbinfo, String orderPart) throws BizException;
+}

@@ -1,0 +1,14 @@
+package iih.pe.pps.i;
+
+import iih.pe.pps.pecohort.d.PeCohortDO;
+import xap.mw.core.data.BizException;
+
+public interface IPePosiTrackListMaintainService {
+
+	/**
+	 * 检索
+	 * @param cohortDo
+	 * @throws BizException
+	 */
+	void cohortSearch(PeCohortDO cohortDo) throws BizException;
+}

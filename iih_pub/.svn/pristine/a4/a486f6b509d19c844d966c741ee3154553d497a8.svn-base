@@ -1,0 +1,58 @@
+package iih.pis.ivx.invoice.i;
+
+/**
+ * 微信发票接口服务
+ */
+public interface IPisivxInvoiceService {
+	
+	/**
+	 * 商户获取授权页ticket
+	 * @author chen.zhao
+	 * @since 2019/11/06
+	 *
+	 */
+	public String getTicket() throws Exception;
+
+	/**
+	 * 商户获取授权页链接
+	 * @author chen.zhao
+	 * @since 2019/11/06
+	 *
+	 */
+	public String getAuthUrl() throws Exception;
+
+	/**
+	 * 开票平台获取自身的开票平台识别码
+	 * @author chen.zhao
+	 * @since 2019/11/06
+	 *
+	 */
+	public String setUrl() throws Exception;
+
+	/**
+	 * 开票平台创建发票卡券模板
+	 * @author chen.zhao
+	 * @since 2019/11/06
+	 *
+	 */
+	public String createCard() throws Exception;
+	
+	/**
+	 * 本接口由开票平台或自建平台商户调用。对用户已经授权过的开票请求，开票平台可以使用本接口将发票制成发票卡券放入用户的微信卡包中。
+	 * 值得关注的是，如果授权页由商户拉起，而插卡递送发票的动作由开票平台来完成的话，商户需要将需要存入微信卡包的标识和order_id在开票请求中发送给开票平台。
+     * 注意：需要使用之前调用获取s_pappid接口时的开票平台公众号appid调用本接口，否则会造成报错，插卡失败。
+	 * @author chen.zhao
+	 * @since 2019/11/06
+	 *
+	 */
+	public String insert() throws Exception;
+	
+	/**
+	 * 商户或开票平台可以通过该接口上传PDF。PDF上传成功后将获得发票文件的标识，后续可以通过插卡接口将PDF关联到用户的发票卡券上，一并插入到收票用户的卡包中。
+	 * 注意：若上传成功的PDF在三天内没有被关联到发票卡券发送到用户卡包上，将会被清理。若商户或开票平台需要在三天后再关联发票卡券的话，需要重新上传。
+	 * @author chen.zhao
+	 * @since 2019/11/07
+	 *
+	 */
+	public String setPdf() throws Exception;
+}

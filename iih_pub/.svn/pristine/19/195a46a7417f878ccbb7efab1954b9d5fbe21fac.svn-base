@@ -1,0 +1,602 @@
+package iih.en.er.dto.d;
+
+import xap.mw.core.data.*;
+import xap.mw.coreitf.d.*;
+import java.math.BigDecimal;
+
+/**
+ * 急诊留观许可dto DTO数据 
+ * 
+ */
+public class EnObsPermitDTO extends BaseDTO {
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 留观许可id
+	 * @return String
+	 */
+	public String getId_enobsper() {
+		return ((String) getAttrVal("Id_enobsper"));
+	}
+	/**
+	 * 留观许可id
+	 * @param Id_enobsper
+	 */
+	public void setId_enobsper(String Id_enobsper) {
+		setAttrVal("Id_enobsper", Id_enobsper);
+	}
+	/**
+	 * 患者id
+	 * @return String
+	 */
+	public String getId_pat() {
+		return ((String) getAttrVal("Id_pat"));
+	}
+	/**
+	 * 患者id
+	 * @param Id_pat
+	 */
+	public void setId_pat(String Id_pat) {
+		setAttrVal("Id_pat", Id_pat);
+	}
+	/**
+	 * 就诊id
+	 * @return String
+	 */
+	public String getId_ent() {
+		return ((String) getAttrVal("Id_ent"));
+	}
+	/**
+	 * 就诊id
+	 * @param Id_ent
+	 */
+	public void setId_ent(String Id_ent) {
+		setAttrVal("Id_ent", Id_ent);
+	}
+	/**
+	 * 患者姓名
+	 * @return String
+	 */
+	public String getName_pat() {
+		return ((String) getAttrVal("Name_pat"));
+	}
+	/**
+	 * 患者姓名
+	 * @param Name_pat
+	 */
+	public void setName_pat(String Name_pat) {
+		setAttrVal("Name_pat", Name_pat);
+	}
+	/**
+	 * 性别
+	 * @return String
+	 */
+	public String getName_sex() {
+		return ((String) getAttrVal("Name_sex"));
+	}
+	/**
+	 * 性别
+	 * @param Name_sex
+	 */
+	public void setName_sex(String Name_sex) {
+		setAttrVal("Name_sex", Name_sex);
+	}
+	/**
+	 * 年龄
+	 * @return String
+	 */
+	public String getAge() {
+		return ((String) getAttrVal("Age"));
+	}
+	/**
+	 * 年龄
+	 * @param Age
+	 */
+	public void setAge(String Age) {
+		setAttrVal("Age", Age);
+	}
+	/**
+	 * 患者编号
+	 * @return String
+	 */
+	public String getCode_pat() {
+		return ((String) getAttrVal("Code_pat"));
+	}
+	/**
+	 * 患者编号
+	 * @param Code_pat
+	 */
+	public void setCode_pat(String Code_pat) {
+		setAttrVal("Code_pat", Code_pat);
+	}
+	/**
+	 * 婚姻状况
+	 * @return String
+	 */
+	public String getMarriage() {
+		return ((String) getAttrVal("Marriage"));
+	}
+	/**
+	 * 婚姻状况
+	 * @param Marriage
+	 */
+	public void setMarriage(String Marriage) {
+		setAttrVal("Marriage", Marriage);
+	}
+	/**
+	 * 绿色通道
+	 * @return String
+	 */
+	public String getName_green_channel() {
+		return ((String) getAttrVal("Name_green_channel"));
+	}
+	/**
+	 * 绿色通道
+	 * @param Name_green_channel
+	 */
+	public void setName_green_channel(String Name_green_channel) {
+		setAttrVal("Name_green_channel", Name_green_channel);
+	}
+	/**
+	 * 分诊科室id
+	 * @return String
+	 */
+	public String getId_dept() {
+		return ((String) getAttrVal("Id_dept"));
+	}
+	/**
+	 * 分诊科室id
+	 * @param Id_dept
+	 */
+	public void setId_dept(String Id_dept) {
+		setAttrVal("Id_dept", Id_dept);
+	}
+	/**
+	 * 分诊科室
+	 * @return String
+	 */
+	public String getName_dept() {
+		return ((String) getAttrVal("Name_dept"));
+	}
+	/**
+	 * 分诊科室
+	 * @param Name_dept
+	 */
+	public void setName_dept(String Name_dept) {
+		setAttrVal("Name_dept", Name_dept);
+	}
+	/**
+	 * 预检分级
+	 * @return String
+	 */
+	public String getEnerpre_level() {
+		return ((String) getAttrVal("Enerpre_level"));
+	}
+	/**
+	 * 预检分级
+	 * @param Enerpre_level
+	 */
+	public void setEnerpre_level(String Enerpre_level) {
+		setAttrVal("Enerpre_level", Enerpre_level);
+	}
+	/**
+	 * 预检时间
+	 * @return FDateTime
+	 */
+	public FDateTime getDt_enerpre() {
+		return ((FDateTime) getAttrVal("Dt_enerpre"));
+	}
+	/**
+	 * 预检时间
+	 * @param Dt_enerpre
+	 */
+	public void setDt_enerpre(FDateTime Dt_enerpre) {
+		setAttrVal("Dt_enerpre", Dt_enerpre);
+	}
+	/**
+	 * 电话
+	 * @return String
+	 */
+	public String getTel() {
+		return ((String) getAttrVal("Tel"));
+	}
+	/**
+	 * 电话
+	 * @param Tel
+	 */
+	public void setTel(String Tel) {
+		setAttrVal("Tel", Tel);
+	}
+	/**
+	 * 证件类型
+	 * @return String
+	 */
+	public String getCredentials_tp() {
+		return ((String) getAttrVal("Credentials_tp"));
+	}
+	/**
+	 * 证件类型
+	 * @param Credentials_tp
+	 */
+	public void setCredentials_tp(String Credentials_tp) {
+		setAttrVal("Credentials_tp", Credentials_tp);
+	}
+	/**
+	 * 证件号
+	 * @return String
+	 */
+	public String getCredentials_code() {
+		return ((String) getAttrVal("Credentials_code"));
+	}
+	/**
+	 * 证件号
+	 * @param Credentials_code
+	 */
+	public void setCredentials_code(String Credentials_code) {
+		setAttrVal("Credentials_code", Credentials_code);
+	}
+	/**
+	 * 家庭住址
+	 * @return String
+	 */
+	public String getAddr() {
+		return ((String) getAttrVal("Addr"));
+	}
+	/**
+	 * 家庭住址
+	 * @param Addr
+	 */
+	public void setAddr(String Addr) {
+		setAttrVal("Addr", Addr);
+	}
+	/**
+	 * 床位id
+	 * @return String
+	 */
+	public String getId_bed() {
+		return ((String) getAttrVal("Id_bed"));
+	}
+	/**
+	 * 床位id
+	 * @param Id_bed
+	 */
+	public void setId_bed(String Id_bed) {
+		setAttrVal("Id_bed", Id_bed);
+	}
+	/**
+	 * 床位编码
+	 * @return String
+	 */
+	public String getSd_bed() {
+		return ((String) getAttrVal("Sd_bed"));
+	}
+	/**
+	 * 床位编码
+	 * @param Sd_bed
+	 */
+	public void setSd_bed(String Sd_bed) {
+		setAttrVal("Sd_bed", Sd_bed);
+	}
+	/**
+	 * 床位
+	 * @return String
+	 */
+	public String getBed() {
+		return ((String) getAttrVal("Bed"));
+	}
+	/**
+	 * 床位
+	 * @param Bed
+	 */
+	public void setBed(String Bed) {
+		setAttrVal("Bed", Bed);
+	}
+	/**
+	 * 主要诊断描述
+	 * @return String
+	 */
+	public String getDetailed_diagnosis() {
+		return ((String) getAttrVal("Detailed_diagnosis"));
+	}
+	/**
+	 * 主要诊断描述
+	 * @param Detailed_diagnosis
+	 */
+	public void setDetailed_diagnosis(String Detailed_diagnosis) {
+		setAttrVal("Detailed_diagnosis", Detailed_diagnosis);
+	}
+	/**
+	 * 主要诊断
+	 * @return String
+	 */
+	public String getDiagnosis() {
+		return ((String) getAttrVal("Diagnosis"));
+	}
+	/**
+	 * 主要诊断
+	 * @param Diagnosis
+	 */
+	public void setDiagnosis(String Diagnosis) {
+		setAttrVal("Diagnosis", Diagnosis);
+	}
+	/**
+	 * 主要诊断id
+	 * @return String
+	 */
+	public String getId_diagnosis() {
+		return ((String) getAttrVal("Id_diagnosis"));
+	}
+	/**
+	 * 主要诊断id
+	 * @param Id_diagnosis
+	 */
+	public void setId_diagnosis(String Id_diagnosis) {
+		setAttrVal("Id_diagnosis", Id_diagnosis);
+	}
+	/**
+	 * 主要诊断编码
+	 * @return String
+	 */
+	public String getSd_diagnosis() {
+		return ((String) getAttrVal("Sd_diagnosis"));
+	}
+	/**
+	 * 主要诊断编码
+	 * @param Sd_diagnosis
+	 */
+	public void setSd_diagnosis(String Sd_diagnosis) {
+		setAttrVal("Sd_diagnosis", Sd_diagnosis);
+	}
+	/**
+	 * 病情状况id
+	 * @return String
+	 */
+	public String getId_level_dise() {
+		return ((String) getAttrVal("Id_level_dise"));
+	}
+	/**
+	 * 病情状况id
+	 * @param Id_level_dise
+	 */
+	public void setId_level_dise(String Id_level_dise) {
+		setAttrVal("Id_level_dise", Id_level_dise);
+	}
+	/**
+	 * 病情状况
+	 * @return String
+	 */
+	public String getName_level_dise() {
+		return ((String) getAttrVal("Name_level_dise"));
+	}
+	/**
+	 * 病情状况
+	 * @param Name_level_dise
+	 */
+	public void setName_level_dise(String Name_level_dise) {
+		setAttrVal("Name_level_dise", Name_level_dise);
+	}
+	/**
+	 * 病情级别编码
+	 * @return String
+	 */
+	public String getSd_level_dise() {
+		return ((String) getAttrVal("Sd_level_dise"));
+	}
+	/**
+	 * 病情级别编码
+	 * @param Sd_level_dise
+	 */
+	public void setSd_level_dise(String Sd_level_dise) {
+		setAttrVal("Sd_level_dise", Sd_level_dise);
+	}
+	/**
+	 * 留观病区id
+	 * @return String
+	 */
+	public String getId_obsward() {
+		return ((String) getAttrVal("Id_obsward"));
+	}
+	/**
+	 * 留观病区id
+	 * @param Id_obsward
+	 */
+	public void setId_obsward(String Id_obsward) {
+		setAttrVal("Id_obsward", Id_obsward);
+	}
+	/**
+	 * 留观病区编码
+	 * @return String
+	 */
+	public String getSd_obsward() {
+		return ((String) getAttrVal("Sd_obsward"));
+	}
+	/**
+	 * 留观病区编码
+	 * @param Sd_obsward
+	 */
+	public void setSd_obsward(String Sd_obsward) {
+		setAttrVal("Sd_obsward", Sd_obsward);
+	}
+	/**
+	 * 留观病区
+	 * @return String
+	 */
+	public String getName_obsward() {
+		return ((String) getAttrVal("Name_obsward"));
+	}
+	/**
+	 * 留观病区
+	 * @param Name_obsward
+	 */
+	public void setName_obsward(String Name_obsward) {
+		setAttrVal("Name_obsward", Name_obsward);
+	}
+	/**
+	 * 开证时间
+	 * @return FDateTime
+	 */
+	public FDateTime getDt_obsper() {
+		return ((FDateTime) getAttrVal("Dt_obsper"));
+	}
+	/**
+	 * 开证时间
+	 * @param Dt_obsper
+	 */
+	public void setDt_obsper(FDateTime Dt_obsper) {
+		setAttrVal("Dt_obsper", Dt_obsper);
+	}
+	/**
+	 * 预交金
+	 * @return FDouble
+	 */
+	public FDouble getPrepayment() {
+		return ((FDouble) getAttrVal("Prepayment"));
+	}
+	/**
+	 * 预交金
+	 * @param Prepayment
+	 */
+	public void setPrepayment(FDouble Prepayment) {
+		setAttrVal("Prepayment", Prepayment);
+	}
+	/**
+	 * 备注
+	 * @return String
+	 */
+	public String getRemarks() {
+		return ((String) getAttrVal("Remarks"));
+	}
+	/**
+	 * 备注
+	 * @param Remarks
+	 */
+	public void setRemarks(String Remarks) {
+		setAttrVal("Remarks", Remarks);
+	}
+	/**
+	 * 门诊就诊科室id
+	 * @return String
+	 */
+	public String getId_dep_op() {
+		return ((String) getAttrVal("Id_dep_op"));
+	}
+	/**
+	 * 门诊就诊科室id
+	 * @param Id_dep_op
+	 */
+	public void setId_dep_op(String Id_dep_op) {
+		setAttrVal("Id_dep_op", Id_dep_op);
+	}
+	/**
+	 * 门诊就诊科室名称
+	 * @return String
+	 */
+	public String getName_dep_op() {
+		return ((String) getAttrVal("Name_dep_op"));
+	}
+	/**
+	 * 门诊就诊科室名称
+	 * @param Name_dep_op
+	 */
+	public void setName_dep_op(String Name_dep_op) {
+		setAttrVal("Name_dep_op", Name_dep_op);
+	}
+	/**
+	 * 门诊医生
+	 * @return String
+	 */
+	public String getId_emp_phy_op() {
+		return ((String) getAttrVal("Id_emp_phy_op"));
+	}
+	/**
+	 * 门诊医生
+	 * @param Id_emp_phy_op
+	 */
+	public void setId_emp_phy_op(String Id_emp_phy_op) {
+		setAttrVal("Id_emp_phy_op", Id_emp_phy_op);
+	}
+	/**
+	 * 门诊医生名称
+	 * @return String
+	 */
+	public String getName_emp_phy_op() {
+		return ((String) getAttrVal("Name_emp_phy_op"));
+	}
+	/**
+	 * 门诊医生名称
+	 * @param Name_emp_phy_op
+	 */
+	public void setName_emp_phy_op(String Name_emp_phy_op) {
+		setAttrVal("Name_emp_phy_op", Name_emp_phy_op);
+	}
+	/**
+	 * 门诊状态
+	 * @return String
+	 */
+	public String getSd_status_op() {
+		return ((String) getAttrVal("Sd_status_op"));
+	}
+	/**
+	 * 门诊状态
+	 * @param Sd_status_op
+	 */
+	public void setSd_status_op(String Sd_status_op) {
+		setAttrVal("Sd_status_op", Sd_status_op);
+	}
+	/**
+	 * 申请单状态
+	 * @return String
+	 */
+	public String getSd_status() {
+		return ((String) getAttrVal("Sd_status"));
+	}
+	/**
+	 * 申请单状态
+	 * @param Sd_status
+	 */
+	public void setSd_status(String Sd_status) {
+		setAttrVal("Sd_status", Sd_status);
+	}
+	/**
+	 * 留观科室
+	 * @return String
+	 */
+	public String getName_obsdep() {
+		return ((String) getAttrVal("Name_obsdep"));
+	}
+	/**
+	 * 留观科室
+	 * @param Name_obsdep
+	 */
+	public void setName_obsdep(String Name_obsdep) {
+		setAttrVal("Name_obsdep", Name_obsdep);
+	}
+	/**
+	 * 留观科室id
+	 * @return String
+	 */
+	public String getId_obsdep() {
+		return ((String) getAttrVal("Id_obsdep"));
+	}
+	/**
+	 * 留观科室id
+	 * @param Id_obsdep
+	 */
+	public void setId_obsdep(String Id_obsdep) {
+		setAttrVal("Id_obsdep", Id_obsdep);
+	}
+	/**
+	 * 留观科室编码
+	 * @return String
+	 */
+	public String getSd_obsdep() {
+		return ((String) getAttrVal("Sd_obsdep"));
+	}
+	/**
+	 * 留观科室编码
+	 * @param Sd_obsdep
+	 */
+	public void setSd_obsdep(String Sd_obsdep) {
+		setAttrVal("Sd_obsdep", Sd_obsdep);
+	}
+}

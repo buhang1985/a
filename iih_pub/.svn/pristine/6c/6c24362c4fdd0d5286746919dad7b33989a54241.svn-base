@@ -1,0 +1,238 @@
+package iih.pe.phm.dto.petcmevaldto.d;
+
+import xap.mw.core.data.*;
+import xap.mw.coreitf.d.*;
+import java.math.BigDecimal;
+
+/**
+ * 体检中医评估得分 DTO数据 
+ * 
+ */
+public class PeTCMConDTO extends BaseDTO {
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 体检中医评估得分主键标识
+	 * @return String
+	 */
+	public String getId_petcmcon() {
+		return ((String) getAttrVal("Id_petcmcon"));
+	}
+	/**
+	 * 体检中医评估得分主键标识
+	 * @param Id_petcmcon
+	 */
+	public void setId_petcmcon(String Id_petcmcon) {
+		setAttrVal("Id_petcmcon", Id_petcmcon);
+	}
+	/**
+	 * 体检预约单主键
+	 * @return String
+	 */
+	public String getId_pepsnappt() {
+		return ((String) getAttrVal("Id_pepsnappt"));
+	}
+	/**
+	 * 体检预约单主键
+	 * @param Id_pepsnappt
+	 */
+	public void setId_pepsnappt(String Id_pepsnappt) {
+		setAttrVal("Id_pepsnappt", Id_pepsnappt);
+	}
+	/**
+	 * 体检中医体质分型定义主键
+	 * @return String
+	 */
+	public String getId_petcmconstcadef() {
+		return ((String) getAttrVal("Id_petcmconstcadef"));
+	}
+	/**
+	 * 体检中医体质分型定义主键
+	 * @param Id_petcmconstcadef
+	 */
+	public void setId_petcmconstcadef(String Id_petcmconstcadef) {
+		setAttrVal("Id_petcmconstcadef", Id_petcmconstcadef);
+	}
+	/**
+	 * 评估结果
+	 * @return Integer
+	 */
+	public Integer getRst() {
+		return ((Integer) getAttrVal("Rst"));
+	}
+	/**
+	 * 评估结果
+	 * @param Rst
+	 */
+	public void setRst(Integer Rst) {
+		setAttrVal("Rst", Rst);
+	}
+	/**
+	 * 评估分值
+	 * @return FDouble
+	 */
+	public FDouble getRst_score() {
+		return ((FDouble) getAttrVal("Rst_score"));
+	}
+	/**
+	 * 评估分值
+	 * @param Rst_score
+	 */
+	public void setRst_score(FDouble Rst_score) {
+		setAttrVal("Rst_score", Rst_score);
+	}
+	/**
+	 * 名称
+	 * @return String
+	 */
+	public String getName() {
+		return ((String) getAttrVal("Name"));
+	}
+	/**
+	 * 名称
+	 * @param Name
+	 */
+	public void setName(String Name) {
+		setAttrVal("Name", Name);
+	}
+	/**
+	 * 总体特征
+	 * @return String
+	 */
+	public String getGeneral() {
+		return ((String) getAttrVal("General"));
+	}
+	/**
+	 * 总体特征
+	 * @param General
+	 */
+	public void setGeneral(String General) {
+		setAttrVal("General", General);
+	}
+	/**
+	 * 形体特征
+	 * @return String
+	 */
+	public String getShape() {
+		return ((String) getAttrVal("Shape"));
+	}
+	/**
+	 * 形体特征
+	 * @param Shape
+	 */
+	public void setShape(String Shape) {
+		setAttrVal("Shape", Shape);
+	}
+	/**
+	 * 常见表现
+	 * @return String
+	 */
+	public String getPresent() {
+		return ((String) getAttrVal("Present"));
+	}
+	/**
+	 * 常见表现
+	 * @param Present
+	 */
+	public void setPresent(String Present) {
+		setAttrVal("Present", Present);
+	}
+	/**
+	 * 心理特征
+	 * @return String
+	 */
+	public String getPsychology() {
+		return ((String) getAttrVal("Psychology"));
+	}
+	/**
+	 * 心理特征
+	 * @param Psychology
+	 */
+	public void setPsychology(String Psychology) {
+		setAttrVal("Psychology", Psychology);
+	}
+	/**
+	 * 发病倾向
+	 * @return String
+	 */
+	public String getMorbidity() {
+		return ((String) getAttrVal("Morbidity"));
+	}
+	/**
+	 * 发病倾向
+	 * @param Morbidity
+	 */
+	public void setMorbidity(String Morbidity) {
+		setAttrVal("Morbidity", Morbidity);
+	}
+	/**
+	 * 适应能力
+	 * @return String
+	 */
+	public String getAdaptability() {
+		return ((String) getAttrVal("Adaptability"));
+	}
+	/**
+	 * 适应能力
+	 * @param Adaptability
+	 */
+	public void setAdaptability(String Adaptability) {
+		setAttrVal("Adaptability", Adaptability);
+	}
+	/**
+	 * 辨识方法
+	 * @return String
+	 */
+	public String getIdentification() {
+		return ((String) getAttrVal("Identification"));
+	}
+	/**
+	 * 辨识方法
+	 * @param Identification
+	 */
+	public void setIdentification(String Identification) {
+		setAttrVal("Identification", Identification);
+	}
+	/**
+	 * 调节方法
+	 * @return String
+	 */
+	public String getAdjust() {
+		return ((String) getAttrVal("Adjust"));
+	}
+	/**
+	 * 调节方法
+	 * @param Adjust
+	 */
+	public void setAdjust(String Adjust) {
+		setAttrVal("Adjust", Adjust);
+	}
+	/**
+	 * 主体质标识
+	 * @return FBoolean
+	 */
+	public FBoolean getPrimary_flag() {
+		return ((FBoolean) getAttrVal("Primary_flag"));
+	}
+	/**
+	 * 主体质标识
+	 * @param Primary_flag
+	 */
+	public void setPrimary_flag(FBoolean Primary_flag) {
+		setAttrVal("Primary_flag", Primary_flag);
+	}
+	/**
+	 * 序号
+	 * @return Integer
+	 */
+	public Integer getSortno() {
+		return ((Integer) getAttrVal("Sortno"));
+	}
+	/**
+	 * 序号
+	 * @param Sortno
+	 */
+	public void setSortno(Integer Sortno) {
+		setAttrVal("Sortno", Sortno);
+	}
+}

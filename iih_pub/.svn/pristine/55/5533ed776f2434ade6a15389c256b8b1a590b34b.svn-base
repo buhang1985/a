@@ -1,0 +1,70 @@
+package iih.en.er.dto.d;
+
+import xap.mw.core.data.*;
+import xap.mw.coreitf.d.*;
+import java.math.BigDecimal;
+
+/**
+ * 留观判断标识dto DTO数据 
+ * 
+ */
+public class EnObsPermitFgDTO extends BaseDTO {
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 是否有申请单
+	 * @return FBoolean
+	 */
+	public FBoolean getFg_hasobsper() {
+		return ((FBoolean) getAttrVal("Fg_hasobsper"));
+	}
+	/**
+	 * 是否有申请单
+	 * @param Fg_hasobsper
+	 */
+	public void setFg_hasobsper(FBoolean Fg_hasobsper) {
+		setAttrVal("Fg_hasobsper", Fg_hasobsper);
+	}
+	/**
+	 * 是否有在院记录
+	 * @return FBoolean
+	 */
+	public FBoolean getFg_hasrecord() {
+		return ((FBoolean) getAttrVal("Fg_hasrecord"));
+	}
+	/**
+	 * 是否有在院记录
+	 * @param Fg_hasrecord
+	 */
+	public void setFg_hasrecord(FBoolean Fg_hasrecord) {
+		setAttrVal("Fg_hasrecord", Fg_hasrecord);
+	}
+	/**
+	 * 是否有历史住院许可证
+	 * @return FBoolean
+	 */
+	public FBoolean getFg_hashistoraryper() {
+		return ((FBoolean) getAttrVal("Fg_hashistoraryper"));
+	}
+	/**
+	 * 是否有历史住院许可证
+	 * @param Fg_hashistoraryper
+	 */
+	public void setFg_hashistoraryper(FBoolean Fg_hashistoraryper) {
+		setAttrVal("Fg_hashistoraryper", Fg_hashistoraryper);
+	}
+	/**
+	 * 门诊状态
+	 * @return String
+	 */
+	public String getSd_status_op() {
+		return ((String) getAttrVal("Sd_status_op"));
+	}
+	/**
+	 * 门诊状态
+	 * @param Sd_status_op
+	 */
+	public void setSd_status_op(String Sd_status_op) {
+		setAttrVal("Sd_status_op", Sd_status_op);
+	}
+}

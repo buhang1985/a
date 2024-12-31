@@ -1,0 +1,240 @@
+package iih.pi.dic.patcatehp.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.pi.dic.patcatehp.d.desc.PiPatCaHpDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 患者分类医保计划 DO数据 
+ * 
+ */
+public class PiPatCaHpDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_PATCAHP= "Id_patcahp";
+	public static final String ID_ORG= "Id_org";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_PATCA= "Id_patca";
+	public static final String ID_HP= "Id_hp";
+	public static final String FG_FUNDPAY= "Fg_fundpay";
+	public static final String ID_HPKIND= "Id_hpkind";
+	public static final String ID_MEDKIND_OEPDFT= "Id_medkind_oepdft";
+	public static final String FG_HP_CARD= "Fg_hp_card";
+	public static final String FG_HP_SPCL= "Fg_hp_spcl";
+	public static final String ID_HPPATSOURCE= "Id_hppatsource";
+	public static final String SD_HPPATSOURCE= "Sd_hppatsource";
+	public static final String FG_SELF_UPLOAD= "Fg_self_upload";
+	public static final String EU_IDENT_READ= "Eu_ident_read";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String CODE_HP= "Code_hp";
+	public static final String NAME_HP= "Name_hp";
+	public static final String FG_REQHPCODE= "Fg_reqhpcode";
+	public static final String CODE_HPKIND= "Code_hpkind";
+	public static final String NAME_HPKIND= "Name_hpkind";
+	public static final String CODE_MEDKIND_OEP= "Code_medkind_oep";
+	public static final String NAME_MEDKIND_OEP= "Name_medkind_oep";
+	public static final String HPPATSOURCE_NAME= "Hppatsource_name";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_patcahp() {
+		return ((String) getAttrVal("Id_patcahp"));
+	}	
+	public void setId_patcahp(String Id_patcahp) {
+		setAttrVal("Id_patcahp", Id_patcahp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_patca() {
+		return ((String) getAttrVal("Id_patca"));
+	}	
+	public void setId_patca(String Id_patca) {
+		setAttrVal("Id_patca", Id_patca);
+	}
+	public String getId_hp() {
+		return ((String) getAttrVal("Id_hp"));
+	}	
+	public void setId_hp(String Id_hp) {
+		setAttrVal("Id_hp", Id_hp);
+	}
+	public FBoolean getFg_fundpay() {
+		return ((FBoolean) getAttrVal("Fg_fundpay"));
+	}	
+	public void setFg_fundpay(FBoolean Fg_fundpay) {
+		setAttrVal("Fg_fundpay", Fg_fundpay);
+	}
+	public String getId_hpkind() {
+		return ((String) getAttrVal("Id_hpkind"));
+	}	
+	public void setId_hpkind(String Id_hpkind) {
+		setAttrVal("Id_hpkind", Id_hpkind);
+	}
+	public String getId_medkind_oepdft() {
+		return ((String) getAttrVal("Id_medkind_oepdft"));
+	}	
+	public void setId_medkind_oepdft(String Id_medkind_oepdft) {
+		setAttrVal("Id_medkind_oepdft", Id_medkind_oepdft);
+	}
+	public FBoolean getFg_hp_card() {
+		return ((FBoolean) getAttrVal("Fg_hp_card"));
+	}	
+	public void setFg_hp_card(FBoolean Fg_hp_card) {
+		setAttrVal("Fg_hp_card", Fg_hp_card);
+	}
+	public FBoolean getFg_hp_spcl() {
+		return ((FBoolean) getAttrVal("Fg_hp_spcl"));
+	}	
+	public void setFg_hp_spcl(FBoolean Fg_hp_spcl) {
+		setAttrVal("Fg_hp_spcl", Fg_hp_spcl);
+	}
+	public String getId_hppatsource() {
+		return ((String) getAttrVal("Id_hppatsource"));
+	}	
+	public void setId_hppatsource(String Id_hppatsource) {
+		setAttrVal("Id_hppatsource", Id_hppatsource);
+	}
+	public String getSd_hppatsource() {
+		return ((String) getAttrVal("Sd_hppatsource"));
+	}	
+	public void setSd_hppatsource(String Sd_hppatsource) {
+		setAttrVal("Sd_hppatsource", Sd_hppatsource);
+	}
+	public FBoolean getFg_self_upload() {
+		return ((FBoolean) getAttrVal("Fg_self_upload"));
+	}	
+	public void setFg_self_upload(FBoolean Fg_self_upload) {
+		setAttrVal("Fg_self_upload", Fg_self_upload);
+	}
+	public String getEu_ident_read() {
+		return ((String) getAttrVal("Eu_ident_read"));
+	}	
+	public void setEu_ident_read(String Eu_ident_read) {
+		setAttrVal("Eu_ident_read", Eu_ident_read);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public String getCode_hp() {
+		return ((String) getAttrVal("Code_hp"));
+	}	
+	public void setCode_hp(String Code_hp) {
+		setAttrVal("Code_hp", Code_hp);
+	}
+	public String getName_hp() {
+		return ((String) getAttrVal("Name_hp"));
+	}	
+	public void setName_hp(String Name_hp) {
+		setAttrVal("Name_hp", Name_hp);
+	}
+	public FBoolean getFg_reqhpcode() {
+		return ((FBoolean) getAttrVal("Fg_reqhpcode"));
+	}	
+	public void setFg_reqhpcode(FBoolean Fg_reqhpcode) {
+		setAttrVal("Fg_reqhpcode", Fg_reqhpcode);
+	}
+	public String getCode_hpkind() {
+		return ((String) getAttrVal("Code_hpkind"));
+	}	
+	public void setCode_hpkind(String Code_hpkind) {
+		setAttrVal("Code_hpkind", Code_hpkind);
+	}
+	public String getName_hpkind() {
+		return ((String) getAttrVal("Name_hpkind"));
+	}	
+	public void setName_hpkind(String Name_hpkind) {
+		setAttrVal("Name_hpkind", Name_hpkind);
+	}
+	public String getCode_medkind_oep() {
+		return ((String) getAttrVal("Code_medkind_oep"));
+	}	
+	public void setCode_medkind_oep(String Code_medkind_oep) {
+		setAttrVal("Code_medkind_oep", Code_medkind_oep);
+	}
+	public String getName_medkind_oep() {
+		return ((String) getAttrVal("Name_medkind_oep"));
+	}	
+	public void setName_medkind_oep(String Name_medkind_oep) {
+		setAttrVal("Name_medkind_oep", Name_medkind_oep);
+	}
+	public String getHppatsource_name() {
+		return ((String) getAttrVal("Hppatsource_name"));
+	}	
+	public void setHppatsource_name(String Hppatsource_name) {
+		setAttrVal("Hppatsource_name", Hppatsource_name);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_patcahp";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "pi_pat_ca_hp";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(PiPatCaHpDODesc.class);
+	}
+	
+}

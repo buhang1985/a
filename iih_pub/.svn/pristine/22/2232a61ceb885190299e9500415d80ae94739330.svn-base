@@ -1,0 +1,33 @@
+package iih.mi.mc.i;
+
+import iih.mi.mc.dto.d.MiHpPatSpecDrugDTO;
+import iih.mi.mc.dto.miselfpayreduce.d.MiSelfPayReduceDTO;
+import iih.mi.mc.mimcpatspec.d.MiMcPatSpecDiDO;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.FMap;
+
+/**
+ * 医保管控查询服务
+ * @author Administrator
+ * @date 2019-6-15
+ *
+ */
+public interface IMiMcQryService {
+	 /**
+	  * 医保特殊病药品增量维护查询药品
+	  * @param mimcpatspecdo
+	  * @return
+	  */
+	 public abstract MiHpPatSpecDrugDTO[] quaryPatSpecDrug(MiMcPatSpecDiDO mimcpatspecdido) throws BizException;
+	 
+	 /**
+	  * 获取医保自付减免后金额
+	  * @param miSelfPaydto 医保自付dto
+	  * @return FMap <idSrv+idMM,减免后金额>
+	  * @throws BizException
+	  * @author liming06
+	  * @since 2019-12-10
+	  */
+	 public abstract FMap getMiSelfPayReduceAmt(MiSelfPayReduceDTO miSelfPaydto) throws BizException;
+}
+	 

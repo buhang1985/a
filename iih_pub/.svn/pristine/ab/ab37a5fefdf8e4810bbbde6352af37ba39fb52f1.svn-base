@@ -1,0 +1,1736 @@
+package iih.en.er.dto.d;
+
+import xap.mw.core.data.*;
+import xap.mw.coreitf.d.*;
+import java.math.BigDecimal;
+
+/**
+ * 急诊留观登记dto DTO数据 
+ * 
+ */
+public class UrgStayRegistryDTO extends BaseDTO {
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 就诊id
+	 * @return String
+	 */
+	public String getId_ent() {
+		return ((String) getAttrVal("Id_ent"));
+	}
+	/**
+	 * 就诊id
+	 * @param Id_ent
+	 */
+	public void setId_ent(String Id_ent) {
+		setAttrVal("Id_ent", Id_ent);
+	}
+	/**
+	 * 急诊留观登记id
+	 * @return String
+	 */
+	public String getId_urgstayreg() {
+		return ((String) getAttrVal("Id_urgstayreg"));
+	}
+	/**
+	 * 急诊留观登记id
+	 * @param Id_urgstayreg
+	 */
+	public void setId_urgstayreg(String Id_urgstayreg) {
+		setAttrVal("Id_urgstayreg", Id_urgstayreg);
+	}
+	/**
+	 * 入院时间
+	 * @return FDateTime
+	 */
+	public FDateTime getDt_entry() {
+		return ((FDateTime) getAttrVal("Dt_entry"));
+	}
+	/**
+	 * 入院时间
+	 * @param Dt_entry
+	 */
+	public void setDt_entry(FDateTime Dt_entry) {
+		setAttrVal("Dt_entry", Dt_entry);
+	}
+	/**
+	 * 入院病情id
+	 * @return String
+	 */
+	public String getId_level_diseadm() {
+		return ((String) getAttrVal("Id_level_diseadm"));
+	}
+	/**
+	 * 入院病情id
+	 * @param Id_level_diseadm
+	 */
+	public void setId_level_diseadm(String Id_level_diseadm) {
+		setAttrVal("Id_level_diseadm", Id_level_diseadm);
+	}
+	/**
+	 * 入院病情编码
+	 * @return String
+	 */
+	public String getSd_level_diseadm() {
+		return ((String) getAttrVal("Sd_level_diseadm"));
+	}
+	/**
+	 * 入院病情编码
+	 * @param Sd_level_diseadm
+	 */
+	public void setSd_level_diseadm(String Sd_level_diseadm) {
+		setAttrVal("Sd_level_diseadm", Sd_level_diseadm);
+	}
+	/**
+	 * 入院病情名称
+	 * @return String
+	 */
+	public String getName_level_diseadm() {
+		return ((String) getAttrVal("Name_level_diseadm"));
+	}
+	/**
+	 * 入院病情名称
+	 * @param Name_level_diseadm
+	 */
+	public void setName_level_diseadm(String Name_level_diseadm) {
+		setAttrVal("Name_level_diseadm", Name_level_diseadm);
+	}
+	/**
+	 * 急诊科室id
+	 * @return String
+	 */
+	public String getId_dep_phy() {
+		return ((String) getAttrVal("Id_dep_phy"));
+	}
+	/**
+	 * 急诊科室id
+	 * @param Id_dep_phy
+	 */
+	public void setId_dep_phy(String Id_dep_phy) {
+		setAttrVal("Id_dep_phy", Id_dep_phy);
+	}
+	/**
+	 * 急诊科室编码
+	 * @return String
+	 */
+	public String getSd_dep_phy() {
+		return ((String) getAttrVal("Sd_dep_phy"));
+	}
+	/**
+	 * 急诊科室编码
+	 * @param Sd_dep_phy
+	 */
+	public void setSd_dep_phy(String Sd_dep_phy) {
+		setAttrVal("Sd_dep_phy", Sd_dep_phy);
+	}
+	/**
+	 * 急诊科室名称
+	 * @return String
+	 */
+	public String getName_dep_phy() {
+		return ((String) getAttrVal("Name_dep_phy"));
+	}
+	/**
+	 * 急诊科室名称
+	 * @param Name_dep_phy
+	 */
+	public void setName_dep_phy(String Name_dep_phy) {
+		setAttrVal("Name_dep_phy", Name_dep_phy);
+	}
+	/**
+	 * 急诊病区id
+	 * @return String
+	 */
+	public String getId_dep_nur() {
+		return ((String) getAttrVal("Id_dep_nur"));
+	}
+	/**
+	 * 急诊病区id
+	 * @param Id_dep_nur
+	 */
+	public void setId_dep_nur(String Id_dep_nur) {
+		setAttrVal("Id_dep_nur", Id_dep_nur);
+	}
+	/**
+	 * 急诊病区编码
+	 * @return String
+	 */
+	public String getSd_dep_nur() {
+		return ((String) getAttrVal("Sd_dep_nur"));
+	}
+	/**
+	 * 急诊病区编码
+	 * @param Sd_dep_nur
+	 */
+	public void setSd_dep_nur(String Sd_dep_nur) {
+		setAttrVal("Sd_dep_nur", Sd_dep_nur);
+	}
+	/**
+	 * 急诊病区名称
+	 * @return String
+	 */
+	public String getName_dep_nur() {
+		return ((String) getAttrVal("Name_dep_nur"));
+	}
+	/**
+	 * 急诊病区名称
+	 * @param Name_dep_nur
+	 */
+	public void setName_dep_nur(String Name_dep_nur) {
+		setAttrVal("Name_dep_nur", Name_dep_nur);
+	}
+	/**
+	 * 床位id
+	 * @return String
+	 */
+	public String getId_bed() {
+		return ((String) getAttrVal("Id_bed"));
+	}
+	/**
+	 * 床位id
+	 * @param Id_bed
+	 */
+	public void setId_bed(String Id_bed) {
+		setAttrVal("Id_bed", Id_bed);
+	}
+	/**
+	 * 床位编码
+	 * @return String
+	 */
+	public String getSd_bed() {
+		return ((String) getAttrVal("Sd_bed"));
+	}
+	/**
+	 * 床位编码
+	 * @param Sd_bed
+	 */
+	public void setSd_bed(String Sd_bed) {
+		setAttrVal("Sd_bed", Sd_bed);
+	}
+	/**
+	 * 床位名称
+	 * @return String
+	 */
+	public String getName_bed() {
+		return ((String) getAttrVal("Name_bed"));
+	}
+	/**
+	 * 床位名称
+	 * @param Name_bed
+	 */
+	public void setName_bed(String Name_bed) {
+		setAttrVal("Name_bed", Name_bed);
+	}
+	/**
+	 * 入院医生
+	 * @return String
+	 */
+	public String getId_emp_phy_op() {
+		return ((String) getAttrVal("Id_emp_phy_op"));
+	}
+	/**
+	 * 入院医生
+	 * @param Id_emp_phy_op
+	 */
+	public void setId_emp_phy_op(String Id_emp_phy_op) {
+		setAttrVal("Id_emp_phy_op", Id_emp_phy_op);
+	}
+	/**
+	 * 入院医生编码
+	 * @return String
+	 */
+	public String getSd_emp_phy_op() {
+		return ((String) getAttrVal("Sd_emp_phy_op"));
+	}
+	/**
+	 * 入院医生编码
+	 * @param Sd_emp_phy_op
+	 */
+	public void setSd_emp_phy_op(String Sd_emp_phy_op) {
+		setAttrVal("Sd_emp_phy_op", Sd_emp_phy_op);
+	}
+	/**
+	 * 入院医生名称
+	 * @return String
+	 */
+	public String getName_emp_phy_op() {
+		return ((String) getAttrVal("Name_emp_phy_op"));
+	}
+	/**
+	 * 入院医生名称
+	 * @param Name_emp_phy_op
+	 */
+	public void setName_emp_phy_op(String Name_emp_phy_op) {
+		setAttrVal("Name_emp_phy_op", Name_emp_phy_op);
+	}
+	/**
+	 * 门诊诊断id
+	 * @return String
+	 */
+	public String getId_didef_op() {
+		return ((String) getAttrVal("Id_didef_op"));
+	}
+	/**
+	 * 门诊诊断id
+	 * @param Id_didef_op
+	 */
+	public void setId_didef_op(String Id_didef_op) {
+		setAttrVal("Id_didef_op", Id_didef_op);
+	}
+	/**
+	 * 门诊诊断编码
+	 * @return String
+	 */
+	public String getSd_didef_op() {
+		return ((String) getAttrVal("Sd_didef_op"));
+	}
+	/**
+	 * 门诊诊断编码
+	 * @param Sd_didef_op
+	 */
+	public void setSd_didef_op(String Sd_didef_op) {
+		setAttrVal("Sd_didef_op", Sd_didef_op);
+	}
+	/**
+	 * 门诊诊断名称
+	 * @return String
+	 */
+	public String getName_didef_op() {
+		return ((String) getAttrVal("Name_didef_op"));
+	}
+	/**
+	 * 门诊诊断名称
+	 * @param Name_didef_op
+	 */
+	public void setName_didef_op(String Name_didef_op) {
+		setAttrVal("Name_didef_op", Name_didef_op);
+	}
+	/**
+	 * 门诊诊断补充说明
+	 * @return String
+	 */
+	public String getSupplement_di() {
+		return ((String) getAttrVal("Supplement_di"));
+	}
+	/**
+	 * 门诊诊断补充说明
+	 * @param Supplement_di
+	 */
+	public void setSupplement_di(String Supplement_di) {
+		setAttrVal("Supplement_di", Supplement_di);
+	}
+	/**
+	 * 患者分类id
+	 * @return String
+	 */
+	public String getId_patca() {
+		return ((String) getAttrVal("Id_patca"));
+	}
+	/**
+	 * 患者分类id
+	 * @param Id_patca
+	 */
+	public void setId_patca(String Id_patca) {
+		setAttrVal("Id_patca", Id_patca);
+	}
+	/**
+	 * 患者分类编码
+	 * @return String
+	 */
+	public String getSd_patca() {
+		return ((String) getAttrVal("Sd_patca"));
+	}
+	/**
+	 * 患者分类编码
+	 * @param Sd_patca
+	 */
+	public void setSd_patca(String Sd_patca) {
+		setAttrVal("Sd_patca", Sd_patca);
+	}
+	/**
+	 * 患者分类名称
+	 * @return String
+	 */
+	public String getName_patca() {
+		return ((String) getAttrVal("Name_patca"));
+	}
+	/**
+	 * 患者分类名称
+	 * @param Name_patca
+	 */
+	public void setName_patca(String Name_patca) {
+		setAttrVal("Name_patca", Name_patca);
+	}
+	/**
+	 * 价格分类id
+	 * @return String
+	 */
+	public String getId_prica() {
+		return ((String) getAttrVal("Id_prica"));
+	}
+	/**
+	 * 价格分类id
+	 * @param Id_prica
+	 */
+	public void setId_prica(String Id_prica) {
+		setAttrVal("Id_prica", Id_prica);
+	}
+	/**
+	 * 价格分类编码
+	 * @return String
+	 */
+	public String getSd_prica() {
+		return ((String) getAttrVal("Sd_prica"));
+	}
+	/**
+	 * 价格分类编码
+	 * @param Sd_prica
+	 */
+	public void setSd_prica(String Sd_prica) {
+		setAttrVal("Sd_prica", Sd_prica);
+	}
+	/**
+	 * 价格分类名称
+	 * @return String
+	 */
+	public String getName_prica() {
+		return ((String) getAttrVal("Name_prica"));
+	}
+	/**
+	 * 价格分类名称
+	 * @param Name_prica
+	 */
+	public void setName_prica(String Name_prica) {
+		setAttrVal("Name_prica", Name_prica);
+	}
+	/**
+	 * 信用分类id
+	 * @return String
+	 */
+	public String getId_patcret() {
+		return ((String) getAttrVal("Id_patcret"));
+	}
+	/**
+	 * 信用分类id
+	 * @param Id_patcret
+	 */
+	public void setId_patcret(String Id_patcret) {
+		setAttrVal("Id_patcret", Id_patcret);
+	}
+	/**
+	 * 信用分类编码
+	 * @return String
+	 */
+	public String getSd_patcret() {
+		return ((String) getAttrVal("Sd_patcret"));
+	}
+	/**
+	 * 信用分类编码
+	 * @param Sd_patcret
+	 */
+	public void setSd_patcret(String Sd_patcret) {
+		setAttrVal("Sd_patcret", Sd_patcret);
+	}
+	/**
+	 * 信用分类名称
+	 * @return String
+	 */
+	public String getName_patcret() {
+		return ((String) getAttrVal("Name_patcret"));
+	}
+	/**
+	 * 信用分类名称
+	 * @param Name_patcret
+	 */
+	public void setName_patcret(String Name_patcret) {
+		setAttrVal("Name_patcret", Name_patcret);
+	}
+	/**
+	 * 合同单位id
+	 * @return String
+	 */
+	public String getId_cust_cmpy() {
+		return ((String) getAttrVal("Id_cust_cmpy"));
+	}
+	/**
+	 * 合同单位id
+	 * @param Id_cust_cmpy
+	 */
+	public void setId_cust_cmpy(String Id_cust_cmpy) {
+		setAttrVal("Id_cust_cmpy", Id_cust_cmpy);
+	}
+	/**
+	 * 合同单位编码
+	 * @return String
+	 */
+	public String getSd_cust_cmpy() {
+		return ((String) getAttrVal("Sd_cust_cmpy"));
+	}
+	/**
+	 * 合同单位编码
+	 * @param Sd_cust_cmpy
+	 */
+	public void setSd_cust_cmpy(String Sd_cust_cmpy) {
+		setAttrVal("Sd_cust_cmpy", Sd_cust_cmpy);
+	}
+	/**
+	 * 合同单位名称
+	 * @return String
+	 */
+	public String getName_cust_cmpy() {
+		return ((String) getAttrVal("Name_cust_cmpy"));
+	}
+	/**
+	 * 合同单位名称
+	 * @param Name_cust_cmpy
+	 */
+	public void setName_cust_cmpy(String Name_cust_cmpy) {
+		setAttrVal("Name_cust_cmpy", Name_cust_cmpy);
+	}
+	/**
+	 * 主医保计划id
+	 * @return String
+	 */
+	public String getId_prim_hp() {
+		return ((String) getAttrVal("Id_prim_hp"));
+	}
+	/**
+	 * 主医保计划id
+	 * @param Id_prim_hp
+	 */
+	public void setId_prim_hp(String Id_prim_hp) {
+		setAttrVal("Id_prim_hp", Id_prim_hp);
+	}
+	/**
+	 * 主医保计划编码
+	 * @return String
+	 */
+	public String getSd_prim_hp() {
+		return ((String) getAttrVal("Sd_prim_hp"));
+	}
+	/**
+	 * 主医保计划编码
+	 * @param Sd_prim_hp
+	 */
+	public void setSd_prim_hp(String Sd_prim_hp) {
+		setAttrVal("Sd_prim_hp", Sd_prim_hp);
+	}
+	/**
+	 * 主医保计划名称
+	 * @return String
+	 */
+	public String getName_prim_hp() {
+		return ((String) getAttrVal("Name_prim_hp"));
+	}
+	/**
+	 * 主医保计划名称
+	 * @param Name_prim_hp
+	 */
+	public void setName_prim_hp(String Name_prim_hp) {
+		setAttrVal("Name_prim_hp", Name_prim_hp);
+	}
+	/**
+	 * 主医保号
+	 * @return String
+	 */
+	public String getCode_hp_prim() {
+		return ((String) getAttrVal("Code_hp_prim"));
+	}
+	/**
+	 * 主医保号
+	 * @param Code_hp_prim
+	 */
+	public void setCode_hp_prim(String Code_hp_prim) {
+		setAttrVal("Code_hp_prim", Code_hp_prim);
+	}
+	/**
+	 * 辅医保计划id
+	 * @return String
+	 */
+	public String getId_auxi_hp() {
+		return ((String) getAttrVal("Id_auxi_hp"));
+	}
+	/**
+	 * 辅医保计划id
+	 * @param Id_auxi_hp
+	 */
+	public void setId_auxi_hp(String Id_auxi_hp) {
+		setAttrVal("Id_auxi_hp", Id_auxi_hp);
+	}
+	/**
+	 * 辅医保计划编码
+	 * @return String
+	 */
+	public String getSd_auxi_hp() {
+		return ((String) getAttrVal("Sd_auxi_hp"));
+	}
+	/**
+	 * 辅医保计划编码
+	 * @param Sd_auxi_hp
+	 */
+	public void setSd_auxi_hp(String Sd_auxi_hp) {
+		setAttrVal("Sd_auxi_hp", Sd_auxi_hp);
+	}
+	/**
+	 * 辅医保计划名称
+	 * @return String
+	 */
+	public String getName_auxi_hp() {
+		return ((String) getAttrVal("Name_auxi_hp"));
+	}
+	/**
+	 * 辅医保计划名称
+	 * @param Name_auxi_hp
+	 */
+	public void setName_auxi_hp(String Name_auxi_hp) {
+		setAttrVal("Name_auxi_hp", Name_auxi_hp);
+	}
+	/**
+	 * 辅医保号
+	 * @return String
+	 */
+	public String getCode_hp_auxi() {
+		return ((String) getAttrVal("Code_hp_auxi"));
+	}
+	/**
+	 * 辅医保号
+	 * @param Code_hp_auxi
+	 */
+	public void setCode_hp_auxi(String Code_hp_auxi) {
+		setAttrVal("Code_hp_auxi", Code_hp_auxi);
+	}
+	/**
+	 * 民族id
+	 * @return String
+	 */
+	public String getId_nation() {
+		return ((String) getAttrVal("Id_nation"));
+	}
+	/**
+	 * 民族id
+	 * @param Id_nation
+	 */
+	public void setId_nation(String Id_nation) {
+		setAttrVal("Id_nation", Id_nation);
+	}
+	/**
+	 * 民族编码
+	 * @return String
+	 */
+	public String getSd_nation() {
+		return ((String) getAttrVal("Sd_nation"));
+	}
+	/**
+	 * 民族编码
+	 * @param Sd_nation
+	 */
+	public void setSd_nation(String Sd_nation) {
+		setAttrVal("Sd_nation", Sd_nation);
+	}
+	/**
+	 * 民族名称
+	 * @return String
+	 */
+	public String getName_nation() {
+		return ((String) getAttrVal("Name_nation"));
+	}
+	/**
+	 * 民族名称
+	 * @param Name_nation
+	 */
+	public void setName_nation(String Name_nation) {
+		setAttrVal("Name_nation", Name_nation);
+	}
+	/**
+	 * 籍贯id
+	 * @return String
+	 */
+	public String getId_nativeaddr() {
+		return ((String) getAttrVal("Id_nativeaddr"));
+	}
+	/**
+	 * 籍贯id
+	 * @param Id_nativeaddr
+	 */
+	public void setId_nativeaddr(String Id_nativeaddr) {
+		setAttrVal("Id_nativeaddr", Id_nativeaddr);
+	}
+	/**
+	 * 籍贯编码
+	 * @return String
+	 */
+	public String getSd_nativeaddr() {
+		return ((String) getAttrVal("Sd_nativeaddr"));
+	}
+	/**
+	 * 籍贯编码
+	 * @param Sd_nativeaddr
+	 */
+	public void setSd_nativeaddr(String Sd_nativeaddr) {
+		setAttrVal("Sd_nativeaddr", Sd_nativeaddr);
+	}
+	/**
+	 * 籍贯名称
+	 * @return String
+	 */
+	public String getName_nativeaddr() {
+		return ((String) getAttrVal("Name_nativeaddr"));
+	}
+	/**
+	 * 籍贯名称
+	 * @param Name_nativeaddr
+	 */
+	public void setName_nativeaddr(String Name_nativeaddr) {
+		setAttrVal("Name_nativeaddr", Name_nativeaddr);
+	}
+	/**
+	 * 国籍id
+	 * @return String
+	 */
+	public String getId_country() {
+		return ((String) getAttrVal("Id_country"));
+	}
+	/**
+	 * 国籍id
+	 * @param Id_country
+	 */
+	public void setId_country(String Id_country) {
+		setAttrVal("Id_country", Id_country);
+	}
+	/**
+	 * 国籍编码
+	 * @return String
+	 */
+	public String getSd_country() {
+		return ((String) getAttrVal("Sd_country"));
+	}
+	/**
+	 * 国籍编码
+	 * @param Sd_country
+	 */
+	public void setSd_country(String Sd_country) {
+		setAttrVal("Sd_country", Sd_country);
+	}
+	/**
+	 * 国籍名称
+	 * @return String
+	 */
+	public String getName_country() {
+		return ((String) getAttrVal("Name_country"));
+	}
+	/**
+	 * 国籍名称
+	 * @param Name_country
+	 */
+	public void setName_country(String Name_country) {
+		setAttrVal("Name_country", Name_country);
+	}
+	/**
+	 * 出生地id
+	 * @return String
+	 */
+	public String getId_birth_addr() {
+		return ((String) getAttrVal("Id_birth_addr"));
+	}
+	/**
+	 * 出生地id
+	 * @param Id_birth_addr
+	 */
+	public void setId_birth_addr(String Id_birth_addr) {
+		setAttrVal("Id_birth_addr", Id_birth_addr);
+	}
+	/**
+	 * 出生地编码
+	 * @return String
+	 */
+	public String getSd_birth_addr() {
+		return ((String) getAttrVal("Sd_birth_addr"));
+	}
+	/**
+	 * 出生地编码
+	 * @param Sd_birth_addr
+	 */
+	public void setSd_birth_addr(String Sd_birth_addr) {
+		setAttrVal("Sd_birth_addr", Sd_birth_addr);
+	}
+	/**
+	 * 出生地名称
+	 * @return String
+	 */
+	public String getName_birth_addr() {
+		return ((String) getAttrVal("Name_birth_addr"));
+	}
+	/**
+	 * 出生地名称
+	 * @param Name_birth_addr
+	 */
+	public void setName_birth_addr(String Name_birth_addr) {
+		setAttrVal("Name_birth_addr", Name_birth_addr);
+	}
+	/**
+	 * 职业id
+	 * @return String
+	 */
+	public String getId_job() {
+		return ((String) getAttrVal("Id_job"));
+	}
+	/**
+	 * 职业id
+	 * @param Id_job
+	 */
+	public void setId_job(String Id_job) {
+		setAttrVal("Id_job", Id_job);
+	}
+	/**
+	 * 职业编码
+	 * @return String
+	 */
+	public String getSd_job() {
+		return ((String) getAttrVal("Sd_job"));
+	}
+	/**
+	 * 职业编码
+	 * @param Sd_job
+	 */
+	public void setSd_job(String Sd_job) {
+		setAttrVal("Sd_job", Sd_job);
+	}
+	/**
+	 * 职业名称
+	 * @return String
+	 */
+	public String getName_job() {
+		return ((String) getAttrVal("Name_job"));
+	}
+	/**
+	 * 职业名称
+	 * @param Name_job
+	 */
+	public void setName_job(String Name_job) {
+		setAttrVal("Name_job", Name_job);
+	}
+	/**
+	 * 现地址id
+	 * @return String
+	 */
+	public String getId_addr_pat_now() {
+		return ((String) getAttrVal("Id_addr_pat_now"));
+	}
+	/**
+	 * 现地址id
+	 * @param Id_addr_pat_now
+	 */
+	public void setId_addr_pat_now(String Id_addr_pat_now) {
+		setAttrVal("Id_addr_pat_now", Id_addr_pat_now);
+	}
+	/**
+	 * 现地址编码
+	 * @return String
+	 */
+	public String getSd_addr_pat_now() {
+		return ((String) getAttrVal("Sd_addr_pat_now"));
+	}
+	/**
+	 * 现地址编码
+	 * @param Sd_addr_pat_now
+	 */
+	public void setSd_addr_pat_now(String Sd_addr_pat_now) {
+		setAttrVal("Sd_addr_pat_now", Sd_addr_pat_now);
+	}
+	/**
+	 * 现地址名称
+	 * @return String
+	 */
+	public String getName_addr_pat_now() {
+		return ((String) getAttrVal("Name_addr_pat_now"));
+	}
+	/**
+	 * 现地址名称
+	 * @param Name_addr_pat_now
+	 */
+	public void setName_addr_pat_now(String Name_addr_pat_now) {
+		setAttrVal("Name_addr_pat_now", Name_addr_pat_now);
+	}
+	/**
+	 * 详细街道
+	 * @return String
+	 */
+	public String getStreet() {
+		return ((String) getAttrVal("Street"));
+	}
+	/**
+	 * 详细街道
+	 * @param Street
+	 */
+	public void setStreet(String Street) {
+		setAttrVal("Street", Street);
+	}
+	/**
+	 * 电话
+	 * @return String
+	 */
+	public String getTel_pat() {
+		return ((String) getAttrVal("Tel_pat"));
+	}
+	/**
+	 * 电话
+	 * @param Tel_pat
+	 */
+	public void setTel_pat(String Tel_pat) {
+		setAttrVal("Tel_pat", Tel_pat);
+	}
+	/**
+	 * 邮编
+	 * @return String
+	 */
+	public String getPostcode() {
+		return ((String) getAttrVal("Postcode"));
+	}
+	/**
+	 * 邮编
+	 * @param Postcode
+	 */
+	public void setPostcode(String Postcode) {
+		setAttrVal("Postcode", Postcode);
+	}
+	/**
+	 * 联系人id
+	 * @return String
+	 */
+	public String getId_patcont() {
+		return ((String) getAttrVal("Id_patcont"));
+	}
+	/**
+	 * 联系人id
+	 * @param Id_patcont
+	 */
+	public void setId_patcont(String Id_patcont) {
+		setAttrVal("Id_patcont", Id_patcont);
+	}
+	/**
+	 * 联系人编码
+	 * @return String
+	 */
+	public String getSd_patcont() {
+		return ((String) getAttrVal("Sd_patcont"));
+	}
+	/**
+	 * 联系人编码
+	 * @param Sd_patcont
+	 */
+	public void setSd_patcont(String Sd_patcont) {
+		setAttrVal("Sd_patcont", Sd_patcont);
+	}
+	/**
+	 * 联系人名称
+	 * @return String
+	 */
+	public String getName_patcont() {
+		return ((String) getAttrVal("Name_patcont"));
+	}
+	/**
+	 * 联系人名称
+	 * @param Name_patcont
+	 */
+	public void setName_patcont(String Name_patcont) {
+		setAttrVal("Name_patcont", Name_patcont);
+	}
+	/**
+	 * 联系人类型id
+	 * @return String
+	 */
+	public String getId_conttp() {
+		return ((String) getAttrVal("Id_conttp"));
+	}
+	/**
+	 * 联系人类型id
+	 * @param Id_conttp
+	 */
+	public void setId_conttp(String Id_conttp) {
+		setAttrVal("Id_conttp", Id_conttp);
+	}
+	/**
+	 * 联系人类型编码
+	 * @return String
+	 */
+	public String getSd_conttp() {
+		return ((String) getAttrVal("Sd_conttp"));
+	}
+	/**
+	 * 联系人类型编码
+	 * @param Sd_conttp
+	 */
+	public void setSd_conttp(String Sd_conttp) {
+		setAttrVal("Sd_conttp", Sd_conttp);
+	}
+	/**
+	 * 联系人类型名称
+	 * @return String
+	 */
+	public String getName_conttp() {
+		return ((String) getAttrVal("Name_conttp"));
+	}
+	/**
+	 * 联系人类型名称
+	 * @param Name_conttp
+	 */
+	public void setName_conttp(String Name_conttp) {
+		setAttrVal("Name_conttp", Name_conttp);
+	}
+	/**
+	 * 联系人电话
+	 * @return String
+	 */
+	public String getTel_cont() {
+		return ((String) getAttrVal("Tel_cont"));
+	}
+	/**
+	 * 联系人电话
+	 * @param Tel_cont
+	 */
+	public void setTel_cont(String Tel_cont) {
+		setAttrVal("Tel_cont", Tel_cont);
+	}
+	/**
+	 * 联系人地址
+	 * @return String
+	 */
+	public String getAddr_cont() {
+		return ((String) getAttrVal("Addr_cont"));
+	}
+	/**
+	 * 联系人地址
+	 * @param Addr_cont
+	 */
+	public void setAddr_cont(String Addr_cont) {
+		setAttrVal("Addr_cont", Addr_cont);
+	}
+	/**
+	 * 患者id
+	 * @return String
+	 */
+	public String getId_pat() {
+		return ((String) getAttrVal("Id_pat"));
+	}
+	/**
+	 * 患者id
+	 * @param Id_pat
+	 */
+	public void setId_pat(String Id_pat) {
+		setAttrVal("Id_pat", Id_pat);
+	}
+	/**
+	 * 患者姓名
+	 * @return String
+	 */
+	public String getName_pat() {
+		return ((String) getAttrVal("Name_pat"));
+	}
+	/**
+	 * 患者姓名
+	 * @param Name_pat
+	 */
+	public void setName_pat(String Name_pat) {
+		setAttrVal("Name_pat", Name_pat);
+	}
+	/**
+	 * 患者性别
+	 * @return String
+	 */
+	public String getId_sex() {
+		return ((String) getAttrVal("Id_sex"));
+	}
+	/**
+	 * 患者性别
+	 * @param Id_sex
+	 */
+	public void setId_sex(String Id_sex) {
+		setAttrVal("Id_sex", Id_sex);
+	}
+	/**
+	 * 性别名称
+	 * @return String
+	 */
+	public String getName_sex() {
+		return ((String) getAttrVal("Name_sex"));
+	}
+	/**
+	 * 性别名称
+	 * @param Name_sex
+	 */
+	public void setName_sex(String Name_sex) {
+		setAttrVal("Name_sex", Name_sex);
+	}
+	/**
+	 * 性别编码
+	 * @return String
+	 */
+	public String getSd_sex() {
+		return ((String) getAttrVal("Sd_sex"));
+	}
+	/**
+	 * 性别编码
+	 * @param Sd_sex
+	 */
+	public void setSd_sex(String Sd_sex) {
+		setAttrVal("Sd_sex", Sd_sex);
+	}
+	/**
+	 * 证件类型id
+	 * @return String
+	 */
+	public String getId_idtp() {
+		return ((String) getAttrVal("Id_idtp"));
+	}
+	/**
+	 * 证件类型id
+	 * @param Id_idtp
+	 */
+	public void setId_idtp(String Id_idtp) {
+		setAttrVal("Id_idtp", Id_idtp);
+	}
+	/**
+	 * 证件类型名称
+	 * @return String
+	 */
+	public String getName_idtp() {
+		return ((String) getAttrVal("Name_idtp"));
+	}
+	/**
+	 * 证件类型名称
+	 * @param Name_idtp
+	 */
+	public void setName_idtp(String Name_idtp) {
+		setAttrVal("Name_idtp", Name_idtp);
+	}
+	/**
+	 * 证件号
+	 * @return String
+	 */
+	public String getCode_id() {
+		return ((String) getAttrVal("Code_id"));
+	}
+	/**
+	 * 证件号
+	 * @param Code_id
+	 */
+	public void setCode_id(String Code_id) {
+		setAttrVal("Code_id", Code_id);
+	}
+	/**
+	 * 出生日期
+	 * @return FDate
+	 */
+	public FDate getD_birth() {
+		return ((FDate) getAttrVal("D_birth"));
+	}
+	/**
+	 * 出生日期
+	 * @param D_birth
+	 */
+	public void setD_birth(FDate D_birth) {
+		setAttrVal("D_birth", D_birth);
+	}
+	/**
+	 * 婚姻状况
+	 * @return String
+	 */
+	public String getName_marriage() {
+		return ((String) getAttrVal("Name_marriage"));
+	}
+	/**
+	 * 婚姻状况
+	 * @param Name_marriage
+	 */
+	public void setName_marriage(String Name_marriage) {
+		setAttrVal("Name_marriage", Name_marriage);
+	}
+	/**
+	 * 婚姻状况id
+	 * @return String
+	 */
+	public String getId_marriage() {
+		return ((String) getAttrVal("Id_marriage"));
+	}
+	/**
+	 * 婚姻状况id
+	 * @param Id_marriage
+	 */
+	public void setId_marriage(String Id_marriage) {
+		setAttrVal("Id_marriage", Id_marriage);
+	}
+	/**
+	 * 婚姻状况编码
+	 * @return String
+	 */
+	public String getSd_marriage() {
+		return ((String) getAttrVal("Sd_marriage"));
+	}
+	/**
+	 * 婚姻状况编码
+	 * @param Sd_marriage
+	 */
+	public void setSd_marriage(String Sd_marriage) {
+		setAttrVal("Sd_marriage", Sd_marriage);
+	}
+	/**
+	 * 住院号
+	 * @return String
+	 */
+	public String getCode_ip() {
+		return ((String) getAttrVal("Code_ip"));
+	}
+	/**
+	 * 住院号
+	 * @param Code_ip
+	 */
+	public void setCode_ip(String Code_ip) {
+		setAttrVal("Code_ip", Code_ip);
+	}
+	/**
+	 * 住院次数
+	 * @return Integer
+	 */
+	public Integer getNum_ip() {
+		return ((Integer) getAttrVal("Num_ip"));
+	}
+	/**
+	 * 住院次数
+	 * @param Num_ip
+	 */
+	public void setNum_ip(Integer Num_ip) {
+		setAttrVal("Num_ip", Num_ip);
+	}
+	/**
+	 * 预交金
+	 * @return FDouble
+	 */
+	public FDouble getPrepayment() {
+		return ((FDouble) getAttrVal("Prepayment"));
+	}
+	/**
+	 * 预交金
+	 * @param Prepayment
+	 */
+	public void setPrepayment(FDouble Prepayment) {
+		setAttrVal("Prepayment", Prepayment);
+	}
+	/**
+	 * 三无人员标志
+	 * @return FBoolean
+	 */
+	public FBoolean getFg_wms() {
+		return ((FBoolean) getAttrVal("Fg_wms"));
+	}
+	/**
+	 * 三无人员标志
+	 * @param Fg_wms
+	 */
+	public void setFg_wms(FBoolean Fg_wms) {
+		setAttrVal("Fg_wms", Fg_wms);
+	}
+	/**
+	 * 留观许可id
+	 * @return String
+	 */
+	public String getId_apt_ip() {
+		return ((String) getAttrVal("Id_apt_ip"));
+	}
+	/**
+	 * 留观许可id
+	 * @param Id_apt_ip
+	 */
+	public void setId_apt_ip(String Id_apt_ip) {
+		setAttrVal("Id_apt_ip", Id_apt_ip);
+	}
+	/**
+	 * 门诊就诊id
+	 * @return String
+	 */
+	public String getId_ent_op() {
+		return ((String) getAttrVal("Id_ent_op"));
+	}
+	/**
+	 * 门诊就诊id
+	 * @param Id_ent_op
+	 */
+	public void setId_ent_op(String Id_ent_op) {
+		setAttrVal("Id_ent_op", Id_ent_op);
+	}
+	/**
+	 * 患者年龄
+	 * @return String
+	 */
+	public String getAge_pat() {
+		return ((String) getAttrVal("Age_pat"));
+	}
+	/**
+	 * 患者年龄
+	 * @param Age_pat
+	 */
+	public void setAge_pat(String Age_pat) {
+		setAttrVal("Age_pat", Age_pat);
+	}
+	/**
+	 * 入院标志
+	 * @return FBoolean
+	 */
+	public FBoolean getFg_ip() {
+		return ((FBoolean) getAttrVal("Fg_ip"));
+	}
+	/**
+	 * 入院标志
+	 * @param Fg_ip
+	 */
+	public void setFg_ip(FBoolean Fg_ip) {
+		setAttrVal("Fg_ip", Fg_ip);
+	}
+	/**
+	 * 就诊编码
+	 * @return String
+	 */
+	public String getCode_ent() {
+		return ((String) getAttrVal("Code_ent"));
+	}
+	/**
+	 * 就诊编码
+	 * @param Code_ent
+	 */
+	public void setCode_ent(String Code_ent) {
+		setAttrVal("Code_ent", Code_ent);
+	}
+	/**
+	 * 患者状态
+	 * @return String
+	 */
+	public String getSd_status() {
+		return ((String) getAttrVal("Sd_status"));
+	}
+	/**
+	 * 患者状态
+	 * @param Sd_status
+	 */
+	public void setSd_status(String Sd_status) {
+		setAttrVal("Sd_status", Sd_status);
+	}
+	/**
+	 * vip标志
+	 * @return FBoolean
+	 */
+	public FBoolean getFg_vip() {
+		return ((FBoolean) getAttrVal("Fg_vip"));
+	}
+	/**
+	 * vip标志
+	 * @param Fg_vip
+	 */
+	public void setFg_vip(FBoolean Fg_vip) {
+		setAttrVal("Fg_vip", Fg_vip);
+	}
+	/**
+	 * 显示患者状态
+	 * @return String
+	 */
+	public String getShow_ipstatus() {
+		return ((String) getAttrVal("Show_ipstatus"));
+	}
+	/**
+	 * 显示患者状态
+	 * @param Show_ipstatus
+	 */
+	public void setShow_ipstatus(String Show_ipstatus) {
+		setAttrVal("Show_ipstatus", Show_ipstatus);
+	}
+	/**
+	 * 床位性别编码
+	 * @return String
+	 */
+	public String getSd_bedsex() {
+		return ((String) getAttrVal("Sd_bedsex"));
+	}
+	/**
+	 * 床位性别编码
+	 * @param Sd_bedsex
+	 */
+	public void setSd_bedsex(String Sd_bedsex) {
+		setAttrVal("Sd_bedsex", Sd_bedsex);
+	}
+	/**
+	 * 通知单预约床位id
+	 * @return String
+	 */
+	public String getId_bed_sc() {
+		return ((String) getAttrVal("Id_bed_sc"));
+	}
+	/**
+	 * 通知单预约床位id
+	 * @param Id_bed_sc
+	 */
+	public void setId_bed_sc(String Id_bed_sc) {
+		setAttrVal("Id_bed_sc", Id_bed_sc);
+	}
+	/**
+	 * 就诊医保计划主键_主医保
+	 * @return String
+	 */
+	public String getId_enthp_prim() {
+		return ((String) getAttrVal("Id_enthp_prim"));
+	}
+	/**
+	 * 就诊医保计划主键_主医保
+	 * @param Id_enthp_prim
+	 */
+	public void setId_enthp_prim(String Id_enthp_prim) {
+		setAttrVal("Id_enthp_prim", Id_enthp_prim);
+	}
+	/**
+	 * 就诊医保计划主键_辅医保
+	 * @return String
+	 */
+	public String getId_enthp_auxi() {
+		return ((String) getAttrVal("Id_enthp_auxi"));
+	}
+	/**
+	 * 就诊医保计划主键_辅医保
+	 * @param Id_enthp_auxi
+	 */
+	public void setId_enthp_auxi(String Id_enthp_auxi) {
+		setAttrVal("Id_enthp_auxi", Id_enthp_auxi);
+	}
+	/**
+	 * 主医保计划
+	 * @return String
+	 */
+	public String getPrim_cplan() {
+		return ((String) getAttrVal("Prim_cplan"));
+	}
+	/**
+	 * 主医保计划
+	 * @param Prim_cplan
+	 */
+	public void setPrim_cplan(String Prim_cplan) {
+		setAttrVal("Prim_cplan", Prim_cplan);
+	}
+	/**
+	 * 辅医保计划
+	 * @return String
+	 */
+	public String getAuxi_cplan() {
+		return ((String) getAttrVal("Auxi_cplan"));
+	}
+	/**
+	 * 辅医保计划
+	 * @param Auxi_cplan
+	 */
+	public void setAuxi_cplan(String Auxi_cplan) {
+		setAttrVal("Auxi_cplan", Auxi_cplan);
+	}
+	/**
+	 * 头像
+	 * @return byte[]
+	 */
+	public byte[] getPhoto() {
+		return ((byte[]) getAttrVal("Photo"));
+	}
+	/**
+	 * 头像
+	 * @param Photo
+	 */
+	public void setPhoto(byte[] Photo) {
+		setAttrVal("Photo", Photo);
+	}
+	/**
+	 * 就诊时间
+	 * @return FDateTime
+	 */
+	public FDateTime getDt_ent() {
+		return ((FDateTime) getAttrVal("Dt_ent"));
+	}
+	/**
+	 * 就诊时间
+	 * @param Dt_ent
+	 */
+	public void setDt_ent(FDateTime Dt_ent) {
+		setAttrVal("Dt_ent", Dt_ent);
+	}
+	/**
+	 * 转留观时间
+	 * @return FDateTime
+	 */
+	public FDateTime getDt_obs() {
+		return ((FDateTime) getAttrVal("Dt_obs"));
+	}
+	/**
+	 * 转留观时间
+	 * @param Dt_obs
+	 */
+	public void setDt_obs(FDateTime Dt_obs) {
+		setAttrVal("Dt_obs", Dt_obs);
+	}
+	/**
+	 * 弹框标志
+	 * @return FBoolean
+	 */
+	public FBoolean getFg_dialog() {
+		return ((FBoolean) getAttrVal("Fg_dialog"));
+	}
+	/**
+	 * 弹框标志
+	 * @param Fg_dialog
+	 */
+	public void setFg_dialog(FBoolean Fg_dialog) {
+		setAttrVal("Fg_dialog", Fg_dialog);
+	}
+	/**
+	 * 婴儿标志
+	 * @return FBoolean
+	 */
+	public FBoolean getFg_bb() {
+		return ((FBoolean) getAttrVal("Fg_bb"));
+	}
+	/**
+	 * 婴儿标志
+	 * @param Fg_bb
+	 */
+	public void setFg_bb(FBoolean Fg_bb) {
+		setAttrVal("Fg_bb", Fg_bb);
+	}
+	/**
+	 * 预检id
+	 * @return String
+	 */
+	public String getId_erpre() {
+		return ((String) getAttrVal("Id_erpre"));
+	}
+	/**
+	 * 预检id
+	 * @param Id_erpre
+	 */
+	public void setId_erpre(String Id_erpre) {
+		setAttrVal("Id_erpre", Id_erpre);
+	}
+	/**
+	 * 证件类型编码
+	 * @return String
+	 */
+	public String getSd_idtp() {
+		return ((String) getAttrVal("Sd_idtp"));
+	}
+	/**
+	 * 证件类型编码
+	 * @param Sd_idtp
+	 */
+	public void setSd_idtp(String Sd_idtp) {
+		setAttrVal("Sd_idtp", Sd_idtp);
+	}
+	/**
+	 * 工作单位
+	 * @return String
+	 */
+	public String getWorkplace() {
+		return ((String) getAttrVal("Workplace"));
+	}
+	/**
+	 * 工作单位
+	 * @param Workplace
+	 */
+	public void setWorkplace(String Workplace) {
+		setAttrVal("Workplace", Workplace);
+	}
+	/**
+	 * 单位地址id
+	 * @return String
+	 */
+	public String getId_addr_work() {
+		return ((String) getAttrVal("Id_addr_work"));
+	}
+	/**
+	 * 单位地址id
+	 * @param Id_addr_work
+	 */
+	public void setId_addr_work(String Id_addr_work) {
+		setAttrVal("Id_addr_work", Id_addr_work);
+	}
+	/**
+	 * 单位地址编码
+	 * @return String
+	 */
+	public String getSd_addr_work() {
+		return ((String) getAttrVal("Sd_addr_work"));
+	}
+	/**
+	 * 单位地址编码
+	 * @param Sd_addr_work
+	 */
+	public void setSd_addr_work(String Sd_addr_work) {
+		setAttrVal("Sd_addr_work", Sd_addr_work);
+	}
+	/**
+	 * 单位地址名称
+	 * @return String
+	 */
+	public String getName_addr_work() {
+		return ((String) getAttrVal("Name_addr_work"));
+	}
+	/**
+	 * 单位地址名称
+	 * @param Name_addr_work
+	 */
+	public void setName_addr_work(String Name_addr_work) {
+		setAttrVal("Name_addr_work", Name_addr_work);
+	}
+	/**
+	 * 单位详细街道
+	 * @return String
+	 */
+	public String getStreet_work() {
+		return ((String) getAttrVal("Street_work"));
+	}
+	/**
+	 * 单位详细街道
+	 * @param Street_work
+	 */
+	public void setStreet_work(String Street_work) {
+		setAttrVal("Street_work", Street_work);
+	}
+	/**
+	 * 单位电话
+	 * @return String
+	 */
+	public String getTel_work() {
+		return ((String) getAttrVal("Tel_work"));
+	}
+	/**
+	 * 单位电话
+	 * @param Tel_work
+	 */
+	public void setTel_work(String Tel_work) {
+		setAttrVal("Tel_work", Tel_work);
+	}
+	/**
+	 * 单位邮编
+	 * @return String
+	 */
+	public String getPostcode_work() {
+		return ((String) getAttrVal("Postcode_work"));
+	}
+	/**
+	 * 单位邮编
+	 * @param Postcode_work
+	 */
+	public void setPostcode_work(String Postcode_work) {
+		setAttrVal("Postcode_work", Postcode_work);
+	}
+	/**
+	 * 户口地址id
+	 * @return String
+	 */
+	public String getId_addr_resi() {
+		return ((String) getAttrVal("Id_addr_resi"));
+	}
+	/**
+	 * 户口地址id
+	 * @param Id_addr_resi
+	 */
+	public void setId_addr_resi(String Id_addr_resi) {
+		setAttrVal("Id_addr_resi", Id_addr_resi);
+	}
+	/**
+	 * 户口地址编码
+	 * @return String
+	 */
+	public String getSd_addr_resi() {
+		return ((String) getAttrVal("Sd_addr_resi"));
+	}
+	/**
+	 * 户口地址编码
+	 * @param Sd_addr_resi
+	 */
+	public void setSd_addr_resi(String Sd_addr_resi) {
+		setAttrVal("Sd_addr_resi", Sd_addr_resi);
+	}
+	/**
+	 * 户口地址名称
+	 * @return String
+	 */
+	public String getName_addr_resi() {
+		return ((String) getAttrVal("Name_addr_resi"));
+	}
+	/**
+	 * 户口地址名称
+	 * @param Name_addr_resi
+	 */
+	public void setName_addr_resi(String Name_addr_resi) {
+		setAttrVal("Name_addr_resi", Name_addr_resi);
+	}
+	/**
+	 * 户口详细街道
+	 * @return String
+	 */
+	public String getStreet_resi() {
+		return ((String) getAttrVal("Street_resi"));
+	}
+	/**
+	 * 户口详细街道
+	 * @param Street_resi
+	 */
+	public void setStreet_resi(String Street_resi) {
+		setAttrVal("Street_resi", Street_resi);
+	}
+	/**
+	 * 户口邮编
+	 * @return String
+	 */
+	public String getPostcode_resi() {
+		return ((String) getAttrVal("Postcode_resi"));
+	}
+	/**
+	 * 户口邮编
+	 * @param Postcode_resi
+	 */
+	public void setPostcode_resi(String Postcode_resi) {
+		setAttrVal("Postcode_resi", Postcode_resi);
+	}
+	/**
+	 * 实名标志
+	 * @return FBoolean
+	 */
+	public FBoolean getFg_relname() {
+		return ((FBoolean) getAttrVal("Fg_relname"));
+	}
+	/**
+	 * 实名标志
+	 * @param Fg_relname
+	 */
+	public void setFg_relname(FBoolean Fg_relname) {
+		setAttrVal("Fg_relname", Fg_relname);
+	}
+	/**
+	 * 移动电话
+	 * @return String
+	 */
+	public String getMob_pat() {
+		return ((String) getAttrVal("Mob_pat"));
+	}
+	/**
+	 * 移动电话
+	 * @param Mob_pat
+	 */
+	public void setMob_pat(String Mob_pat) {
+		setAttrVal("Mob_pat", Mob_pat);
+	}
+	/**
+	 * 留观许可id_ent
+	 * @return String
+	 */
+	public String getId_ent_obsper() {
+		return ((String) getAttrVal("Id_ent_obsper"));
+	}
+	/**
+	 * 留观许可id_ent
+	 * @param Id_ent_obsper
+	 */
+	public void setId_ent_obsper(String Id_ent_obsper) {
+		setAttrVal("Id_ent_obsper", Id_ent_obsper);
+	}
+}

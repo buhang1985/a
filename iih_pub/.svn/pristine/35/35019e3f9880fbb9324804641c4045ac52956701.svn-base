@@ -1,0 +1,36 @@
+package iih.bl.itf.std.bean.output.charge;
+
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+
+import iih.bl.itf.std.bean.output.WsResultInfo;
+import iih.bl.itf.std.bean.output.charge.sub.WsResultEntInfo;
+import iih.bl.itf.std.bean.output.charge.sub.WsResultOpBill;
+
+/**
+ * 门诊自助支付待缴查询结果数据
+ * @author shaokx 2019/01/09
+ *
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+public class WsResultInfoOpGetNoPay extends WsResultInfo{
+
+	private static final long serialVersionUID = 1L;
+	
+	@XmlElementWrapper(name="OEPEntList")
+	@XmlElement(name = "entInfo")
+	private List<WsResultEntInfo> oepEntList;
+
+	public List<WsResultEntInfo> getOepEntList() {
+		return oepEntList;
+	}
+
+	public void setOepEntList(List<WsResultEntInfo> oepEntList) {
+		this.oepEntList = oepEntList;
+	}
+	
+}

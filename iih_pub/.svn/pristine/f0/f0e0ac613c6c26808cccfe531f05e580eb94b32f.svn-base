@@ -1,0 +1,11 @@
+package iih.en.ip.i;
+
+/**
+ * 住院增删改服务2
+ * 
+ * @author liubin
+ *
+ */
+public interface IEnIpCmdService2 {
+
+}

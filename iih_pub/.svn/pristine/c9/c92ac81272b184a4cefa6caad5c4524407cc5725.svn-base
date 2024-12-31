@@ -1,0 +1,296 @@
+package iih.bl.st.blpaypatoep.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.bl.st.blpaypatoep.d.desc.BlPayPatOepDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 门急诊患者收付款 DO数据 
+ * 
+ */
+public class BlPayPatOepDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_PAYPATOEP= "Id_paypatoep";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_ORG= "Id_org";
+	public static final String ID_ENTTP= "Id_enttp";
+	public static final String CODE_ENTTP= "Code_enttp";
+	public static final String ID_PAYTP= "Id_paytp";
+	public static final String SD_PAYTP= "Sd_paytp";
+	public static final String ID_PAT= "Id_pat";
+	public static final String EU_DIRECT= "Eu_direct";
+	public static final String AMT= "Amt";
+	public static final String DT_PAY= "Dt_pay";
+	public static final String ID_ORG_PAY= "Id_org_pay";
+	public static final String ID_DEP_PAY= "Id_dep_pay";
+	public static final String ID_EMP_PAY= "Id_emp_pay";
+	public static final String FG_CC= "Fg_cc";
+	public static final String ID_CC= "Id_cc";
+	public static final String NOTE= "Note";
+	public static final String ID_PTTP= "Id_pttp";
+	public static final String SD_PTTP= "Sd_pttp";
+	public static final String PECODE= "Pecode";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String ENTPNAME= "Entpname";
+	public static final String ENTPCODE= "Entpcode";
+	public static final String PAYTP_CODE= "Paytp_code";
+	public static final String PAYTP_NAME= "Paytp_name";
+	public static final String PATCODE= "Patcode";
+	public static final String PATNAME= "Patname";
+	public static final String DEPTCODE= "Deptcode";
+	public static final String DEPTNAME= "Deptname";
+	public static final String EMPPAYCODE= "Emppaycode";
+	public static final String EMPPAYNAME= "Emppayname";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_paypatoep() {
+		return ((String) getAttrVal("Id_paypatoep"));
+	}	
+	public void setId_paypatoep(String Id_paypatoep) {
+		setAttrVal("Id_paypatoep", Id_paypatoep);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getId_enttp() {
+		return ((String) getAttrVal("Id_enttp"));
+	}	
+	public void setId_enttp(String Id_enttp) {
+		setAttrVal("Id_enttp", Id_enttp);
+	}
+	public String getCode_enttp() {
+		return ((String) getAttrVal("Code_enttp"));
+	}	
+	public void setCode_enttp(String Code_enttp) {
+		setAttrVal("Code_enttp", Code_enttp);
+	}
+	public String getId_paytp() {
+		return ((String) getAttrVal("Id_paytp"));
+	}	
+	public void setId_paytp(String Id_paytp) {
+		setAttrVal("Id_paytp", Id_paytp);
+	}
+	public String getSd_paytp() {
+		return ((String) getAttrVal("Sd_paytp"));
+	}	
+	public void setSd_paytp(String Sd_paytp) {
+		setAttrVal("Sd_paytp", Sd_paytp);
+	}
+	public String getId_pat() {
+		return ((String) getAttrVal("Id_pat"));
+	}	
+	public void setId_pat(String Id_pat) {
+		setAttrVal("Id_pat", Id_pat);
+	}
+	public Integer getEu_direct() {
+		return ((Integer) getAttrVal("Eu_direct"));
+	}	
+	public void setEu_direct(Integer Eu_direct) {
+		setAttrVal("Eu_direct", Eu_direct);
+	}
+	public FDouble getAmt() {
+		return ((FDouble) getAttrVal("Amt"));
+	}	
+	public void setAmt(FDouble Amt) {
+		setAttrVal("Amt", Amt);
+	}
+	public FDateTime getDt_pay() {
+		return ((FDateTime) getAttrVal("Dt_pay"));
+	}	
+	public void setDt_pay(FDateTime Dt_pay) {
+		setAttrVal("Dt_pay", Dt_pay);
+	}
+	public String getId_org_pay() {
+		return ((String) getAttrVal("Id_org_pay"));
+	}	
+	public void setId_org_pay(String Id_org_pay) {
+		setAttrVal("Id_org_pay", Id_org_pay);
+	}
+	public String getId_dep_pay() {
+		return ((String) getAttrVal("Id_dep_pay"));
+	}	
+	public void setId_dep_pay(String Id_dep_pay) {
+		setAttrVal("Id_dep_pay", Id_dep_pay);
+	}
+	public String getId_emp_pay() {
+		return ((String) getAttrVal("Id_emp_pay"));
+	}	
+	public void setId_emp_pay(String Id_emp_pay) {
+		setAttrVal("Id_emp_pay", Id_emp_pay);
+	}
+	public FBoolean getFg_cc() {
+		return ((FBoolean) getAttrVal("Fg_cc"));
+	}	
+	public void setFg_cc(FBoolean Fg_cc) {
+		setAttrVal("Fg_cc", Fg_cc);
+	}
+	public String getId_cc() {
+		return ((String) getAttrVal("Id_cc"));
+	}	
+	public void setId_cc(String Id_cc) {
+		setAttrVal("Id_cc", Id_cc);
+	}
+	public String getNote() {
+		return ((String) getAttrVal("Note"));
+	}	
+	public void setNote(String Note) {
+		setAttrVal("Note", Note);
+	}
+	public String getId_pttp() {
+		return ((String) getAttrVal("Id_pttp"));
+	}	
+	public void setId_pttp(String Id_pttp) {
+		setAttrVal("Id_pttp", Id_pttp);
+	}
+	public String getSd_pttp() {
+		return ((String) getAttrVal("Sd_pttp"));
+	}	
+	public void setSd_pttp(String Sd_pttp) {
+		setAttrVal("Sd_pttp", Sd_pttp);
+	}
+	public String getPecode() {
+		return ((String) getAttrVal("Pecode"));
+	}	
+	public void setPecode(String Pecode) {
+		setAttrVal("Pecode", Pecode);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public String getEntpname() {
+		return ((String) getAttrVal("Entpname"));
+	}	
+	public void setEntpname(String Entpname) {
+		setAttrVal("Entpname", Entpname);
+	}
+	public String getEntpcode() {
+		return ((String) getAttrVal("Entpcode"));
+	}	
+	public void setEntpcode(String Entpcode) {
+		setAttrVal("Entpcode", Entpcode);
+	}
+	public String getPaytp_code() {
+		return ((String) getAttrVal("Paytp_code"));
+	}	
+	public void setPaytp_code(String Paytp_code) {
+		setAttrVal("Paytp_code", Paytp_code);
+	}
+	public String getPaytp_name() {
+		return ((String) getAttrVal("Paytp_name"));
+	}	
+	public void setPaytp_name(String Paytp_name) {
+		setAttrVal("Paytp_name", Paytp_name);
+	}
+	public String getPatcode() {
+		return ((String) getAttrVal("Patcode"));
+	}	
+	public void setPatcode(String Patcode) {
+		setAttrVal("Patcode", Patcode);
+	}
+	public String getPatname() {
+		return ((String) getAttrVal("Patname"));
+	}	
+	public void setPatname(String Patname) {
+		setAttrVal("Patname", Patname);
+	}
+	public String getDeptcode() {
+		return ((String) getAttrVal("Deptcode"));
+	}	
+	public void setDeptcode(String Deptcode) {
+		setAttrVal("Deptcode", Deptcode);
+	}
+	public String getDeptname() {
+		return ((String) getAttrVal("Deptname"));
+	}	
+	public void setDeptname(String Deptname) {
+		setAttrVal("Deptname", Deptname);
+	}
+	public String getEmppaycode() {
+		return ((String) getAttrVal("Emppaycode"));
+	}	
+	public void setEmppaycode(String Emppaycode) {
+		setAttrVal("Emppaycode", Emppaycode);
+	}
+	public String getEmppayname() {
+		return ((String) getAttrVal("Emppayname"));
+	}	
+	public void setEmppayname(String Emppayname) {
+		setAttrVal("Emppayname", Emppayname);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_paypatoep";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "bl_pay_pat_oep";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(BlPayPatOepDODesc.class);
+	}
+	
+}

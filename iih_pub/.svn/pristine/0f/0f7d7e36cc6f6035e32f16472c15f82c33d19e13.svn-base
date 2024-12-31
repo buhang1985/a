@@ -1,0 +1,103 @@
+package iih.ci.mi.ord.i.meta;
+
+import xap.mw.core.data.FMap;
+import xap.mw.coreitf.d.FBoolean;
+
+/**
+ * 医保规则校验结果
+ * @author HUMS
+ *
+ */
+public class OrdSrvRuleRstDTO extends OrdSrvMiBaseDTO{
+
+	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 医嘱id
+	 * @return String
+	 */
+	public String getId_or() {
+		return ((String) getAttrVal("Id_or"));
+	}
+	/**
+	 * 适应症判断方式，控制类型
+	 * @param Id_or
+	 */
+	public void setId_or(String Id_or) {
+		setAttrVal("Id_or", Id_or);
+	}
+	
+
+	/**
+	 * 医嘱名称
+	 * @return String
+	 */
+	public String getName_or() {
+		return ((String) getAttrVal("Name_or"));
+	}
+	/**
+	 * 医嘱名称
+	 * @param Name_or
+	 */
+	public void setName_or(String Name_or) {
+		setAttrVal("Name_or", Name_or);
+	}
+	
+	/**
+	 * 医嘱服务项目
+	 * @return String
+	 */
+	public String getId_orsrv() {
+		return ((String) getAttrVal("Id_orsrv"));
+	}
+	/**
+	 * 医嘱服务项目
+	 * @param Id_orsrv
+	 */
+	public void setId_orsrv(String Id_orsrv) {
+		setAttrVal("Id_orsrv", Id_orsrv);
+	}
+	
+	/**
+	 * 校验是否通过
+	 * @return String
+	 */
+	public FBoolean getFg_result() {
+		return ((FBoolean) getAttrVal("Fg_result"));
+	}
+	/**
+	 * 校验结果
+	 * @param Fg_result
+	 */
+	public void setFg_result(FBoolean Fg_result) {
+		setAttrVal("Fg_result", Fg_result);
+	}
+	
+	/**
+	 * 校验结果
+	 * @return String
+	 */
+	public FMap getError_map() {
+		return ((FMap) getAttrVal("Error_map"));
+	}
+	/**
+	 * 校验是否通过
+	 * @param Error_map
+	 */
+	public void setError_map(FMap Error_map) {
+		setAttrVal("Error_map", Error_map);
+	}
+	
+	public String getErrorMsg() {
+		
+		StringBuffer msgBuffer = new StringBuffer();
+		FMap errorMap = this.getError_map();
+		if(errorMap == null){
+			return "";
+		}
+		for(Object msgObj : errorMap.values()){
+			msgBuffer.append(msgObj.toString()).append(System.lineSeparator());
+		}
+		return msgBuffer.toString();
+	}
+}

@@ -1,0 +1,89 @@
+package iih.ci.mrm.i.insidecommoncard;
+
+import iih.bd.srv.mrmtype.d.MrmTypeDO;
+import iih.ci.mrm.cimrmfiledto.d.CiMrmFileDTO;
+import iih.ci.mrm.cimrmfileinfo.d.CiMrmFileInfoDO;
+import xap.mw.core.data.BizException;
+
+public interface IMrmInsideCommonCardService {
+
+	/**
+	 * 添加扫描文件信息
+	 * 
+	 * @param ciMrmFileInfoDO
+	 * @param isInsert
+	 * @throws BizException
+	 */
+	public abstract void addMrmFileInfo(CiMrmFileInfoDO ciMrmFileInfoDO,
+			Boolean isInsert) throws BizException;
+
+	/**
+	 * 添加扫描文件信息
+	 * 
+	 * @param id_ent
+	 * @param id_busy
+	 * @param id_mrtp
+	 * @param name
+	 * @param code_file
+	 * @param id_df
+	 * @param sd_df
+	 * @param isClear
+	 * @return
+	 * @throws BizException
+	 */
+	public abstract Boolean addMrmFileInfoMR(String id_ent, String id_busy,
+			String id_mrtp, String name, String code_file, String id_df,
+			String sd_df, Boolean isClear, int sortNo) throws BizException;
+
+	/**
+	 * 添加扫描文件信息（多份）
+	 * @param ciMrmFileDTOs
+	 * @param id_ent
+	 * @param id_busy
+	 * @param id_mrtp
+	 * @param isClear
+	 * @return
+	 * @throws BizException
+	 */
+	public Boolean addMrmFileInfoListMR(CiMrmFileDTO[] ciMrmFileDTOs,
+			String id_ent, String id_busy, String id_mrtp, Boolean isClear)
+			throws BizException;
+	
+	/**
+	 * 删除就诊病案分类下同一业务产生文件信息
+	 * @param id_ent
+	 * @param id_busy
+	 * @param id_mrtp
+	 * @return
+	 * @throws BizException
+	 */
+	public Boolean deleteMrmFileInfo(String id_ent,String id_busy,String id_mrtp) throws BizException;
+	
+	/**
+	 * 获取数据集是否自动生成病案电子文档
+	 * @param id_mrtp
+	 * @return
+	 * @throws BizException
+	 */
+	public Boolean isAutoSave(String id_mrtp) throws BizException;
+	
+	/**
+	 * 删除病案文件
+	 * @param lsCiMrmFileInfoDO
+	 * @return
+	 * @throws BizException
+	 */
+	public Boolean deleteMrmFileInfoList(CiMrmFileInfoDO[] lsCiMrmFileInfoDO) throws BizException;
+	/**
+	 * 保存病案首页pdf信息
+	 * @param id_ent
+	 * @param code_set
+	 * @param name
+	 * @param code_file
+	 * @param id_df
+	 * @param sd_df
+	 * @return
+	 * @throws BizException
+	 */
+	public abstract Boolean addMrmFileInfoMrFp(String id_ent, String code_set, String name, String code_file, String id_df,String sd_df) throws BizException;
+	}

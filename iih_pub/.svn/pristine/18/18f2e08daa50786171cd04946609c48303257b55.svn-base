@@ -1,0 +1,18 @@
+package iih.pe.pwf.i;
+
+import iih.pe.pwf.dto.pereglistdto.d.PeRegListDTO;
+import iih.pe.pwf.dto.pewfnextrmdto.d.PeWfNextrmDTO;
+import xap.mw.core.data.BizException;
+
+public interface IPereglistQueryService {
+    /// <summary>
+    /// 通过时间与体检类型查询
+    /// </summary>
+    /// <param name="regDate"></param>
+    /// <param name="groupId"></param>
+    /// <returns></returns>
+	public PeRegListDTO[] findPeApptListByRegDateAndGroupId(String regDate,String newDate,String id_pecorpappt,String groupId, String rangeFlag) throws BizException;
+	
+	 public PeWfNextrmDTO[] findPeWfNextrmById(String groupId) throws BizException;
+
+}

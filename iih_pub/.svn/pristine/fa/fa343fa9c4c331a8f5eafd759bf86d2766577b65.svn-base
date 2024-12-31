@@ -1,0 +1,90 @@
+package iih.ci.mr.pub.listener;
+
+import java.util.Arrays;
+import iih.bd.bc.event.pub.IMrEventConst;
+import iih.ci.mr.cideathcert.d.CideathcertDO;
+import iih.ci.mr.cimrdeath.d.CimrdeathDTO;
+import iih.ci.mr.cimrpatinfodto.d.CiMrPatInfoDTO;
+import iih.ci.mr.i.ICiMrIPService;
+import iih.ci.mr.pub.MrConst.IMrPubConst;
+import iih.ci.rcm.pub.ReportConst.IReportPubConst;
+import xap.ip.event.BusinessEventListener;
+import xap.ip.event.DomainBusinessUserObj;
+import xap.ip.event.MsgObj;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.FArrayList;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.appfw.businessevent.BusinessEvent;
+import xap.sys.appfw.businessevent.IEventType;
+import xap.sys.permfw.user.d.UserDO;
+import xap.sys.permfw.user.i.IUserRService;
+
+public class AbstractCideathcertPassListener extends AbstractCideathcertDOUpdateAfterListener {
+
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void doActionCiMrDOChange(CideathcertDO[] cideathcertDOs) throws BizException {
+		// 数据组装
+		CideathcertDO cideathcertDO = cideathcertDOs[0];
+		if (cideathcertDO == null || cideathcertDO.getCert_status() == null
+				|| !IReportPubConst.Id_con_cardsu_ok.contains(cideathcertDO.getCert_status())) {
+			return;
+		}
+		CimrdeathDTO ciMrDeathDTO = new CimrdeathDTO();
+		
+		ciMrDeathDTO.setDoc_version("0");
+		ciMrDeathDTO.setId_interface("BS435");
+		ciMrDeathDTO.setDoc_title("死亡诊断证明书");
+		IUserRService userService=ServiceFinder.find(IUserRService.class);
+		
+		ciMrDeathDTO.setId_ent(cideathcertDO.getId_ent());
+		ciMrDeathDTO.setRecord_date(cideathcertDO.getCreatedtime());
+		ciMrDeathDTO.setId_doc(cideathcertDO.getId_death_cert());
+		UserDO us1=userService.findById(cideathcertDO.getCreatedby());//填写医生
+		ciMrDeathDTO.setId_doctor(us1.getCode());
+		ciMrDeathDTO.setName_doctor(us1.getName());
+		
+		
+		ICiMrIPService ipservice = ServiceFinder.find(ICiMrIPService.class);
+		CiMrPatInfoDTO[] patinfoDTOs = ipservice.getCiMrPatInfoDTO(cideathcertDO.getId_ent());
+		CiMrPatInfoDTO pa = null;
+		if (patinfoDTOs != null && patinfoDTOs.length > 0) {
+			pa = patinfoDTOs[0];
+			
+			ciMrDeathDTO.setId_moudle(pa.getId_pre());
+			ciMrDeathDTO.setCode_pat(pa.getCode_pat());
+			ciMrDeathDTO.setCount_ent(pa.getTimes_ip());
+			ciMrDeathDTO.setCode_ent_liushui(pa.getCode_ent_liushui());
+			ciMrDeathDTO.setId_entp(pa.getId_entp());
+			ciMrDeathDTO.setName_entp(pa.getName_entp());			
+			ciMrDeathDTO.setId_hospital(pa.getCode_org());
+			ciMrDeathDTO.setName_hospital(pa.getOrg());
+			
+		}
+       
+		FArrayList list = new FArrayList();
+		list.addAll(Arrays.asList(cideathcertDO));
+		ciMrDeathDTO.setLs_death_cert(list);
+		
+		// 消息发送
+		DomainBusinessUserObj buo = new DomainBusinessUserObj(ciMrDeathDTO, IMrPubConst.MZ, "", "0");
+
+		if (pa != null) {
+			Integer enTimes = null;
+			if (pa.getTimes_op() != null && pa.getCode_ent().equals("01")) {
+				enTimes = Integer.parseInt(pa.getTimes_op());
+			}
+			if (pa.getTimes_ip() != null && pa.getCode_ent().equals("03")) {
+				enTimes = Integer.parseInt(pa.getTimes_ip());
+			}
+			MsgObj msgObj = new MsgObj("0", pa.getCode_pat(), enTimes, pa.getCode_ent(), null, null, null);
+			buo.setMsgObj(msgObj);
+		}
+
+		BusinessEvent event = new BusinessEvent(IMrEventConst.EVENT_SOURCE_MR_DEATHCERT_PASS,
+				IEventType.TYPE_UPDATE_AFTER, buo);
+		BusinessEventListener beListener = ServiceFinder.find(BusinessEventListener.class);
+		beListener.doAction(event);
+	}
+
+}

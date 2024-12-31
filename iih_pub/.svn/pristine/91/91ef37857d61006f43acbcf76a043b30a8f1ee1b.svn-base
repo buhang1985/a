@@ -1,0 +1,11 @@
+package iih.pe.pqc.i;
+
+import java.lang.reflect.InvocationTargetException;
+
+import iih.pe.pds.pedsdiag.d.PeDsDiagDO;
+import iih.pe.pds.pedsprodrel.d.PeDsProdRelDO;
+import xap.mw.core.data.BizException;
+
+public interface IPeQcMaintainService {
+	
+}

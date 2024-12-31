@@ -1,0 +1,12 @@
+package iih.pe.papi.i.ris;
+
+import xap.mw.core.data.BizException;
+
+public interface IPeButtRisService {
+
+	public abstract Boolean pePatientConnectRis (String id_pepsnappt) throws BizException;
+	//放射图文报告
+	public abstract Boolean pePatientConnectRisRadiate (String id_pepsnappt) throws BizException;
+	//超声图文报告
+	public abstract Boolean pePatientConnectRisUltrasonic (String id_pepsnappt) throws BizException;
+}

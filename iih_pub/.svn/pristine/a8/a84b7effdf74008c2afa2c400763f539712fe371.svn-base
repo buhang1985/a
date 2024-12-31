@@ -1,0 +1,51 @@
+package iih.ci.mi.ord.i;
+
+import java.util.List;
+
+import iih.ci.mi.ord.i.meta.OrdIndicParamDTO;
+import iih.ci.mi.ord.i.meta.OrdIndicRstDTO;
+import iih.ci.mi.ord.i.meta.OrdRuleParamDTO;
+import iih.ci.mi.ord.i.meta.OrdRuleRstDTO;
+import iih.ci.mi.ord.i.meta.OrdSpecillParamDTO;
+import iih.ci.mi.ord.i.meta.OrdSrvSpecillRstDTO;
+import iih.ci.ord.ems.d.CiEnContextDTO;
+import xap.mw.core.data.BizException;
+
+public interface ICiMiOrdRService {
+
+	/**
+	 * 是否启用医保适应症校验
+	 * @param ctx
+	 * @return
+	 * @throws BizException
+	 */
+	public boolean isEnabledIndicVerify(CiEnContextDTO ctx) throws BizException ;
+
+	/**
+	 * 获取医保开单规则校验
+	 * @param ctx
+	 * @param orderAggList
+	 * @return
+	 * @throws BizException
+	 */
+	public List<OrdRuleRstDTO> checkWholeRule(CiEnContextDTO ctx , List<OrdRuleParamDTO> orderList) throws BizException;
+	
+	/**
+	 * 医保适应症校验
+	 * @param ctx
+	 * @param orderAggList
+	 * @return
+	 * @throws BizException
+	 */
+	public List<OrdIndicRstDTO> checkIndicationRule(CiEnContextDTO ctx , List<OrdIndicParamDTO> orderList) throws BizException;
+	
+	/**
+	 * 特殊病药品判断接口</br>
+	 * @param ctx 
+	 * @param orderParam
+	 * @return
+	 * @throws BizException
+	 */
+	public List<OrdSrvSpecillRstDTO> getPatSpecillCheck(CiEnContextDTO ctx , OrdSpecillParamDTO orderParam) throws BizException;
+
+}

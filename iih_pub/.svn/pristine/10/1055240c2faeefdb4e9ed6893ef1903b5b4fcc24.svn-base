@@ -1,0 +1,135 @@
+package iih.pe.phm.petcmconstcaeval.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.pe.phm.petcmconstcaeval.d.desc.PeTCMOvalDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 体检中医体质评估 DO数据 
+ * 
+ */
+public class PeTCMOvalDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_PEPSNAPPT= "Id_pepsnappt";
+	public static final String OBSERVATION= "Observation";
+	public static final String LISTENING= "Listening";
+	public static final String INTERROGATION= "Interrogation";
+	public static final String PULSETAKING= "Pulsetaking";
+	public static final String CONCLUSION= "Conclusion";
+	public static final String SUGGESTION= "Suggestion";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_pepsnappt() {
+		return ((String) getAttrVal("Id_pepsnappt"));
+	}	
+	public void setId_pepsnappt(String Id_pepsnappt) {
+		setAttrVal("Id_pepsnappt", Id_pepsnappt);
+	}
+	public String getObservation() {
+		return ((String) getAttrVal("Observation"));
+	}	
+	public void setObservation(String Observation) {
+		setAttrVal("Observation", Observation);
+	}
+	public String getListening() {
+		return ((String) getAttrVal("Listening"));
+	}	
+	public void setListening(String Listening) {
+		setAttrVal("Listening", Listening);
+	}
+	public String getInterrogation() {
+		return ((String) getAttrVal("Interrogation"));
+	}	
+	public void setInterrogation(String Interrogation) {
+		setAttrVal("Interrogation", Interrogation);
+	}
+	public String getPulsetaking() {
+		return ((String) getAttrVal("Pulsetaking"));
+	}	
+	public void setPulsetaking(String Pulsetaking) {
+		setAttrVal("Pulsetaking", Pulsetaking);
+	}
+	public String getConclusion() {
+		return ((String) getAttrVal("Conclusion"));
+	}	
+	public void setConclusion(String Conclusion) {
+		setAttrVal("Conclusion", Conclusion);
+	}
+	public String getSuggestion() {
+		return ((String) getAttrVal("Suggestion"));
+	}	
+	public void setSuggestion(String Suggestion) {
+		setAttrVal("Suggestion", Suggestion);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_pepsnappt";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "pe_hm_petcmoval";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(PeTCMOvalDODesc.class);
+	}
+	
+}

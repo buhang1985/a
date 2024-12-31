@@ -1,0 +1,57 @@
+package iih.ci.ord.dto.confirm;
+
+import xap.mw.core.data.BaseDTO;
+import xap.mw.core.data.FArrayList;
+/**
+ * 医嘱确认校验入参
+ * @author zhangwq
+ *
+ */
+public class OrConfirmVerifyParamDTO extends BaseDTO {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 确认医嘱id_or集合
+	 * @return FArrayList
+	 */
+	public FArrayList getId_ors_chk() {
+		return ((FArrayList) getAttrVal("Id_ors_chk"));
+	}
+	/**
+	 * 确认医嘱id_or集合
+	 * @param Id_ors_chk
+	 */
+	public void setId_ors_chk(FArrayList Id_ors_chk) {
+		setAttrVal("Id_ors_chk", Id_ors_chk);
+	}
+	/**
+	 * 停止确认医嘱id_or集合
+	 * @return FArrayList
+	 */
+	public FArrayList getId_ors_stop_chk() {
+		return ((FArrayList) getAttrVal("Id_ors_stop_chk"));
+	}
+	/**
+	 * 停止确认医嘱id_or集合
+	 * @param Id_ors_stop_chk
+	 */
+	public void setId_ors_stop_chk(FArrayList Id_ors_stop_chk) {
+		setAttrVal("Id_ors_stop_chk", Id_ors_stop_chk);
+	}
+	/**
+	 * 作废确认医嘱id_or集合
+	 * @return FArrayList
+	 */
+	public FArrayList getId_ors_canc_chk() {
+		return ((FArrayList) getAttrVal("Id_ors_canc_chk"));
+	}
+	/**
+	 * 作废确认医嘱id_or集合
+	 * @param Id_ors_canc_chk
+	 */
+	public void setId_ors_canc_chk(FArrayList Id_ors_canc_chk) {
+		setAttrVal("Id_ors_canc_chk", Id_ors_canc_chk);
+	}
+}

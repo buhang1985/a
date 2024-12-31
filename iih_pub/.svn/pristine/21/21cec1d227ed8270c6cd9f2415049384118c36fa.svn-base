@@ -1,0 +1,50 @@
+package iih.pe.listener.qry;
+
+import xap.sys.appfw.orm.utils.ITransQry;
+import xap.sys.jdbc.kernel.SqlParam;
+
+public class SubItemQry implements ITransQry {
+
+	String id_pepsnappt;
+	String item_code;
+	
+	public SubItemQry(String id_pepsnappt,String item_code){
+		this.id_pepsnappt = id_pepsnappt;
+		this.item_code = item_code;
+	}
+	
+	@Override
+	public SqlParam getQryParameter(StringBuffer arg0) {
+		SqlParam param = new SqlParam();
+		param.addParam(id_pepsnappt);
+		param.addParam(item_code);
+		return param;
+	}
+
+	@Override
+	public String getQrySQLStr() {
+		StringBuffer sb = new StringBuffer();
+		
+		//直接在rst中取值
+		sb.append("select item.sortno    as Display_order,");
+		sb.append("       rst.rst        as Lab_sub_text_value,");
+		sb.append("       rst.unit       Lab_sub_que_value_unit,");
+		sb.append("       rst.ref        Reference_range,");
+		sb.append("       rst.mark_arrow Unusual_desc,");
+		sb.append("       rst.ref_min    as Val_min,");
+		sb.append("       rst.ref_min    as Val_max,");
+		sb.append("       item.name      as Lab_sub_item_name,");
+		sb.append("       item.code      as Lab_sub_item_code");
+		sb.append("  from pe_wf_perst rst");
+		sb.append(" inner join pe_itm_pesrvbcatlog cat");
+		sb.append("    on rst.id_pesrvbcatlog = cat.id_pesrvbcatlog");
+		sb.append(" inner join pe_itm_pesrvitem item");
+		sb.append("    on item.id_pesrvitem = rst.id_pesrvitem");
+		sb.append(" where rst.id_pepsnappt = ? ");
+		sb.append(" and cat.code = ? ");
+		sb.append(" and rst.rst is not null");
+		
+		return sb.toString();
+	}
+
+}

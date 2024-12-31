@@ -1,0 +1,170 @@
+package iih.pe.pbd.peinstrument.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.pe.pbd.peinstrument.d.desc.PeInstItmRelDefDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 体检用仪器设备项目对应关系定义 DO数据 
+ * 
+ */
+public class PeInstItmRelDefDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_PEINSTRUMENTITM= "Id_peinstrumentitm";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_ORG= "Id_org";
+	public static final String ID_PEINSTRUMENT= "Id_peinstrument";
+	public static final String SORTNO= "Sortno";
+	public static final String CODE= "Code";
+	public static final String ID_PESRVITEM= "Id_pesrvitem";
+	public static final String FG_SRVITM= "Fg_srvitm";
+	public static final String DECIMAL_PLACE= "Decimal_place";
+	public static final String FG_REPLACE= "Fg_replace";
+	public static final String CREATEDBY= "Createdby";
+	public static final String CREATEDTIME= "Createdtime";
+	public static final String MODIFIEDBY= "Modifiedby";
+	public static final String MODIFIEDTIME= "Modifiedtime";
+	public static final String CODE_ITM= "Code_itm";
+	public static final String NAME_ITM= "Name_itm";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_peinstrumentitm() {
+		return ((String) getAttrVal("Id_peinstrumentitm"));
+	}	
+	public void setId_peinstrumentitm(String Id_peinstrumentitm) {
+		setAttrVal("Id_peinstrumentitm", Id_peinstrumentitm);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getId_peinstrument() {
+		return ((String) getAttrVal("Id_peinstrument"));
+	}	
+	public void setId_peinstrument(String Id_peinstrument) {
+		setAttrVal("Id_peinstrument", Id_peinstrument);
+	}
+	public String getSortno() {
+		return ((String) getAttrVal("Sortno"));
+	}	
+	public void setSortno(String Sortno) {
+		setAttrVal("Sortno", Sortno);
+	}
+	public String getCode() {
+		return ((String) getAttrVal("Code"));
+	}	
+	public void setCode(String Code) {
+		setAttrVal("Code", Code);
+	}
+	public String getId_pesrvitem() {
+		return ((String) getAttrVal("Id_pesrvitem"));
+	}	
+	public void setId_pesrvitem(String Id_pesrvitem) {
+		setAttrVal("Id_pesrvitem", Id_pesrvitem);
+	}
+	public FBoolean getFg_srvitm() {
+		return ((FBoolean) getAttrVal("Fg_srvitm"));
+	}	
+	public void setFg_srvitm(FBoolean Fg_srvitm) {
+		setAttrVal("Fg_srvitm", Fg_srvitm);
+	}
+	public Integer getDecimal_place() {
+		return ((Integer) getAttrVal("Decimal_place"));
+	}	
+	public void setDecimal_place(Integer Decimal_place) {
+		setAttrVal("Decimal_place", Decimal_place);
+	}
+	public FBoolean getFg_replace() {
+		return ((FBoolean) getAttrVal("Fg_replace"));
+	}	
+	public void setFg_replace(FBoolean Fg_replace) {
+		setAttrVal("Fg_replace", Fg_replace);
+	}
+	public String getCreatedby() {
+		return ((String) getAttrVal("Createdby"));
+	}	
+	public void setCreatedby(String Createdby) {
+		setAttrVal("Createdby", Createdby);
+	}
+	public FDateTime getCreatedtime() {
+		return ((FDateTime) getAttrVal("Createdtime"));
+	}	
+	public void setCreatedtime(FDateTime Createdtime) {
+		setAttrVal("Createdtime", Createdtime);
+	}
+	public String getModifiedby() {
+		return ((String) getAttrVal("Modifiedby"));
+	}	
+	public void setModifiedby(String Modifiedby) {
+		setAttrVal("Modifiedby", Modifiedby);
+	}
+	public FDateTime getModifiedtime() {
+		return ((FDateTime) getAttrVal("Modifiedtime"));
+	}	
+	public void setModifiedtime(FDateTime Modifiedtime) {
+		setAttrVal("Modifiedtime", Modifiedtime);
+	}
+	public String getCode_itm() {
+		return ((String) getAttrVal("Code_itm"));
+	}	
+	public void setCode_itm(String Code_itm) {
+		setAttrVal("Code_itm", Code_itm);
+	}
+	public String getName_itm() {
+		return ((String) getAttrVal("Name_itm"));
+	}	
+	public void setName_itm(String Name_itm) {
+		setAttrVal("Name_itm", Name_itm);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_peinstrumentitm";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "pe_bd_institmrel";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(PeInstItmRelDefDODesc.class);
+	}
+	
+}

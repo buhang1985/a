@@ -1,0 +1,26 @@
+package iih.pe.pis.i;
+
+import java.util.List;
+import xap.mw.core.data.BizException;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import iih.pe.papt.dto.pepanapptdto.d.PePsnApptDTO;
+import iih.pe.papt.dto.pepanapptdto.d.PeappttladderDTO;
+import iih.pe.papt.dto.pepanapptdto.d.PesrvsetitmDTO;
+import iih.pe.pis.dto.pepsnreport.d.PeReportDTO;
+import iih.pe.papt.dto.pepanapptdto.d.PesrvsetDTO;
+
+@WebService
+public interface IPePisQueryService {
+
+	public abstract List<PesrvsetDTO> getOepSetList() throws BizException;
+
+	public abstract List<PesrvsetitmDTO> getItmDetailList(@WebParam(name="id_pesrvset") String id_pesrvset) throws BizException;
+
+	public abstract List<PeappttladderDTO> getApptDateList() throws BizException;
+
+	public abstract List<PePsnApptDTO> getPePsnApptInfo(@WebParam(name="id_pepsnappt") String id_pepsnappt) throws BizException;
+
+	public abstract PeReportDTO searchPeReport(@WebParam(name="peapptid") String peapptid) throws BizException;
+
+}

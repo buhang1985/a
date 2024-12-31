@@ -1,0 +1,18 @@
+package iih.pis.ivx.account.i;
+import java.util.Map;
+
+import iih.pis.ivx.reg.d.RegResultBean;
+import xap.mw.core.data.BizException;
+
+public interface IAccountService {
+	
+	//public void register(String name,String type,String code,String sdCode,String mob,Integer rel,String id_pisivxaccount) throws BizException;
+//	public void register(String name,String type,String code,String sdCode,String mob,Integer rel,String id_pisivxaccount,String insuredorgcode,String medinscode) throws BizException;
+	/*public RegResultBean register(String name,String type,String code,String sdCode,String mob,Integer rel,String id_pisivxaccount,String insuredorgcode,String medinscode,String openid) throws BizException;
+
+	public ScaptPatOpDTO[] getPatOpAptListOP(XentParamBean patParamBean) throws BizException;
+	
+	public ScaptPatOpBean[] getPatOpAptList(XentParamBean patParamBean) throws BizException;
+
+	public Map<String, Object> getRecord(String id_pisivxmember,String id_pisivxent) throws BizException;*/
+}

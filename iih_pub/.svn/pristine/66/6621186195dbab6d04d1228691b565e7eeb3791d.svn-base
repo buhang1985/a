@@ -1,0 +1,226 @@
+package iih.bl.st.blauditip.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.bl.st.blauditip.d.desc.BlAuditIpDesc;
+import java.math.BigDecimal;
+
+/**
+ * 费用审核_住院 DO数据 
+ * 
+ */
+public class BlAuditIp extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_AUDITIP= "Id_auditip";
+	public static final String FG_PASS_CLINIC= "Fg_pass_clinic";
+	public static final String ID_EMP_CLINIC= "Id_emp_clinic";
+	public static final String DT_AUDIT_CLINIC= "Dt_audit_clinic";
+	public static final String ID_EMP_CANC_CLINIC= "Id_emp_canc_clinic";
+	public static final String DT_AUDIT_CANC_CLINIC= "Dt_audit_canc_clinic";
+	public static final String FG_PASS_HP= "Fg_pass_hp";
+	public static final String ID_EMP_HP= "Id_emp_hp";
+	public static final String DT_AUDIT_HP= "Dt_audit_hp";
+	public static final String ID_EMP_CANC_HP= "Id_emp_canc_hp";
+	public static final String DT_AUDIT_CANC_HP= "Dt_audit_canc_hp";
+	public static final String ID_STIP= "Id_stip";
+	public static final String FG_ACTIVE= "Fg_active";
+	public static final String ID_GRP= "Id_grp";
+	public static final String ID_ORG= "Id_org";
+	public static final String ID_ENT= "Id_ent";
+	public static final String EMP_NAME_CLINIC= "Emp_name_clinic";
+	public static final String CODE_CLINIC= "Code_clinic";
+	public static final String CODE_CANC_CLINIC= "Code_canc_clinic";
+	public static final String NAME_CANC_CLINIC= "Name_canc_clinic";
+	public static final String CODE_HP= "Code_hp";
+	public static final String NAME_HP= "Name_hp";
+	public static final String CODE_HP_CANCEL= "Code_hp_cancel";
+	public static final String NAME_HP_CANCEL= "Name_hp_cancel";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_auditip() {
+		return ((String) getAttrVal("Id_auditip"));
+	}	
+	public void setId_auditip(String Id_auditip) {
+		setAttrVal("Id_auditip", Id_auditip);
+	}
+	public FBoolean getFg_pass_clinic() {
+		return ((FBoolean) getAttrVal("Fg_pass_clinic"));
+	}	
+	public void setFg_pass_clinic(FBoolean Fg_pass_clinic) {
+		setAttrVal("Fg_pass_clinic", Fg_pass_clinic);
+	}
+	public String getId_emp_clinic() {
+		return ((String) getAttrVal("Id_emp_clinic"));
+	}	
+	public void setId_emp_clinic(String Id_emp_clinic) {
+		setAttrVal("Id_emp_clinic", Id_emp_clinic);
+	}
+	public FDateTime getDt_audit_clinic() {
+		return ((FDateTime) getAttrVal("Dt_audit_clinic"));
+	}	
+	public void setDt_audit_clinic(FDateTime Dt_audit_clinic) {
+		setAttrVal("Dt_audit_clinic", Dt_audit_clinic);
+	}
+	public String getId_emp_canc_clinic() {
+		return ((String) getAttrVal("Id_emp_canc_clinic"));
+	}	
+	public void setId_emp_canc_clinic(String Id_emp_canc_clinic) {
+		setAttrVal("Id_emp_canc_clinic", Id_emp_canc_clinic);
+	}
+	public FDateTime getDt_audit_canc_clinic() {
+		return ((FDateTime) getAttrVal("Dt_audit_canc_clinic"));
+	}	
+	public void setDt_audit_canc_clinic(FDateTime Dt_audit_canc_clinic) {
+		setAttrVal("Dt_audit_canc_clinic", Dt_audit_canc_clinic);
+	}
+	public FBoolean getFg_pass_hp() {
+		return ((FBoolean) getAttrVal("Fg_pass_hp"));
+	}	
+	public void setFg_pass_hp(FBoolean Fg_pass_hp) {
+		setAttrVal("Fg_pass_hp", Fg_pass_hp);
+	}
+	public String getId_emp_hp() {
+		return ((String) getAttrVal("Id_emp_hp"));
+	}	
+	public void setId_emp_hp(String Id_emp_hp) {
+		setAttrVal("Id_emp_hp", Id_emp_hp);
+	}
+	public FDateTime getDt_audit_hp() {
+		return ((FDateTime) getAttrVal("Dt_audit_hp"));
+	}	
+	public void setDt_audit_hp(FDateTime Dt_audit_hp) {
+		setAttrVal("Dt_audit_hp", Dt_audit_hp);
+	}
+	public String getId_emp_canc_hp() {
+		return ((String) getAttrVal("Id_emp_canc_hp"));
+	}	
+	public void setId_emp_canc_hp(String Id_emp_canc_hp) {
+		setAttrVal("Id_emp_canc_hp", Id_emp_canc_hp);
+	}
+	public FDateTime getDt_audit_canc_hp() {
+		return ((FDateTime) getAttrVal("Dt_audit_canc_hp"));
+	}	
+	public void setDt_audit_canc_hp(FDateTime Dt_audit_canc_hp) {
+		setAttrVal("Dt_audit_canc_hp", Dt_audit_canc_hp);
+	}
+	public String getId_stip() {
+		return ((String) getAttrVal("Id_stip"));
+	}	
+	public void setId_stip(String Id_stip) {
+		setAttrVal("Id_stip", Id_stip);
+	}
+	public FBoolean getFg_active() {
+		return ((FBoolean) getAttrVal("Fg_active"));
+	}	
+	public void setFg_active(FBoolean Fg_active) {
+		setAttrVal("Fg_active", Fg_active);
+	}
+	public String getId_grp() {
+		return ((String) getAttrVal("Id_grp"));
+	}	
+	public void setId_grp(String Id_grp) {
+		setAttrVal("Id_grp", Id_grp);
+	}
+	public String getId_org() {
+		return ((String) getAttrVal("Id_org"));
+	}	
+	public void setId_org(String Id_org) {
+		setAttrVal("Id_org", Id_org);
+	}
+	public String getId_ent() {
+		return ((String) getAttrVal("Id_ent"));
+	}	
+	public void setId_ent(String Id_ent) {
+		setAttrVal("Id_ent", Id_ent);
+	}
+	public String getEmp_name_clinic() {
+		return ((String) getAttrVal("Emp_name_clinic"));
+	}	
+	public void setEmp_name_clinic(String Emp_name_clinic) {
+		setAttrVal("Emp_name_clinic", Emp_name_clinic);
+	}
+	public String getCode_clinic() {
+		return ((String) getAttrVal("Code_clinic"));
+	}	
+	public void setCode_clinic(String Code_clinic) {
+		setAttrVal("Code_clinic", Code_clinic);
+	}
+	public String getCode_canc_clinic() {
+		return ((String) getAttrVal("Code_canc_clinic"));
+	}	
+	public void setCode_canc_clinic(String Code_canc_clinic) {
+		setAttrVal("Code_canc_clinic", Code_canc_clinic);
+	}
+	public String getName_canc_clinic() {
+		return ((String) getAttrVal("Name_canc_clinic"));
+	}	
+	public void setName_canc_clinic(String Name_canc_clinic) {
+		setAttrVal("Name_canc_clinic", Name_canc_clinic);
+	}
+	public String getCode_hp() {
+		return ((String) getAttrVal("Code_hp"));
+	}	
+	public void setCode_hp(String Code_hp) {
+		setAttrVal("Code_hp", Code_hp);
+	}
+	public String getName_hp() {
+		return ((String) getAttrVal("Name_hp"));
+	}	
+	public void setName_hp(String Name_hp) {
+		setAttrVal("Name_hp", Name_hp);
+	}
+	public String getCode_hp_cancel() {
+		return ((String) getAttrVal("Code_hp_cancel"));
+	}	
+	public void setCode_hp_cancel(String Code_hp_cancel) {
+		setAttrVal("Code_hp_cancel", Code_hp_cancel);
+	}
+	public String getName_hp_cancel() {
+		return ((String) getAttrVal("Name_hp_cancel"));
+	}	
+	public void setName_hp_cancel(String Name_hp_cancel) {
+		setAttrVal("Name_hp_cancel", Name_hp_cancel);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_auditip";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "bl_audit_ip";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(BlAuditIpDesc.class);
+	}
+	
+}

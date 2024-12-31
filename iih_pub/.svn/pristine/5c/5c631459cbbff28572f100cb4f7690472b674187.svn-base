@@ -1,0 +1,10 @@
+package iih.pe.pwf.i;
+
+import xap.mw.core.data.BizException;
+
+public interface IPeInitMaintainService {
+	//体检系统每日初始化
+	public void peInit(String init_date, String id_grp, String id_org) throws BizException;
+
+	public String peIdno() throws BizException;
+}

@@ -1,0 +1,11 @@
+package iih.pe.pwf.i;
+
+import iih.pe.pwf.dto.peovallistdto.d.PeOvalListDTO;
+import iih.pe.pwf.peoverquery.d.PeOverQueryDO;
+import xap.mw.core.data.BizException;
+
+public interface IPeOvalListDTOQueryService {
+	public PeOvalListDTO[] findByDTO(PeOverQueryDO qryDo) throws BizException;
+	//查询面板快速查询的方法
+	public PeOvalListDTO[] queryPeOvalListDTOData(String dtPe,String cardNo,String namePsn) throws BizException;
+}

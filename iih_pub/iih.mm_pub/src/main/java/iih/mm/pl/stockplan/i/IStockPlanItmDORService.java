@@ -1,0 +1,90 @@
+package iih.mm.pl.stockplan.i;
+
+import xap.sys.appfw.tmpl.qryscheme.IQryScheme;
+import xap.mw.core.data.BizException;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import xap.sys.appfw.orm.handle.dataobject.paging.PaginationInfo;
+import xap.sys.appfw.orm.handle.dataobject.paging.PagingRtnData;
+import iih.mm.pl.stockplan.d.StockPlanItmDO;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+
+/**
+* 库存计划数据维护服务
+*/
+public interface IStockPlanItmDORService {
+	/**
+	*  根据id值查找库存计划数据
+	*/	
+	public abstract StockPlanItmDO findById(String id) throws BizException;
+	
+	/**
+	*  根据id值集合查找库存计划数据集合
+	*/	
+	public abstract StockPlanItmDO[] findByIds(String[] ids, FBoolean isLazy) throws BizException;
+	
+	/**
+	*  根据id值集合查找库存计划数据集合--大数据量
+	*/	
+	public abstract StockPlanItmDO[] findByBIds(String[] ids, FBoolean isLazy) throws BizException;	
+    
+    /**
+	*  根据condition条件查找库存计划数据集合
+	*/	
+	public abstract StockPlanItmDO[] find(String whereStr,String orderStr,FBoolean isLazy) throws BizException;
+	
+	/**
+	*  根据查询方案查找库存计划数据集合
+	*/	
+	public abstract StockPlanItmDO[] findByQScheme(IQryScheme qscheme) throws BizException;//暂不用
+	
+	/**
+	*  根据分页信息及查询与分组条件获得分页数据
+	*/
+	public abstract PagingRtnData<StockPlanItmDO> findByPageInfo(PaginationInfo pg, String wherePart,String orderByPart) throws BizException;
+	
+	/**
+	 * 根据查询方案查询聚合数据集合
+	 * @param qscheme
+	 * @return
+	 * @throws BizException
+	 */
+	public StockPlanItmDO[] findByQCond(QryRootNodeDTO qryRootNodeDTO,String orderStr,FBoolean isLazy) throws BizException;
+	
+	/**
+	 * 根据DO某一字符类型属性值查询DO数据
+	 * @param attr
+	 * @param value
+	 * @return
+	 * @throws BizException
+	 */
+	public abstract StockPlanItmDO[] findByAttrValString(String attr, String value) throws BizException;
+	
+	/**
+	 * 根据DO某一字符类型属性值数组查询DO数据
+	 * @param attr
+	 * @param values
+	 * @return
+	 * @throws BizException
+	 */
+	public abstract StockPlanItmDO[] findByAttrValStrings(String attr, String[] values) throws BizException;
+	
+	/**
+	 * 根据DO某一属性值List查询DO数据
+	 * @param attr
+	 * @param values
+	 * @return
+	 * @throws BizException
+	 */
+	public abstract StockPlanItmDO[] findByAttrValList(String attr, FArrayList values) throws BizException;
+	
+	/**
+	 * 根据查询模板条件、分页信息查询分页数据集合
+	 * @param qryRootNodeDTO
+	 * @param orderStr
+	 * @param pg
+	 * @return
+	 * @throws BizException
+	 */
+	public PagingRtnData<StockPlanItmDO> findByQCondAndPageInfo(QryRootNodeDTO qryRootNodeDTO,String orderStr,PaginationInfo pg) throws BizException;
+}

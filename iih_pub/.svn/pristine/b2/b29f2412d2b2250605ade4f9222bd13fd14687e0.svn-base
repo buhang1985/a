@@ -1,0 +1,156 @@
+package iih.pe.por.pecorpcharge.d;
+
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.mw.coreitf.c.GlobalConst;
+import xap.mw.coreitf.i.IDODesc;
+import xap.mw.coreitf.d.*;
+import xap.mw.core.data.*;
+import iih.pe.por.pecorpcharge.d.desc.PeCorpChargeItmDODesc;
+import java.math.BigDecimal;
+
+/**
+ * 体检团体费用结账单明细 DO数据 
+ * 
+ */
+public class PeCorpChargeItmDO extends BaseDO {
+	private static final long serialVersionUID = 1L;
+
+	public static final String ID_PECORPCHARGEITM= "Id_pecorpchargeitm";
+	public static final String ID_PECORPCHARGE= "Id_pecorpcharge";
+	public static final String ID_PESRVBCATLOG= "Id_pesrvbcatlog";
+	public static final String ID_SRV= "Id_srv";
+	public static final String SD_SRV= "Sd_srv";
+	public static final String NAME_SRV= "Name_srv";
+	public static final String DIS_ITM= "Dis_itm";
+	public static final String PRI_ITM= "Pri_itm";
+	public static final String PRI_CHARGE= "Pri_charge";
+	public static final String NUM_CHARGE= "Num_charge";
+	public static final String AMT_CHARGE= "Amt_charge";
+	public static final String CODE_CATLOG= "Code_catlog";
+	public static final String NAME_CATLOG= "Name_catlog";
+	public static final String PRICE_CATLOG= "Price_catlog";
+	public static final String DS = "Ds";
+	public static final String SV = "Sv";
+	
+	public String getId_pecorpchargeitm() {
+		return ((String) getAttrVal("Id_pecorpchargeitm"));
+	}	
+	public void setId_pecorpchargeitm(String Id_pecorpchargeitm) {
+		setAttrVal("Id_pecorpchargeitm", Id_pecorpchargeitm);
+	}
+	public String getId_pecorpcharge() {
+		return ((String) getAttrVal("Id_pecorpcharge"));
+	}	
+	public void setId_pecorpcharge(String Id_pecorpcharge) {
+		setAttrVal("Id_pecorpcharge", Id_pecorpcharge);
+	}
+	public String getId_pesrvbcatlog() {
+		return ((String) getAttrVal("Id_pesrvbcatlog"));
+	}	
+	public void setId_pesrvbcatlog(String Id_pesrvbcatlog) {
+		setAttrVal("Id_pesrvbcatlog", Id_pesrvbcatlog);
+	}
+	public String getId_srv() {
+		return ((String) getAttrVal("Id_srv"));
+	}	
+	public void setId_srv(String Id_srv) {
+		setAttrVal("Id_srv", Id_srv);
+	}
+	public String getSd_srv() {
+		return ((String) getAttrVal("Sd_srv"));
+	}	
+	public void setSd_srv(String Sd_srv) {
+		setAttrVal("Sd_srv", Sd_srv);
+	}
+	public String getName_srv() {
+		return ((String) getAttrVal("Name_srv"));
+	}	
+	public void setName_srv(String Name_srv) {
+		setAttrVal("Name_srv", Name_srv);
+	}
+	public FDouble getDis_itm() {
+		return ((FDouble) getAttrVal("Dis_itm"));
+	}	
+	public void setDis_itm(FDouble Dis_itm) {
+		setAttrVal("Dis_itm", Dis_itm);
+	}
+	public FDouble getPri_itm() {
+		return ((FDouble) getAttrVal("Pri_itm"));
+	}	
+	public void setPri_itm(FDouble Pri_itm) {
+		setAttrVal("Pri_itm", Pri_itm);
+	}
+	public FDouble getPri_charge() {
+		return ((FDouble) getAttrVal("Pri_charge"));
+	}	
+	public void setPri_charge(FDouble Pri_charge) {
+		setAttrVal("Pri_charge", Pri_charge);
+	}
+	public Integer getNum_charge() {
+		return ((Integer) getAttrVal("Num_charge"));
+	}	
+	public void setNum_charge(Integer Num_charge) {
+		setAttrVal("Num_charge", Num_charge);
+	}
+	public FDouble getAmt_charge() {
+		return ((FDouble) getAttrVal("Amt_charge"));
+	}	
+	public void setAmt_charge(FDouble Amt_charge) {
+		setAttrVal("Amt_charge", Amt_charge);
+	}
+	public String getCode_catlog() {
+		return ((String) getAttrVal("Code_catlog"));
+	}	
+	public void setCode_catlog(String Code_catlog) {
+		setAttrVal("Code_catlog", Code_catlog);
+	}
+	public String getName_catlog() {
+		return ((String) getAttrVal("Name_catlog"));
+	}	
+	public void setName_catlog(String Name_catlog) {
+		setAttrVal("Name_catlog", Name_catlog);
+	}
+	public FDouble getPrice_catlog() {
+		return ((FDouble) getAttrVal("Price_catlog"));
+	}	
+	public void setPrice_catlog(FDouble Price_catlog) {
+		setAttrVal("Price_catlog", Price_catlog);
+	}
+
+	public Integer getDs() {
+		return ((Integer) getAttrVal(GlobalConst.DELETE_SIGN));
+	}
+	
+	public void setDs(Integer ds) {
+		setAttrVal(GlobalConst.DELETE_SIGN, ds);
+	}
+	
+	public FDateTime getSv() {
+		return ((FDateTime) getAttrVal(GlobalConst.SYSTEM_VERSION));
+	}
+	
+	public void setSv(FDateTime sv) {
+		setAttrVal(GlobalConst.SYSTEM_VERSION, sv);
+	}
+
+//	@Override
+//	public java.lang.String getParentPKFieldName() {
+//		return null;
+//	}
+  
+	@Override
+	public String getPKFieldName() {
+		return "Id_pecorpchargeitm";
+	}
+	
+	@Override
+	public String getTableName() {	  
+		return "pe_or_pecorpchargeitm";
+	}
+	
+	@Override
+	public IDODesc getDODesc() {
+		return DescManager.getInstance().getDODesc(PeCorpChargeItmDODesc.class);
+	}
+	
+}

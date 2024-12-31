@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+XAP-Component-Version: 0.2.0-sdlanling2-SNAPSHOT
+XAP-Component-Name: iih.cssd_pub
+XAP-Component-Namespace: iih
+XAP-Component-Dependencies: xap.sys/xap.sys_pub/0.2.0-sdlanling2-SNAPS
+ HOT,iih/iih.bd_pub/0.2.0-sdlanling2-SNAPSHOT
+

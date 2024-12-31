@@ -1,0 +1,251 @@
+package iih.bd.bc.udi.pub;
+
+/**
+ * 临床路径自定义档案常量
+ * @author HUMS
+ *
+ */
+public interface IHpCpDictCodeConst {
+
+	/**
+	 * PPE_GRP
+	 */
+	// 元素基本
+    public static final String SD_PPE_GRP_ELEBAS = "ELEBAS";
+    // 元素扩展
+    public static final String SD_PPE_GRP_ELEEX = "ELEEX";
+    // 包
+    public static final String SD_PPE_GRP_PKG = "PKG";
+    // 规则包
+    public static final String SD_PPE_GRP_RULEPKG = "RULEPKG";
+    // 诊断规则
+    public static final String SD_PPE_GRP_DIAGRULE = "DIAGRULE";
+
+    // 元素基本
+    public static final String ID_PPE_GRP_ELEBAS = "@@@@AA1000000007BYBT";
+    // 元素扩展
+    public static final String ID_PPE_GRP_ELEEX = "@@@@AA1000000007BYBU";
+    // 包
+    public static final String ID_PPE_GRP_PKG = "@@@@AA1000000007BYBV";
+    // 规则包
+    public static final String ID_PPE_GRP_RULEPKG = "@@@@AA1000000007BYBW";
+    // 诊断规则
+    public static final String ID_PPE_GRP_DIAGRULE = "@@@@AA1000000007BYBX";
+
+    /**
+     * ELE_TP
+     */
+    // 长期医嘱包
+    public static final String ID_ELETP_LONG_PKG = "@@@@0000000000000018";
+    // 临时医嘱宝
+    public static final String ID_ELETP_TEMP_PKG = "@@@@0000000000000019";
+
+    /**
+     * SDSTATUS
+     */
+    // 新增
+    public static final String SD_SDSTATUS_CREATED = "01";
+    // 停用
+    public static final String SD_SDSTATUS_DISABLE = "02";
+    // 启用
+    public static final String SD_SDSTATUS_ENABLE = "03";
+    // 删除
+    public static final String SD_SDSTATUS_DELETED = "04";
+    // 新增
+    public static final String ID_SDSTATUS_CREATED = "@@@@AA1000000007BYBN";
+    // 停用
+    public static final String ID_SDSTATUS_DISABLE = "@@@@AA1000000007BYBO";
+    // 启用
+    public static final String ID_SDSTATUS_ENABLE = "@@@@AA1000000007BYBP";
+    // 删除
+    public static final String ID_SDSTATUS_DELETED = "@@@@AA1000000007BYBQ";
+
+    /**
+     * STATUS
+     */
+    // 待建
+    public static final String SD_STATUS_WAIT = "02";
+    // 新增
+    public static final String SD_STATUS_CREATED = "05";
+    // 审核驳回
+    public static final String SD_STATUS_REJECT = "08";
+    // 提交
+    public static final String SD_STATUS_SUBMIT = "10";
+    // 审核中
+    public static final String SD_STATUS_EXAMING = "15";
+    // 审核通过
+    public static final String SD_STATUS_EXAMCOM = "20";
+    // 停用
+    public static final String SD_STATUS_DISABLE = "25";
+    // 启用
+    public static final String SD_STATUS_ENABLE = "30";
+    // 新增
+    public static final String ID_STATUS_CREATED = "@@@@AA1000000007BYBG";
+    // 提交
+    public static final String ID_STATUS_SUBMIT = "@@@@AA1000000008FO85";
+    // 停用
+    public static final String ID_STATUS_DISABLE = "@@@@AA1000000007BYBE";
+    // 启用
+    public static final String ID_STATUS_ENABLE = "@@@@AA1000000007BYBH";
+    // 删除
+    public static final String ID_STATUS_DELETED = "@@@@AA1000000007BYBI";
+ 
+    /**
+     * RULEPKG_TP
+     */
+    // 准入规则
+    public static final String SD_RULEPKG_TP_ENTER = "1";
+    // 完成规则
+    public static final String SD_RULEPKG_TP_COMPELETE = "2";
+    // 退出规则
+    public static final String SD_RULEPKG_TP_LEAVE = "3";
+    // 阶段转移规则
+    public static final String SD_RULEPKG_TP_TRANS = "4";
+    // 准入规则
+    public static final String ID_RULEPKG_TP_ENTER = "@@@@AA1000000007BYBJ";
+    // 完成规则
+    public static final String ID_RULEPKG_TP_COMPELETE = "@@@@AA1000000007BYBK";
+    // 退出规则
+    public static final String ID_RULEPKG_TP_LEAVE = "@@@@AA1000000007BYBL";
+    // 阶段转移规则
+    public static final String ID_RULEPKG_TP_TRANS = "@@@@AA1000000007BYBM";
+    // 准入规则
+    public static final String NAME_RULEPKG_TP_ENTER = "准入规则";
+    // 完成规则
+    public static final String NAME_RULEPKG_TP_COMPELETE = "完成规则";
+    // 退出规则
+    public static final String NAME_RULEPKG_TP_LEAVE = "退出规则";
+    // 阶段转移规则
+    public static final String NAME_RULEPKG_TP_TRANS = "阶段转移规则";
+
+    /**
+     * ELE_MATCH_TP
+     */
+    // 西药
+    public static final String SD_ELE_MATCH_TP_WESTENMED = "01";
+    // 草药
+    public static final String SD_ELE_MATCH_TP_HERBSMED = "02";
+    // 西药
+    public static final String ID_ELE_MATCH_TP_WESTENMED = "@@@@AA1000000007BYBR";
+    // 草药
+    public static final String ID_ELE_MATCH_TP_HERBSMED = "@@@@AA1000000007BYBS";
+
+    /**
+     * IF_TP
+     */
+    // 功能触发
+    public static final String SD_IF_TP_TRIGGER = "01";
+    // 结果判断
+    public static final String SD_IF_TP_JUDGEMENT = "02";
+    // 功能触发
+    public static final String ID_IF_TP_TRIGGER = "@@@@AA1000000007M9NU";
+    // 结果判断
+    public static final String ID_IF_TP_JUDGEMENT = "@@@@AA1000000007M9NV";
+
+    /**
+     * OPER_TP
+     */
+    // 强制入径
+    public static final String SD_OPER_TP_FORCE = "03";
+    // 进入路径
+    public static final String SD_OPER_TP_ENTER = "05";
+    // 暂缓入径
+    public static final String SD_OPER_TP_SUSPEND = "10";
+    // 不进路径
+    public static final String SD_OPER_TP_LEAVE = "15";
+    // 变异出径
+    public static final String SD_OPER_TP_EXPEXIT = "20";
+    // 正常出径
+    public static final String SD_OPER_TP_NOREXIT = "25";
+    // 未定义
+    public static final String SD_IF_TP_UNDEFINE = "30";
+    // 进入路径
+    public static final String ID_OPER_TP_ENTER = "@@@@AA1000000007M9MB";
+    // 暂缓入径
+    public static final String ID_OPER_TP_SUSPEND = "@@@@AA1000000007M9MC";
+    // 不进路径
+    public static final String ID_OPER_TP_LEAVE = "@@@@AA1000000007M9MD";
+    // 变异出径
+    public static final String ID_OPER_TP_EXPEXIT = "@@@@AA1000000007M9ME";
+    // 正常出径
+    public static final String ID_OPER_TP_NOREXIT = "@@@@AA1000000007M9MF";
+    // 未定义
+    public static final String ID_IF_TP_UNDEFINE = "@@@@AA1000000007M9MG";
+
+    /**
+     * 	诊疗规则符合状态
+     */
+    // 待确认
+    public static final String SD_TREAT_RULE_WAIT = "0";
+    // 确认
+    public static final String SD_TREAT_RULE_MEETS = "1";
+    // 不符合
+    public static final String SD_SU_PL_CONFIRM_INCOM = "2";
+
+    /**
+     *	 诊疗计划操作类型
+     */
+    // 强制入径
+    public static final String SD_HPCPOPE_TYPE_FORCE = "03";
+    // 进入路径
+    public static final String SD_HPCPOPE_TYPE_ENTRY = "05";
+    // 暂缓入径
+    public static final String SD_HPCPOPE_TYPE_SUSP = "10";
+    // 不进路径
+    public static final String SD_HPCPOPE_TYPE_NO = "15";
+    // 阶段迁移
+    public static final String SD_HPCPOPE_TYPE_MIGRA = "17";
+    // 发生变异
+    public static final String SD_HPCPOPE_TYPE_ALTER = "18";
+    // 变异出径
+    public static final String SD_HPCPOPE_TYPE_VARIA = "20";
+    // 正常出径
+    public static final String SD_HPCPOPE_TYPE_NORMAL = "25";
+    // 返回路径
+    public static final String SD_HPCPOPE_TYPE_BACK = "30";
+    
+    /**
+	 * 元素执行角色
+	 */
+    //医生
+	public static final String ID_EXE_ROLE_DOCTOR = "@@@@Z7100000000GEGA1";
+	public static final String SD_EXE_ROLE_DOCTOR = "05";
+	//护士
+	public static final String ID_EXE_ROLE_NURSE = "@@@@Z7100000000GEGA2";
+	public static final String SD_EXE_ROLE_NURSE = "10";
+	//患者及家属
+	public static final String ID_EXE_ROLE_PATIENT = "@@@@Z7100000000GEGA3";
+	public static final String SD_EXE_ROLE_PATIENT = "15";
+
+    //public static final String PPE_GRP = "PPE_GRP";
+    //public static final String RULEPKG_TP = "RULEPKG_TP";
+    //public static final String ELE_MATCH_TP = "ELE_MATCH_TP";
+
+    //public static final String UDI_PPE_GRP = "@@@@ZZ20000000000096";
+    //public static final String UDI_RULEPKG_TP = "@@@@ZZ20000000000093";
+    //public static final String UDI_ELE_MATCH_TP = "@@@@ZZ20000000000094";
+
+    //private static final String[] _sdNames = { PPE_GRP, RULEPKG_TP, ELE_MATCH_TP };
+
+    //public String this[PropertyInfo pInfo]
+    //{
+    //    get
+    //    {
+    //        var key = pInfo.Name;
+    //        var fieldName = key.ToUpper();
+
+    //        foreach (string name in _sdNames)
+    //        {
+    //            if (fieldName.Contains(name))
+    //            {
+    //                Type dType = GetType();
+    //                FieldInfo fInfo = dType.GetField(string.Format("UDI_", name));
+    //                string rtn = fInfo.GetValue(this) as string;
+
+    //                return rtn;
+    //            }
+    //        }
+    //        return null;
+    //    }
+    //}
+}

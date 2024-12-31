@@ -1,0 +1,13 @@
+package iih.pe.pis.i;
+
+import java.util.List;
+import xap.mw.core.data.BizException;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+
+@WebService
+public interface IPePisMaintanceService {
+
+	public abstract String makeApt(@WebParam(name="patcode") String patcode, @WebParam(name="id_pesrvset") String id_pesrvset, @WebParam(name="price") String price, @WebParam(name="date") String date, @WebParam(name="code_apptDate") String code_apptDate, @WebParam(name="id_pepsnappt") String id_pepsnappt) throws BizException;
+
+}
