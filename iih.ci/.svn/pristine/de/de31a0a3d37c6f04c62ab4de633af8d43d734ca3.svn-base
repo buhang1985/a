@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="iih/ci/mr/nu/script/template/ftl/" kind="src" path="src/main/resources"/>
+	<classpathentry kind="src" path="src/main/resources/iih/ci/mr/nu/script/template/ftl"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="xaptools.XAP_RUNTIME_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="con" path="xaptools.XAP_MODULE_DEPENDENCIES_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

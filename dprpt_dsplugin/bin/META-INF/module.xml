@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module group="dprpt_dsplugin" name="dprpt_dsplugin" version="0.2.0-sdlanling2-SNAPSHOT">
+    <libraries>
+        <library>
+            <group>xap.dp</group>
+            <artifactId>xap.dp.report.app</artifactId>
+            <version>0.2.0-sdlanling2-SNAPSHOT</version>
+        </library>
+        <library>
+            <group>xap.dp</group>
+            <artifactId>xap.dp.report.dsplugin</artifactId>
+            <version>0.2.0-sdlanling2-SNAPSHOT</version>
+            <scope>GLOBAL</scope>
+        </library>
+        <library>
+            <group>3rd.com.oracle</group>
+            <artifactId>ojdbc6_11.2.0.4</artifactId>
+            <version>1.0</version>
+        </library>
+        <library>
+            <group>xap.report.trd</group>
+            <artifactId>itext</artifactId>
+            <version>2016</version>
+        </library>
+        <library>
+            <group>xap.report.trd</group>
+            <artifactId>jxl</artifactId>
+            <version>2016</version>
+        </library>
+        <library>
+            <group>xap.report.trd</group>
+            <artifactId>jaxen-full</artifactId>
+            <version>2016</version>
+        </library>
+        <library>
+            <group>xap.report.trd</group>
+            <artifactId>swingx</artifactId>
+            <version>0.9.2</version>
+        </library>
+        <library>
+            <group>xap.report.trd</group>
+            <artifactId>dom4j</artifactId>
+            <version>2016</version>
+        </library>
+    </libraries>
+</module>

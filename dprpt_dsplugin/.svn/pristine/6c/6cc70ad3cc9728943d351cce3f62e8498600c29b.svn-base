@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+XAP-Component-Version: 0.2.0-sdlanling2-SNAPSHOT
+XAP-Component-Name: dprpt_dsplugin
+XAP-Component-Namespace: dprpt_dsplugin
+XAP-Component-Dependencies: sys/sys/xapstd-2.0.0-SNAPSHOT,dp_report/dp
+ _report/xapstd-2.0.0-SNAPSHOT
+

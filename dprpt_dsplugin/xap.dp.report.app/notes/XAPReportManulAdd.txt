@@ -1,0 +1,392 @@
+1.1 运行方式说明
+  本地客户端(LC)：在本地运行，设计报表模板，可以上传至报表服务器
+  服务器端(XS)：在报表服务器上运行，为IIH客户端查询、报表设计器里的上传下载提供服务
+
+2. 本地客户端配置文件 xaprpt_lc.properties
+  csvdata.root 部分示例报表数据是csv格式
+  rptfile.root 本地报表文件根目录，上传报表时，服务器上目录结构自动和该目录一致
+
+  rpt_serv.host 单机版上传报表模板文件的首选服务器
+  rpt_serv.host(1 ~ n) 上传报表模板文件的备选服务器，工具提供下拉框选择
+
+3. JDBC连接xap数据库
+  数据集名称: 任意，如xap_db
+  数据库连接参数：单机版从xaprpt_lc.properties中获取
+	密码规则：第6位是长度len，接着的len个字符是真实密码
+
+  SQL: 按需求输入报表查询的sql语句，支持宏定义
+
+5. 功能扩充
+5.1 增加一个模板内多设计页面功能
+  各设计页使用同一份header、footer，使用相同的页面格式
+  生成报表时，多个body区域顺序输出，前一个body末尾的空白区域会自动去掉
+  5.1.1 报表页面自动拼接设计
+      >> 含表格的报表生成过程中，以最外层表格的行高作为是否需要分页的依据
+      >> 为了保证拼接过程中上一页留白尽量少，不要出现大行高的表格(除非可以肯定该行处不会分页)
+
+5.2 报表设计组件
+  >> Page组件上增加水印复合属性，用于定义水印参数
+  >> 在任意一个文本框组件上按住Ctrl+双击左键，会出现系统函数弹框
+  >> Line组件增加两个子区域定义，可以将文字显示在子区域中
+  >> CheckLabelGrpCmpt组件同时支持text和variable两个属性
+        text属性：使用json数据字符串表示全部标签信息，格式：{text:'', children:[{chk:'y', nobox:'', value:'valxx', text:'xx'}, ...]}
+            chk: 选框填充字符(可选，针对bool型选框可判断是否选中);
+            nobox: 手动隐藏该项的复选框 (可选，是在模板里提供统一设置基础上的补充处理)
+            value: 标签值(可选，用于判断是否选中);
+            text: 标签显示文本(必填)
+        variable属性：设置选中的value列表大字符串(使用逗号分隔的多个value值)
+        
+          辅助公式：buildAsKVJson(DatasetBasedNode dsNode, String textProp, String valueProp)
+               用于将一个数据集转换成[value, text]格式的json字符串
+  >> 文本or标签组件扩展
+  		>> 增加竖向排版能力
+        >> 新增TitleTextBox组件，从文本框继承，可以实现标题特性
+  >> 支持多个设计Page页面功能，目录必须单独占用一个page页面
+  >> Table组件
+        >> 增加横向延展功能
+        >>【循环-->打印空间不足时】参数明确含义。选择留空时，表格自身不判断，留给子行板判断(可以在表格中间分页)；
+                 如果选择【在新的父对象中打印】，则会根据表格自身设计尺寸判断是否需要新起一个父控件
+		>> 交叉表横向出页时，默认会打到下一页（不管底下剩余空间是否够用）。可以在交叉表外面套一层Panel组件，这样超出部分会打到当前页
+  
+  >> Image组件来源中，[网络图片]支持从文件系统服务器获取。设置格式xfsys://serv/biz?file=[fid]
+  
+  
+5.3 数据集
+  >> 数据集名称只能包含字母、数字、下划线，而且以字母开头
+  
+  >> JDBC数据集调用存储过程(Oracle为例)
+  		1) 创建package
+  		  CREATE OR REPLACE PACKAGE PKG_RS AS 
+  		    TYPE RPT_CURSOR IS REF CURSOR;
+  		  END PKG_RS;
+  		  
+  		2) 创建procedure (注意：返回的结果集必须是第一个参数)
+  		  CREATE OR REPLACE PROCEDURE TESTPROC_RPT(res_cursor out PKG_RS.RPT_CURSOR)
+  		  IS
+  		  BEGIN
+  		    open res_cursor for select * from sys_reportfree_hospital;
+  		  END TESTPROC_RPT;
+  		  
+		3) 创建一个JDBC数据集，输入内容：
+		  ={call TESTPROC_RPT(?)}
+		  
+  >> 新增JavaBean数据集，支持调用java后台代码，返回一个列表作为数据集
+  >> 内置的目录数据集，继承JavaBean数据集，不过调用的是内置目录数据接口。
+  		默认添加二级目录子数据集(是普通的JavaBean数据集)
+  >> 新增JSON数据集，支持使用报表参数接收到的json数据字符串，作为数据源使用
+  		报表设计阶段，使用XAP元数据定义作为数据集的属性列表来源；
+  		报表生成阶段，从json数据字符串中解析出BaseDO、BaseAggDO等数据对象，并根据XAP元数据定义进行取值；
+  		有些DO对象属性不在元数据定义的属性列表中（如关联字段），在生成阶段会自动补充到数据源属性列表中，也就可以正常取值了
+  		对于主子表情况，解析json数据时，会将子表数据自动关联到主DO对应的属性上。在报表数据模型节点中，创建二级子数据集即可访问
+  		>> 报表客户端提供了DO、AggDO的辅助序列化方法(针对报表进行了适当调整)
+  			xap.dp.dataext.BaseDORptExt             -- 对单个BaseDO进行序列化
+  			xap.dp.dataext.BaseDOListRptExt        -- 对BaseDO列表进行序列化
+  			xap.dp.dataext.BaseAggDORptExt       -- 对BaseAggDO进行序列化（其中主DO扩展为一个列表，支持多DO合并序列化）
+  			xap.dp.dataext.BaseAggDOListRptExt  -- 对BaseAggDO列表进行序列化
+  		
+  >> 新增树形分组视图节点，可以自动对包含<id, paId>这种树形父子关系属性的数据集进行分组处理。
+  		支持两种用法：
+  		>> 用法一: 指定树形分组最大层次，直接在该层上对数据进行分组。可以通过 [GrpName].value([layerIndex]) 获取分组标签文本
+  				适用于不需要显示统计值的情况
+  		>> 用法二: 在树形分组节点下手动添加 树形层次分组 节点，每一层只对本层数据进行分组
+  				适用于需要显示统计值的情况，用法和普通分组相似；
+  				特别提供 sumLeaf() 方法，对当前节点的所有叶子节点进行求和。原sum()方法只能对直属子节点进行求和。
+  		
+  >> [DsName].[PropName].mergeAsString(String prefix, String suffix, String join)
+  		新增功能函数，将数据集的目标列拼接成一个字符串，支持为每一项添加前缀、后缀，子项间使用join连接。不需要时传入null
+  >> 普通分组视图节点配置界面
+  		>> 新增分组字段截取参数(位置+长度)，将截取部分作为分组条件。仅当分组字段值类型为String时有效
+		>> 新增单独的分组排序字段定义 (排序字段是对分组排序，是根据分组首行数据来排序的)；
+				如果SQL查询已针对该分组做过排序，则分组节点可以配置为【原序】
+				另外，可以使用脚本 [GrpName].sort([Script]) 对分组按统计结果进行排序, 对应降序使用desc_sort
+  		
+  		
+5.4 系统函数 (GlobalScripts)
+  >> isEmptyObj(Object val)
+  		判断一个对象是否表示空 (包括空字符串情况)
+  >> isTrueObj(Object val)
+  		判断一个对象是否表示True，支持bool、String、Number
+  >> isEqual(Object val1, Object val2)
+  		判断两个对象是否相同
+  		
+  >> getDateField(Date dt, int dtField)
+  		获取Date指定字段的值。
+  		dtField字段定义使用java.util.Calendar里定义的YEAR、MONTH等；
+  		注：去掉之前的 getYear(Date), getMonth(Date), ...等6个方法
+  >> addDateField(Date dt, int dtField, int addNum)
+  		修改Date的指定字段值，使用addNum定义增减量。
+  		dtField字段定义使用java.util.Calendar里定义的YEAR、MONTH等；
+  >> addDateField(String strDt, String strFmt, int dtField, int addNum)
+  		将日期字符串strDt按格式strFmt解析成Date对象，然后修改其指定字段值，使用addNum定义增减量。
+  		dtField字段定义使用java.util.Calendar里定义的YEAR、MONTH等；
+  		
+  >> String calcAge(String strBirthday, String strFmt)
+  		使用生日和当前时间，计算年龄
+  >> String calcAge(String strBirthday, String strToDate, String strFmt)
+  		使用生日和指定的日期(为空时取当前时间)，计算年龄
+  >> int[] calcAgeDetail(String strBirthday, String strToDate, String strFmt)
+  		依据生日和指定的日期(为空时取当前时间)，计算精确年龄：[岁、月、天、时、分、秒]。
+  		可以基于该方法自定义实现特定的年龄显示格式
+  		
+  >> toRmbString(Number num)
+  		将金额数值转换成人民币大写字符串
+  >> getMoneyBoxHead(String strLow, String strHigh)
+  		获取小写金额组头字符串，最小为厘，往上依次为 分、角、元 ... 万、十万 ... 亿、十亿 ...
+  >> toMoneyBoxStr(Number num, String strLow, String strHigh, String prefix)
+  		将数值转换成小写金额组样式：只允许[0-9,-]，不含小数点
+  		
+  >> format(Number num, String strFmt)
+  		将num按指定格式进行格式化处理，空值返回"-"。另外有一个同名函数，带第3个String参数，可以指定空值的默认值
+  >> format(Number num, int scale, boolean useSection)
+  		将num按制定小数位数进行格式化，第3个参数表示是否使用千位分节显示，空值返回"-"
+  >> transDateFormat(String strDt, String strOldFmt, String strNewFmt)
+  		将strDt从原格式转换成新格式
+  >> formatAsWhereIn(String str, String sptRegx, boolean isStrValue)
+  		将str转换成SQL-Where-In需要的格式(不带小括号)，会使用参数sptRegx对原str进行分割处理。
+  		参数isStrValue决定是否在拆出来的各项上添加单引号
+  		
+  >> buildAsKVJson(DatasetBasedNode dsNode, String textProp, String valueProp)
+  		遍历数据集中所有行，抽取其中表示 [text、value] 的2个属性值，组成一个json字符串。
+  		如：{text:'', children:[{text:'xx', value:'valxx'}, ...]}
+		
+5.5 新增系统变量
+  >> 在UI2.0的通用报表中，提供客户端环境变量
+      -- 集团: grp_id, grp_code, grp_name
+	  -- 组织: org_id, org_code, org_name
+	  -- 部门: dept_id, dept_code, dept_name
+	  -- 用户: user_id, user_code, user_name
+	  -- 人员: psn_id, psn_code, psn_name
+		
+5.6 服务请求参数扩充 (常量定义 xap.dp.report.server.ReqParamsDefine)
+  >> _lang_lc: 语言环境，可选值{zh_CN, zh_TW, en_US}，默认zh_CN
+  >> _no_data: 是否需要空数据报表，可选值{y, n}，默认n
+  >> _big_page: 是否使用单页生成模式，可选值{y, n}，默认n
+  >> _timeout_reqrpt: 请求超时ms，用于服务端终止后续处理
+  >> org_id: 客户端当前组织Id
+
+6. 报表上传 & 下载 & 访问
+  在单机版设计器的报表树中右键点击报表文件，选择"上传"即可将报表上传到选择的报表服务器上
+  同时，上传报表信息会自动存储到数据库表中(sys_reportfree_iih, sys_reportfree_hospital)
+  --注1: 使用localhost本地服务时，不会同步数据库和文件服务器，方便调试用
+  
+  为了防止报表重名，统一报表模板文件路径为: [rptfile.root] \ [版本根目录] \ [业务域简称] \ [FuncCode] \ [RptNameEn].xml
+  上传后，报表服务器上将自动维护一个相同的缓存目录结构。
+  
+  设计器这边上传时，由根目录判断上传到哪张表：
+  -- iih_rptembed：内嵌报表 --> sys_reportfree
+  -- iih_reoprt：标准报表 --> sys_reportfree_iih
+  -- 其它：客开报表 --> sys_reportfree_hospital
+  
+6.1 多组织对标准报表的客开化转换:
+  标准报表存放在iih_report目录下，如果某个组织需要对标准报表进行客开化转换(新建模板，但仍然通过标准报表路径访问)。可按如下操作：
+  -- 在轻量级【参数模板设置】里增加一个参数RptBaseFolder。【已在std2版添加，会自动同步到项目现场】
+  -- 在项目现场，选择组织，并给这个参数指定一个值。取值使用报表svn目录规定的对应组织客开根目录。如郑州骨伤医院：HAZZBITCMH
+  -- 在标准模板上点右键-->拷贝至客开，在弹框中选择一个客开目录（如：HAZZBITCMH），会自动在对应组织的客开根目录下，建一个路径后半部分相同的模板文件，如：HAZZBITCMH/xxx/xxx/xxx.xml
+  -- 对客开目录下的模板文件进行设计并上传
+  -- 这样客户端访问标准报表路径时，会自动切换到客开路径
+  
+  报表发布到服务器之后的测试页面：http://[server-ip]:[port]/reportweb/
+
+6.2 报表相关数据表维护
+  报表上传后，其所在目录结构会自动按层拆开，然后同步到sys_reportfreeca中的报表分类结构
+  报表上传后，报表路径和得到的文件ID会都保存在sys_reportfree表中
+
+6.3 数据库（文件服务器）同步
+  上传时，自动同步到文件服务器，并将文件ID记录到数据库中
+  下载、访问时，优先使用报表服务器本地模板，如果找不到，则尝试从文件服务器下载(同时保存到报表服务器本地)
+  服务端删除时，同时从报表服务器、文件服务器、数据库中删除该报表文件和信息
+
+7. 脚本引擎
+  将jar包更换成源码，方便调试和完善
+  需要对接口InfValueIfClosed对象里的值进行处理时， 可以直接将处理方法写在对象上，之前需要使用values()取出值，然后再处理
+  >> 譬如报表参数(Parameter), 数据集字段值(RowField, $.Name)
+
+8.手册修正
+  >> 关于边框：没有背景色时，内部格子可以只选右、下两边，有背景色时所有内部格子都必须使用四周全边框
+  >> 系统变量 $toalPageNumber 支持参与运算
+  >> 数据集根访问，使用 [DsName]
+  >> 数据集分组访问，普通分组使用 $[GrpName]，指定层数的树形分组使用 [GrpTreeName].value([layerIx])
+  >> 数据集交叉索引值访问，使用 [CrossInxName].[PropName].DEF2.sum()
+  			如果交叉索引结果只有一条记录，可省略.sum()求和部分，使用默认的.value()
+  >> 数据集交叉索引行、列求和，使用 [CrossInxName].[PropName].DEF2.sum()
+  >> 数据集交叉索引求总和，使用 [CrossInxName].[PropName].sum()
+  >> 数据集行属性访问(Row)，行循环表格使用$.[PropName]，列循环表格使用$$.[PropName]
+  >> java数组访问，使用 $[ArrName].[PropName]
+  >> 获取数据集行数，用[DsName].rowCount
+
+9.异常记录
+  >> 报表设计器或者IIH客户端请求报表服务时，如果报401响应码
+          ，需要检查启动的服务是否勾选了dp_report, dprpt_dsplugin两个模块
+
+
+
+==================================================
+c#使用：
+1. 更新 xapclient 中的res文件夹和xap.dp.rptviewer.dll文件
+2. 功能节点的view中增加代码
+
+2.1 全局变量声明
+{
+	private ReportViewerNew rpt_viewer = null;
+	private string serv_rptfile = "iih_report/1234080_oepfeetail/oepfeetail.xml";
+}
+
+2.2 构造函数(界面显示)
+{
+	InitializeComponent();
+
+	this.rpt_viewer = new ReportViewerNew();
+	this.rpt_viewer.InitHasView();
+	
+	Control panel = this.rpt_viewer.GetViewPanel();
+    panel.Dock = DockStyle.Fill;
+	this.AddRender(panel);
+}
+2.3 OnLoadData (界面显示)
+{
+	// 填充报表查询参数
+	Dictionary<string, string> qry_params = new Dictionary<string, string>();
+	// qry_params.Add(xx, xx);
+	
+	bool res = this.rpt_viewer.LoadReport(serv_rptfile, qry_params);
+	if(!res){
+		// 这里提示错误信息：this.rpt_viewer.GetLastMsg()
+		return;
+	}
+}
+2.4 OnFillData (界面显示)
+{
+	rpt_viewer.FillReport();
+}
+
+2.5.1 OnPrint (打印界面已加载的报表)
+{
+	rpt_viewer.PrintRptFile(bool showPreview);
+}
+2.5.2 OnPrint (不显示，直接打印)
+{
+    ReportViewerNew rptvw_prt = new ReportViewerNew();
+    rptvw_prt.InitPrtNoView();
+
+    // 填充报表查询参数
+	Dictionary<string, string> qry_params = new Dictionary<string, string>();
+	// qry_params.Add(xx, xx);
+	
+	bool res = this.rpt_viewer.LoadReport(serv_rptfile, qry_params);
+	if(!res){
+		// 这里提示错误信息：this.rpt_viewer.GetLastMsg()
+		return;
+	}
+	
+    rptvw_prt.PrintRptFile(bool showPreview);
+}
+
+3. 报表访问接口说明
+
+/// <summary>
+/// 无UI的打印初始化
+/// </summary>
+public void InitPrtNoView();
+
+/// <summary>
+/// 界面显示初始化 (包括打印初始化)
+/// </summary>
+/// <param name="navBarDock">工具条Dock方式，仅Top和Bottom有效，其他方式为隐藏</param>
+/// <param name="defaultZoom">初始缩放比例，ZoomRatioArgs.Zoom_FitWidth适应宽度，ZoomRatioArgs.Zoom_NO无缩放</param>
+/// <param name="useAlone">是否独立显示。True-工具条显示刷新、导出、打印按钮</param>
+public void InitHasView(DockStyle navBarDock = DockStyle.Bottom,
+    string defaultZoom = ZoomRatioArgs.No_Zoom, bool useAlone = false);
+    
+/// <summary>
+/// 界面显示初始化 (包括打印初始化)
+/// </summary>
+/// <param name="initParams">初始化参数对象</param>
+public void InitHasView(RptViewInitParams initParams);
+
+/// <summary>
+/// 设置工具条和报表显示区域背景色，忽略 Color.Empty
+/// </summary>
+/// <param name="toolBarBkg"></param>
+/// <param name="rptPanelBkg"></param>
+public void SetBkgColor(Color toolBarBkg, Color rptPanelBkg);
+
+/// <summary>
+/// 设置打印参数（向内拷贝）
+/// </summary>
+public void CopyPrintArgs(QiPrintArgs inArgs, bool clearExist=false);
+
+// 获取信息(含错误提示)
+public string GetLastMsg();
+
+
+/// <summary>
+/// 加载报表：根据报表模板文件名称或文件ID，下载一个新的报表文件（自动清空之前加载的报表）
+/// </summary>
+/// <param name="rptFile">报表文件路径或者文件ID</param>
+/// <param name="qryParams">报表查询参数，不能使用file, as, _job_session_id等保留参数名称</param>
+/// <param name="loadEmptyDsRpt">是否加载数据集为空的报表</param>
+public bool LoadReport(string rptFile, Dictionary<string, string> qryParams, bool loadEmptyDsRpt=true)
+
+/// <summary>
+/// 显示报表：将所有已加载的报表填充到界面显示
+/// </summary>
+public bool FillReport();
+
+/// <summary>
+/// 刷新报表：使用上次下载地址重新下载并解析报表文件
+/// </summary>
+public bool RefreshRptFile();
+
+/// <summary>
+/// 导出报表：使用上次下载地址进行导出 (即当前显示的报表)
+/// </summary>
+/// <param name="expFileName">导出文件名，支持类型: .xls, .pdf。留空将自动调出文件保存对话框</param>
+/// <returns>成功则返回本地文件名，否则null</returns>
+public string ExportRptFile(string expFileName = null);
+
+/// <summary>
+/// 打印报表：打印已加载的报表
+/// </summary>
+/// <param name="showPreview">是否显示打印预览(暂不单独提供预览，界面显示即为预览效果)</param>
+public bool PrintRptFile(bool showPreview = false);
+
+/// <summary>
+/// 获取指定数据集的行数
+/// </summary>
+/// <param name="dsName">数据集名称</param>
+/// <returns>-1: 找不到该数据集; >=0: 真实行数</returns>
+public int GetDsRowsCnt(string dsName);
+
+/// <summary>
+/// 获取所有数据集行数合计值
+/// </summary>
+public int GetDsRowsCntSum();
+
+/// <summary>
+/// 获取各数据集行数详细列表：名称及行数
+/// </summary>
+public TextIntvalPair[] GetDsRowsCntArr();
+
+
+4. 数据集使用说明
+4.1 生成JSON数据集所需的json字符串
+BaseDO[] arr_do = [call some function to query Array-BaseDO];
+BaseAggDO[] arr_aggdo = [call some function to query Array-BaseAggDO];
+>> 序列化单DO
+      BaseDORptExt do_rptext = new BaseDORptExt(arr_do[0]);
+      string str_json = do_rptext.serializeJsonPropVals();
+>> 序列化DO列表
+      BaseDOListRptExt dolist_rptext = new BaseDOListRptExt();
+      dolist_rptext.updateChildren(arr_do);
+      string str_json = dolist_rptext.serializeJsonRptExt();
+>> 序列化AggDO
+      BaseAggDORptExt aggdo_rptext = new BaseAggDORptExt(arr_aggdo[0]);
+      // 如有需要，可以查询其它DO，添加到aggdo_rptext中作为合并主DO
+      BaseDO more_mdo = [call some function to query BaseDO];
+      aggdo_rptext.addParentDO(more_mdo);
+      string str_json = aggdo_rptext.serializeJsonRptExt();
+>> 序列化AggDO列表
+      BaseAggDOListRptExt aggdolist_rptext = new BaseAggDOListRptExt();
+      aggdolist_rptext.updateChildren(arr_aggdo);
+      this.reqParamsDict.Add("$jsonVar", aggdolist_rptext.serializeJsonRptExt());
+      

@@ -1,0 +1,33 @@
+package iih.ci.mr.s.bp.createmr;
+
+import java.util.ArrayList;
+import java.util.List;
+import xap.mw.core.data.BaseDO;
+import xap.mw.core.data.BizException;
+import xap.mw.core.utils.StringUtil;
+
+public class AutoCreateMrGetIdEntsBp {
+
+	public List<String> getIdEnts(Object[] newObjs) throws BizException {
+		List<String> list =new ArrayList<String>();
+		if (newObjs != null && newObjs.length > 0) {
+			for(Object obj:newObjs){
+				BaseDO baseDo = null;
+				Boolean flag=obj instanceof BaseDO;
+				if(flag){
+					baseDo = (BaseDO) obj;
+				}
+				if(baseDo!=null){
+					String id_ent=(String) baseDo.getAttrVal("Id_ent");
+					if(StringUtil.isEmptyWithTrim(id_ent)){
+						id_ent=(String) baseDo.getAttrVal("Id_en");
+					}
+					if(!StringUtil.isEmptyWithTrim(id_ent)){
+						list.add(id_ent);
+					}
+				}
+			}
+		}
+		return list;
+	}
+}

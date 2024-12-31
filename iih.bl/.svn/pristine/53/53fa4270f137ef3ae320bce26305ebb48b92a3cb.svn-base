@@ -1,0 +1,119 @@
+package iih.bl.comm.util;
+
+import iih.bd.base.utils.SqlUtils;
+import iih.bd.pp.bdprewarn.d.BdPreWarnDO;
+import iih.bd.pp.bdprewarn.d.TypeEnum;
+import iih.bl.comm.IBlFlowKeyConst;
+
+import java.util.List;
+
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.Context;
+import xap.mw.core.utils.ArrayUtil;
+import xap.mw.core.utils.ListUtil;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.kernel.SqlParam;
+import xap.sys.permfw.pub.EnvContextUtil;
+
+/**
+ * 预交金警告策略数据处理工具类
+ * @author ly 2019/03/03
+ *
+ */
+public class BlPrepayWarnUtil {
+
+	/**
+	 * 获取预交金警告策略
+	 * @param codeEntp 就诊类型
+	 * @param depIds 就诊科室
+	 * @param patcaIds 患者分类
+	 * @return
+	 * @throws BizException
+	 */
+	@SuppressWarnings("unchecked")
+	public static BdPreWarnDO[] getPreWarnSetting(String codeEntp, String[] depIds, String[] patcaIds) throws BizException {
+
+		String whereSql = "code_entp = ? and (eu_prewarntp = ? or (eu_prewarntp = ? and %s)) and %s";
+		String depCond = SqlUtils.getInSqlByParamValues("id_dep", depIds);
+		String patcaCond = SqlUtils.getInSqlByParamValues("id_patca", patcaIds);
+		whereSql = String.format(whereSql, depCond, patcaCond);
+		
+		whereSql = EnvContextUtil.processEnvContext(whereSql, new BdPreWarnDO(), false);		
+		
+		SqlParam sqlParam = new SqlParam();
+		sqlParam.addParam(codeEntp);
+		sqlParam.addParam(TypeEnum.WHOLEHOS);
+		sqlParam.addParam(TypeEnum.DEPARTMENT);
+		for (String str : depIds) {
+			sqlParam.addParam(str);
+		}
+		for (String str : patcaIds) {
+			sqlParam.addParam(str);
+		}
+		
+		DAFacade daf = new DAFacade();
+		List<BdPreWarnDO> warnDOList = (List<BdPreWarnDO>)daf.findByCond(BdPreWarnDO.class, whereSql, sqlParam);
+		
+		if(ListUtil.isEmpty(warnDOList))
+			return null;
+		
+		return warnDOList.toArray(new BdPreWarnDO[0]);
+	}
+	
+	/**
+	 * 命中警告策略
+	 * (带上下文缓存处理)
+	 * @param warnDos
+	 * @param depId
+	 * @param patcaId
+	 * @return
+	 * @throws BizException
+	 */
+	public static BdPreWarnDO hitPreWarnSetting(BdPreWarnDO[] warnDos, String depId, String patcaId) throws BizException {
+		
+		if(ArrayUtil.isEmpty(warnDos))
+			return null;
+		
+		BdPreWarnDO warnDO = null;
+		
+		String key = IBlFlowKeyConst.BL_FLOW_KEY + depId + patcaId;
+		Object obj = Context.get().getAttribute(key);
+		if (obj != null) {
+			warnDO = (BdPreWarnDO) obj;
+			return warnDO;
+		}
+		
+		//科室配置
+		for (BdPreWarnDO warnSet : warnDos) {
+
+			if (TypeEnum.WHOLEHOS.equals(warnSet.getEu_prewarntp()))
+				continue;
+
+			if (depId.equals(warnSet.getId_dep()) && patcaId.equals(warnSet.getId_patca())) {
+				warnDO = warnSet;
+				break;
+			}
+		}
+		
+		//全院配置
+		if(warnDO == null){
+			for (BdPreWarnDO warnSet : warnDos) {
+				
+				if(TypeEnum.DEPARTMENT.equals(warnSet.getEu_prewarntp()))
+					continue;
+				
+				if(patcaId.equals(warnSet.getId_patca())){
+					 warnDO = warnSet;
+					 break;
+				}
+			}
+		}
+		
+		if(warnDO == null)
+			return null;
+		
+		//设置缓存
+		Context.get().setAttribute(key, warnDO);
+		return warnDO;
+	}
+}

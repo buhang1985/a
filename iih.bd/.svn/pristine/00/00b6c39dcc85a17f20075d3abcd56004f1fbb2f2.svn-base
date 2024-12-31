@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+
+	<bean id="IStockdealtypeCudService"
+		class="iih.bd.mm.stockdealtype.s.StockdealtypeCrudServiceImpl"></bean>
+	<xap:service ref="IStockdealtypeCudService"
+		interface="iih.bd.mm.stockdealtype.i.IStockdealtypeCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IStockdealtypeCudService"
+		interface="iih.bd.mm.stockdealtype.i.IStockdealtypeRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="ISupplierCudService"
+		class="iih.bd.mm.supplier.s.SupplierCrudServiceImpl"></bean>
+	<xap:service ref="ISupplierCudService"
+		interface="iih.bd.mm.supplier.i.ISupplierCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="ISupplierCudService"
+		interface="iih.bd.mm.supplier.i.ISupplierRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IPackageunitCudService"
+		class="iih.bd.mm.packageunit.s.PackageunitCrudServiceImpl"></bean>
+	<xap:service ref="IPackageunitCudService"
+		interface="iih.bd.mm.packageunit.i.IPackageunitCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IPackageunitCudService"
+		interface="iih.bd.mm.packageunit.i.IPackageunitRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="ISupplierprotocolCudService"
+		class="iih.bd.mm.supplierprotocol.s.SupplierprotocolCrudServiceImpl"></bean>
+	<xap:service ref="ISupplierprotocolCudService"
+		interface="iih.bd.mm.supplierprotocol.i.ISupplierprotocolCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="ISupplierprotocolCudService"
+		interface="iih.bd.mm.supplierprotocol.i.ISupplierprotocolRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="ISupplierprotocolMDOCudService"
+		class="iih.bd.mm.supplierprotocol.s.SupplierprotocolMDOCrudServiceImpl"></bean>
+	<xap:service ref="ISupplierprotocolMDOCudService"
+		interface="iih.bd.mm.supplierprotocol.i.ISupplierprotocolMDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="ISupplierprotocolMDOCudService"
+		interface="iih.bd.mm.supplierprotocol.i.ISupplierprotocolMDORService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IProtocolGoodsDOCudService"
+		class="iih.bd.mm.supplierprotocol.s.ProtocolGoodsDOCrudServiceImpl"></bean>
+	<xap:service ref="IProtocolGoodsDOCudService"
+		interface="iih.bd.mm.supplierprotocol.i.IProtocolGoodsDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IProtocolGoodsDOCudService"
+		interface="iih.bd.mm.supplierprotocol.i.IProtocolGoodsDORService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="ISupplierProtocolService"
+		class="iih.bd.mm.supplierprotocol.s.ds.SupplierProtocolServiceImpl"></bean>
+	<xap:service ref="ISupplierProtocolService"
+		interface="iih.bd.mm.supplierprotocol.i.ds.ISupplierProtocolService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="ISupplierProFlowService"
+		class="iih.bd.mm.supplierprotocol.s.ds.SupplierProFlowServiceImpl"></bean>
+	<xap:service ref="ISupplierProFlowService"
+		interface="iih.bd.mm.supplierprotocol.i.ds.ISupplierProFlowService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IMmcategoryCudService"
+		class="iih.bd.mm.mmcategory.s.MmcategoryCrudServiceImpl"></bean>
+	<xap:service ref="IMmcategoryCudService"
+		interface="iih.bd.mm.mmcategory.i.IMmcategoryCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IMmcategoryCudService"
+		interface="iih.bd.mm.mmcategory.i.IMmcategoryRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IMMCategoryService"
+		class="iih.bd.mm.mmcategory.s.ds.MMCategoryServiceImpl"></bean>
+	<xap:service ref="IMMCategoryService"
+		interface="iih.bd.mm.mmcategory.i.ds.IMMCategoryService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IMeterialCudService"
+		class="iih.bd.mm.meterial.s.MeterialCrudServiceImpl"></bean>
+	<xap:service ref="IMeterialCudService"
+		interface="iih.bd.mm.meterial.i.IMeterialCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="IMeterialExtCudService"
+		class="iih.bd.mm.meterial.s.MeterialExtCrudServiceImpl"></bean>
+	<xap:service ref="IMeterialExtCudService"
+		interface="iih.bd.mm.meterial.i.IMeterialExtCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<xap:service ref="IMeterialCudService"
+		interface="iih.bd.mm.meterial.i.IMeterialRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IMeterialService"
+		class="iih.bd.mm.meterial.s.ds.MeterialServiceImpl"></bean>
+	<xap:service ref="IMeterialService"
+		interface="iih.bd.mm.meterial.i.ds.IMeterialService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IMMAliasDOCudService"
+		class="iih.bd.mm.meterial.s.MMAliasDOCrudServiceImpl"></bean>
+	<xap:service ref="IMMAliasDOCudService"
+		interface="iih.bd.mm.meterial.i.IMMAliasDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IMMAliasDOCudService"
+		interface="iih.bd.mm.meterial.i.IMMAliasDORService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IMeterialMDOCrudService"
+		class="iih.bd.mm.meterial.s.MeterialMDOCrudServiceImpl"></bean>
+	<xap:service ref="IMeterialMDOCrudService"
+		interface="iih.bd.mm.meterial.i.IMeterialMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IMeterialMDOCrudService"
+		interface="iih.bd.mm.meterial.i.IMeterialMDORService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IMMPackageUnitDOCudService"
+		class="iih.bd.mm.meterial.s.MMPackageUnitDOCrudServiceImpl"></bean>
+	<xap:service ref="IMMPackageUnitDOCudService"
+		interface="iih.bd.mm.meterial.i.IMMPackageUnitDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IMMPackageUnitDOCudService"
+		interface="iih.bd.mm.meterial.i.IMMPackageUnitDORService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IWarehouseInfoCudService"
+		class="iih.bd.mm.warehouseinfo.s.WarehouseinfoCrudServiceImpl"></bean>
+	<xap:service ref="IWarehouseInfoCudService"
+		interface="iih.bd.mm.warehouseinfo.i.IWarehouseinfoCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IWarehouseInfoCudService"
+		interface="iih.bd.mm.warehouseinfo.i.IWarehouseinfoRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IDepartInfoCudService"
+		class="iih.bd.mm.departinfo.s.DepartinfoCrudServiceImpl"></bean>
+	<xap:service ref="IDepartInfoCudService"
+		interface="iih.bd.mm.departinfo.i.IDepartinfoCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IDepartInfoCudService"
+		interface="iih.bd.mm.departinfo.i.IDepartinfoRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="ICustcategoryCudService"
+		class="iih.bd.mm.custcategory.s.CustcategoryCrudServiceImpl"></bean>
+	<xap:service ref="ICustcategoryCudService"
+		interface="iih.bd.mm.custcategory.i.ICustcategoryCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="ICustcategoryCudService"
+		interface="iih.bd.mm.custcategory.i.ICustcategoryRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="ICustcategoryitemCudService"
+		class="iih.bd.mm.custcategoryitem.s.CustcategoryitemCrudServiceImpl"></bean>
+	<xap:service ref="ICustcategoryitemCudService"
+		interface="iih.bd.mm.custcategoryitem.i.ICustcategoryitemCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="ICustcategoryitemCudService"
+		interface="iih.bd.mm.custcategoryitem.i.ICustcategoryitemRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="ICustcategoryitemMDOCudService"
+		class="iih.bd.mm.custcategoryitem.s.CustcategoryitemMDOCrudServiceImpl"></bean>
+	<xap:service ref="ICustcategoryitemMDOCudService"
+		interface="iih.bd.mm.custcategoryitem.i.ICustcategoryitemMDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="ICustcategoryitemMDOCudService"
+		interface="iih.bd.mm.custcategoryitem.i.ICustcategoryitemMDORService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="ICustCategoryItemRelDOCudService"
+		class="iih.bd.mm.custcategoryitem.s.CustCategoryItemRelDOCrudServiceImpl"></bean>
+	<xap:service ref="ICustCategoryItemRelDOCudService"
+		interface="iih.bd.mm.custcategoryitem.i.ICustCategoryItemRelDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="ICustCategoryItemRelDOCudService"
+		interface="iih.bd.mm.custcategoryitem.i.ICustCategoryItemRelDORService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IWarehouseInfoService"
+		class="iih.bd.mm.warehouseinfo.s.ds.WarehouseInfoServiceImpl"></bean>
+	<xap:service ref="IWarehouseInfoService"
+		interface="iih.bd.mm.warehouseinfo.i.ds.IWarehouseInfoService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IDepartInfoService"
+		class="iih.bd.mm.departinfo.s.ds.DepartInfoServiceImpl"></bean>
+	<xap:service ref="IDepartInfoService"
+		interface="iih.bd.mm.departinfo.i.ds.IDepartInfoService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IWahouseunittypeCudService"
+		class="iih.bd.mm.wahouseunittype.s.WahouseunittypeCrudServiceImpl"></bean>
+	<xap:service ref="IWahouseunittypeCudService"
+		interface="iih.bd.mm.wahouseunittype.i.IWahouseunittypeCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IWahouseunittypeCudService"
+		interface="iih.bd.mm.wahouseunittype.i.IWahouseunittypeRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IWahouseunittypeService"
+		class="iih.bd.mm.wahouseunittype.s.WahouseunittypeServiceImpl"></bean>
+	<xap:service ref="IWahouseunittypeService"
+		interface="iih.bd.mm.wahouseunittype.i.IWahouseunittypeService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="ICodeGeneratorService"
+		class="iih.bd.mm.comm.s.CodeGeneratorServiceImpl"></bean>
+	<xap:service ref="ICodeGeneratorService"
+		interface="iih.bd.mm.comm.i.ICodeGeneratorService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 物品关联的皮试服务AggDO数据CRUD服务实现 -->
+	<bean id="iMmrelskinsrvCrudServiceImpl"
+		class="iih.bd.mm.mmrelskinsrv.s.MmrelskinsrvCrudServiceImpl"></bean>
+
+	<!-- 医疗物品_资质证书字典 -->
+	<bean id="ICertiCudService"
+		class="iih.bd.mm.certi.s.CertiCrudServiceImpl"></bean>
+	<xap:service ref="ICertiCudService"
+		interface="iih.bd.mm.certi.i.ICertiCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="ICertiCudService"
+		interface="iih.bd.mm.certi.i.ICertiRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 医疗物品_物品资质证书 -->
+	<bean id="IMmcertiCudService"
+		class="iih.bd.mm.mmcerti.s.MmcertiCrudServiceImpl"></bean>
+	<xap:service ref="IMmcertiCudService"
+		interface="iih.bd.mm.mmcerti.i.IMmcertiCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IMmcertiCudService"
+		interface="iih.bd.mm.mmcerti.i.IMmcertiRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="ISupcertificationsCudService"
+		class="iih.bd.mm.supcertifications.s.SupcertificationsCrudServiceImpl"></bean>
+	<xap:service ref="ISupcertificationsCudService"
+		interface="iih.bd.mm.supcertifications.i.ISupcertificationsCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="ISupcertificationsCudService"
+		interface="iih.bd.mm.supcertifications.i.ISupcertificationsRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IMmusestrategyCudService"
+		class="iih.bd.mm.ctr.s.MmusestrategyCrudServiceImpl"></bean>
+	<xap:service ref="IMmusestrategyCudService"
+		interface="iih.bd.mm.ctr.i.IMmusestrategyCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IMmusestrategyCudService"
+		interface="iih.bd.mm.ctr.i.IMmusestrategyRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IMmcawareinfoCudService"
+		class="iih.bd.mm.mmcawareinfo.s.MmcawareinfoCrudServiceImpl"></bean>
+	<xap:service ref="IMmcawareinfoCudService"
+		interface="iih.bd.mm.mmcawareinfo.i.IMmcawareinfoCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IMmcawareinfoCudService"
+		interface="iih.bd.mm.mmcawareinfo.i.IMmcawareinfoRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IIntelcabinetCudService"
+		class="iih.bd.mm.intelcabinet.s.IntelcabinetCrudServiceImpl"></bean>
+	<xap:service ref="IIntelcabinetCudService"
+		interface="iih.bd.mm.intelcabinet.i.IIntelcabinetCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IIntelcabinetCudService"
+		interface="iih.bd.mm.intelcabinet.i.IIntelcabinetRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="iIntelcabinetServiceImpl"
+		class="iih.bd.mm.intelcabinet.s.IntelcabinetServiceImpl"></bean>
+	<xap:service ref="iIntelcabinetServiceImpl"
+		interface="iih.bd.mm.intelcabinet.i.IIntelcabinetService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IMmintelcabinetCudService"
+		class="iih.bd.mm.mmintelcabinet.s.MmintelcabinetCrudServiceImpl"></bean>
+	<xap:service ref="IMmintelcabinetCudService"
+		interface="iih.bd.mm.mmintelcabinet.i.IMmintelcabinetCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IMmintelcabinetCudService"
+		interface="iih.bd.mm.mmintelcabinet.i.IMmintelcabinetRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="ICommService" class="iih.bd.mm.comm.s.CommServiceImpl"></bean>
+	<xap:service ref="ICommService"
+		interface="iih.bd.mm.comm.i.ICommService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 药品通用名服务 -->
+	<xap:service ref="MaterialnamesCrudService"
+		interface="iih.bd.mm.materialnames.i.IMaterialnamesRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="iih.bd.mm.materialnames.i.IMaterialnamesRService"
+		class="iih.bd.mm.materialnames.s.MaterialnamesCrudServiceImpl">
+	</bean>
+	<xap:service ref="MaterialnamesCrudService"
+		interface="iih.bd.mm.materialnames.i.IMaterialnamesCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<!-- 药品通用名主DO服务 -->
+	<xap:service ref="MaterialnamesMDOCrudService"
+		interface="iih.bd.mm.materialnames.i.IMaterialnamesMDORService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="MaterialnamesMDOCrudService"
+		class="iih.bd.mm.materialnames.s.MaterialnamesMDOCrudServiceImpl">
+	</bean>
+	<xap:service ref="MaterialnamesMDOCrudService"
+		interface="iih.bd.mm.materialnames.i.IMaterialnamesMDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 医疗物品_包装单位集服务 -->
+	<xap:service ref="MMPackageUnitService"
+		interface="iih.bd.mm.meterial.i.IMMPackageUnitService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="MMPackageUnitService"
+		class="iih.bd.mm.meterial.s.MMPackageUnitServiceImpl"></bean>
+
+	<!-- 物品基本信息主DO扩展服务 -->
+	<xap:service ref="MeterialMDOExtCrudService"
+		interface="iih.bd.mm.meterial.i.IMeterialMDOExtCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="MeterialMDOExtCrudService"
+		class="iih.bd.mm.meterial.s.MeterialMDOExtCrudServiceImpl">
+	</bean>
+	<xap:service ref="MeterialMDOExtCrudService"
+		interface="iih.bd.mm.meterial.i.IMeterialMDOExtRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 药品通用名启用服务 -->
+	<xap:service
+		ref="iih.bd.mm.materialnames.i.IMaterialnamesEnableService"
+		interface="iih.bd.mm.materialnames.i.IMaterialnamesEnableService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="iih.bd.mm.materialnames.i.IMaterialnamesEnableService"
+		class="iih.bd.mm.materialnames.s.MaterialnamesEnableServiceImpl">
+	</bean>
+
+	<!-- 物品与仓库关系扩展服务 -->
+	<xap:service ref="WarehouseInfoExtCrudService"
+		interface="iih.bd.mm.warehouseinfo.i.IWarehouseInfoExtCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="WarehouseInfoExtCrudService"
+		class="iih.bd.mm.warehouseinfo.s.WarehouseInfoExtCrudServiceImpl">
+	</bean>
+	<xap:service ref="WarehouseInfoExtCrudService"
+		interface="iih.bd.mm.warehouseinfo.i.IWarehouseInfoExtRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 包药机药品维护目录基础服务 -->
+	<bean id="MedicinedirectoryCrudService"
+		class="iih.bd.mm.medicinedirectory.s.MedicinedirectoryCrudServiceImpl"></bean>
+	<xap:service ref="MedicinedirectoryCrudService"
+		interface="iih.bd.mm.medicinedirectory.i.IMedicinedirectoryCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="MedicinedirectoryCrudService"
+		interface="iih.bd.mm.medicinedirectory.i.IMedicinedirectoryRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 包药机药品维护目录扩展服务 -->
+	<bean id="MedidirecdtoRService"
+		class="iih.bd.mm.medidirecdto.s.MedidirecdtoRServiceImpl"></bean>
+	<xap:service ref="MedidirecdtoRService"
+		interface="iih.bd.mm.medidirecdto.i.IMedidirecdtoRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+
+	<!-- 第三方接口调用日志查询 -->
+	<bean id="IWebServiceInvokeRecServiceImpl"
+		class="iih.bd.mm.webserviceinvokerec.s.WebServiceInvokeRecServiceImpl"></bean>
+	<xap:service ref="IWebServiceInvokeRecServiceImpl"
+		interface="iih.bd.mm.webserviceinvokerec.i.IWebServiceInvokeRecService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 库存交易分类扩展服务 -->
+	<bean id="StockDealTypeExtCrudService"
+		class="iih.bd.mm.stockdealtype.s.StockDealTypeExtCrudServiceImpl"></bean>
+	<xap:service ref="StockDealTypeExtCrudService"
+		interface="iih.bd.mm.stockdealtype.i.IStockDealTypeExtCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="StockDealTypeExtCrudService"
+		interface="iih.bd.mm.stockdealtype.i.IStockDealTypeExtRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 联合用药限制基础服务 -->
+	<bean id="DrugcombctlCrudService"
+		class="iih.bd.mm.drugcombctl.s.DrugcombctlCrudServiceImpl"></bean>
+	<xap:service ref="DrugcombctlCrudService"
+		interface="iih.bd.mm.drugcombctl.i.IDrugcombctlCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="DrugcombctlCrudService"
+		interface="iih.bd.mm.drugcombctl.i.IDrugcombctlRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 联合用药限制扩展服务 -->
+	<bean id="DrugcombctlExtCrudService"
+		class="iih.bd.mm.drugcombctl.s.DrugcombctlExtCrudServiceImpl"></bean>
+	<xap:service ref="DrugcombctlExtCrudService"
+		interface="iih.bd.mm.drugcombctl.i.IDrugcombctlExtCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="DrugcombctlExtCrudService"
+		interface="iih.bd.mm.drugcombctl.i.IDrugcombctlExtRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 提供给临床域服务 -->
+	<bean id="BdMmCiService"
+		class="iih.bd.mm.s.external.provide.BdMmCiServiceImpl"></bean>
+	<xap:service ref="BdMmCiService"
+		interface="iih.bd.mm.i.external.provide.IBdMmCiCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="BdMmCiService"
+		interface="iih.bd.mm.i.external.provide.IBdMmCiRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 日志服务 -->
+	<bean id="BdMmLogService" class="iih.bd.mm.log.BdMmLogServiceImpl">
+	</bean>
+	<xap:service ref="BdMmLogService"
+		interface="iih.bd.log.IBdMmLogService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<!-- 仓库与自定义分类关系基础服务 -->
+	<bean id="ICustwarepropertymmCrudService"
+		class="iih.bd.mm.custwarepropertymm.s.CustwarepropertymmCrudServiceImpl"></bean>
+	<xap:service ref="ICustwarepropertymmCrudService"
+		interface="iih.bd.mm.custwarepropertymm.i.ICustwarepropertymmCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="ICustwarepropertymmCrudService"
+		interface="iih.bd.mm.custwarepropertymm.i.ICustwarepropertymmRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 物品服务价表对应关系 -->
+	<bean id="ISrvprirelCudService"
+		class="iih.bd.mm.srvprirel.s.SrvprirelCrudServiceImpl"></bean>
+	<xap:service ref="ISrvprirelCudService"
+		interface="iih.bd.mm.srvprirel.i.ISrvprirelCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="ISrvprirelCudService"
+		interface="iih.bd.mm.srvprirel.i.ISrvprirelRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 物品组基础服务 -->
+	<bean id="IMmgrpCrudService"
+		class="iih.bd.mm.mmgrp.s.MmgrpCrudServiceImpl"></bean>
+	<xap:service ref="IMmgrpCrudService"
+		interface="iih.bd.mm.mmgrp.i.IMmgrpCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IMmgrpCrudService"
+		interface="iih.bd.mm.mmgrp.i.IMmgrpRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 物品组明细基础服务 -->
+	<bean id="IMmgrpitmCrudService"
+		class="iih.bd.mm.mmgrpitm.s.MmgrpitmCrudServiceImpl"></bean>
+	<xap:service ref="IMmgrpitmCrudService"
+		interface="iih.bd.mm.mmgrpitm.i.IMmgrpitmCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IMmgrpitmCrudService"
+		interface="iih.bd.mm.mmgrpitm.i.IMmgrpitmRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--自动补货配置基础服务 -->
+	<bean id="IAutoreplenishconfigureCrudService"
+		class="iih.bd.mm.autoreplenishconfigure.s.AutoreplenishconfigureCrudServiceImpl"></bean>
+	<xap:service ref="IAutoreplenishconfigureCrudService"
+		interface="iih.bd.mm.autoreplenishconfigure.i.IAutoreplenishconfigureCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IAutoreplenishconfigureCrudService"
+		interface="iih.bd.mm.autoreplenishconfigure.i.IAutoreplenishconfigureRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--自动补货配置扩展服务 -->
+	<bean id="IAutoreplenishconfigureExtService"
+		class="iih.bd.mm.autoreplenishconfigure.s.AutoreplenishconfigureExtServiceImpl"></bean>
+	<xap:service ref="IAutoreplenishconfigureExtService"
+		interface="iih.bd.mm.autoreplenishconfigure.i.IAutoreplenishconfigureExtService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IAutoreplenishconfigureExtService"
+		interface="iih.bd.mm.autoreplenishconfigure.i.IAutoreplenishconfigureCudExtService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+</beans>

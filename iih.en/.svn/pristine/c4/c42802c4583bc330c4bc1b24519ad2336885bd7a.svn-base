@@ -1,0 +1,134 @@
+package iih.en.pv.s.bp.ip;
+
+import iih.bd.bc.udi.pub.IMpNsDictCodeConst;
+import iih.bd.pp.dto.d.BlTplPriceDTO;
+import iih.bd.pp.i.IBdPriCalcService;
+import iih.ci.mr.i.ICiMrOutQryServices;
+import iih.ci.mrfp.cimrsugdto.d.CiMrSugDTO;
+import iih.en.comm.validator.EnValidator;
+import iih.en.pv.enfee.dto.d.BalanceDTO;
+import iih.en.pv.inpatient.dto.d.BedCardDetailDTO;
+import iih.mp.nr.foreign.d.CiorderPreviewDTO;
+import iih.mp.nr.foreign.i.IForeignService;
+
+import java.text.DecimalFormat;
+import java.util.List;
+import java.util.Map;
+
+import xap.mw.core.data.BizException;
+import xap.mw.coreitf.d.FDateTime;
+import xap.mw.sf.core.util.ServiceFinder;
+
+/**
+ * 获取床位卡详细信息
+ * 
+ * @author renying
+ *
+ */
+public class GetBedCardDetailBP {
+	/**
+	 * 获取床位卡详细信息
+	 * 
+	 * @param entId 就诊ID
+	 * @return 床位卡详细信息
+	 * @throws BizException
+	 * @author renying
+	 */
+	public BedCardDetailDTO exec(String entId, String idBltpl) throws BizException {
+
+		BedCardDetailDTO detailDTO = new BedCardDetailDTO();
+		//获取床位单价
+		if (!EnValidator.isEmpty(idBltpl)) 
+			this.getBedPrice(detailDTO, idBltpl);
+		if (EnValidator.isEmpty(entId)) {
+			return detailDTO;
+		}
+		detailDTO.setId_ent(entId);
+		// 加载费用信息
+		// 加载临床信息
+		// 获取体温、脉搏、血压信息，iih.mp.nr.foreign.i.getCiorderPreviewDTOS(String id_ent)
+		this.getBlInfo(detailDTO);
+		this.getmpInfo(detailDTO);
+		
+		return detailDTO;
+	}
+
+	/**
+	 * 费用信息
+	 * 
+	 * @param detailDTO
+	 * @throws BizException
+	 */
+	private void getBlInfo(BedCardDetailDTO detailDTO) throws BizException {
+		GetBalanceBP getBlcBP = new GetBalanceBP();
+		BalanceDTO blanceDTO = getBlcBP.exec(detailDTO.getId_ent());
+		if (blanceDTO != null) {
+			detailDTO.setPrepaid(blanceDTO.getAmt_prepay());// 预交金
+			detailDTO.setBill(blanceDTO.getAmt_uncg());// 账单
+			detailDTO.setBalance(blanceDTO.getAmt_bal());// 余额
+			detailDTO.setAmt_cred(blanceDTO.getAmt_cred());
+			detailDTO.setAmt_hp(blanceDTO.getAmt_hp());
+		}
+	}
+
+	/**
+	 * 医技信息
+	 * 
+	 * @param detailDTO
+	 * @throws BizException
+	 */
+	private void getmpInfo(BedCardDetailDTO detailDTO) throws BizException {
+		//手术
+		ICiMrOutQryServices mrServices = ServiceFinder.find(ICiMrOutQryServices.class);
+		List<CiMrSugDTO> list = mrServices.getCiMrSurgery(detailDTO.getId_ent());
+		if (!EnValidator.isEmpty(list)) {
+			detailDTO.setName_ops(list.get(0).getName_sug());
+			if (!EnValidator.isEmpty(list.get(0).getDt_start_sug())) {
+				detailDTO.setDt_ops(new FDateTime(list.get(0).getDt_start_sug()));
+			}
+		}
+		IForeignService foreign = ServiceFinder.find(IForeignService.class);
+		CiorderPreviewDTO[] ciorders = foreign.getCiorderPreviewDTOS(detailDTO
+				.getId_ent());
+		if (EnValidator.isEmpty(ciorders)) {
+			return;
+		}
+		for (CiorderPreviewDTO cider : ciorders) {
+			// 体温
+			if (!EnValidator.isEmpty(cider.getCode())
+					&& cider.getCode().equals(
+							IMpNsDictCodeConst.SD_TEMPERATURE_SRVVT)) {
+				detailDTO.setTemp(cider.getValue());
+			}
+			// 脉搏
+			if (!EnValidator.isEmpty(cider.getCode())
+					&& cider.getCode().equals(IMpNsDictCodeConst.SD_PLUS_SRVVT)) {
+				detailDTO.setPulse(cider.getValue());
+			}
+			// 血压
+			if (!EnValidator.isEmpty(cider.getCode())
+					&& cider.getCode().equals(
+							IMpNsDictCodeConst.SD_PRESSURE_SRVVT)) {
+				detailDTO.setSbp(cider.getValue());
+			}
+		}
+
+	}
+	
+	/**
+	 * 查询床位单价
+	 * 
+	 * @param detailDTO
+	 * @throws BizException 
+	 * @author jizb
+	 */
+	private void getBedPrice(BedCardDetailDTO detailDTO, String idBltpl) throws BizException {
+		IBdPriCalcService bdPriCalcService = ServiceFinder.find(IBdPriCalcService.class);
+		Map<String, BlTplPriceDTO> map = bdPriCalcService.batchCalcBlTplPrice(new String[]{idBltpl});
+		if (map == null || map.get(idBltpl) == null || map.get(idBltpl).getPrice_std() == null)
+			return;
+		DecimalFormat df = new DecimalFormat("######0.00");
+		detailDTO.setBed_price(df.format(map.get(idBltpl).getPrice_std()));
+	}
+
+}

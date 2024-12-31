@@ -1,0 +1,24 @@
+package iih.bd.srv.medsrv.s.bp;
+
+import xap.mw.core.data.BizException;
+
+/**
+ * 
+ * 睡眠等待物化视图刷新</br>
+ * 因物化视图刷新会延迟事务提交，导致脏读，所以睡眠等待
+ * 
+ * @author hao_wu
+ * @date 2020年4月7日
+ *
+ */
+public class SleepForMaterializedViewRefreshBp {
+
+	public void exec() throws BizException {
+		try {
+			// 睡眠五秒，等待物化视图刷新完成
+			Thread.sleep(5 * 1000);
+		} catch (InterruptedException e) {
+			throw new BizException(e);
+		}
+	}
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <head>
+    <!--返回调用标志：-1失败，1成功-->    
+    <code></code>
+    <!--返回错误信息描述-->
+    <errorMsg></errorMsg>
+  </head>
+   <output_param>
+    <P_ID></P_ID>
+    <P_MZHAO0></P_MZHAO0>
+    <P_ERRMSG></P_ERRMSG>
+   </output_param>
+</root>

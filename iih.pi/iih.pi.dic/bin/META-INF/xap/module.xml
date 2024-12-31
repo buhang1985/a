@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	
+	<!-- 患者卡类型服务 -->
+	<bean id="iCardtypeCrudService" class="iih.pi.dic.cardtype.s.CardtypeCrudServiceImpl"></bean>
+	<xap:service ref="iCardtypeCrudService" interface="iih.pi.dic.cardtype.i.ICardtypeCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 患者分类服务 -->
+	<bean id="iPatientcategoryCrudService" class="iih.pi.dic.patientcategory.s.PatientcategoryCrudServiceImpl"></bean>
+	<xap:service ref="iPatientcategoryCrudService" interface="iih.pi.dic.patientcategory.i.IPatientcategoryCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 信用分类服务 -->
+	<bean id="iCreditcategoryCrudService" class="iih.pi.dic.creditcategory.s.CreditcategoryCrudServiceImpl"></bean>
+	<xap:service ref="iCreditcategoryCrudService" interface="iih.pi.dic.creditcategory.i.ICreditcategoryCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者生理指标服务 -->
+	<bean id="IPhyindCrudService" class="iih.pi.dic.phyind.s.PhyindCrudServiceImpl"></bean>
+	<xap:service ref="IPhyindCrudService" interface="iih.pi.dic.phyind.i.IPhyindCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者分类医保计划服务 -->
+	<bean id="iPatcatehpCrudService" class="iih.pi.dic.patcatehp.s.PatcatehpCrudServiceImpl"></bean>
+	<xap:service ref="iPatcatehpCrudService" interface="iih.pi.dic.patcatehp.i.IPatcatehpCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	
+	<bean id="iCardTypeExtService" class="iih.pi.dic.s.ICardTypeExtServiceImpl"></bean>
+	
+	<bean id="iPhyindMDOCrudServiceImpl" class="iih.pi.dic.phyind.s.PhyindMDOCrudServiceImpl"></bean>
+	<bean id="IPiPatPhyIndOptDOCrudService" class="iih.pi.dic.phyind.s.PiPatPhyIndOptDOCrudServiceImpl"></bean>
+
+	<!-- 患者分类扩展服务 -->
+	<bean id="PatcateUiCrudService" class="iih.pi.dic.patcate.s.PatcateUiCrudServiceImpl"></bean>
+	<xap:service ref="PatcateUiCrudService" interface="iih.pi.dic.patcate.i.IPatcateUiCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="PatcateUiCrudService" interface="iih.pi.dic.patcate.i.IPatcateUiRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者分类数据扩展服务 -->
+	<bean id="IPatientcategoryExtService" class="iih.pi.dic.external.s.IPatientcategoryExtServiceImpl"></bean>
+	<xap:service ref="PatcateUiCrudService" interface="iih.pi.dic.external.i.IPatientcategoryExtService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+</beans>

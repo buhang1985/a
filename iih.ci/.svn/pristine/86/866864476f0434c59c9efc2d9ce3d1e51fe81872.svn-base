@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+
+	<bean id="Sug2mrfpCrudService" class="iih.ci.mrfp.sug2mrfp.s.Sug2mrfpCrudServiceImpl"></bean>
+	<bean id="Di2mrfpCrudService" class="iih.ci.mrfp.di2mrfp.s.Di2mrfpCrudServiceImpl"></bean>
+	<bean id="CimrfpCrudService" class="iih.ci.mrfp.cimrfp.s.CimrfpCrudServiceImpl"></bean>
+	<bean id="Bl2mrfpCrudService" class="iih.ci.mrfp.bl2mrfp.s.Bl2mrfpCrudServiceImpl"></bean>
+	<bean id="Pat2mrfpCrudService" class="iih.ci.mrfp.pat2mrfp.s.Pat2mrfpCrudServiceImpl"></bean>
+	<bean id="CiMrFpService" class="iih.ci.mrfp.dto.s.CiMrFpServiceImpl"></bean>
+	<bean id="Other2mrfpCrudService" class="iih.ci.mrfp.other2mrfp.s.Other2mrfpCrudServiceImpl"></bean>
+	<bean id="Other2mrfpMDOCrudServiceImpl" class="iih.ci.mrfp.other2mrfp.s.Other2mrfpMDOCrudServiceImpl"></bean>
+
+
+
+	
+<xap:service ref="iih.ci.mrfp.othert2mrfp.i.IOthert2mrfpCudService" interface="iih.ci.mrfp.othert2mrfp.i.IOthert2mrfpCudService">
+	<xap:binding name="jsonrpc"></xap:binding>
+</xap:service>
+	<bean id="iih.ci.mrfp.othert2mrfp.i.IOthert2mrfpCudService"
+		class="iih.ci.mrfp.othert2mrfp.s.Othert2mrfpCrudServiceImpl">
+	</bean>
+<xap:service ref="iih.ci.mrfp.cimrfpdto.i.ICiMrFpDTOEntRService" interface="iih.ci.mrfp.cimrfpdto.i.ICiMrFpDTOEntRService">
+	<xap:binding name="jsonrpc"></xap:binding>
+</xap:service>
+	<bean id="iih.ci.mrfp.cimrfpdto.i.ICiMrFpDTOEntRService"
+		class="iih.ci.mrfp.cimrfpdto.s.CiMrFpDTOEntRServiceImpl">
+	</bean>
+	
+	<!-- 病案首页上传用 -->
+<xap:service ref="iih.ci.mrfp.cmis.i.ICMISService" interface="iih.ci.mrfp.cmis.i.ICMISService">
+	<xap:binding name="jsonrpc"></xap:binding>
+</xap:service>
+	<bean id="iih.ci.mrfp.cmis.i.ICMISService" class="iih.ci.mrfp.cmis.s.CMISServiceImpl">
+	</bean>
+	
+	<!-- 病案首页获取xml -->
+<xap:service ref="iih.ci.mrfp.mrfpxml.i.ICiMrmMrfpXMLEntRService" interface="iih.ci.mrfp.mrfpxml.i.ICiMrmMrfpXMLEntRService">
+	<xap:binding name="jsonrpc"></xap:binding>
+</xap:service>
+	<bean id="iih.ci.mrfp.mrfpxml.i.ICiMrmMrfpXMLEntRService" class="iih.ci.mrfp.mrfpxml.s.ICiMrmMrfpXMLEntRServiceImpl">
+	</bean>
+	
+	<!-- 病案首页中医打印按钮参数获取 -->
+    <xap:service ref="CiMrFpPrintParamService" interface="iih.ci.mrfp.zyprint.i.ICiMrFpPrintParamService">
+		<xap:binding name="jsonrpc"></xap:binding>
+    </xap:service>
+	<bean id="CiMrFpPrintParamService" class="iih.ci.mrfp.zyprint.s.CiMrFpPrintParamServiceImpl">
+	</bean>	
+	 
+	<!-- 病案首页是否提交-->
+    <xap:service ref="CiMrFpIsSubmitParamService" interface="iih.ci.mrfp.issubmit.i.ICiMrFpIsSubmitParamService">
+		<xap:binding name="jsonrpc"></xap:binding>
+    </xap:service>
+	<bean id="CiMrFpIsSubmitParamService" class="iih.ci.mrfp.issubmit.s.CiMrFpIsSubmitParamServiceImpl">
+	</bean> 
+	<!-- 病案首页获取数据 -->
+	<bean id="MrFpGetInfoMaintainService" class="iih.ci.mrfp.cimrfpdto.s.MrFpGetInfoMaintainServiceImpl">
+	</bean>
+	<xap:service ref="MrFpGetInfoMaintainService" interface="iih.ci.mrfp.cimrfpdto.i.MrFpGetInfoMaintainService">
+		<xap:binding name="jsonrpc"></xap:binding>
+    </xap:service>
+	
+</beans>

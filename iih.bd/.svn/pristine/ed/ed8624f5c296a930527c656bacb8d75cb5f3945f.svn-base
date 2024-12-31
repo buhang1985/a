@@ -1,0 +1,114 @@
+package iih.bd.srv.mropgrouppower.s.bp;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+
+import iih.bd.base.utils.SqlUtils;
+import iih.bd.srv.mropgrouppower.d.MrOpGroupPowerDO;
+import iih.bd.srv.mropgrouppower.i.IMropgrouppowerRService;
+import iih.bd.srv.mrpsnpower.d.MrPsnPowerDO;
+import iih.ci.mrm.dto.cimrmqrylist.d.CiMrmQryListDTO;
+import iih.ci.mrm.dto.mrmcatalog.d.MrmCataListDTO;
+import iih.ci.mrm.mrmcatapatlistdto.d.MrmCataPatListDTO;
+import xap.lui.exta.qrytmpl.qryscheme.xml.QueryNode;
+import xap.mw.core.data.BizException;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.appfw.orm.handle.dataobject.paging.PaginationInfo;
+import xap.sys.appfw.orm.handle.dataobject.paging.PagingRtnData;
+import xap.sys.appfw.orm.handle.dataobject.paging.PagingServiceImpl;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.BeanListHandler;
+
+public class findPowerListBp extends PagingServiceImpl<MrOpGroupPowerDO> {
+
+	public MrOpGroupPowerDO[] getpowerlist()throws BizException{
+		MrOpGroupPowerDO [] powerdo = null;
+		IMropgrouppowerRService powerRService = ServiceFinder.find(IMropgrouppowerRService.class);
+		MrOpGroupPowerDO[] power = powerRService.find("ds=0", "id_dept", FBoolean.FALSE);
+		List<MrOpGroupPowerDO> list = Arrays.asList(power);
+		list = getList(list);
+		powerdo = list.toArray(new MrOpGroupPowerDO[list.size()]);
+		return powerdo;
+		
+		
+	}
+	
+	/**
+	* 
+	 * @throws BizException 
+	*/
+	public PagingRtnData<MrOpGroupPowerDO> exec(QryRootNodeDTO qryRootNodeDto, String orderPart, String wherePart,
+			PaginationInfo pg) throws BizException {
+
+		String whereStr = getWherePart(wherePart, qryRootNodeDto);
+			
+		StringBuilder sqlBuilder = new StringBuilder();
+		sqlBuilder.append("SELECT DISTINCT mop.idmropgroup ,  ");
+		sqlBuilder.append(" mop.idmropgrouplevel,  ");
+		sqlBuilder.append(" bd2.name as name_dept,  ");
+		sqlBuilder.append(" mop.name_pw, ");	
+		sqlBuilder.append(" mog.code as code_group,");
+		sqlBuilder.append(" mog.name as name_group,  ");
+		sqlBuilder.append(" mogl.code_level as code_level, ");
+		sqlBuilder.append(" mogl.name_level as name_level ");
+		sqlBuilder.append(" FROM mr_opgroup_power mop ");
+		sqlBuilder.append(" LEFT JOIN bd_dep bd2 ");
+		sqlBuilder.append(" ON mop.id_dept = bd2.ID_DEP ");
+		sqlBuilder.append(" LEFT JOIN mr_opgroup_power_detail mopd ");
+		sqlBuilder.append(" ON mop.idmropgrouppower = mopd.idmropgrouppower ");
+		sqlBuilder.append(" left join mr_op_group mog ");
+		sqlBuilder.append(" on mop.idmropgroup = mog.idmropgroup ");
+		sqlBuilder.append(" left join mr_op_group_level mogl ");
+		sqlBuilder.append(" on mop.idmropgrouplevel = mogl.idmropgrouplevel ");
+		sqlBuilder.append(whereStr);
+				
+		PagingServiceImpl<MrOpGroupPowerDO> pagingServiceImpl = new PagingServiceImpl<MrOpGroupPowerDO>();
+		PagingRtnData<MrOpGroupPowerDO> pagingRtnData = pagingServiceImpl.findByPageInfo(new MrOpGroupPowerDO(), pg,
+				sqlBuilder.toString(), "", null);
+
+		return pagingRtnData;
+	}
+	
+	/**
+	 * 获取条件语句
+	 * 
+	 * @param wherePart
+	 * @param qryRootNodeDto
+	 * @return
+	 * @throws BizException
+	 */
+	private String getWherePart(String wherePart, QryRootNodeDTO qryRootNodeDto) throws BizException {
+		StringBuilder wherePartBuilder = new StringBuilder(" WHERE 1 = 1 ");
+
+		if (qryRootNodeDto != null) {
+			wherePart = SqlUtils.getWherePartByQCond(qryRootNodeDto);
+			if (StringUtils.isNotBlank(wherePart)) {
+				wherePartBuilder.append(" AND ");
+				wherePartBuilder.append(wherePart);
+			}
+		}
+		return wherePartBuilder.toString();
+	}
+	
+	/**
+	 * 相同业务组只显示一条过滤
+	 */
+	public List<MrOpGroupPowerDO> getList(List<MrOpGroupPowerDO> list) {
+		list = new ArrayList<>(list);
+		for (int i = 0; i < list.size() - 1; i++) {
+			for (int j = list.size() - 1; j > i; j--) {
+				if (list.get(i).getIdmropgroup().equals(list.get(j).getIdmropgroup())&&list.get(i).getIdmropgrouplevel().equals(list.get(j).getIdmropgrouplevel())) {
+					list.remove(j);
+				}
+			}
+		}
+		return list;
+	}
+	
+	
+}

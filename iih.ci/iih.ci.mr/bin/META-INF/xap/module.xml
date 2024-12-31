@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	
+	<bean id="ICiemrCrudServiceImpl" class="iih.ci.mr.cimr.s.CiemrCrudServiceImpl">
+	</bean>
+	
+	<!--医疗记录，生命体征录入 -->
+	<bean id="ICiMrServiceExt" class="iih.ci.mr.s.CiMrServiceExtImpl">
+	</bean>
+	<bean id="ICimrvtCudService" class="iih.ci.mr.cimrvt.s.CimrvtCrudServiceImpl">
+	</bean>
+	<bean id="ICimrvtMDOCudService" class="iih.ci.mr.cimrvt.s.CimrvtMDOCrudServiceImpl">
+	</bean>
+	<bean id="ICiMrVtItmDOCudService" class="iih.ci.mr.cimrvt.s.CiMrVtItmDOCrudServiceImpl">
+	</bean>
+	<bean id="ICiMrVtEvDOCudService" class="iih.ci.mr.cimrvt.s.CiMrVtEvDOCrudServiceImpl">
+	</bean>
+	<bean id="ICiMrIPService" class="iih.ci.mr.s.CiMrIPServiceImpl">
+	</bean>
+	<!--病历文书用扩展类 -->
+	<bean id="IMrServiceExt" class="iih.ci.mr.mrserviceext.s.IMrServiceExtImpl">
+	</bean>
+		<!-- 病历业务分类 -->
+	<bean id="CimrbtCrudServiceImpl" class="iih.ci.mr.cimrbt.s.CimrbtCrudServiceImpl"></bean>
+	<xap:service ref="CimrbtCrudServiceImpl" interface="iih.ci.mr.cimrbt.i.ICimrbtCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!--体征数据保存 -->
+	<bean id="VitalSignSaveService" class="iih.ci.mr.s.VitalSignSaveServiceImpl">
+	</bean>
+	<xap:service ref="VitalSignSaveService" interface="iih.ci.mr.i.VitalSignSaveService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--患者体征数据 -->
+	<bean id="ICiVitalSignsService" class="iih.ci.mr.s.ICiVitalSignsServiceImpl">
+	</bean>
+	
+	<!-- 病历助手用，数据可能来自于外系统 -->
+	<!-- 诊断 -->
+	<bean id="DiagnosisService" class="iih.ci.mr.assist.s.DiagnosisServiceImpl">
+	</bean>
+	<!-- 医嘱 -->
+	<bean id="OrderService" class="iih.ci.mr.assist.s.OrderServiceImpl">
+	</bean>
+	<!-- 检查 -->
+	<bean id="ObservationService" class="iih.ci.mr.assist.s.ObservationServiceImpl">
+	</bean>
+	<!-- 检验 -->
+	<bean id="LabService" class="iih.ci.mr.assist.s.LabServiceImpl">
+	</bean>
+	<!-- 体征 -->
+	<bean id="VitalSignService" class="iih.ci.mr.assist.s.VitalSignServiceImpl">
+	</bean>
+	
+	<!--医疗记录流 -->
+	<bean id="ICimrfsCudService" class="iih.ci.mr.cimrfs.s.CimrfsCrudServiceImpl">
+	</bean>
+	
+	<!--病案服务 -->
+	<bean id="ICiamrCrudService" class="iih.ci.mr.ciamr.s.CiamrCrudServiceImpl">
+	</bean>
+	<!-- 病历日志 -->
+	<bean id="CimrlogCrudService" class="iih.ci.mr.mrlog.s.CimrlogCrudServiceImpl">
+	</bean>
+	<bean id="MrlogitmCrudService" class="iih.ci.mr.mrlogitm.s.MrlogitmCrudServiceImpl">
+	</bean>
+	<!-- 医疗记录引用服务 -->
+	<bean id="IMrdocrefvalueCudService" class="iih.ci.mr.mrdocrefvalue.s.MrdocrefvalueCrudServiceImpl">
+	</bean>
+	
+	
+	<!-- 医疗记录审批服务 -->
+	<bean id="IMrAuitExt" class="iih.ci.mr.mraudit.s.IMrAuitExtImpl">
+	</bean>
+	
+	<!-- 知识库类型 -->
+	<bean id="IKnowledgetypeCrudServiceImpl" class="iih.ci.mr.knowledgetype.s.KnowledgetypeCrudServiceImpl">
+	</bean>
+	
+	<!-- 知识库 -->
+	<bean id="IKnowledgeCrudServiceImpl" class="iih.ci.mr.knowledge.s.KnowledgeCrudServiceImpl">
+	</bean>
+	<!-- 智能表格段落 -->
+	<bean id="ICimrstblsecCrudService" class="iih.ci.mr.cimrstblsec.s.CimrstblsecCrudServiceImpl">
+	</bean>
+	<!-- 智能表单段落 -->
+	<bean id="ICimrsfmsecCrudService" class="iih.ci.mr.cimrsfmsec.s.CimrsfmsecCrudServiceImpl">
+	</bean>
+	<!-- 医疗记录_评估 -->
+	<bean id="ICimrassCrudService" class="iih.ci.mr.cimrass.s.CimrassCrudServiceImpl">
+	</bean>
+	
+	<!-- 打印流 -->
+	<bean id="ICimrPrintService" class="iih.ci.mr.cimrfs.s.CimrPrintServiceImpl">
+	</bean>
+	<bean id="ICimrDoPrintService" class="iih.ci.mr.cimr.s.CimrDoPrintServiceImpl">
+	</bean>
+	
+	
+	<!-- 审签流程任务 -->
+	<bean id="ICiMrSignService" class="iih.ci.mr.s.CiMrSignDTOServiceImpl">
+	</bean>
+	
+	<!-- 查询上级查房医师 数据 -->
+	<bean id="IMrPsnDtoServiceImpl" class="iih.ci.mr.mrpsndto.s.IMrPsnDtoServiceImpl">
+	</bean>
+	<!-- 临床路径判断有无文书 及文书状态 -->
+	<bean id="IHpQryIsHaveMrService" class="iih.ci.mr.hpqry.HpQryIsHaveMrServiceImpl">
+	</bean>
+	<!-- 死亡诊断证明书 -->
+	<bean id="ICideathcertCudService" class="iih.ci.mr.cideathcert.s.CideathcertCrudServiceImpl">
+	</bean>
+	<!-- 病历封存 -->
+	<bean id="CimrrsCrudServiceImpl" class="iih.ci.mr.cimrrs.s.CimrrsCrudServiceImpl">
+	</bean>
+
+	<!-- 牙周 -->
+	<bean id="IPerCrudServiceImpl" class="iih.ci.mr.per.s.PerCrudServiceImpl">
+	</bean>
+	<bean id="IPerMDOCrudServiceImpl" class="iih.ci.mr.per.s.PerMDOCrudServiceImpl">
+	</bean>
+	<bean id="IPerListDOCrudServiceImpl" class="iih.ci.mr.per.s.PerListDOCrudServiceImpl">
+	</bean>
+	
+	<!-- 临床医疗记录元素_数据元组 -->
+	<xap:service ref="CiemreledgCrudService" interface="iih.ci.mr.cimreledg.i.ICiemreledgRService">
+		<xap:binding name="jsonrpc">
+		</xap:binding>
+	</xap:service>
+	<bean id="CiemreledgCrudService" class="iih.ci.mr.cimreledg.s.CiemreledgCrudServiceImpl">
+	</bean>
+	<xap:service ref="CiemreledgCrudService" interface="iih.ci.mr.cimreledg.i.ICiemreledgCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc">
+		</xap:binding>
+	</xap:service>
+	<!-- 临床医疗记录元素_数据元 -->
+	<xap:service ref="CimreledeCrudService" interface="iih.ci.mr.cimrelede.i.ICimreledeRService">
+		<xap:binding name="jsonrpc">
+		</xap:binding>
+	</xap:service>
+	<bean id="CimreledeCrudService" class="iih.ci.mr.cimrelede.s.CimreledeCrudServiceImpl">
+	</bean>
+	<xap:service ref="CimreledeCrudService" interface="iih.ci.mr.cimrelede.i.ICimreledeCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc">
+		</xap:binding>
+	</xap:service>
+	
+	<!-- 病历系统参数 -->
+	<bean id="iih.ci.mr.i.ICiMrParamService" class="iih.ci.mr.s.CiMrParamServiceImpl">
+	</bean>
+	
+	<!-- 病历系统参数 -->
+	<bean id="iih.ci.mr.i.IOPMrService" class="iih.ci.mr.s.IOPMrServiceImpl">
+	</bean>
+	<xap:service ref="iih.ci.mr.i.ICiMrDeathService" interface="iih.ci.mr.i.ICiMrDeathService"
+		requires="tx">
+		<xap:binding name="jsonrpc">
+		</xap:binding>
+	</xap:service>
+	<bean id="iih.ci.mr.i.ICiMrDeathService" class="iih.ci.mr.s.CiMrDeathDTOServiceImpl">
+	</bean>
+	
+	<!--产程数据记录 -->
+	<xap:service ref="iih.ci.mr.cimracrecords.i.ICimracrecordsMDOCudService" interface="iih.ci.mr.cimracrecords.i.ICimracrecordsMDOCudService">
+		<xap:binding name="jsonrpc">
+		</xap:binding>
+	</xap:service>
+	<bean id="iih.ci.mr.cimracrecords.i.ICimracrecordsMDOCudService" class="iih.ci.mr.cimracrecords.s.CimracrecordsMDOCrudServiceImpl">
+	</bean>
+	<xap:service ref="iih.ci.mr.cimrafterchido.i.ICimrafterchidoCudService" interface="iih.ci.mr.cimrafterchido.i.ICimrafterchidoCudService">
+		<xap:binding name="jsonrpc">
+		</xap:binding>
+	</xap:service>
+	<bean id="iih.ci.mr.cimrafterchido.i.ICimrafterchidoCudService" class="iih.ci.mr.cimrafterchido.s.CimrafterchidoCrudServiceImpl">
+	</bean>
+	<xap:service ref="iih.ci.mr.cimracrecords.i.ICimracrecordsRService" interface="iih.ci.mr.cimracrecords.i.ICimracrecordsCudService">
+		<xap:binding name="jsonrpc">
+		</xap:binding>
+	</xap:service>
+	<xap:service ref="iih.ci.mr.cimracrecords.i.ICimracrecordsRService" interface="iih.ci.mr.cimracrecords.i.ICimracrecordsRService">
+		<xap:binding name="jsonrpc">
+		</xap:binding>
+	</xap:service>
+	<bean id="iih.ci.mr.cimracrecords.i.ICimracrecordsRService" class="iih.ci.mr.cimracrecords.s.CimracrecordsCrudServiceImpl">
+	</bean>
+	
+	<!-- 门诊诊断、处置刷到病历数据 -->
+	<xap:service ref="iih.ci.mr.i.ICiOrdMrFlushData" interface="iih.ci.mr.i.ICiOrdMrFlushData">
+		<xap:binding name="jsonrpc">
+		</xap:binding>
+	</xap:service>
+	<bean id="iih.ci.mr.i.ICiOrdMrFlushData" class="iih.ci.mr.s.ICiOrdMrFlushDataImpl">
+	</bean>
+	<xap:service ref="iih.ci.mr.i.IMrTplUsageRateService" interface="iih.ci.mr.i.IMrTplUsageRateService">
+		<xap:binding name="jsonrpc">
+		</xap:binding>
+	</xap:service>
+	<bean id="iih.ci.mr.i.IMrTplUsageRateService" class="iih.ci.mr.s.IMrTplUsageRateServiceImpl">
+	</bean>
+	<xap:service ref="iih.ci.mr.i.ICiMrStateUpdateService" interface="iih.ci.mr.i.ICiMrStateUpdateService">
+		<xap:binding name="jsonrpc">
+		</xap:binding>
+	</xap:service>
+	<bean id="iih.ci.mr.i.ICiMrStateUpdateService" class="iih.ci.mr.s.CiMrStateUpdateServiceImpl">
+	</bean>
+	<!--病历对完提供接口 -->
+	<bean id="ICiMrOutQryServices" class="iih.ci.mr.s.CiMrOutQryServicesImpl">
+	</bean>
+	
+	<!-- 知识库模板扩展服务 -->
+	<bean id="KnowledgeExtCrudService" class="iih.ci.mr.knowledge.s.KnowledgeExtCrudServiceImpl">
+	</bean>
+	<xap:service ref="KnowledgeExtCrudService" interface="iih.ci.mr.knowledge.i.IKnowledgeExtCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="KnowledgeExtCrudService" interface="iih.ci.mr.knowledge.i.IKnowledgeExtRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 临床体征测量 -->
+	<bean id="iih.ci.mr.cimrvs.i.ICimrvsCudService" class="iih.ci.mr.cimrvs.s.CimrvsCrudServiceImpl">
+	</bean>
+	<xap:service ref="iih.ci.mr.cimrvs.i.ICimrvsCudService" interface="iih.ci.mr.cimrvs.i.ICimrvsCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc">
+		</xap:binding>
+	</xap:service>
+	
+	<bean id="iih.ci.mr.cimrvs.i.ICimrvsMDOCudService" class="iih.ci.mr.cimrvs.s.CimrvsMDOCrudServiceImpl">
+	</bean>
+	<xap:service ref="iih.ci.mr.cimrvs.i.ICimrvsMDOCudService" interface="iih.ci.mr.cimrvs.i.ICimrvsMDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc">
+		</xap:binding>
+	</xap:service>
+	
+	<bean id="iih.ci.mr.cimrvs.i.ICiMrVsItmDOCudService" class="iih.ci.mr.cimrvs.s.CiMrVsItmDOCrudServiceImpl">
+	</bean>
+	<xap:service ref="iih.ci.mr.cimrvs.i.ICiMrVsItmDOCudService" interface="iih.ci.mr.cimrvs.i.ICiMrVsItmDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc">
+		</xap:binding>
+	</xap:service>
+	<!-- 病历源内容 -->
+	<bean id="iih.ci.mr.cimrsource.i.ICimrsourceCudService" class="iih.ci.mr.cimrsource.s.CimrsourceCrudServiceImpl"></bean>
+	<!-- 住院病历自定义服务-->
+	<bean id="iih.ci.mr.i.IIPMrService" class="iih.ci.mr.s.IIPMrServiceImpl">
+	</bean>
+
+	<!-- 住院病历综合服务-->
+	<bean id="iih.ci.mr.i.ICiMrHoService" class="iih.ci.mr.s.CiMrHoServiceImpl"></bean>
+	<!-- 门诊病历打印(批量) -->
+	<bean id="iih.ci.mr.cimrbatchprintdto.i.ICiMrBatchPrintCrudService" class="iih.ci.mr.cimrbatchprintdto.s.CiMrBatchPrintCrudServiceImpl"></bean>
+	
+	<!-- 病历内容保存知识库 -->
+	<bean id="CiMrKnowledgeCrudServiceImpl" class="iih.ci.mr.cimrknowledgedto.s.CiMrKnowledgeCrudServiceImpl"></bean>
+	<!-- 电子病历浏览 -->
+	<bean id="MrBrowsePatListRService" class="iih.ci.mr.mrbrowse.s.MrBrowsePatListRServiceImpl"></bean>
+	<xap:service ref="MrBrowsePatListRService" interface="iih.ci.mr.mrbrowse.i.IMrBrowsePatListRService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 病历链接元素 -->
+	<bean id="WriterUtil" class="iih.ci.mr.writer.s.WriterUtilImpl"></bean>
+	<xap:service ref="WriterUtil" interface="iih.ci.mr.writer.i.IWriterUtil" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--今创病案推送服务 -->
+	<bean id="ICMISSendService" class="iih.ci.mr.cmis.s.CMISSendServiceImpl">
+	</bean>
+	
+	<!-- 电子病历浏览参数 -->
+	<bean id="CiMrBrowseParamService" class="iih.ci.mr.s.CiMrBrowseParamServiceImpl"></bean>
+	<xap:service ref="CiMrBrowseParamService" interface="iih.ci.mr.i.ICiMrBrowseParamService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 门诊自动签名方式参数 -->
+	<bean id="CiMrOpAutoSignParamService" class="iih.ci.mr.s.CiMrOpAutoSignParamServiceImpl"></bean>
+	<xap:service ref="CiMrOpAutoSignParamService" interface="iih.ci.mr.i.ICiMrOpAutoSignParamService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 病案文件名称显示 -->
+	<bean id="CiMrNameParamService" class="iih.ci.mr.mrname.s.CiMrNameParamServiceImpl"></bean>
+	<xap:service ref="CiMrNameParamService" interface="iih.ci.mr.mrname.i.ICiMrNameParamService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 护理记录-->
+	<xap:service ref="CimrmiddleconsdoCrudService" interface="iih.ci.mr.middle.cons.i.ICimrmiddleconsdoRService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="CimrmiddleconsdoCrudService" class="iih.ci.mr.middle.cons.s.CimrmiddleconsdoCrudServiceImpl"></bean>
+	<xap:service ref="CimrmiddleconsdoCrudService" interface="iih.ci.mr.middle.cons.i.ICimrmiddleconsdoCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 会诊记录 -->
+	<xap:service ref="CimrmiddlenmrdoCrudService" interface="iih.ci.mr.middle.nmr.i.ICimrmiddlenmrdoRService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="CimrmiddlenmrdoCrudService" class="iih.ci.mr.middle.nmr.s.CimrmiddlenmrdoCrudServiceImpl"></bean>
+	<xap:service ref="CimrmiddlenmrdoCrudService" interface="iih.ci.mr.middle.nmr.i.ICimrmiddlenmrdoCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 易慧接口（消息消费） -->
+	<bean id="CimrvsmiddleCrudService" class="iih.ci.mr.middle.s.CimrvsmiddleCrudServiceImpl"></bean>
+	<xap:service ref="CimrvsmiddleCrudService"
+		interface="iih.ci.mr.middle.i.ICimrvsmiddleCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="CimrvsmiddleCrudService"
+		interface="iih.ci.mr.middle.i.ICimrvsmiddleRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 评分量 -->
+	<xap:service ref="CimrnuscoremiddledoCrudService" interface="iih.ci.mr.middle.nuscore.i.ICimrnuscoremiddledoRService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="CimrnuscoremiddledoCrudService" class="iih.ci.mr.middle.nuscore.s.CimrnuscoremiddledoCrudServiceImpl"></bean>
+	<xap:service ref="CimrnuscoremiddledoCrudService" interface="iih.ci.mr.middle.nuscore.i.ICimrnuscoremiddledoCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 体征时间修改  -->
+	<xap:service ref="CimrvsrecCrudService" interface="iih.ci.mr.cimrvsrec.i.ICimrvsrecRService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="CimrvsrecCrudService" class="iih.ci.mr.cimrvsrec.s.CimrvsrecCrudServiceImpl"></bean>
+	<xap:service ref="CimrvsrecCrudService" interface="iih.ci.mr.cimrvsrec.i.ICimrvsrecCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 编码生成 -->
+	<bean id="ICiMrCodeRuleService" class="iih.ci.mr.s.CiMrCodeRuleServiceImpl"></bean>
+	<xap:service ref="ICiMrCodeRuleService" interface="iih.ci.mr.i.ICiMrCodeRuleService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="ICiMrContentQryService" class="iih.ci.mr.s.CiMrContentQryServiceImpl"></bean>
+		<xap:service ref="ICiMrContentQryService" interface="iih.ci.mr.i.ICiMrContentQryService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 新增服务：处理病历树 -->
+	<bean id="IMrTreeQryService" class="iih.ci.mr.mrtreeqry.s.MrTreeQryServiceImpl"></bean>
+	<xap:service ref="IMrTreeQryService" interface="iih.ci.mr.mrtreeqry.i.IMrTreeQryService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+		<bean id="IMrTransactionService" class="iih.ci.mr.s.MrTransactionServiceImpl"></bean>
+	<xap:service ref="IMrTransactionService" interface="iih.ci.mr.i.IMrTransactionService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- ws电子病案归档服务 -->
+	<bean id="IMrWsForHosSysService" class="iih.ci.mr.mrws.hosgetmr.s.MrWsForHosSysServiceImpl"></bean>
+	<xap:service ref="IMrWsForHosSysService" interface="iih.ci.mr.mrws.hosgetmr.i.IMrWsForHosSysService" requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+	
+	<!-- 门诊病历补打 -->
+    <bean id="MrResumePrintService" class="iih.ci.mr.resumeprint.MrResumePrintServiceImpl"></bean>
+	<xap:service ref="MrResumePrintService" interface="iih.ci.mr.resumeprint.i.MrResumePrintService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 病历连续书写主服务 -->
+	<bean id="iih.ci.mr.i.IIpMrWriteMainService" class="iih.ci.mr.s.IpMrWriteMainServiceImpl"></bean>
+	<!-- 电子签名 -->
+	<bean id="CiMrSignCaDOCrudService" class="iih.ci.mr.mrsign.s.CiMrSignCaDOCrudServiceImpl"></bean>
+	<bean id="MrsignCrudService" class="iih.ci.mr.mrsign.s.MrsignCrudServiceImpl"></bean>
+	<bean id="MrsignMDOCrudService" class="iih.ci.mr.mrsign.s.MrsignMDOCrudServiceImpl"></bean>
+	
+	<!-- 病历内容上传集成平台统一服务 -->
+	<bean id="ICiMrUpLoadService" class="iih.ci.mr.s.CiMrUpLoadServiceImpl"></bean>
+	<xap:service ref="ICiMrUpLoadService" interface="iih.ci.mr.i.ICiMrUpLoadService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--  审签流程执行 
+	<bean id="MrflowexedetailCrudService" class="iih.ci.mr.mrflowexedetail.s.MrflowexedetailCrudServiceImpl"></bean>
+	<xap:service ref="MrflowexedetailCrudService" interface="iih.ci.mr.mrflowexedetail.i.IMrflowexedetailCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="MrflowexedetailCrudService" interface="iih.ci.mr.mrflowexedetail.i.IMrflowexedetailRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service> -->
+	
+	<!-- 病历手术资料分类 -->
+	<bean id="IMrsurdataclassiService" class="iih.ci.mr.mrsurdataclassi.s.MrsurdataclassiCrudServiceImpl">
+	</bean>	
+	<bean id="IMrsurdataclassiExtService" class="iih.ci.mr.mrsurdataclassi.s.MrsurdataclassiExtServiceImpl">
+	</bean>
+	
+	<!-- 事件放出 -->
+	<bean id="IMrEventMaintainService" class="iih.ci.mr.mrevent.s.MrEventMaintainServiceImpl"></bean>
+	<xap:service ref="IMrEventMaintainService" interface="iih.ci.mr.mrevent.i.IMrEventMaintainService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 病案借阅查询 -->
+	<bean id="IMrTreeMaintainService" class="iih.ci.mr.mrtree.s.IMrTreeMaintainServiceImpl"></bean>
+	<xap:service ref="IMrTreeMaintainService" interface="iih.ci.mr.mrtree.i.IMrTreeMaintainService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 病历产生电子文档 -->
+	<bean id="IIpMrMaintainService" class="iih.ci.mr.s.IpMrMaintainServiceImpl"></bean>
+	
+	<!-- CDSS -->
+	<bean id="IMrCdssService" class="iih.ci.mr.cdss.s.MrCdssServiceImpl"></bean>
+	<xap:service ref="IMrCdssService" interface="iih.ci.mr.cdss.i.IMrCdssService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+</beans>

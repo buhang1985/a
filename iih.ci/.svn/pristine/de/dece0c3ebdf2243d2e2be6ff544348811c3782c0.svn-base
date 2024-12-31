@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	<!-- 病案公共保存服务 -->
+	<bean id="IMrmAudCommonServiceImpl" class="iih.ci.mrm.s.audcommon.IMrmAudCommonServiceImpl"></bean>
+	<!-- 病案公共显示卡服务 -->
+	<bean id="IMrmInsideCommonCardServiceImpl" class="iih.ci.mrm.s.insidecommoncard.IMrmInsideCommonCardServiceImpl"></bean>
+	<!-- 病案公共树服务 -->
+	<bean id="IMrmInsideCommonTreeServiceImpl" class="iih.ci.mrm.s.insidecommontree.IMrmInsideCommonTreeServiceImpl"></bean>
+	<!-- 病案签收 -->
+	<bean id="IMrmSignoffServiceImpl" class="iih.ci.mrm.s.mrmsignoff.qry.IMrmSignoffServiceImpl"></bean>
+	<bean id="IMrmSignoffAudLogicServiceImpl" class="iih.ci.mrm.s.mrmsignoff.audlogic.IMrmSignoffAudLogicServiceImpl"></bean>
+	<!-- 病案整理 -->
+	<bean id="IMrmArrangeQryServiceImpl" class="iih.ci.mrm.s.mrmarrange.qry.IMrmArrangeQryServiceImpl"></bean>
+	<bean id="IMrmArrangeAudLogicServiceImpl" class="iih.ci.mrm.s.mrmarrange.audlogic.IMrmArrangeAudLogicServiceImpl"></bean>
+	<!-- 整理退回 -->
+	<bean id="IMrmBackoffQryServiceImpl" class="iih.ci.mrm.s.mrmbackoff.qry.IMrmBackoffQryServiceImpl"></bean>
+	<bean id="IMrmBackoffAudLogicServiceImpl" class="iih.ci.mrm.s.mrmbackoff.audlogic.IMrmBackoffAudLogicServiceImpl"></bean>
+	<!-- 整理未签名 -->
+	<bean id="IMrmUnSignQryServiceImpl" class="iih.ci.mrm.s.mrmunsign.qry.IMrmUnSignQryServiceImpl"></bean>
+	<bean id="IMrmUnsignAudLogicServiceImpl" class="iih.ci.mrm.s.mrmunsign.audlogic.IMrmUnsignAudLogicServiceImpl"></bean>
+	<!-- 病案装订 -->
+	<bean id="IMrmBindQryServiceImpl" class="iih.ci.mrm.s.mrmbind.qry.IMrmBindQryServiceImpl"></bean>
+	<bean id="IMrmBindAudLogicServiceImpl" class="iih.ci.mrm.s.mrmbind.audlogic.IMrmBindAudLogicServiceImpl"></bean>
+	<!-- 病案入库 -->
+	<bean id="IMrmStorageQryServiceImpl" class="iih.ci.mrm.s.mrmstorage.qry.IMrmStorageQryServiceImpl"></bean>
+	<bean id="IMrmStorageAudLogicServiceImpl" class="iih.ci.mrm.s.mrmstorage.audlogic.IMrmStorageAudLogicServiceImpl"></bean>
+	<!-- 病案打印 -->
+	<bean id="IMrmPrintQryServiceImpl" class="iih.ci.mrm.s.mrmprint.qry.IMrmPrintQryServiceImpl"></bean>
+	<bean id="IMrmPrintAudLogicServiceImpl" class="iih.ci.mrm.s.mrmprint.audlogic.IMrmPrintAudLogicServiceImpl"></bean>
+	<!-- 病案综合统计 -->
+	<bean id="IMrmStatisticsQryServiceImpl" class="iih.ci.mrm.s.mrmstatistics.qry.IMrmStatisticsQryServiceImpl"></bean>
+	<bean id="IMrmStatisticsAudLogicServiceImpl" class="iih.ci.mrm.s.mrmstatistics.audlogic.IMrmStatisticsAudLogicServiceImpl"></bean>
+	<!-- 病案误操作 -->
+	<bean id="IMrmMisoperationQryServiceImpl" class="iih.ci.mrm.s.mrmmisoperation.qry.IMrmMisoperationQryServiceImpl" />
+	<xap:service ref="IMrmMisoperationQryServiceImpl" interface="iih.ci.mrm.s.mrmmisoperation.qry.IMrmMisoperationQryServiceImpl"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IMrmMisoperationAudLogicServiceImpl" class="iih.ci.mrm.s.mrmmisoperation.audlogic.IMrmMisoperationAudLogicServiceImpl"></bean>
+	<xap:service ref="IMrmMisoperationAudLogicServiceImpl" interface="iih.ci.mrm.s.mrmmisoperation.audlogic.IMrmMisoperationAudLogicServiceImpl"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	
+	<!-- 系统参数 -->
+	<bean id="iih.ci.mrm.i.param.ICiMrMParamService" class="iih.ci.mrm.s.param.CiMrMParamServiceImpl"></bean>
+	<!-- 复印登记 -->
+	<bean id="iih.ci.mrm.cimrmcopy.i.ICimrmcopyCudService" class="iih.ci.mrm.cimrmcopy.s.CimrmcopyCrudServiceImpl"></bean>
+	<!-- 文件信息 -->
+	<bean id="iih.ci.mrm.cimrmfileinfo.i.ICimrmfileinfoCudService" class="iih.ci.mrm.cimrmfileinfo.s.CimrmfileinfoCrudServiceImpl"></bean>
+	<!-- 病案操作 -->
+	<bean id="iih.ci.mrm.cimrmoperate.i.ICimrmoperateCudService" class="iih.ci.mrm.cimrmoperate.s.CimrmoperateCrudServiceImpl"></bean>
+	
+	<!-- 病案操作对外 -->
+	<bean id="iih.ci.mrm.i.outcommon.IMrmOutCommonService" class="iih.ci.mrm.s.outcommon.IMrmOutCommonServiceImpl"></bean>
+	
+	<!-- 病案复印邮寄-待邮寄统计 -->
+	<bean id="IMrmMailQueryServiceImpl" class="iih.ci.mrm.s.mrmmail.qry.IMrmMailQueryServiceImpl"></bean>
+	<bean id="IMrmMailAudLogicServiceImpl" class="iih.ci.mrm.s.mrmmail.audlogic.IMrmMailAudLogicServiceImpl"></bean>
+	
+	<!-- 病案邮寄查询-待邮寄统计 -->
+	<bean id="IMrmMailQryQueryServiceImpl" class="iih.ci.mrm.s.mrmmailquery.qry.IMrmMailQryQueryServiceImpl"></bean>
+	
+	<!-- 病案邮寄 -->
+	<bean id="iih.ci.mrm.cimrmsp.i.ICimrmspCudService" class="iih.ci.mrm.cimrmsp.s.CimrmspCrudServiceImpl"></bean>
+	
+	<!-- 病案追踪管理 -->
+	<bean id="IMrmTrackQueryServiceImpl" class="iih.ci.mrm.s.mrmtrackmanager.qry.IMrmTrackQueryServiceImpl"></bean>
+	
+	<!--病案修改查询-->
+	<bean id="IMrmUpdateQueryServiceImpl" class="iih.ci.mrm.s.mrmupdatequery.qry.IMrmUpdateQueryServiceImpl"></bean>
+	<bean id="IMrmUpdateAudlogicQueryServiceImpl" class="iih.ci.mrm.s.mrmupdatequery.audlogic.IMrmUpdateAudlogicQueryServiceImpl"></bean>
+	
+	<!--多媒体文件分类-->
+	<bean id="CimrmmulmedrecordCrudServiceImpl" class="iih.ci.mrm.cimrmmulmedrecord.s.CimrmmulmedrecordCrudServiceImpl"></bean>
+	
+	<!--病案补充记录-->
+	<bean id="iih.ci.mrm.cimrmsupplement.i.ICimrmsupplementCudService" class="iih.ci.mrm.cimrmsupplement.s.CimrmsupplementCrudServiceImpl"></bean>
+	
+	<!-- 病案补充记录--> 
+	<bean id="iih.ci.mrm.i.cimrmqrylist.ICimrmqrylistCrudService" class="iih.ci.mrm.s.mrmregisterqry.ICimrmqrylistCrudServiceImpl"></bean>
+
+    <!-- 病案补充记录查询 
+    <bean id="iih.ci.mrm.i.cimrmqrylist.ICimrmqrylistCrudService" class="iih.ci.mrm.s.mrmregisterqry.ICimrmqrylistCrudServiceImpl"></bean>-->
+    
+	<!-- 编目核查规则 -->
+	<bean id="iih.ci.mrm.cimrcataveruledo.i.ICimrcataveruledoRService" class="iih.ci.mrm.cimrcataveruledo.s.CimrcataveruledoCrudServiceImpl"></bean>
+	<bean id="iih.ci.mrm.cimrcataveruledo.i.ICimrcataveruledoCudService" class="iih.ci.mrm.cimrcataveruledo.s.CimrcataveruledoCrudServiceImpl"></bean>
+	
+	<!-- 病案编目列表 -->
+	<bean id="iih.ci.mrm.i.mrmcatalog.IMrmCataListService" class="iih.ci.mrm.s.mrmcatalog.MrmCataListServiceImpl"></bean>
+	<!-- 病案编目主服务 -->
+	<bean id="iih.ci.mrm.i.mrmcatalog.IMrmCataLogMainService" class="iih.ci.mrm.s.mrmcatalog.MrmCataLogMainServiceImpl"></bean>
+	
+
+	<!-- 病案分配管理--> 
+	<bean id="iih.ci.mrm.i.mrmcatalog.IMrmcatalogerdtoCrudService" class="iih.ci.mrm.s.mrmcatalog.IMrmcatalogerdtoCrudServiceImpl"></bean>
+
+	 <!-- 首页上报表CSV文件生成 -->
+	 <bean id="iih.ci.mrm.cimrmdirheareportdto.i.ICiMrmRepoCSVService" class="iih.ci.mrm.cimrmdirheareportdto.s.CiMrmRepoCSVServiceImpl"></bean>
+	 <!-- 首页上报报DBF文件生成 -->
+	 <bean id="iih.ci.mrm.cimrmdirheareportdto.i.ICiMrmRepoDBFService" class="iih.ci.mrm.cimrmdirheareportdto.s.CiMrmRepoDBFServiceImpl"></bean>
+	 <!-- 首页上报页面显示列表 -->
+	 <bean id="iih.ci.mrm.cimrmdirheareportdto.i.ICiMrmDirHeaReportService" class="iih.ci.mrm.cimrmdirheareportdto.s.CiMrmDirHeaReportServiceImpl"></bean>
+	
+	<!--编目DO服务-->
+	<bean id="ICimrfpcatadoCudService" class="iih.ci.mrm.cimrfpcatado.s.CimrfpcatadoCrudServiceImpl"></bean>
+	<bean id="i.ICimrfppatcatadoCudService" class="iih.ci.mrm.cimrfppatcatado.s.CimrfppatcatadoCrudServiceImpl"></bean>
+	<bean id="ICimrfpothercatadoMDOCudService" class="iih.ci.mrm.cimrfpothercatado.s.CimrfpothercatadoMDOCrudServiceImpl"></bean>
+	<bean id="ICimrfpothercatadoCudService" class="iih.ci.mrm.cimrfpothercatado.s.CimrfpothercatadoCrudServiceImpl"></bean>
+	<bean id="ICiMrFpIntencareCataDOCudService" class="iih.ci.mrm.cimrfpothercatado.s.CiMrFpIntencareCataDOCrudServiceImpl"></bean>
+	<bean id="ICimrfpdicatadoMDOCudService" class="iih.ci.mrm.cimrfpdicatado.s.CimrfpdicatadoMDOCrudServiceImpl"></bean>
+	<bean id="ICimrfpdicatadoCudService" class="iih.ci.mrm.cimrfpdicatado.s.CimrfpdicatadoCrudServiceImpl"></bean>
+	<bean id="ICiMrFpXYDiCataDOCudService" class="iih.ci.mrm.cimrfpdicatado.s.CiMrFpXYDiCataDOCrudServiceImpl"></bean>
+	<bean id="ICiMrFpZYDiCataDOCudService" class="iih.ci.mrm.cimrfpdicatado.s.CiMrFpZYDiCataDOCrudServiceImpl"></bean>
+	<bean id="ICimrfpsugcatadoCudService" class="iih.ci.mrm.cimrfpsugcatado.s.CimrfpsugcatadoCrudServiceImpl"></bean>
+	<bean id="ICimrfpothertcatadoCudService" class="iih.ci.mrm.cimrfpothertcatado.s.CimrfpothertcatadoCrudServiceImpl"></bean>
+	<bean id="ICimrfpblcatadoCudService" class="iih.ci.mrm.cimrfpblcatado.s.CimrfpblcatadoCrudServiceImpl"></bean>
+	
+	<!--卫生系统上报对照服务-->
+	<bean id="iih.ci.mrm.healthsystem.i.IDocContrastDOCudService" class="iih.ci.mrm.healthsystem.s.DocContrastDOCrudServiceImpl"></bean>
+	<bean id="iih.ci.mrm.healthsystem.i.IFieldCheckRuleDOCudService" class="iih.ci.mrm.healthsystem.s.FieldCheckRuleDOCrudServiceImpl"></bean>
+	<bean id="iih.ci.mrm.healthsystem.i.IFieldTransScriptDOCudService" class="iih.ci.mrm.healthsystem.s.FieldTransScriptDOCrudServiceImpl"></bean>
+	<bean id="iih.ci.mrm.healthsystem.i.IHealthsystemchangeCudService" class="iih.ci.mrm.healthsystem.s.HealthsystemchangeCrudServiceImpl"></bean>
+	<bean id="iih.ci.mrm.healthsystem.i.IHealthsystemCudService" class="iih.ci.mrm.healthsystem.s.HealthsystemCrudServiceImpl"></bean>
+	<bean id="iih.ci.mrm.healthsystem.i.IHealthsystemextractdataCudService" class="iih.ci.mrm.healthsystem.s.HealthsystemextractdataCrudServiceImpl"></bean>
+	<bean id="iih.ci.mrm.healthsystem.i.IHealthsystemextractdataMDOCudService" class="iih.ci.mrm.healthsystem.s.HealthsystemextractdataMDOCrudServiceImpl"></bean>
+	<bean id="iih.ci.mrm.healthsystem.i.IHealthsystemfieldCudService" class="iih.ci.mrm.healthsystem.s.HealthsystemfieldCrudServiceImpl"></bean>
+	<bean id="iih.ci.mrm.healthsystem.i.IHealthsystemfieldMDOCudService" class="iih.ci.mrm.healthsystem.s.HealthsystemfieldMDOCrudServiceImpl"></bean>
+	<bean id="iih.ci.mrm.healthsystem.i.IValuecontrastCudService" class="iih.ci.mrm.healthsystem.s.ValuecontrastCrudServiceImpl"></bean>
+	<bean id="iih.ci.mrm.healthsystem.i.IValueContrastDetailDOCudService" class="iih.ci.mrm.healthsystem.s.ValueContrastDetailDOCrudServiceImpl"></bean>
+	<bean id="iih.ci.mrm.healthsystem.i.IValuecontrastMDOCudService" class="iih.ci.mrm.healthsystem.s.ValuecontrastMDOCrudServiceImpl"></bean>
+	
+	<!-- 拆分四级地址 -->
+	<bean id="iih.ci.mrm.i.splitfouraddress.ICiMrmSplitFourAddressService" class="iih.ci.mrm.s.splitfouraddress.CiMrmSplitFourAddressServiceImpl"></bean>
+	
+	<!-- 病案编目患者信息列表 
+	<bean id="iih.ci.mrm.i.mrmcatapatlist.IMrmCataPatListService" class="iih.ci.mrm.s.mrmcatapatlist.MrmCataPatListServiceImpl"></bean>
+	-->
+	<bean id="MrmCataPatListServiceImpl" class="iih.ci.mrm.s.mrmcatapatlist.MrmCataPatListServiceImpl"></bean>
+	<xap:service ref="MrmCataPatListServiceImpl" interface="iih.ci.mrm.i.mrmcatapatlist.IMrmCataPatListService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="MrmCataPatListServiceImpl" interface="iih.ci.mrm.i.mrmcatapatlist.IMrmCataPatListService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 数据转换服务 -->
+	<bean id="IHealthSystemCrudServiceImpl" class="iih.ci.mrm.s.healthsystem.IHealthSystemCrudServiceImpl"></bean>
+	<!-- 病案归档统计信息服务 -->
+	<bean id="iih.ci.mrm.mrmarchiveinfo.i.IMrmarchiveinfoRService" class="iih.ci.mrm.mrmarchiveinfo.s.MrmarchiveinfoCrudServiceImpl"></bean>
+	<bean id="iih.ci.mrm.mrmarchiveinfo.i.IMrmarchiveinfoCudService" class="iih.ci.mrm.mrmarchiveinfo.s.MrmarchiveinfoCrudServiceImpl"></bean>
+	<!-- 住院病案首页 -->
+	<bean id="MrfpManageMainService" class="iih.ci.mrm.s.mrfpmanage.MrfpManageMainServiceImpl"></bean>
+	<xap:service ref="MrfpManageMainService"
+		interface="iih.ci.mrm.i.mrfpmanage.IMrfpManageMainService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 病案查询 -->
+	<bean id="IMrQueryService" class="iih.ci.mrm.mrquerydto.s.IMrQueryServiceImpl"></bean>
+	<xap:service ref="IMrQueryService"  interface="iih.ci.mrm.mrquerydto.i.IMrQueryService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 病案导出 -->
+	<bean id="IMrmExportQueryService" class="iih.ci.mrm.s.mrmexport.MrmExportQueryServiceImpl"></bean>
+	<xap:service ref="IMrmExportQueryService"  interface="iih.ci.mrm.i.mrmexport.IMrmExportQueryService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+</beans>
+

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	 <!-- 所属集团  -->
+	 <code_grp></code_grp>
+	 <!-- 所属组织  -->
+	 <code_org></code_org>
+     <!-- 就诊类型编码 -->
+     <code_entp></code_entp>
+     <!-- 是否在院患者 -->
+     <fg_ip></fg_ip>
+     <!-- 患者编码 -->
+     <code_pat></code_pat>
+     <!-- 就诊次数 -->
+     <times_en></times_en>
+     <!-- 就诊编码 -->
+     <code_en></code_en>
+     <!-- 查询开始时间 -->
+     <dt_b_search></dt_b_search>
+     <!-- 查询结束时间 -->
+     <dt_e_search></dt_e_search>
+     <!-- 医嘱号 -->
+     <code_or></code_or>
+     <!-- 手术申请单号 -->
+     <no_applyform></no_applyform>
+     <!-- 开单医生编码 -->
+     <code_emp_or></code_emp_or>
+     <!-- 开单科室编码 -->
+     <code_dep_or></code_dep_or>
+     <!-- 病区编码 -->
+     <code_dep_nur_or></code_dep_nur_or>
+     <!--  签署医生编码-->
+     <code_emp_sign></code_emp_sign>
+     <!--  签署科室编码-->
+     <code_dep_sign></code_dep_sign>
+     <!-- 签署标识 -->
+     <fg_sign></fg_sign>
+     <!-- 签署核对标识 -->
+     <fg_chk></fg_chk>
+     <!-- 作废标志-->
+     <fg_canc></fg_canc>
+     <!-- 作废确认标志-->
+     <fg_chk_canc></fg_chk_canc>
+     <!-- 医嘱状态 -->
+     <sd_su_or></sd_su_or>
+</root>

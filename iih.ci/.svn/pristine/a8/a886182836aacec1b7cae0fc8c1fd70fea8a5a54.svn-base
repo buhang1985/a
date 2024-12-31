@@ -1,0 +1,80 @@
+package iih.ci.mrfp.dto.s;
+
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import iih.ci.mrfp.dto.i.CiMrFpService;
+import iih.ci.ord.i.external.provide.ICiOrdIpPartnerService;
+import iih.en.pv.dto.d.IpDetailDTO;
+import iih.en.pv.i.IEnOutQryService;
+import iih.en.pv.inpatient.d.NewbornDO;
+import iih.en.pv.inpatient.dto.d.EntForMedRecDTO;
+import iih.en.pv.inpatient.i.INewbornRService;
+import iih.pi.reg.dto.d.PatiInfoForMrDTO;
+import iih.pi.reg.i.IPiRegQryService;
+import xap.mw.core.annotation.Service;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.FMap2;
+import xap.mw.core.service.constant.Binding;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.coreitf.d.FDouble;
+import xap.mw.sf.core.util.ServiceFinder;
+
+/**
+ * 住院病案首页 实现
+ * 
+ * @author 杨建兵
+ *
+ */
+@Service(serviceInterfaces = {CiMrFpService.class}, binding = Binding.JSONRPC)
+public class CiMrFpServiceImpl implements CiMrFpService {
+
+	@Override
+	public PatiInfoForMrDTO getPatiInfoForMrDTO(String idPat, String idEnt) throws BizException {
+		IPiRegQryService piRegQryService = ServiceFinder.find(IPiRegQryService.class);
+		PatiInfoForMrDTO patiInfoForMrDTO = piRegQryService.getPatiInfoForMedicalRecord(idPat);// 刘羽处查询的相关信息数据
+		// 单独查询患者的联系人信息并赋值
+		IEnOutQryService enOutQryService = ServiceFinder.find(IEnOutQryService.class);
+		IpDetailDTO entForMedRecDTO = enOutQryService.getIpDetailInfo(idEnt);
+		
+		patiInfoForMrDTO.setName_cont(entForMedRecDTO.getCont_name());
+		patiInfoForMrDTO.setAddr_cont(entForMedRecDTO.getCont_address());
+		patiInfoForMrDTO.setTel_cont(entForMedRecDTO.getCont_tel());
+		patiInfoForMrDTO.setId_conttp(entForMedRecDTO.getId_conttp());
+		patiInfoForMrDTO.setSd_conttp(entForMedRecDTO.getSd_conttp());
+		patiInfoForMrDTO.setName_conttp(entForMedRecDTO.getName_conttp());
+		return patiInfoForMrDTO;
+	}
+
+	@Override
+	public EntForMedRecDTO getEntForMedRecDTO(String idEnt) throws BizException {
+		IEnOutQryService enOutQryService = ServiceFinder.find(IEnOutQryService.class);
+		EntForMedRecDTO entForMedRecDTO = enOutQryService.getEntInfo4firstPage(idEnt);//颜刊处提供dto数据
+		return entForMedRecDTO;
+	}
+	
+	@Override
+	public IpDetailDTO getIpDetailInfo(String idEnt) throws BizException {
+		IEnOutQryService enOutQryService = ServiceFinder.find(IEnOutQryService.class);
+		IpDetailDTO entForMedRecDTO = enOutQryService.getIpDetailInfo(idEnt);//颜刊处提供dto数据
+		return entForMedRecDTO;
+	}
+	
+	/**
+	 * 从医嘱中查询患者的护理天数  -by Vampire
+	 */
+	public FMap2 getNurDaysInfo(String idEnt) throws BizException {
+		ICiOrdIpPartnerService iCiOrdIpPartnerService = ServiceFinder.find(ICiOrdIpPartnerService.class);
+		Map<String, Integer> map = iCiOrdIpPartnerService.getNursingDays(idEnt);
+		// 将查询的护理天数封装到FMap2中，返回
+		FMap2 result = new FMap2();
+		Set<Entry<String,Integer>> entrySet = map.entrySet();
+		
+		for (Entry<String, Integer> entry : entrySet) {
+			result.put(entry.getKey(), entry.getValue());
+		}
+		return result;
+	}
+
+}

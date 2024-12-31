@@ -1,0 +1,82 @@
+package iih.ci.ord.s.bp;
+
+import iih.bd.bc.udi.pub.IBdSrvDictCodeConst;
+import iih.bd.srv.srvcate.d.SrvCateDO;
+import iih.bd.srv.srvcate.d.desc.SrvCateDODesc;
+import iih.bd.srv.srvcate.i.ISrvcateRService;
+import iih.ci.ord.cirptlab.d.CiRptLabDO;
+import iih.ci.ord.cirptlab.d.desc.CiRptLabDODesc;
+import iih.ci.ord.dto.orobsandlab.d.OrObsAandLabDTO;
+import iih.ci.ord.s.bp.qry.getObsAndLabListQry;
+import xap.mw.core.data.BizException;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.appfw.orm.utils.AppFwUtil;
+
+public class getObsAndLabListBP {
+	
+	 /**
+     * 检查 检验报告的类别分类数据
+     * @param id_ent
+     * @return OrObsAandLabDTO[]
+     * @throws BizException
+     */
+   public  OrObsAandLabDTO[] exec(String id_ent,String type)throws BizException{
+	   if(id_ent != null && id_ent !="" && type != null && type != "")
+	   {
+		   //DAFacade daFacade = new DAFacade();
+		  
+		   getObsAndLabListQry qry = new getObsAndLabListQry(id_ent,type);
+		   OrObsAandLabDTO[] rnt = (OrObsAandLabDTO[])AppFwUtil.getDORstWithDao(qry, OrObsAandLabDTO.class);
+	       return rnt;
+	   }
+	   return  null;
+   }
+   
+   /**
+    * 获取id_srv作为in条件
+    * @param id_ent
+    * @param type
+    * @return
+    * @throws BizException
+    */
+   public SrvCateDO[] GetId_srv(String id_ent,String type)throws BizException{
+	   
+	   if(id_ent != null && id_ent !="" && type != null && type != "")
+	   {
+		   ISrvcateRService service = (ISrvcateRService)ServiceFinder.find(ISrvcateRService.class);
+		   return  service.find(SrvCateDODesc.TABLE_ALIAS_NAME+"."+SrvCateDODesc.PRIMARYKEY_FIELDNAME+" in ("+GetSql(id_ent)+")",SrvCateDO.SV +" desc", FBoolean.FALSE);
+	   }
+	   return  null;
+   }
+
+	 /**
+    * 检查 检验报告的时间分类数据
+    * @param id_ent
+    * @return OrObsAandLabDTO[]
+    * @throws BizException
+    */
+   public  OrObsAandLabDTO[] execDateList(String id_ent,String type)throws BizException{
+	   if(id_ent != null && id_ent !="" && type != null && type != "")
+	   {
+		   getObsAndLabListQry qry = new getObsAndLabListQry(id_ent,type);
+		   OrObsAandLabDTO[] rnt = (OrObsAandLabDTO[])AppFwUtil.getDORstWithDao(qry, OrObsAandLabDTO.class);
+	       return rnt;
+	   }
+	   return  null;
+   }
+   
+   private String GetSql(String id_ent) {
+		  StringBuilder sb = new StringBuilder();
+		  sb.append(" select ca.ID_SRVCA parent ");
+		  sb.append(" from ci_rpt_lab lab ");
+		  sb.append(" left join CI_ORDER ci on lab.ID_OR=ci.ID_OR ");
+		  sb.append(" left join bd_srv srv on srv.ID_SRV=ci.id_srv ");
+		  sb.append(" left join bd_srvca ca on ca.ID_SRVCA=srv.ID_SRVCA ");
+		  sb.append(" left join BD_PSNDOC ps on ci.ID_EMP_SIGN=ps.ID_PSNDOC ");
+		  sb.append(" where ci.id_en = '"+id_ent +"'  ");
+		  //sb.append(" order by lab.DT_RPTLAB desc ");
+		  return sb.toString();
+   }
+
+}

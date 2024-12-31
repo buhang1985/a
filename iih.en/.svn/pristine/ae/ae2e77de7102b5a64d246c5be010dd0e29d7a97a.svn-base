@@ -1,0 +1,111 @@
+package iih.en.que.s.bp.mt;
+
+import iih.bd.bc.event.pub.IEnEventConst;
+import iih.bd.bc.udi.pub.IBdFcDictCodeConst;
+import iih.bd.bc.udi.pub.IEnDictCodeConst;
+import iih.en.comm.IEnMsgConst;
+import iih.en.comm.ep.EnQueEP;
+import iih.en.comm.evt.EnEvtHandle;
+import iih.en.comm.util.EnAppUtils;
+import iih.en.comm.util.EnContextUtils;
+import iih.en.comm.validator.EnValidator;
+import iih.en.que.dto.d.TriageQueSiteDTO;
+import iih.en.que.enqueue.d.EnQueueDO;
+import iih.en.que.enqueue.i.IEnqueueRService;
+import iih.en.que.s.event.AllQueEvent;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.DOStatus;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.coreitf.d.FDate;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.jdbc.lock.PKLock;
+
+public class MtTriageToSiteBP {
+
+	/**
+	 * 分诊
+	 * 
+	 * @param triageQueSite
+	 * 		目标工作站点DTO 
+	 * @param entQueId
+	 * @param isAutoTriage 是否是自动分诊
+	 * 		就诊队列ID
+	 * @throws BizException
+	 */
+	public void exec(TriageQueSiteDTO triageQueSite, String entQueId) throws BizException {
+		EnValidator.validateParam("TriageQueSiteDTO", triageQueSite);
+		EnValidator.validateParam("entQueId", entQueId);
+		EnQueEP queBP = new EnQueEP();
+		EnQueueDO enQueue = queBP.getEnQueueById(entQueId);
+		if(enQueue == null)
+			throw new BizException(IEnMsgConst.ERROR_OP_PVINFO_NOT_EXISTS);
+		this.volidate(triageQueSite, enQueue);
+		// 获取序号
+		FDate today = EnAppUtils.getServerDate();
+		boolean lock = PKLock.getInstance().addDynamicLock(triageQueSite.getId_que() + today.toStdtString(), 5 * 1000);
+		if(!lock){
+			throw new BizException("当前数据正在被他人修改，请稍后重新刷卡！");
+		}
+		
+		Integer sortNo = this.getSortNo(triageQueSite.getId_que(), today);
+		enQueue.setSortno(sortNo);
+		
+		enQueue.setStatus(DOStatus.UPDATED);
+		enQueue.setId_que(triageQueSite.getId_que());
+		enQueue.setId_que_site(triageQueSite.getId_quesite());
+		enQueue.setId_emp_acpt(triageQueSite.getId_emp());
+		enQueue.setId_emp_opreg(triageQueSite.getId_emp());
+		enQueue.setDt_acpt(EnAppUtils.getServerDateTime());
+		enQueue.setFg_manual(FBoolean.FALSE);
+		queBP.save(new EnQueueDO[] {enQueue});
+		//记录分诊事件
+		new EnEvtHandle().insertTriageEvt(enQueue.getId_ent(), triageQueSite);
+		//发送分诊消息
+		this.invoke(triageQueSite.getId_quesite(),triageQueSite.getId_que(),entQueId,sortNo.toString(),enQueue.getId_queben(), IEnEventConst.EVENT_EN_ALL_TRIAGE);
+	}
+
+	/**
+	 * 获取顺序号
+	 * 
+	 * @param queId 队列id
+	 * @param entId 就诊id
+	 * @param dt_regist 注册时间
+	 * @return
+	 * @throws BizException
+	 */
+	private Integer getSortNo(String queId,FDate dt_regist) throws BizException {
+		// 如果已经存在该就诊的序号，则直接就用，否则取今天该队列最大号+1
+		int sortNo = 1;
+		IEnqueueRService enqueRService = ServiceFinder.find(IEnqueueRService.class);
+		String whereStr = String.format("sd_entque_tp ='%s' and (dt_regist='%s' or (dt_acpt >= '%s' and dt_acpt <= '%s'))", IBdFcDictCodeConst.SD_QUETP_OTHER, dt_regist,dt_regist,dt_regist.getDateAfter(1));
+		String orderStr = "sortno desc";
+		EnQueueDO[] enQueDOArray = enqueRService.find(whereStr, orderStr, FBoolean.FALSE);
+		if (enQueDOArray != null && enQueDOArray.length > 0 && enQueDOArray[0].getSortno() != null) {
+			sortNo = enQueDOArray[0].getSortno() + 1;
+		}
+		return sortNo;
+	}
+	/**
+	 * 验证
+	 * 
+	 * @param triageQueSite
+	 * @param enQueue
+	 * @throws BizException 
+	 */
+	private void volidate(TriageQueSiteDTO triageQueSite, EnQueueDO enQueue) throws BizException{
+		if(IEnDictCodeConst.SD_STATUS_ACPT_NOTARRIVED.equals(enQueue.getSd_status_acpt()))
+			throw new BizException("该患者已经取消到诊！");
+	}
+	
+	/****
+	 * 发送事件-fanlq-2018-07-10
+	 * @param quesiteId
+	 * @param queId
+	 * @param event
+	 * @throws BizException
+	 */
+	private void invoke(String quesiteId,String queId,String entqueId,String ticketno,String id_queben,String event) throws BizException{
+		AllQueEvent ev = new AllQueEvent();
+		ev.exec(quesiteId, queId,entqueId, ticketno,id_queben,event);
+	}
+}

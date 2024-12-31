@@ -1,0 +1,326 @@
+package iih.ci.ord.s.bp.ems.hp;
+
+import java.util.List;
+
+import iih.bd.bc.udi.pub.IBdSrvDictCodeConst;
+import iih.ci.mi.common.utils.MiEnContextUtil;
+import iih.ci.mi.ord.i.ICiMiOrdRService;
+import iih.ci.mi.ord.i.meta.OrdIndicRstDTO;
+import iih.ci.mi.ord.i.meta.OrdRuleRstDTO;
+import iih.ci.mi.ord.i.meta.OrdSrvIndicRstDTO;
+import iih.ci.mi.ord.i.meta.OrdSrvRuleRstDTO;
+import iih.ci.ord.ciorder.d.CiOrderDO;
+import iih.ci.ord.ciorder.d.CiorderAggDO;
+import iih.ci.ord.ciorder.d.OrSourceFromEnum;
+import iih.ci.ord.ciorder.d.OrdSrvDO;
+import iih.ci.ord.ems.d.CiEnContextDTO;
+import iih.ci.ord.ordext.d.HpJudgeEnum;
+import iih.ci.ord.ordext.d.HpJudgeRstEnum;
+import iih.ci.ord.s.bp.ems.CiOrAggAndRelDatum;
+import xap.mw.core.data.BizException;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sie.common.utils.StringUtils;
+
+/**
+ * 临床医保信息
+ * @author HUMS
+ *
+ */
+public class CiOrHpInfoBP {
+	
+	private ICiMiOrdRService ciMiOrdRService ; 
+	public CiOrHpInfoBP(){
+		ciMiOrdRService = ServiceFinder.find(ICiMiOrdRService.class);
+	}
+
+	public CiorderAggDO exec(CiEnContextDTO ctx, CiOrAggAndRelDatum ordData) throws BizException{
+		
+		CiorderAggDO ordAgg = ordData.getOraggdo();
+		CiOrderDO order = ordAgg.getParentDO();
+		
+		if(!MiEnContextUtil.IsHpPat(ctx)){
+			this.setNonMedicalInfo(ctx, ordAgg);
+			if(order.getSd_srvtp().startsWith(IBdSrvDictCodeConst.SD_SRVTP_DRUG) && !order.getSd_srvtp().startsWith(IBdSrvDictCodeConst.SD_SRVTP_HERBDRUG)){
+				this.setDrugOrdHpInfo(ctx, ordAgg);
+			}else{
+				this.setNonDrugOrdHpInfo(ctx, ordAgg);
+			}
+			return ordAgg;
+		}
+		
+		if(OrSourceFromEnum.IIHSRVREF.equals(order.getEu_orsrcmdtp())){
+			
+			GetIndicVerifyRstBP bp = new GetIndicVerifyRstBP();
+			OrdIndicRstDTO ordIndicRst = bp.getIndicRst(ctx,ordData);
+			if(ordIndicRst != null ){
+				
+				List<OrdSrvIndicRstDTO> ordSrvIndicList = ordIndicRst.getOrdSrvIndicRstList();
+				
+				for(OrdSrvDO ordSrv : ordAgg.getOrdSrvDO()){
+					
+					for(OrdSrvIndicRstDTO ordSrvIndic : ordSrvIndicList){
+						if(ordSrv.getId_srv().equals(ordSrvIndic.getId_srv())){
+							ordSrv.setEu_hpjudge(ordSrvIndic.getEu_hpjudge());
+							ordSrv.setEu_orsrvhp(ordSrvIndic.getEu_orsrvhp());
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		if(order.getSd_srvtp().startsWith(IBdSrvDictCodeConst.SD_SRVTP_DRUG) && !order.getSd_srvtp().startsWith(IBdSrvDictCodeConst.SD_SRVTP_HERBDRUG)){
+			this.setDrugOrdHpInfo(ctx, ordAgg);
+		}else{
+			this.setNonDrugOrdHpInfo(ctx, ordAgg);
+		}
+		
+		// 医保的需要规则判断
+		if(HpJudgeRstEnum.HP.equals(order.getEu_orhp())){
+			
+			GetMiRuleVerifyRstBP ruleVerify  = new GetMiRuleVerifyRstBP();
+			OrdRuleRstDTO ordRuleRst = ruleVerify.getMiRuleRst(ctx, ordData);
+			StringBuffer msgBuffer = new StringBuffer();
+			
+			List<OrdSrvRuleRstDTO> ordSrvRstList = ordRuleRst.getOrdSrvRuleRstList();
+			for(OrdSrvRuleRstDTO ordSrvRst : ordSrvRstList){
+				if(StringUtils.isNotEmpty(ordSrvRst.getErrorMsg())){
+					msgBuffer.append(ordSrvRst.getErrorMsg()).append(System.lineSeparator());
+				}
+			}
+			if(msgBuffer.length() >0){
+				if(FBoolean.TRUE.equals(ordRuleRst.getFg_result())){
+					msgBuffer.insert(0, "warning^");		
+				}else{
+					msgBuffer.insert(0, "Stop^");
+				}
+				order.setMdicalinfo(msgBuffer.toString());
+			}
+		}
+		
+		// 更新原医保自费标识
+		this.updateOrdSrvFgSelfpay(ctx, ordAgg);
+				
+		return ordAgg;
+	}
+	
+	/**
+	 * 设置非医保就诊
+	 */
+	private void setNonMedicalInfo(CiEnContextDTO ctx, CiorderAggDO ordAgg){
+		
+		CiOrderDO order = ordAgg.getParentDO();
+		OrdSrvDO[] ordSrvs = ordAgg.getOrdSrvDO();
+		order.setEu_hpjudge(HpJudgeEnum.NON_MEDICAL);
+		order.setEu_orhp(HpJudgeRstEnum.NOT_JUDGE);
+		
+		for(OrdSrvDO ordSrv : ordSrvs){			
+			
+			if(FBoolean.TRUE.equals(ordSrv.getFg_bl())){
+				ordSrv.setEu_hpjudge(HpJudgeEnum.NON_MEDICAL);
+				ordSrv.setEu_orsrvhp(HpJudgeRstEnum.SELFPAY);				
+			}else{
+				ordSrv.setEu_hpjudge(HpJudgeEnum.NON_BLITEM);
+				ordSrv.setEu_orsrvhp(HpJudgeRstEnum.NOT_JUDGE);
+			}
+		}
+	}
+	
+	/**
+	 * 设置药品医嘱的医保属性
+	 * @param ctx
+	 * @param ordAgg
+	 */
+	private void setDrugOrdHpInfo(CiEnContextDTO ctx, CiorderAggDO ordAgg){
+		
+		CiOrderDO order = ordAgg.getParentDO();
+		OrdSrvDO[] ordSrvs = ordAgg.getOrdSrvDO();
+		
+		for(OrdSrvDO ordSrv : ordSrvs){
+			if(FBoolean.TRUE.equals(ordSrv.getFg_bl()) ){
+				
+				if(FBoolean.TRUE.equals(ordSrv.getFg_self()) || FBoolean.TRUE.equals(ordSrv.getFg_selfsrv())){
+					ordSrv.setEu_hpjudge(HpJudgeEnum.NOT_JUDGE);
+					ordSrv.setEu_orsrvhp(HpJudgeRstEnum.NOT_JUDGE);
+					continue;
+				}
+				
+				if(StringUtils.isEmpty(ordSrv.getEu_orsrvhp()) || HpJudgeRstEnum.WAITING_JUDGE.equals(ordSrv.getEu_orsrvhp())){
+					
+					ordSrv.setEu_hpjudge(HpJudgeEnum.WAITING_JUDGE);
+					ordSrv.setEu_orsrvhp(HpJudgeRstEnum.WAITING_JUDGE);	
+				}
+			}else{
+				ordSrv.setEu_hpjudge(HpJudgeEnum.NON_BLITEM);
+				ordSrv.setEu_orsrvhp(HpJudgeRstEnum.NOT_JUDGE);				
+			}
+		}
+		
+		String eu_hpjudge = this.getEu_hpjudge(ctx, ordSrvs);
+		String eu_orhp = this.getEu_orhp(ctx, ordSrvs);
+		order.setEu_hpjudge(eu_hpjudge);
+		order.setEu_orhp(eu_orhp);
+	}
+	
+	/**
+	 * 设置非药品医嘱和草药的医保属性
+	 * @param ctx
+	 * @param ordAgg
+	 */
+	private void setNonDrugOrdHpInfo(CiEnContextDTO ctx, CiorderAggDO ordAgg){
+		
+		CiOrderDO order = ordAgg.getParentDO();
+		OrdSrvDO[] ordSrvs = ordAgg.getOrdSrvDO();
+		
+		for(OrdSrvDO ordSrv : ordSrvs){
+			if(FBoolean.TRUE.equals(ordSrv.getFg_bl()) ){
+				if(HpJudgeRstEnum.SELFPAY.equals(order.getEu_orhp())){
+					
+					ordSrv.setEu_hpjudge(HpJudgeEnum.DOCTOR_JUDGE);
+					ordSrv.setEu_orsrvhp(HpJudgeRstEnum.SELFPAY);	
+				}else{
+					ordSrv.setEu_hpjudge(HpJudgeEnum.WAITING_JUDGE);
+					ordSrv.setEu_orsrvhp(HpJudgeRstEnum.WAITING_JUDGE);
+				}
+			}else{
+				ordSrv.setEu_hpjudge(HpJudgeEnum.NON_BLITEM);
+				ordSrv.setEu_orsrvhp(HpJudgeRstEnum.NOT_JUDGE);
+			}
+		}
+		
+		String eu_hpjudge = getEu_hpjudge(ctx,ordSrvs);
+		String eu_orhp = this.getEu_orhp(ctx, ordSrvs);
+
+		order.setEu_hpjudge(eu_hpjudge);
+		order.setEu_orhp(eu_orhp);
+	}
+	
+	/**
+	 * 根据服务项目判断医嘱的医保标识
+	 * @param ordSrvs
+	 * @return
+	 */
+	private String getEu_orhp(CiEnContextDTO ctx, OrdSrvDO[] ordSrvs) {
+			
+		// 存在医保项目
+		boolean isAllNotJudge = true; 
+		// 是否全自费
+		boolean isAllSelfpay = true;
+		
+		if(!MiEnContextUtil.IsHpPat(ctx)){
+			return HpJudgeRstEnum.NOT_JUDGE;	
+		}
+				
+		for(OrdSrvDO ordSrv : ordSrvs){
+			
+			if(!FBoolean.TRUE.equals(ordSrv.getFg_bl()) ){
+				continue;
+			}
+			
+			if(HpJudgeRstEnum.WAITING_JUDGE.equals(ordSrv.getEu_orsrvhp())){
+				return HpJudgeRstEnum.WAITING_JUDGE;				
+			}
+			
+			if(HpJudgeRstEnum.HP.equals(ordSrv.getEu_orsrvhp())){
+				return HpJudgeRstEnum.HP;
+			}
+			
+			if(!HpJudgeRstEnum.SELFPAY.equals(ordSrv.getEu_orsrvhp()) && !HpJudgeRstEnum.NOT_JUDGE.equals(ordSrv.getEu_orsrvhp())){
+				isAllSelfpay = false;
+			}
+			
+			if(!HpJudgeRstEnum.NOT_JUDGE.equals(ordSrv.getEu_orsrvhp())){
+				isAllNotJudge = false;
+			}
+			
+		}
+		
+		if(isAllNotJudge){
+			return HpJudgeRstEnum.NOT_JUDGE;
+		}
+		
+		if(isAllSelfpay){
+			return HpJudgeRstEnum.SELFPAY;
+		}else{
+			return HpJudgeRstEnum.NOT_JUDGE;
+		}
+	}
+
+	/**
+	 * 设置药品医嘱的医保判断方式
+	 * @param ordSrvs
+	 * @return
+	 */
+	private String getEu_hpjudge(CiEnContextDTO ctx, OrdSrvDO[] ordSrvs){
+		
+		
+		// 是否全自费
+		boolean isAllNotJudge = true;
+		// 是否存在费用项目
+		boolean isExistsBlitem = false;
+		
+		if(!MiEnContextUtil.IsHpPat(ctx)){
+			return HpJudgeEnum.NON_MEDICAL;	
+		}
+		
+		for(OrdSrvDO ordSrv : ordSrvs){
+			
+			if(!FBoolean.TRUE.equals(ordSrv.getFg_bl()) ){
+				continue;
+			}
+			
+			isExistsBlitem = true;
+			
+			if(HpJudgeEnum.WAITING_JUDGE.equals(ordSrv.getEu_hpjudge())){
+				return HpJudgeEnum.WAITING_JUDGE;				
+			}
+			
+			if(HpJudgeEnum.DOCTOR_JUDGE.equals(ordSrv.getEu_hpjudge())){
+				return HpJudgeEnum.DOCTOR_JUDGE;
+			}
+			
+			if(!HpJudgeEnum.NOT_JUDGE.equals(ordSrv.getEu_hpjudge())){
+				isAllNotJudge = false;
+			}			
+		}
+		
+		// 不存在费用项目
+		if(!isExistsBlitem){
+			return HpJudgeEnum.NON_BLITEM;
+		}
+		
+		// 全部不需要判断
+		if(isAllNotJudge){
+			return HpJudgeEnum.NOT_JUDGE;
+		}		
+		
+		return HpJudgeEnum.SYSTEM_JUDGE;
+	}
+
+	/**
+	 * 更新原医保自费标识
+	 * @param ctx
+	 * @param ordAgg
+	 * @throws BizException 
+	 */
+	private void updateOrdSrvFgSelfpay(CiEnContextDTO ctx, CiorderAggDO ordAgg) throws BizException{
+		
+		if(!ciMiOrdRService.isEnabledIndicVerify(ctx)){
+			return ;
+		}
+		CiOrderDO order = ordAgg.getParentDO();
+		OrdSrvDO[]ordSrvs = ordAgg.getOrdSrvDO();
+		order.setFg_orhp(FBoolean.FALSE);
+		for(OrdSrvDO ordSrv : ordSrvs){
+			
+			if(HpJudgeRstEnum.HP.equals(ordSrv.getEu_orsrvhp())){
+				ordSrv.setFg_selfpay(FBoolean.FALSE);
+				order.setFg_orhp(FBoolean.TRUE);
+			}else{
+				ordSrv.setFg_selfpay(FBoolean.TRUE);
+			}
+		}
+		
+	}
+}

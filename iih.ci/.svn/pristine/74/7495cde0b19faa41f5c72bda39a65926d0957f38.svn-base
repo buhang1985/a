@@ -1,0 +1,30 @@
+package iih.ci.rcm.reportcardmissqry.bp;
+
+import iih.bd.srv.reportcardtpl.d.ReportCardTplDo;
+import iih.bd.srv.reportcardtpl.i.IReportcardtplRService;
+import xap.mw.core.data.BizException;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.sf.core.util.ServiceFinder;
+
+
+/**
+ * 根据报卡类型主键查找默认模板，如果没有返回
+ */
+public class FindDefQryBp {
+
+	//查找默认模板，如果没有取最新修改
+	public ReportCardTplDo findDefQry(String id_bd_rcm_tp) throws BizException {
+		IReportcardtplRService tplService=ServiceFinder.find(IReportcardtplRService.class);
+		ReportCardTplDo [] tplDos=tplService.find("id_bd_rcm_tp='" + id_bd_rcm_tp + "' and fg_active='Y' ", "sv desc", FBoolean.FALSE);
+		if(tplDos!=null && tplDos.length>0){
+			for (ReportCardTplDo tpl : tplDos) {
+				if(FBoolean.TRUE==tpl.getFg_def()){
+					return tpl;
+				}
+			}
+			return tplDos[0];
+
+		}
+		return null;
+	}
+}

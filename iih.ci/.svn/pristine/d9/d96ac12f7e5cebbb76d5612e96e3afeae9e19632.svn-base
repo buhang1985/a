@@ -1,0 +1,12 @@
+package iih.ci.ord.s.ems.ip.assi.cp.drugs;
+
+import iih.ci.ord.s.ems.base.BaseCpSaveBP;
+
+/**
+ * 临床路径药品保存逻辑
+ * @author wangqingzhu
+ *
+ */
+public class CpDrugsSaveBP extends BaseCpSaveBP {
+
+}

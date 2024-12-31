@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	version="2.4"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee   http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	id="WebApp">
+	<display-name>xops Web Application</display-name>
+	<context-param>
+		<param-name>index</param-name>
+		<param-value>/index.jsp</param-value>
+	</context-param>
+
+	<servlet>
+		<servlet-name>AlipayPayNotifyHandler</servlet-name>
+		<servlet-class>iih.pmp.pay.web.pay.AlipayPayNotifyHandler</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AlipayPayNotifyHandler</servlet-name>
+		<url-pattern>/AlipayPayNotifyHandler</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>WXPayNotifyHandle</servlet-name>
+		<servlet-class>iih.pmp.pay.web.pay.WXPayNotifyHandle</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WXPayNotifyHandle</servlet-name>
+		<url-pattern>/WXPayNotifyHandle</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>WXReFundNotifyHandler</servlet-name>
+		<servlet-class>iih.pmp.pay.web.pay.WXReFundNotifyHandler</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WXReFundNotifyHandler</servlet-name>
+		<url-pattern>/WXReFundNotifyHandler</url-pattern>
+	</servlet-mapping>
+	
+	
+</web-app>

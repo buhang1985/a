@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	
+	<!-- 急诊查询服务 -->
+    <bean id="IEnErQryService" class="iih.en.er.s.EnErQryServiceImpl"/> 
+    <!-- 急诊命令服务 -->
+    <bean id="IEnErCmdService" class="iih.en.er.s.EnErCmdServiceImpl"/>
+    <xap:service ref="IEnErCmdService" interface="iih.en.er.i.IEnErCmdService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+		<!-- 急诊预检查询服务 -->
+    <bean id="IEnerpreRService" class="iih.en.er.pre.s.EnerpreCrudServiceImpl"/> 
+    <!-- 急诊预检命令服务 -->
+    <bean id="IEnerpreCudService" class="iih.en.er.pre.s.EnerpreCrudServiceImpl"/>
+    <xap:service ref="IEnerpreCudService" interface="iih.en.er.pre.i.IEnerpreCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 急诊预检_患者信息查询服务 -->
+    <bean id="IEnerprepatRService" class="iih.en.er.pre.s.EnerprepatCrudServiceImpl"/> 
+    <!-- 急诊预检_患者信息命令服务 -->
+    <bean id="IEnerprepatCudService" class="iih.en.er.pre.s.EnerprepatCrudServiceImpl"/>
+    <xap:service ref="IEnerprepatCudService" interface="iih.en.er.pre.i.IEnerprepatCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 急诊预检_分级查询服务 -->
+    <bean id="IEnerprescoredoRService" class="iih.en.er.pre.s.EnerprescoredoCrudServiceImpl"/> 
+    <!-- 急诊预检_分级命令服务 -->
+    <bean id="IEnerprescoredoCudService" class="iih.en.er.pre.s.EnerprescoredoCrudServiceImpl"/>
+    <xap:service ref="IEnerprescoredoCudService" interface="iih.en.er.pre.i.IEnerprescoredoCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 急诊_门诊查询服务 -->
+    <bean id="IEnentoperRService" class="iih.en.er.op.s.EnentoperCrudServiceImpl"/> 
+    <!-- 急诊_门诊命令服务 -->
+    <bean id="IEnentoperCudService" class="iih.en.er.op.s.EnentoperCrudServiceImpl"/>
+    <xap:service ref="IEnentoperCudService" interface="iih.en.er.op.i.IEnentoperCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 急诊_住院查询服务 -->
+    <bean id="IEnentiperRService" class="iih.en.er.ip.s.EnentiperCrudServiceImpl"/> 
+    <!-- 急诊_住院命令服务 -->
+    <bean id="IEnentiperCudService" class="iih.en.er.ip.s.EnentiperCrudServiceImpl"/>
+    <xap:service ref="IEnentiperCudService" interface="iih.en.er.ip.i.IEnentiperCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+</beans>

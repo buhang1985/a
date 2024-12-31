@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+XAP-Component-Version: 0.2.0-sdlanling2-SNAPSHOT
+XAP-Component-Name: iih.bl.cg
+XAP-Component-Namespace: iih
+XAP-Component-Dependencies: lui/lui/0.0.0-SNAPSHOT
+

@@ -1,0 +1,43 @@
+package iih.ci.ord.s.bp.ems.hp;
+
+import iih.ci.mi.ord.i.ICiMiOrdRService;
+import iih.ci.ord.ciorder.d.CiOrderDO;
+import iih.ci.ord.ciorder.d.CiorderAggDO;
+import iih.ci.ord.ems.d.CiEnContextDTO;
+import iih.ci.ord.ordext.d.HpJudgeRstEnum;
+import iih.ci.ord.pub.CiOrdUtils;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.FArrayList;
+import xap.mw.sf.core.util.ServiceFinder;
+
+/**
+ * 医嘱签署医保校验
+ * @author HUMS
+ *
+ */
+public class OrdHpSignInfoBP {
+
+	private ICiMiOrdRService ciMiOrdRService ; 
+	public OrdHpSignInfoBP(){
+		ciMiOrdRService = ServiceFinder.find(ICiMiOrdRService.class);
+	}
+	
+	public FArrayList getWaitJudgeIdOrList(CiEnContextDTO ctx, CiorderAggDO[] aggors) throws BizException{
+		
+		if(CiOrdUtils.isEmpty(aggors)) return null;
+		
+		if(!ciMiOrdRService.isEnabledIndicVerify(ctx)){
+			return null;
+		}
+		
+		FArrayList list = new FArrayList();
+		for(CiorderAggDO agg : aggors){
+			CiOrderDO ord = agg.getParentDO();
+			//只要有医保或临床路径未判断，都会打开医嘱审核界面，医嘱审核界面中包含全部内容，所以只要判断其中一个就可以了
+			if (HpJudgeRstEnum.WAITING_JUDGE.equals(ord.getEu_orhp())) {
+				list.append(ord.getId_or());
+			}
+		}
+		return list;
+	}
+}

@@ -1,0 +1,304 @@
+package iih.ei.std.s.v1.bp.mp.updatebyplan;
+
+import iih.ci.ord.ciorder.d.CiOrderDO;
+import iih.ci.ord.ciorder.i.ICiorderMDORService;
+import iih.ei.std.d.v1.mp.updatebycodeor.d.UpdateStatusParams;
+import iih.ei.std.d.v1.mp.updatebycodeor.d.WOrPlanDTO;
+import iih.ei.std.s.v1.bp.mp.common.CreateTemTable;
+import iih.ei.std.s.v1.bp.mp.updatebyplan.qry.QueryPlanSql;
+import iih.mp.nr.api.d.StatusContrastDTO;
+import iih.mp.nr.dto.internal.d.ExecuteTpEnum;
+import iih.mp.nr.dto.internal.d.OrPlanDTO;
+import iih.mp.nr.dto.temporarytable.d.TamTableColumnDTO;
+import iih.mp.nr.dto.temporarytable.d.TamTableDataDTO;
+import iih.mp.nr.i.IMporInternalService;
+import iih.mp.nr.mporplan.d.MpOrPlanDO;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.Context;
+import xap.mw.core.data.FArrayList;
+import xap.mw.core.utils.StringUtil;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.coreitf.d.FDateTime;
+import xap.mw.coreitf.d.FType;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.appfw.orm.utils.AppFwUtil;
+import xap.sys.bdfw.bbd.d.PsnDocDO;
+import xap.sys.bdfw.bbd.i.IPsndocMDORService;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.kernel.SqlParam;
+import xap.sys.orgfw.dept.d.DeptDO;
+
+/**
+ * 修改医嘱状态
+ * @author hjh
+ *
+ */
+public class UpdateOrStaBp {
+	private Map<String, String> infoMap;// 人员部门基本信息
+	private String id_orpltp;//一次调用只能是相同类型 相同闭环医嘱
+	/**
+	 * 主入口
+	 * @param statusParam
+	 * @throws BizException 
+	 */
+	@SuppressWarnings("unchecked")
+	public void exec(UpdateStatusParams statusParam) throws BizException {
+		
+		// 1.参数校验
+		validateParam(statusParam);
+
+		// 2.根据医嘱编码查询医嘱主键
+		List<WOrPlanDTO> list = statusParam.getOrplan();
+		String[] ors = getcodeors(list);
+		// 实例化部门人员信息
+		setMpData(list);
+		
+		// 3.根据医嘱编码查询医嘱信息
+		CiOrderDO[] orderDOs = ServiceFinder.find(ICiorderMDORService.class).findByAttrValStrings(CiOrderDO.CODE_OR, ors);
+		
+		// 4.根据医嘱号找到对应的映射
+		Map<String, CiOrderDO> mapAll = groupbyCodeor(orderDOs);
+		
+		// 5.医嘱编码替换成医嘱id
+		converData(mapAll, list );
+
+		// 6.根据医嘱和计划执行时间查询计划
+		MpOrPlanDO[] plans = queryBranch(list);
+
+		// 7.查询闭环功能对照
+		String funcode = queryOrpltpstaFunc(list.get(0).getCode_status());
+		
+		// 8.参数装换
+		OrPlanDTO[] orplans = createOrPlanDTO(list, plans);
+		
+		// 9.调用通用改状态
+		ServiceFinder.find(IMporInternalService.class).updateOrpltpByOr(orplans, funcode, "");
+	}
+
+	/**
+	 * 参数校验
+	 * 
+	 * @param statusParam
+	 * @throws BizException
+	 */
+	@SuppressWarnings("unchecked")
+	private void validateParam(UpdateStatusParams statusParam) throws BizException {
+		if (statusParam == null) {
+			throw new BizException("参数空异常！");
+		}
+		List<WOrPlanDTO> list = statusParam.getOrplan();
+		if (list == null || list.size() < 1) {
+			throw new BizException("参数空异常！");
+		}
+		for (WOrPlanDTO planDTO : list) {
+			if (StringUtil.isEmptyWithTrim(planDTO.getCode_or())) {
+				throw new BizException("医嘱编码为空！");
+			}
+		}
+	}
+	
+	/**
+	 * 赋值执行人执行科室，执行执行时间
+	 * 
+	 * @param orPlanDTOs
+	 * @param params
+	 * @throws BizException
+	 */
+	private void setMpData(List<WOrPlanDTO> list) throws BizException {
+		infoMap = new HashMap<String, String>();
+		DAFacade daf = new DAFacade();
+		@SuppressWarnings("unchecked")
+		List<DeptDO> deptDOs = (List<DeptDO>) daf.findByAttrValString(DeptDO.class, DeptDO.CODE, list.get(0).getCode_dep_exec(), new String[] { DeptDO.CODE, DeptDO.ID_DEP });
+		PsnDocDO[] psnDocDOs = ServiceFinder.find(IPsndocMDORService.class).findByAttrValString(PsnDocDO.CODE, list.get(0).getCode_emp_exec());
+		if (deptDOs != null && deptDOs.size() > 0) {
+			infoMap.put(deptDOs.get(0).getCode(), deptDOs.get(0).getId_dep());
+			Context.get().setDeptId(deptDOs.get(0).getId_dep());
+
+		}
+		if (psnDocDOs != null && psnDocDOs.length > 0) {
+			infoMap.put(psnDocDOs[0].getCode(), psnDocDOs[0].getId_psndoc());
+			Context.get().setStuffId(psnDocDOs[0].getId_psndoc());
+		}
+	}
+	
+	/**
+	 * 获取医嘱编码集合
+	 * 
+	 * @param pramList
+	 * @return
+	 */
+	private String[] getcodeors(List<WOrPlanDTO> list) {
+		List<String> codeorList = new ArrayList<String>();
+		for (WOrPlanDTO planDTO : list) {
+			codeorList.add(planDTO.getCode_or());
+		}
+		return codeorList.toArray(new String[codeorList.size()]);
+	}
+	
+	/**
+	 * 返回医嘱编码和医嘱实体的映射
+	 * 
+	 * @param orderDOs
+	 * @param mapop
+	 * @param mapip
+	 * @return
+	 * @throws BizException 
+	 */
+	private Map<String, CiOrderDO> groupbyCodeor(CiOrderDO[] orderDOs) throws BizException {
+		Map<String, CiOrderDO> map = new HashMap<String, CiOrderDO>();
+		id_orpltp = "";
+		if (orderDOs != null && orderDOs.length > 0) {
+			for (CiOrderDO ciOrderDO : orderDOs) {
+				if(!StringUtil.isEmptyWithTrim(id_orpltp) && !id_orpltp.equals(ciOrderDO.getId_orpltp())){
+					throw new BizException("闭环状态不一致！");
+				}
+				map.put(ciOrderDO.getCode_or(), ciOrderDO);
+				id_orpltp = ciOrderDO.getId_orpltp();
+			}
+		}
+		return map;
+	}
+	
+
+	/**
+	 * 赋值医嘱ID
+	 * 
+	 * @param mapAll
+	 * @param pramList
+	 * @throws BizException 
+	 */
+	private void converData(Map<String, CiOrderDO> mapAll, List<WOrPlanDTO> list ) throws BizException {
+		for (WOrPlanDTO updateStatusParam : list) {
+			CiOrderDO  orderdo = mapAll.get(updateStatusParam.getCode_or());
+			updateStatusParam.setCode_or(mapAll.get(updateStatusParam.getCode_or()).getId_or());
+			if(FBoolean.TRUE.equals(orderdo.getFg_long()) && StringUtil.isEmptyWithTrim(updateStatusParam.getDt_mp_plan())){
+				throw new BizException("计划执行时间！");
+			}
+		}
+
+	}
+	
+	/**
+	 * 创建临时表查询执行计划
+	 * 
+	 * @param params
+	 * @return
+	 * @throws BizException
+	 */
+	private MpOrPlanDO[] queryBranch(List<WOrPlanDTO> list) throws BizException {
+
+		// 创建临时表
+		new DAFacade().execUpdate("delete from mp_or_pr_temp;", new SqlParam());
+		String tableName = createTable(list);
+		QueryPlanSql sql = new QueryPlanSql(tableName);
+		MpOrPlanDO[] rtns = (MpOrPlanDO[]) AppFwUtil.getDORstWithDao(sql, MpOrPlanDO.class);
+		return rtns;
+	}
+	
+	/**
+	 * 列生产
+	 * 
+	 * @param columnName
+	 * @param columnTp
+	 * @param type
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private TamTableColumnDTO getColumn(String columnName, String columnTp, FType type) {
+
+		TamTableColumnDTO column = new TamTableColumnDTO();
+		column.setColumn(columnName);
+		column.setColumntp(columnTp);
+		FArrayList array = new FArrayList();
+		array.add(type);
+		column.setDatatp(array);
+		return column;
+	}
+	
+	/**
+	 * 创建临时表
+	 * 
+	 * @param params
+	 * @return
+	 * @throws BizException
+	 */
+	private String createTable(List<WOrPlanDTO> list) throws BizException {
+
+		TamTableColumnDTO[] columns = new TamTableColumnDTO[3];
+		columns[0] = getColumn("Id_or", "VARCHAR2(20)", FType.String);
+		columns[1] = getColumn("Dt_mp_plan", "CHAR(19)", FType.FDateTime);
+		columns[2] = getColumn("Id_or_pr", "VARCHAR2(20)", FType.String);
+
+		TamTableDataDTO[] columnData = getTemTableData(list);
+
+		String tableName = "mp_or_pr_temp";
+		CreateTemTable bp = new CreateTemTable();
+		bp.exec(tableName, columns, columnData);
+		return tableName;
+	}
+	
+	/**
+	 * 获取临时表数据
+	 * 
+	 * @param ParamDTO
+	 * @return
+	 */
+	private TamTableDataDTO[] getTemTableData(List<WOrPlanDTO> list) {
+
+		List<TamTableDataDTO> reList = new ArrayList<TamTableDataDTO>();
+		for (WOrPlanDTO param : list) {
+			TamTableDataDTO DTO = new TamTableDataDTO();
+			DTO.setColumn1(param.getCode_or());
+			DTO.setColumn2(param.getDt_mp_plan().toString());
+			DTO.setColumn3("~");
+			reList.add(DTO);
+		}
+		return reList.toArray(new TamTableDataDTO[reList.size()]);
+	}
+	
+	/**
+	 * 查询闭环功能对照
+	 * @param code_status
+	 * @return
+	 * @throws BizException 
+	 */
+	private String queryOrpltpstaFunc(String code_status) throws BizException {
+		QueryOrpltpstaBp stabp = new QueryOrpltpstaBp();
+		StatusContrastDTO[] funsta = stabp.exec(code_status, id_orpltp);
+		if(funsta == null || funsta.length<1){
+			throw new BizException("闭环功能未对照！");
+		}
+		return funsta[0].getFun_code();
+	}
+
+	
+	/**
+	 * 构建更新计划状态所需参数
+	 * 
+	 * @param orMpPlanDTOs
+	 * @param infoMap
+	 * @param params
+	 * @return
+	 */
+	private OrPlanDTO[] createOrPlanDTO(List<WOrPlanDTO> list, MpOrPlanDO[] plans) {
+
+		List<OrPlanDTO> orPlanDTOs = new ArrayList<OrPlanDTO>();
+		for (MpOrPlanDO orMpPlanDTO : plans) {
+			OrPlanDTO planDTO = new OrPlanDTO();
+			planDTO.setId_or(orMpPlanDTO.getId_or());
+			planDTO.setDt_mp_plan(orMpPlanDTO.getDt_mp_plan());
+			planDTO.setId_dep(infoMap.get( list.get(0).getCode_dep_exec()));
+			planDTO.setId_emp(infoMap.get(list.get(0).getCode_emp_exec()));
+			planDTO.setDt_exe(new FDateTime(list.get(0).getDt_exec()));
+			planDTO.setEu_tp(ExecuteTpEnum.EXECUTE);
+			orPlanDTOs.add(planDTO);
+		}
+		return orPlanDTOs.toArray(new OrPlanDTO[orPlanDTOs.size()]);
+	}
+}

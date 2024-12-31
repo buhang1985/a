@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	
+	<!-- 就诊资源 -->
+	<bean id="IEnbedCrudService" class="iih.en.pv.enres.s.EnbedCrudServiceImpl">
+	</bean>
+	<bean id="IEndepCrudService" class="iih.en.pv.enres.s.EndepCrudServiceImpl">
+	</bean>
+	<bean id="IEnmedgrpCrudService" class="iih.en.pv.enres.s.EnmedgrpCrudServiceImpl">
+	</bean>
+	<bean id="IEnpsnCudService" class="iih.en.pv.enres.s.EnpsnCrudServiceImpl">
+	</bean>
+	<!-- 就诊生成服务 -->
+	<bean id="PativisitCrudService" class="iih.en.pv.pativisit.s.PativisitCrudServiceImpl">
+	</bean>
+	<!-- 就诊门诊服务 -->
+	<bean id="IOutpatientCudService" class="iih.en.pv.outpatient.s.OutpatientCrudServiceImpl">
+	</bean>
+	<!-- 就诊联系人 -->
+	<bean id="IEntcontCudService" class="iih.en.pv.pativisit.s.EntcontCrudServiceImpl">
+	</bean>
+	
+	
+	<!-- 住院通知单 -->
+	<bean id="IIpntCudService" class="iih.en.pv.inpatient.s.EnipntCrudServiceImpl">
+	</bean>
+	<bean id="IIpntMDOCudService" class="iih.en.pv.inpatient.s.EnipntMDOCrudServiceImpl">
+	</bean>
+	<!-- 入院属性 -->
+	<bean id="IInpatientCudService" class="iih.en.pv.inpatient.s.InpatientCrudServiceImpl">
+	</bean>
+	<!-- 患者列表配置服务 -->
+	<bean id="IEntpatlistCudService" class="iih.en.pv.inpatient.s.EntpatlistCrudServiceImpl">
+	</bean>
+	<!-- 新生儿记录服务 -->
+	<bean id="INewbornCudService" class="iih.en.pv.inpatient.s.NewbornCrudServiceImpl">
+	</bean>
+	
+	<!-- 就诊临床诊断 -->
+	<bean id="IEntdiCudService" class="iih.en.pv.entdi.s.EntdiCrudServiceImpl"/>
+	
+	<!-- 就诊账户-->
+	<bean id="IEnaccountService" class="iih.en.pv.enfee.s.EnaccountCrudServiceImpl">
+	</bean>
+	<bean id="IEnaccountMDOCudService" class="iih.en.pv.enfee.s.EnaccountMDOCrudServiceImpl"/>
+	<bean id="IEntAccActDORService" class="iih.en.pv.enfee.s.EntAccActDOCrudServiceImpl"/>
+	<!-- 就诊固定费用 -->
+	<bean id="IEnfixedfeeCudService" class="iih.en.pv.enfee.s.EnfixedfeeCrudServiceImpl"/>
+	<!-- 患者就诊_固定费用主实体CRUD服务 -->
+	<bean id="IEnfixedfeeMDOCudService" class="iih.en.pv.enfee.s.EnfixedfeeMDOCrudServiceImpl">
+	</bean>
+	<!-- 患者固定费用查询服务 -->
+	<bean id="IEnFixedFeeItemDOCudService" class="iih.en.pv.enfee.s.EnFixedFeeItemDOCrudServiceImpl">
+	</bean>
+	
+	<!-- 就诊计划 -->
+	<!--就诊医保计划服务 -->
+	<bean id ="IEnthpCudService" class = "iih.en.pv.entplan.s.EnthpCrudServiceImpl">
+	</bean>
+	
+	<!-- 急诊留观服务 -->
+	<bean id="IEmgstayRService" class="iih.en.pv.inpatient.s.EmgstayCrudServiceImpl"/>
+	
+	<!-- 就诊临床 -->
+	<!--诊断证明 CI域使用 -->
+	<bean id ="IEntdiproveCrudServiceImpl" class = "iih.en.pv.entdiprove.s.EntdiproveCrudServiceImpl">
+	</bean>
+	<!-- 临床路径服务 -->
+	<bean id="IEntcpCudService" class="iih.en.pv.entplan.s.EntcpCrudServiceImpl"/>
+	<!-- 就诊状况服务 -->
+	<bean id="IEntstateCudService" class="iih.en.pv.enclin.s.EntstateCrudServiceImpl"/>
+	
+	<!-- 就诊查询服务 -->
+	<bean id="IEnPvQryService" class="iih.en.pv.s.EnPvQryServiceImpl"/>
+	
+	<!-- 门诊查询服务 -->
+	<bean id="IEnOpQryService" class="iih.en.pv.s.EnOpQryServiceImpl"/>
+	<!-- 门诊命令服务 -->
+	<bean id="IEnOpCmdService" class="iih.en.pv.s.EnOpCmdServiceImpl"/>
+	<xap:service ref="IEnOpCmdService" interface="iih.en.pv.i.IEnOpCmdService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 急诊查询服务 -->
+	<bean id="IEnEmQryService" class="iih.en.pv.s.EnEmQryServiceImpl"/>
+	<!-- 急诊命令服务 -->
+	<bean id="IEnEmCmdService" class="iih.en.pv.s.EnEmCmdServiceImpl"/>
+	<xap:service ref="IEnEmCmdService" interface="iih.en.pv.i.IEnEmCmdService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 住院查询服务 -->
+	<bean id="IEnIpQryService" class="iih.en.pv.s.EnIpQryServiceImpl"/>
+	<!-- 住院命令服务 -->
+	<bean id="IEnIpCmdService" class="iih.en.pv.s.EnIpCmdServiceImpl"/>
+	<xap:service ref="IEnIpCmdService" interface="iih.en.pv.i.IEnIpCmdService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+		
+	<!-- 医技查询服务 -->
+	<bean id="IEnMtQryService" class="iih.en.pv.s.EnMtQryServiceImpl"/>
+	<!-- 医技命令服务 -->
+	<bean id="IEnMtCmdService" class="iih.en.pv.s.EnMtCmdServiceImpl"/>
+	<xap:service ref="IEnMtCmdService" interface="iih.en.pv.i.IEnMtCmdService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+
+
+	<!--医保转诊单 -->
+	<bean id="IMedreferralCrudService" class="iih.en.pv.ci.s.MedreferralCrudServiceImpl"/>
+	<!-- 交接班 -->
+	<bean id="IShiftturnoverCudService" class="iih.en.pv.shiftturnover.s.ShiftturnoverCrudServiceImpl"/>
+	<bean id="IShiftturnoverMDOCudService" class="iih.en.pv.shiftturnover.s.ShiftturnoverMDOCrudServiceImpl"/>
+	
+	<!--医生关注患者查询服务 -->
+	<bean id="IEnflwRService" class="iih.en.pv.enflw.s.EnflwCrudServiceImpl"></bean>
+	<!--医生关注患者命令服务 -->
+	<bean id="IEnflwCudService" class="iih.en.pv.enflw.s.EnflwCrudServiceImpl"></bean>
+	<!-- <bean id="IEnflwCudService" class="iih.en.pv.enflw.s.EnflwCrudServiceImpl" />
+	<xap:service ref="IEnflwCudService" interface="iih.en.pv.enflw.i.IEnflwCudService">
+		<xap:binding name="tx" />
+	</xap:service> -->
+	
+	<!--执行就诊域服务日志 -->
+	<bean id="IEnLogService" class="iih.en.pv.s.EnLogServiceImpl"/>
+
+	<!-- 医保转诊单服务 -->
+	<bean id="IEnhpreferralCudService" class="iih.en.pv.enhpreferral.s.EnhpreferralCrudServiceImpl"/>
+	<xap:service ref="IEnhpreferralCudService" interface="iih.en.pv.enhpreferral.i.IEnhpreferralCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 团检记录数据维护服务 -->
+	<bean id="IEnpecmpyMDOCudService" class="iih.en.pv.inpatient.s.EnpecmpyMDOCrudServiceImpl" />
+	<!-- 团检记录数据维护服务 -->
+	<bean id="IEnpecmpyMDORService" class="iih.en.pv.inpatient.s.EnpecmpyMDOCrudServiceImpl" />
+	
+	<!-- 团检DO记录数据维护服务 -->
+	<bean id="IEnpecmpyCudService" class="iih.en.pv.inpatient.s.EnpecmpyCrudServiceImpl" />
+	<!-- 团检记录数据维护服务 -->
+	<bean id="IEnpecmpyRService" class="iih.en.pv.inpatient.s.EnpecmpyCrudServiceImpl" />
+	<bean id="IEnPeCmpyItmDORService" class="iih.en.pv.inpatient.s.EnPeCmpyItmDOCrudServiceImpl" />
+	
+	<!-- 团检记录数据维护服务 -->
+	<bean id="IEnpecmpyaccRService" class="iih.en.pv.enfee.s.EnpecmpyaccCrudServiceImpl" />
+	<bean id="IEnpecmpyaccCudService" class="iih.en.pv.enfee.s.EnpecmpyaccCrudServiceImpl" />
+	
+		<!-- 就诊登记记录命令服务  -->
+	<bean id="IOpregCudService" class="iih.en.pv.opreg.s.OpregCrudServiceImpl"/>
+	<xap:service ref="IOpregCudService" interface="iih.en.pv.opreg.i.IOpregCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 短信记录服务 -->
+	<bean id="IEnmsgRService" class="iih.en.pv.enmsg.s.EnmsgCrudServiceImpl" />
+	<bean id="IEnmsgCudService" class="iih.en.pv.enmsg.s.EnmsgCrudServiceImpl" />
+	
+	<!--就诊转诊记录 -->
+	<bean id="IEndeptransRService" class="iih.en.pv.deptrans.s.EndeptransCrudServiceImpl"></bean>
+	<!--就诊转诊记录 -->
+	<bean id="IEndeptransCudService" class="iih.en.pv.deptrans.s.EndeptransCrudServiceImpl"></bean>
+	<xap:service ref="IEndeptransCudService" interface="iih.en.pv.deptrans.i.IEndeptransCudService">
+		<xap:binding name="tx" />
+	</xap:service>
+	
+	<!--就诊标签 -->
+	<bean id="IEntagtpRService" class="iih.en.pv.entagtp.s.EntagtpCrudServiceImpl"></bean>
+	<!--就诊标签 -->
+	<bean id="IEntagtpCudService" class="iih.en.pv.entagtp.s.EntagtpCrudServiceImpl"></bean>
+	<xap:service ref="IEntagtpCudService" interface="iih.en.pv.entagtp.i.IEntagtpCudService">
+		<xap:binding name="tx" />
+	</xap:service>
+	
+	<!--  TTTTTTTTTTTTTTTTTTTT对外接口部分TTTTTTTTTTTTTTTTTTTTTTT    -->
+	<!--门诊对第三方服务-->	
+	 <bean id="IEnOpAptExternal2" class="iih.en.pv.out.s.EnOpAptExternalServiceImpl"/>   
+    <xap:service ref="IEnOpAptExternal2" interface="iih.en.pv.out.i.IEnOpAptExternal2"
+		requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+		
+	<!--住院对第三方服务-->	
+	 <bean id="IEnIpExternal" class="iih.en.pv.out.s.EnIpExternalServiceImpl"/>   
+    <xap:service ref="IEnIpExternal" interface="iih.en.pv.out.i.IEnIpExternal"
+		requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+	
+	<!--移动护理（入科、出院、转入、转出）-->	
+	<bean id="IEn4MbService" class="iih.en.pv.out.s.EnOutQryServiceImpl"/>
+	<xap:service ref="IEn4MbService" interface="iih.en.pv.out.i.IEn4MbService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--就诊对外查询服务（BL）-->	
+	<bean id="IEn4BlQryService" class="iih.en.pv.out.s.EnOutQryServiceImpl"/>
+	<xap:service ref="IEn4BlQryService" interface="iih.en.pv.out.i.IEn4BlQryService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 就诊对外查询服务（CI） -->
+	<bean id="IEn4CiQryService" class="iih.en.pv.out.s.EnOutQryServiceImpl"/>
+	<!-- 就诊对外命令服务（CI） -->
+	<bean id="IEn4CiCmdService" class="iih.en.pv.out.s.EnOutCmdServiceImpl"/>
+	<xap:service ref="IEn4CiCmdService" interface="iih.en.pv.out.i.IEn4CiCmdService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>		
+		
+	<!-- 就诊对外查询服务（MR） -->
+	<bean id="IEn4MrQryService" class="iih.en.pv.out.s.EnOutQryServiceImpl"/>
+	<!-- 就诊对外命令服务（MR） -->
+	
+	<!-- 就诊对外查询服务（SC） -->
+	<bean id="IEn4ScQryService" class="iih.en.pv.out.s.EnOutQryServiceImpl"/>
+	<!-- 就诊对外命令服务（SC） -->
+	
+	<!-- 就诊对外查询服务（PI） -->
+	<bean id="IEn4PiQryService" class="iih.en.pv.out.s.EnOutQryServiceImpl"/>
+	<!-- 就诊对外命令服务（PI） -->
+	
+	<!-- 就诊对外查询服务（ES应急系统） -->
+	<!-- 就诊对外命令服务（ES应急系统） -->
+	<bean id="IEn4ESCmdService" class="iih.en.pv.out.s.EnOutCmdServiceImpl"/>
+	<xap:service ref="IEn4ESCmdService" interface="iih.en.pv.out.i.IEn4ESCmdService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>	
+		
+	<!-- 就诊对血透查询服务 -->
+	<bean id="IEn4HDQryService" class="iih.en.pv.out.s.EnOutQryServiceImpl"/>
+	<xap:service ref="IEn4HDQryService" interface="iih.en.pv.out.i.IEn4HDService">
+		<xap:binding name="ws" />
+	</xap:service>	
+	
+	<!-- 就诊对外查询服务（EI） -->
+	<bean id="IEn4EiQryService" class="iih.en.pv.out.s.EnOutQryServiceImpl"/>
+	
+	<!-- 就诊对外查询服务 -->
+	<bean id="IEnOutQryService" class="iih.en.pv.out.s.EnOpOutCmdServiceImpl"/>
+	<!-- 就诊对外命令服务 -->
+	<bean id="IEnOutCmdService" class="iih.en.pv.out.s.EnOpOutQryServiceImpl"/>
+	<xap:service ref="IEnOutCmdService" interface="iih.en.pv.i.IEnOutCmdService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 移动入科数据维护服务 -->
+	<bean id="IEnmobadmdoRService" class="iih.en.pv.inpatient.s.EnmobadmdoCrudServiceImpl" />
+	<bean id="IEnmobadmdoCudService" class="iih.en.pv.inpatient.s.EnmobadmdoCrudServiceImpl" />
+	
+	<!-- APP预约对内接口 -->
+	<bean id="IEnOpAptInnerService" class="iih.en.itf.s.EnOpAptInnerServiceImpl"></bean>
+	<xap:service ref="IEnOpAptInnerService" interface="iih.en.itf.i.IEnOpAptInnerService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- APP预约对外接口 -->
+	<bean id="IAppointExternalService"
+		class="iih.en.pv.appoint.s.AppointExternalServieImpl"></bean>
+	<xap:service ref="IAppointExternalService" interface="iih.en.pv.appoint.i.IAppointExternalService" requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+	
+	<!-- 科室日报查询服务 -->
+	<bean id="IEnstatwardsayRService" class="iih.en.pv.enstatwardsay.s.EnstatwardsayCrudServiceImpl"/>
+	<!-- 科室日报命令服务 -->
+	<bean id="IEnstatwardsayCudService" class="iih.en.pv.enstatwardsay.s.EnstatwardsayCrudServiceImpl"/>
+	<!-- 床位占用明细查询服务 -->
+	<bean id="IEnbeditemRService" class="iih.en.pv.enbeditem.s.EnbeditemCrudServiceImpl"/>
+	<!-- 床位占用明细命令服务 -->
+	<bean id="IEnbeditemCudService" class="iih.en.pv.enbeditem.s.EnbeditemCrudServiceImpl"/>
+	
+	<!--患者授权管理 -->
+	<bean id="IEnauthRService" class="iih.en.pv.enres.s.EnauthCrudServiceImpl"></bean>
+	<!--患者授权管理 -->
+	<bean id="IEnauthCudService" class="iih.en.pv.enres.s.EnauthCrudServiceImpl"></bean>
+	<xap:service ref="IEnauthCudService" interface="iih.en.pv.enres.i.IEnauthCudService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--就诊事件查询服务 -->
+	<bean id="IEnevtRService" class="iih.en.pv.enres.s.EnevtCrudServiceImpl"></bean>
+	<!--就诊事件命令服务 -->
+	<bean id="IEnevtCudService" class="iih.en.pv.enres.s.EnevtCrudServiceImpl"></bean>
+	<xap:service ref="IEnevtCudService" interface="iih.en.pv.enres.i.IEnevtCudService">
+		<xap:binding name="tx" />
+	</xap:service>
+	
+	<!--就诊扩展表查询服务 -->
+	<bean id="IEnextRService" class="iih.en.pv.enres.s.EnextCrudServiceImpl"></bean>
+	<!--就诊扩展表命令服务 -->
+	<bean id="IEnextCudService" class="iih.en.pv.enres.s.EnextCrudServiceImpl"></bean>
+	<xap:service ref="IEnextCudService" interface="iih.en.pv.enres.i.IEnextCudService">
+		<xap:binding name="tx" />
+	</xap:service>
+	
+	<!-- 就诊_体征AggDO查询服务 -->
+    <bean id="IEnvtRService" class="iih.en.pv.vt.s.EnvtCrudServiceImpl"/> 
+    <!-- 就诊_体征AggDO命令服务 -->
+    <bean id="IEnvtCudService" class="iih.en.pv.vt.s.EnvtCrudServiceImpl"/>
+    <xap:service ref="IEnvtCudService" interface="iih.en.pv.vt.i.IEnvtCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 就诊_体征查询服务 -->
+    <bean id="IEnvtMDORService" class="iih.en.pv.vt.s.EnvtMDOCrudServiceImpl"/> 
+    <!-- 就诊_体征命令服务 -->
+    <bean id="IEnvtMDOCudService" class="iih.en.pv.vt.s.EnvtMDOCrudServiceImpl"/>
+    <xap:service ref="IEnvtMDOCudService" interface="iih.en.pv.vt.i.IEnvtMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 就诊_体征明细查询服务 -->
+    <bean id="IEnVtSrvDORService" class="iih.en.pv.vt.s.EnVtSrvDOCrudServiceImpl"/> 
+    <!-- 就诊_体征明细命令服务 -->
+    <bean id="IEnVtSrvDOCudService" class="iih.en.pv.vt.s.EnVtSrvDOCrudServiceImpl"/>
+    <xap:service ref="IEnVtSrvDOCudService" interface="iih.en.pv.vt.i.IEnVtSrvDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 就诊评分类型-->
+    <bean id="IEnscotpRService" class="iih.en.pv.sco.scotp.s.EnscotpCrudServiceImpl"/> 
+    <!-- 就诊评分类型命令服务 -->
+    <bean id="IEnscotpCudService" class="iih.en.pv.sco.scotp.s.EnscotpCrudServiceImpl"/>
+    <xap:service ref="IEnscotpCudService" interface="iih.en.pv.sco.scotp.i.IEnscotpCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者银行账户查询服务-->
+    <bean id="IEnentbankaccRService" class="iih.en.pv.enentbankacc.s.EnentbankaccCrudServiceImpl"/> 
+    <!-- 患者银行账户命令服务 -->
+    <bean id="IEnEntbankaccCudService" class="iih.en.pv.enentbankacc.s.EnentbankaccCrudServiceImpl"/>
+    <xap:service ref="IEnentbankaccCudService" interface="iih.en.pv.enentbankacc.i.IEnentbankaccCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 就诊_拓展，vip设置查询业务   -->
+	<bean id="IEnvipRService" class="iih.en.pv.enres.s.EnvipCrudServiceImpl"></bean>
+	<xap:service ref="IEnvipRService" interface="iih.en.pv.enres.i.IEnvipRService"  requires="tx">
+		<xap:binding name="jsonrpc"/>
+	</xap:service>
+	
+</beans>

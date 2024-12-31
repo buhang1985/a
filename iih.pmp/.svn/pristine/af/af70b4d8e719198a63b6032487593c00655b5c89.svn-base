@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+XAP-Component-Version: 0.2.0-sdlanling2-SNAPSHOT
+XAP-Component-Namespace: iih
+XAP-Component-Name: iih.pmp.pay
+XAP-Component-Dependencies: iih/iih.pmp.alipaySDK/0.2.0-sdlanling2-SNA
+ PSHOT,iih/iih.pmp.pay.base/0.2.0-sdlanling2-SNAPSHOT,iih/iih.pmp.wxpa
+ ySDK/0.2.0-sdlanling2-SNAPSHOT,iih/iih.pmp.yilutongSDK/0.2.0-sdlanlin
+ g2-SNAPSHOT,iih/iih.pmp.wxpay.cmbc/0.2.0-sdlanling2-SNAPSHOT,iih/iih.
+ pmp.yxpaySDK/0.2.0-sdlanling2-SNAPSHOT
+

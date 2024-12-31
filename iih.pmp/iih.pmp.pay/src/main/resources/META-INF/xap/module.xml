@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	<bean id="iPmpPayService" class="iih.pmp.pay.s.PmpPayServiceImpl" />
+	<xap:service ref="iPmpPayService"
+		interface="iih.pmp.pay.i.IPmpPayService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="iOrdService"
+		class="iih.pmp.pay.ord.s.OrdCrudServiceImpl" />
+	<xap:service ref="iOrdService"
+		interface="iih.pmp.pay.ord.i.IOrdCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="iTradeService"
+		class="iih.pmp.pay.trade.s.TradeCrudServiceImpl" />
+	<xap:service ref="iTradeService"
+		interface="iih.pmp.pay.trade.i.ITradeCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="iTradeMonitorService"
+		class="iih.pmp.pay.trademonitor.s.TrademonitorCrudServiceImpl" />
+	<xap:service ref="iTradeMonitorService"
+		interface="iih.pmp.pay.trademonitor.i.ITrademonitorCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 带事务的接口 -->
+	<bean id="iPmpPayOperatorService"
+		class="iih.pmp.pay.s.PmpPayOperatorServiceImpl" />
+	<xap:service ref="iPmpPayOperatorService"
+		interface="iih.pmp.pay.i.IPmpPayOperatorService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 不带事务的接口 -->
+	<bean class="iih.pmp.pay.s.PmpPayExternalServiceImpl"
+		id="IPmpPayExternalService" />
+
+	<bean id="IChannelbillService"
+		class="iih.pmp.pay.channelbill.s.ChannelbillCrudServiceImpl" />
+	<xap:service ref="IChannelbillService"
+		interface="iih.pmp.pay.channelbill.i.IChannelbillCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IChannelbillitemService"
+		class="iih.pmp.pay.channelbillitem.s.ChannelbillitemCrudServiceImpl" />
+	<xap:service ref="IChannelbillitemService"
+		interface="iih.pmp.pay.channelbillitem.i.IChannelbillitemCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IBillcheckexceptionService"
+		class="iih.pmp.pay.billcheckexception.s.BillcheckexceptionCrudServiceImpl" />
+	<xap:service ref="IBillcheckexceptionService"
+		interface="iih.pmp.pay.billcheckexception.i.IBillcheckexceptionCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IBillcheckrstService"
+		class="iih.pmp.pay.billcheckrst.s.BillcheckrstCrudServiceImpl" />
+	<xap:service ref="IBillcheckrstService"
+		interface="iih.pmp.pay.billcheckrst.i.IBillcheckrstCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<xap:service ref="MerchantinformationCrudService"
+		interface="iih.pmp.pay.merchantinformation.i.IMerchantinformationCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="MerchantinformationCrudService"
+		class="iih.pmp.pay.merchantinformation.s.MerchantinformationCrudServiceImpl">
+	</bean>
+	<xap:service ref="MerchantinformationCrudService"
+		interface="iih.pmp.pay.merchantinformation.i.IMerchantinformationRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<xap:service ref="ThirdpartyconfigCrudService"
+		interface="iih.pmp.pay.thirdpartyconfig.i.IThirdpartyconfigCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="ThirdpartyconfigCrudService"
+		class="iih.pmp.pay.thirdpartyconfig.s.ThirdpartyconfigCrudServiceImpl">
+	</bean>
+	<xap:service ref="MerchantinformationCrudService"
+		interface="iih.pmp.pay.thirdpartyconfig.i.IThirdpartyconfigRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 微信支付SDK服务 -->
+	<bean id="WxPaySdkService"
+		class="iih.pmp.pay.s.WxPaySdkServiceImpl"></bean>
+	<xap:service ref="WxPaySdkService"
+		interface="iih.pmp.pay.i.IWxPaySdkService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 支付宝支付SDK服务 -->
+	<bean id="AliPaySdkService"
+		class="iih.pmp.pay.s.AliPaySdkServiceImpl"></bean>
+	<xap:service ref="AliPaySdkService"
+		interface="iih.pmp.pay.i.IAliPaySdkService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 支付平台后台任务日志服务 -->
+	<bean id="PmpTaskLogService"
+		class="iih.pmp.pay.task.log.PmpTaskLogServiceImpl">
+	</bean>
+	<xap:service ref="PmpTaskLogService"
+		interface="iih.pmp.pay.log.IPmpTaskLogService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<!-- 支付日志服务 -->
+	<bean id="PmpPayLogService"
+		class="iih.pmp.pay.log.PmpPayLogServiceImpl">
+	</bean>
+	<xap:service ref="PmpPayLogService"
+		interface="iih.pmp.pay.log.IPmpPayLogService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+</beans>

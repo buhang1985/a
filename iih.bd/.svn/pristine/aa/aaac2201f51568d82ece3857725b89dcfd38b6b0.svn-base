@@ -1,0 +1,59 @@
+package iih.bd.srv.dataimpt;
+
+import iih.bd.dataimport.BDBaseDataImport;
+import xap.mw.core.data.BaseDO;
+import xap.mw.core.data.BizException;
+import xap.mw.coreitf.d.FDate;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.xbd.workcalendar.d.WorkCalendarDO;
+import xap.sys.xbd.workcalendar.i.IWorkcalendarMDOCudService;
+
+/**
+ * 工作日历
+ * 
+ * @author Administrator
+ *
+ */
+public class WorkCalendarDataImptServiceImpl extends BDBaseDataImport<WorkCalendarDO> {
+
+	@Override
+	protected BaseDO getDoInstance() {
+		return new WorkCalendarDO();
+	}
+
+	@Override
+	protected String[] getCheckNullProps() {
+		return new String[] { WorkCalendarDO.ID_WORKCALENDAR, WorkCalendarDO.NAME, WorkCalendarDO.CODE };
+	}
+
+	@Override
+	protected void insertToDB(WorkCalendarDO[] importDatas) throws BizException {
+		ServiceFinder.find(IWorkcalendarMDOCudService.class).insert(importDatas);
+	}
+
+	@Override
+	protected void updateToDB(WorkCalendarDO[] importDatas) throws BizException {
+		ServiceFinder.find(IWorkcalendarMDOCudService.class).update(importDatas);
+	}
+
+	@Override
+	protected void updateImportNewData(WorkCalendarDO[] importDatas) throws BizException {
+		super.updateImportNewData(importDatas);
+
+		// 设置默认日历起始日为当天
+		setBeginAndEndDate(importDatas);
+	}
+
+	/**
+	 * 设置默认日历起始日为当天
+	 * 
+	 * @param DOS
+	 */
+	private void setBeginAndEndDate(WorkCalendarDO[] DOS) {
+		for (WorkCalendarDO workCalendarDO : DOS) {
+			FDate today = new FDate();
+			workCalendarDO.setBegindate(today);
+			workCalendarDO.setEnddate(today);
+		}
+	}
+}

@@ -1,0 +1,19 @@
+package iih.ci.mi.sysparam;
+
+import iih.mi.itf2.util.MiParamUtil;
+
+/**
+ * 临床医保参数
+ * @author HUMS
+ *
+ */
+public class CiMiParamUtil {
+
+	/**
+	 * 医保特殊病流程下，医生站采用病种模式还是采用诊断模式 0 病种模式， 1诊断模式
+	 * @return
+	 */
+	public static Integer MHIR0001(){
+		return MiParamUtil.MHIR0001();
+	}
+}

@@ -1,0 +1,74 @@
+package iih.ei.std.s.v1.bp.mp.dispdruginfo;
+
+import iih.bd.base.utils.ArrayListUtil;
+import iih.ei.std.d.v1.mp.opdispdrugInfo.d.OPCollocateDrugDTO;
+import iih.ei.std.d.v1.mp.opdispdrugInfo.d.OPCollocateDrugResult;
+import iih.ei.std.d.v1.mp.opdispdrugInfo.d.OPDispDrugParamDTO;
+import iih.ei.std.s.v1.bp.mp.dispdruginfo.qry.GetOPDispDrugInfoSql;
+import org.apache.commons.lang.StringUtils;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.Context;
+import xap.mw.coreitf.d.FDouble;
+import xap.sys.appfw.orm.utils.AppFwUtil;
+/**
+ * 
+* @ClassName: QryOPDispDrugInfoBP
+* @Description: 获取门诊发药明细
+* @author zhy
+* @date 2019年10月16日
+*
+ */
+public class QryOPDispDrugInfoBP {
+	
+	/**
+	 * 程序主入口
+	 * @param param
+	 * @return
+	 * @throws BizException 
+	 */
+	public OPCollocateDrugResult exec(OPDispDrugParamDTO param) throws BizException {
+		
+		// 1.查询门诊发药明细
+		OPCollocateDrugDTO[] collocateDTOS = getDispDrugInfo(param);
+		
+		// 2.处理总金额 保持和门急诊医生站处方金额一致
+		handlepri(collocateDTOS);
+		
+		OPCollocateDrugResult result = new OPCollocateDrugResult();
+		result.setCollocatedrug(ArrayListUtil.ConvertToFArrayList(collocateDTOS));
+		return result;
+	}
+
+	/**
+	 * 查询门诊发药明细
+	 * @param param
+	 * @return
+	 * @throws BizException 
+	 */
+	private OPCollocateDrugDTO[] getDispDrugInfo(OPDispDrugParamDTO param) throws BizException {
+		String deptId = Context.get().getDeptId();
+		GetOPDispDrugInfoSql sql = new GetOPDispDrugInfoSql(param.getId_pres(),deptId);
+		OPCollocateDrugDTO[] dos = (OPCollocateDrugDTO[]) AppFwUtil.getDORstWithDao(sql, OPCollocateDrugDTO.class);
+		return dos;
+	}
+
+	/**
+	 * 处理总金额 保持和门急诊医生站处方金额一致
+	 * @param collocateDTOS
+	 */
+	private void handlepri(OPCollocateDrugDTO[] collocateDTOS) {
+		for (OPCollocateDrugDTO presHerb : collocateDTOS) {
+			//总价
+			FDouble atm_tatol=FDouble.ZERO_DBL;
+			if(!StringUtils.isBlank(presHerb.getPricetotal()) && 
+					!StringUtils.isBlank(presHerb.getPrice())) {
+				FDouble quan_cur = new FDouble(presHerb.getPricetotal()).setScale(4, FDouble.ROUND_HALF_UP);
+				FDouble price = new FDouble(presHerb.getPrice()).setScale(4, FDouble.ROUND_HALF_UP);
+				FDouble amt = quan_cur.multiply(price).setScale(2, FDouble.ROUND_HALF_UP);
+				atm_tatol=atm_tatol.add(amt);
+			}
+			presHerb.setPricetotal(atm_tatol.toString());
+		}
+		
+	}
+}

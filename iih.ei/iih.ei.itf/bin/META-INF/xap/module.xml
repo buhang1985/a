@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+
+	<!-- 接口注册 -->
+	<bean id="IEiitfdoCudService"
+		class="iih.ei.itf.eiitfdo.s.EiitfdoCrudServiceImpl"></bean>
+	<xap:service ref="IEiitfdoCudService"
+		interface="iih.ei.itf.eiitfdo.i.IEiitfdoCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IEiitfdoRService"
+		class="iih.ei.itf.eiitfdo.s.EiitfdoCrudServiceImpl"></bean>
+	<xap:service ref="IEiitfdoRService"
+		interface="iih.ei.itf.eiitfdo.i.IEiitfdoRService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IEiitfparamdoCudService"
+		class="iih.ei.itf.eiitfparamdo.s.EiitfparamdoCrudServiceImpl"></bean>
+	<xap:service ref="IEiitfparamdoCudService"
+		interface="iih.ei.itf.eiitfparamdo.i.IEiitfparamdoCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IEiitfparamdoRService"
+		class="iih.ei.itf.eiitfparamdo.s.EiitfparamdoCrudServiceImpl"></bean>
+	<xap:service ref="IEiitfparamdoRService"
+		interface="iih.ei.itf.eiitfparamdo.i.IEiitfparamdoRService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IEiitfresultdoCudService"
+		class="iih.ei.itf.eiitfresultdo.s.EiitfresultdoCrudServiceImpl"></bean>
+	<xap:service ref="IEiitfresultdoCudService"
+		interface="iih.ei.itf.eiitfresultdo.i.IEiitfresultdoCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IEiitfresultdoRService"
+		class="iih.ei.itf.eiitfresultdo.s.EiitfresultdoCrudServiceImpl"></bean>
+	<xap:service ref="IEiitfresultdoRService"
+		interface="iih.ei.itf.eiitfresultdo.i.IEiitfresultdoRService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 接口分类 -->
+	<bean id="EiitfcateCrudService"
+		class="iih.ei.itf.eiitfcate.s.EiitfcateCrudServiceImpl"></bean>
+	<xap:service ref="EiitfcateCrudService"
+		interface="iih.ei.itf.eiitfcate.i.IEiitfcateCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="EiitfcateCrudService"
+		interface="iih.ei.itf.eiitfcate.i.IEiitfcateRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 接口分类项目 -->
+	<bean id="EiitfcateitmCrudService"
+		class="iih.ei.itf.eiitfcateitm.s.EiitfcateitmCrudServiceImpl"></bean>
+	<xap:service ref="EiitfcateitmCrudService"
+		interface="iih.ei.itf.eiitfcateitm.i.IEiitfcateitmCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="EiitfcateitmCrudService"
+		interface="iih.ei.itf.eiitfcateitm.i.IEiitfcateitmRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 服务测试 -->
+	<bean id="EiItfTestCrudService"
+		class="iih.ei.itf.itftest.s.EiItfTestCrudServiceImpl"></bean>
+	<xap:service ref="EiItfTestCrudService"
+		interface="iih.ei.itf.itftest.i.IEiItfTestCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="EiItfTestCrudService"
+		interface="iih.ei.itf.itftest.i.IEiItfTestRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 接口分类项目扩展服务 -->
+	<bean id="EiItfCateItmExtCrudService"
+		class="iih.ei.itf.eiitfcateitm.s.EiItfCateItmExtCrudServiceImpl"></bean>
+	<xap:service ref="EiItfCateItmExtCrudService"
+		interface="iih.ei.itf.eiitfcateitm.i.IEiItfCateItmExtCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="EiItfCateItmExtCrudService"
+		interface="iih.ei.itf.eiitfcateitm.i.IEiItfCateItmExtRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 接口分类扩展服务 -->
+	<bean id="EiItfCateExtCrudService"
+		class="iih.ei.itf.eiitfcate.s.EiItfCateExtCrudServiceImpl"></bean>
+	<xap:service ref="EiItfCateExtCrudService"
+		interface="iih.ei.itf.eiitfcate.i.IEiItfCateExtCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="EiItfCateExtCrudService"
+		interface="iih.ei.itf.eiitfcate.i.IEiItfCateExtRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 接口文档服务 -->
+	<bean id="ItfdocCrudService"
+		class="iih.ei.itf.eiitfcate.s.ItfdocCrudServiceImpl"></bean>
+	<xap:service ref="ItfdocCrudService"
+		interface="iih.ei.itf.eiitfcate.i.IItfdocCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="ItfdocCrudService"
+		interface="iih.ei.itf.eiitfcate.i.IItfdocRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+</beans>

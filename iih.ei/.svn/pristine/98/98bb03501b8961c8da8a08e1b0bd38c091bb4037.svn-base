@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  	<!-- 所属集团 -->
+  	<code_grp></code_grp>
+  	<!-- 所属组织 -->
+  	<code_org></code_org>
+  	<!-- 就诊类型编码 -->
+    <code_entp></code_entp>
+    <!-- 患者编码 -->
+    <code_pat></code_pat>
+    <!-- 就诊次数 -->
+    <times_en></times_en>
+    <!-- 就诊编码 -->
+    <code_en></code_en>
+    <!-- 服务基本分类编码 -->
+    <code_srvca></code_srvca>
+    <!-- 医嘱类型 -->
+    <sd_srvtp></sd_srvtp>
+    <!-- 查询开始时间 -->
+    <dt_b_search></dt_b_search>
+    <!-- 查询结束时间 -->
+    <dt_e_search></dt_e_search>
+    <!-- 医嘱号 -->
+    <code_or></code_or>
+    <!-- 签署医生编码 -->
+    <code_emp_sign></code_emp_sign>
+    <!-- 签署科室编码 -->
+    <code_dep_sign></code_dep_sign>
+    <!-- 签署标识 -->
+    <fg_sign></fg_sign>
+    <!-- 签署核对标识 -->
+    <fg_chk></fg_chk>
+    <!-- 作废标志 -->
+    <fg_canc></fg_canc>
+    <!-- 记账状态 -->
+    <sd_su_bl></sd_su_bl>
+    <!-- 执行科室编码 -->
+    <code_dep_mp></code_dep_mp>
+  	
+</root>

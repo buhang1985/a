@@ -1,0 +1,8 @@
+def webappSpec = copySpec {
+    from 'src/main/webapp'
+    into 'webapp'
+}
+
+jar {
+	with webappSpec
+}

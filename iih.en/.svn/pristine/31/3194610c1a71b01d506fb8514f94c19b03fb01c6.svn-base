@@ -1,0 +1,32 @@
+package iih.en.ip.s.bp.ip;
+
+import iih.en.comm.validator.EnValidator;
+import iih.sc.apt.aptip.d.AptipAggDO;
+import iih.sc.apt.aptip.i.IAptipCudService;
+import iih.sc.apt.aptip.i.IAptipRService;
+import iih.sc.apt.dto.d.AptIpDTO;
+import xap.mw.core.data.BizException;
+import xap.mw.sf.core.util.ServiceFinder;
+/**
+ * 取消入院通知单
+ * @author renying
+ *
+ */
+public class CancAptIpBP {
+	/**
+	 * 取消入院通知单
+	 * 
+	 * @param entipntDTO
+	 * @param entId
+	 * @throws BizException
+	 */
+	public void exec(AptIpDTO aptIpDTO) throws BizException {		
+		EnValidator.validateParam("申请单主键", aptIpDTO.getId_scaptip());
+		IAptipRService rService = ServiceFinder.find(IAptipRService.class);		
+		IAptipCudService service = ServiceFinder.find(IAptipCudService.class);
+		AptipAggDO aggdo = rService.findById(aptIpDTO.getId_scaptip());	
+		service.delete(new AptipAggDO[] { aggdo });
+		return;
+	}
+
+}

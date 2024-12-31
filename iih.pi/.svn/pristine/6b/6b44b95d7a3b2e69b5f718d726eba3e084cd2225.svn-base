@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	<!-- 患者信息服务 -->
+	<bean id="IPatiCudService" class="iih.pi.reg.pat.s.PatiCrudServiceImpl" />
+	<xap:service ref="IPatiCudService" interface="iih.pi.reg.pat.i.IPatiCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IPiPatContDOCrudService" class="iih.pi.reg.pat.s.PiPatContDOCrudServiceImpl" />
+	<xap:service ref="IPiPatContDOCrudService" interface="iih.pi.reg.pat.i.IPiPatContDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IPiPatBiolDORService" class="iih.pi.reg.pat.s.PiPatBiolDOCrudServiceImpl" />
+	<xap:service ref="IPiPatBiolDORService" interface="iih.pi.reg.pat.i.IPiPatBiolDORService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IPatiMDOCudService" class="iih.pi.reg.pat.s.PatiMDOCrudServiceImpl" />
+	<xap:service ref="IPatiMDOCudService" interface="iih.pi.reg.pat.i.IPatiMDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IPiPatCardDOCudService" class="iih.pi.reg.pat.s.PiPatCardDOCrudServiceImpl" />
+	<xap:service ref="IPiPatCardDOCudService" interface="iih.pi.reg.pat.i.IPiPatCardDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IPatiAddrDOCudService" class="iih.pi.reg.pat.s.PatiAddrDOCrudServiceImpl" />
+	<xap:service ref="IPatiAddrDOCudService" interface="iih.pi.reg.pat.i.IPatiAddrDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IPiPatHpDOCrudService" class="iih.pi.reg.pat.s.PiPatHpDOCrudServiceImpl" />
+	<xap:service ref="IPiPatHpDOCrudService" interface="iih.pi.reg.pat.i.IPiPatHpDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 团体患者关系CRUD服务 -->
+	<bean id="IPatcustCrudService" class="iih.pi.reg.patcust.s.PatcustCrudServiceImpl" />
+	<xap:service ref="IPatcustCrudService" interface="iih.pi.reg.patcust.i.IPatcustCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 患者信息分页查询服务 -->
+	<bean id="IPatiRPageService" class="iih.pi.reg.pat.s.PatiRPageServiceImpl" />
+
+	<!--患者域查询服务 -->
+	<bean id="IPiRegQryService" class="iih.pi.reg.s.PiRegQryServiceImpl" />
+	<xap:service ref="IPiRegQryService" interface="iih.pi.reg.i.IPiRegQryService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 患者域维护服务 -->
+	<bean id="IPiRegMaintainService" class="iih.pi.reg.s.PiRegMaintainServiceImpl" />
+	<xap:service ref="IPiRegMaintainService" interface="iih.pi.reg.i.IPiRegMaintainService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!--患者域校验服务 -->
+	<bean id="IPiRegValidateService" class="iih.pi.reg.s.PiRegValidateServiceImpl" />
+
+	<!--患者关键信息变动记录 -->
+	<bean id="IPathistCrudService" class="iih.pi.reg.pathist.s.PathistCrudServiceImpl" />
+	<xap:service ref="IPathistCrudService" interface="iih.pi.reg.pathist.i.IPathistCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!--患者不良记录服务 -->
+	<bean id="IPatbbrCrudService" class="iih.pi.reg.patbbr.s.PatbbrCrudServiceImpl" />
+	<xap:service ref="IPatbbrCrudService" interface="iih.pi.reg.patbbr.i.IPatbbrCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 患者标签服务 -->
+	<bean id="IPattagCrudService" class="iih.pi.reg.pattag.s.PattagCrudServiceImpl" />
+	<xap:service ref="IPattagCrudService" interface="iih.pi.reg.pattag.i.IPattagCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 患者信息查询webservice服务 -->
+	<bean id="IPiPatInfoQryService" class="iih.pi.reg.s.PiPatInfoQryServiceImpl" />
+	<xap:service ref="IPiPatInfoQryService" interface="iih.pi.reg.i.IPiPatInfoQryService">
+		<xap:binding name="ws" />
+	</xap:service>
+
+	<!-- 患者建档webserice服务 -->
+	<bean id="IPiPatCreateService" class="iih.pi.reg.s.PiPatCreateServiceImpl" />
+	<xap:service ref="IPiPatCreateService" interface="iih.pi.reg.i.IPiPatCreateService"
+		requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+
+	<!-- 患者信息更新webserice服务 -->
+	<bean id="IPiPatInfoUpdateService" class="iih.pi.reg.s.PiPatInfoUpdateServiceImpl" />
+	<xap:service ref="IPiPatInfoUpdateService" interface="iih.pi.reg.i.IPiPatInfoUpdateService"
+		requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+
+	<!-- 患者域日志服务 -->
+	<bean id="PiPatLogService" class="iih.pi.reg.s.PiPatLogServiceImpl" />
+	<xap:service ref="PiPatLogService" interface="iih.pi.reg.i.IPiPatLogService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 查询工本费服务 -->
+	<bean id="PatiPayOutQryService" class="iih.pi.reg.pat.s.IPatiPayOutQryServiceImpl" />
+	<xap:service ref="PatiPayOutQryService" interface="iih.pi.reg.pat.i.IPatiPayOutQryService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 患者不良记录查询WebService -->
+	<bean id="PiPatBadRecQryWService" class="iih.pi.reg.s.PiPatBadRecQryWServiceImpl"></bean>
+	<xap:service ref="PiPatBadRecQryWService" interface="iih.pi.reg.i.IPiPatBadRecQryWService">
+		<xap:binding name="ws" />
+	</xap:service>
+	
+	<!--患者不良记录拓展服务 -->
+	<!-- <bean id="IPatbbrExtCudService" class="iih.pi.reg.patbbr.s.PatbbrExtCrudServiceImpl" />
+	<xap:service ref="IPatbbrExtCudService" interface="iih.pi.reg.patbbr.i.IPatbbrExtCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service> -->
+
+	<!--患者不良记录扩展服务 -->
+	<bean id="PatbbrExtCrudService" class="iih.pi.reg.patbbr.s.PatbbrExtCrudServiceImpl" />
+	<xap:service ref="PatbbrExtCrudService" interface="iih.pi.reg.patbbr.i.IPatbbrExtCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--患者注册提供给费用域的对外服务 -->
+	<bean id="IPiRegBlService" class="iih.pi.reg.s.external.provide.PiRegBlRServiceImpl" />
+	<xap:service ref="IPiRegBlService" interface="iih.pi.reg.i.external.provide.IPiRegBlService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者提供给就诊服务 -->
+	<bean id="PiRegEnService" class="iih.pi.reg.s.external.provide.PiRegEnServiceImpl" />
+	<xap:service ref="PiRegEnService"
+		interface="iih.pi.reg.i.external.provide.IPiRegEnService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者注册提供给费用域的对外查询接口 -->
+	<bean id="IPiRegMpRService" class="iih.pi.reg.s.external.provide.PiRegMpServiceImpl" />
+	<xap:service ref="IPiRegMpRService"
+		interface="iih.pi.reg.i.external.provide.IPiRegMpRService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者对接体检接口 -->
+	<bean id="IPiRegPeService" class="iih.pi.reg.s.external.provide.PiRegPeServiceImpl" />
+	<xap:service ref="IPiRegPeService"
+		interface="iih.pi.reg.i.external.provide.IPiRegPeService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 团检单位对接体检接口 -->
+	<bean id="IContractCustPeService" class="iih.pi.reg.s.external.provide.ContractCustPeServiceImpl" />
+	<xap:service ref="IContractCustPeService"
+		interface="iih.pi.reg.i.external.provide.IContractCustPeService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 人员同步到患者信息接口 -->
+	<bean id="IPatvspsnCudService" class="iih.pi.reg.patvspsn.s.PatvspsnCrudServiceImpl" />
+	<xap:service ref="IPatvspsnCudService"
+		interface="iih.pi.reg.patvspsn.i.IPatvspsnCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 人员同步到患者信息查询接口 -->
+	<bean id="IPatvspsnRService" class="iih.pi.reg.patvspsn.s.PatvspsnCrudServiceImpl" />
+	<xap:service ref="IPatvspsnRService"
+		interface="iih.pi.reg.patvspsn.i.IPatvspsnRService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者域自助机接口总服务 ly -->
+	<bean id="IPiPatRegService"
+		class="iih.pi.reg.s.PiPatRegServiceImpl">
+	</bean>
+	<xap:service ref="IPiPatRegService"
+		interface="iih.pi.reg.i.IPiPatRegService" requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+
+	<!-- 患者病案编码CRUD服务 -->
+	<bean id="IPatamrcodeCrudService" class="iih.pi.reg.patamrcode.s.PatamrcodeCrudServiceImpl" />
+	<xap:service ref="IPatamrcodeCrudService" interface="iih.pi.reg.patamrcode.i.IPatamrcodeCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 应急系统同步服务 -->
+	<bean id="IPiEsoeSyncService" class="iih.pi.reg.esoe.s.PiEsoeSyncServiceImpl" />
+	<xap:service ref="IPiEsoeSyncService" interface="iih.pi.reg.esoe.i.IPiEsoeSyncService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+</beans>

@@ -1,0 +1,62 @@
+package iih.bl.cg.s.bp.ip;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import iih.bl.cg.blcgquery.d.BlCgIpDO;
+import iih.bl.cg.dto.alwaysor.d.BlCgAlwaysOrCgInfoDTO;
+import iih.bl.cg.dto.alwaysor.d.BlCgAlwaysOrCondDTO;
+import xap.mw.core.data.BizException;
+import xap.mw.core.utils.ArrayUtil;
+import xap.sys.jdbc.facade.DAFacade;
+
+/**
+ * 获取持续医嘱可退费记账信息
+ * @author ly 2020/03/12
+ *
+ */
+public class GetAlwaysOrCgInfoBP {
+
+	/**
+	 * 获取持续医嘱可退费记账信息
+	 * @param condDtos
+	 * @return
+	 * @throws BizException
+	 */
+	public BlCgAlwaysOrCgInfoDTO[] exec(BlCgAlwaysOrCondDTO[] condDtos) throws BizException{
+	
+		if(ArrayUtil.isEmpty(condDtos))
+			return null;
+		
+		List<String> orIdList = new ArrayList<String>();
+		for (BlCgAlwaysOrCondDTO condDto : condDtos) {
+			orIdList.add(condDto.getId_or());
+		}
+		
+		//查询医嘱记账数据
+		BlCgIpDO[] cgDos = this.getCgData(orIdList.toArray(new String[0]));
+		
+		
+		//查询服务及单位数据
+		
+		//计算需退数量
+		
+		return null;
+	}
+	
+	/**
+	 * 查询记账数据
+	 * @param orIds
+	 * @return
+	 * @throws BizException
+	 */
+	@SuppressWarnings("unchecked")
+	private BlCgIpDO[] getCgData(String[] orIds) throws BizException{
+		
+		DAFacade daf = new DAFacade();
+		List<BlCgIpDO> cgDOList = (List<BlCgIpDO>)daf.findByAttrValStrings(BlCgIpDO.class, BlCgIpDO.ID_OR, orIds, 
+				new String[] { BlCgIpDO.ID_CGIP, BlCgIpDO.QUAN, BlCgIpDO.QUAN_RET });		
+		
+		return cgDOList.toArray(new BlCgIpDO[0]);
+	}
+}

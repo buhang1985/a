@@ -1,0 +1,70 @@
+package iih.ci.mi.ord.bp;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import iih.ci.mi.ord.i.meta.OrdMiRstDTO;
+import iih.ci.mi.ord.i.meta.OrdSrvMiRstDTO;
+import iih.ci.ord.ciorder.d.CiOrderDO;
+import iih.ci.ord.ciorder.d.OrdSrvDO;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.FArrayList;
+import xap.sys.jdbc.facade.DAFacade;
+
+/**
+ * 更新医嘱医保信息
+ * @author HUMS
+ *
+ */
+public class UpdateOrdMiInfoBP {
+
+	public OrdMiRstDTO[] updateOrdMiInfo(OrdMiRstDTO[] OrdMiRsts) throws BizException {
+		
+		// 医嘱更新字段
+		String[] ordFieldNames = new String[] {  CiOrderDO.EU_HPJUDGE , CiOrderDO.EU_ORHP};
+		// 服务项目更新字段
+		String[] orsSrvFiledNames = new String[] { OrdSrvDO.EU_HPJUDGE, OrdSrvDO.EU_ORSRVHP};
+		
+		// 待更新医保适应症结果的医嘱集合
+		List<CiOrderDO> saveOrderList = new ArrayList<CiOrderDO>();
+		// 待更新医保适应症结果的服务项目集合
+		List<OrdSrvDO> saveOrdSrvList = new ArrayList<OrdSrvDO>();
+		
+		for(OrdMiRstDTO ordMiRst : OrdMiRsts){
+			CiOrderDO order = new CiOrderDO();
+			
+			FArrayList ordSrvMiRstFList = ordMiRst.getOrdSrvMiRstFlist();
+			
+			for(Object obj : ordSrvMiRstFList){
+				
+				OrdSrvMiRstDTO ordSrvMiRst = (OrdSrvMiRstDTO)obj;
+				OrdSrvDO ordSrv = new OrdSrvDO();
+				ordSrv.setId_orsrv(ordSrvMiRst.getId_orsrv());
+				ordSrv.setEu_hpjudge(ordSrvMiRst.getEu_hpjudge());
+				ordSrv.setEu_orsrvhp(ordSrvMiRst.getEu_orsrvhp());
+				
+				saveOrdSrvList.add(ordSrv);
+			}
+			
+			order.setId_or(ordMiRst.getId_or());
+			order.setEu_orhp(ordMiRst.getEu_orhp());
+			order.setEu_hpjudge(ordMiRst.getEu_hpjudge());
+			
+			saveOrderList.add(order);
+		}
+				
+		// 更新医嘱、服务项目的医保属性
+		if (saveOrderList.size() > 0) {
+			new DAFacade().updateDOArray(saveOrderList.toArray(new CiOrderDO[saveOrderList.size()]), ordFieldNames);
+			new DAFacade().updateDOArray(saveOrdSrvList.toArray(new OrdSrvDO[saveOrdSrvList.size()]), orsSrvFiledNames);
+			
+			// 清空医嘱医保扩展表，重新保存数据
+			//String whereStr = " id_orsrv in ( " + idOrSrvBuffer.substring(1) + ")";
+			//new DAFacade().deleteByWhere(OrdSrvHpDO.class, whereStr);
+			//ordextCudService.insert(ordSrvHpList.toArray(new OrdSrvHpDO[ordSrvHpList.size()]));
+		}
+
+		
+		return null;
+	}
+}

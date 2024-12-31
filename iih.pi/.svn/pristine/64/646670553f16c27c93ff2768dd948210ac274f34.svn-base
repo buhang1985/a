@@ -1,0 +1,48 @@
+package iih.pi.card.s;
+
+import iih.pi.card.dto.d.CardrtnrptDTO;
+import iih.pi.card.i.IPiCardQryService;
+import iih.pi.card.s.bp.cardrtnrpt.CardrtnrptBp;
+import iih.pi.card.s.bp.cardrtnrpt.CardrtnrptBpPaging;
+import xap.mw.core.annotation.Service;
+import xap.mw.core.data.BizException;
+import xap.mw.core.service.constant.Binding;
+import xap.mw.coreitf.d.FBoolean;
+import xap.sys.appfw.orm.handle.dataobject.paging.PaginationInfo;
+import xap.sys.appfw.orm.handle.dataobject.paging.PagingRtnData;
+
+/**
+ * 卡管理查询服务
+ * @author Administrator
+ *
+ */
+@Service(serviceInterfaces={IPiCardQryService.class}, binding=Binding.JSONRPC)
+public class PiCardQryServiceImpl implements IPiCardQryService{
+
+	/**
+	 * 退卡查询服务
+	 * @author Administrator
+	 *
+	 */
+	@Override
+	public CardrtnrptDTO[] getCardrtnrptDTO(String pi_code, String code,String name,
+			String id_code) throws BizException {
+		CardrtnrptBp bp = new CardrtnrptBp(); 
+		return bp.exec(pi_code, code, name,id_code);
+	}
+	/**
+	 * 退卡查询服务分页
+	 * @author zmyang
+	 *
+	 */
+
+	@Override
+	public PagingRtnData<CardrtnrptDTO> findByPageInfo(PaginationInfo pg, String wherePart, String orderByPart)
+			throws BizException {
+		CardrtnrptBpPaging bp = new CardrtnrptBpPaging();
+		PagingRtnData<CardrtnrptDTO> rtnData = bp.GetPagingRtnData(pg, wherePart, orderByPart);
+		return rtnData;
+	}
+
+	
+}

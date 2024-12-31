@@ -1,0 +1,108 @@
+package iih.ci.mrqc.mrterminalqc.bp;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import iih.bd.bc.udi.pub.ICiMrDictCodeConst;
+import iih.bd.srv.dividelevel.d.DivideLevelDO;
+import iih.bd.srv.dividelevel.i.IDividelevelRService;
+import iih.ci.mr.ciamr.d.AMrDO;
+import iih.ci.mr.ciamr.i.ICiamrCudService;
+import iih.ci.mr.ciamr.i.ICiamrRService;
+import iih.ci.mrqc.divide.d.DivideDO;
+import iih.ci.mrqc.divide.i.IDivideCudService;
+import iih.ci.mrqc.divide.i.IDivideRService;
+import iih.ci.mrqc.itmdto.d.ItmDTO;
+import iih.ci.mrqc.qapatlist.d.QaPatListDTO;
+import iih.ci.mrqc.qared.d.QaRecordDO;
+import iih.ci.mrqc.qared.i.IQaCudService;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.Context;
+import xap.mw.core.data.DOStatus;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.coreitf.d.FDateTime;
+import xap.mw.coreitf.d.FDouble;
+import xap.mw.sf.core.util.ServiceFinder;
+
+public class MrTerminalQcSaveBP {
+    /**
+     * 保存终末评分
+     * @return
+     * @throws BizException
+     */
+	public boolean saveMrQcTerminalItmList(ItmDTO[] itmDtoArr, QaPatListDTO qaPatListDto) throws BizException {
+		// TODO Auto-generated method stub
+
+		IDivideCudService delService=ServiceFinder.find(IDivideCudService.class);
+		IDivideRService findService=ServiceFinder.find(IDivideRService.class);
+		DivideDO[] findDoArr= findService.find(" id_ent='"+qaPatListDto.getId_ent()+"'", "", FBoolean.FALSE);
+		delService.delete(findDoArr);
+		if (itmDtoArr!=null&&itmDtoArr.length>0) {
+			List<DivideDO> divideList=new ArrayList<DivideDO>();
+			for (int i = 0; i < itmDtoArr.length; i++) {
+				DivideDO divideDo=new DivideDO();
+				divideDo.setId_org(Context.get().getOrgId());
+				divideDo.setId_grp(Context.get().getGroupId());
+				divideDo.setId_qa_itm(itmDtoArr[i].getId_qa_itm());
+				divideDo.setId_qa_ty(ICiMrDictCodeConst.ID_EXEC_END);
+				divideDo.setSd_qa_ty(ICiMrDictCodeConst.SD_EXEC_END);
+				divideDo.setId_sbmt_user(Context.get().getUserId());
+				divideDo.setId_sbmt_dept(Context.get().getDeptId());
+				divideDo.setSbmt_time(new FDateTime());
+				divideDo.setReal_score(itmDtoArr[i].getReal_score());
+				divideDo.setDrp_des(itmDtoArr[i].getDrp_des());
+				divideDo.setId_ent(qaPatListDto.getId_ent());
+				divideDo.setDeduct_scr_times(itmDtoArr[i].getDeduct_scr_times());
+				divideDo.setStatus(DOStatus.NEW);
+				divideList.add(divideDo);
+			}
+			delService.save(divideList.toArray(new DivideDO[0]));
+		}
+		SaveAmr(qaPatListDto);
+		QaRecordDO qarecord =new QaRecordDO();
+		qarecord.setId_revision(qaPatListDto.getId_revision());
+		qarecord.setId_org(Context.get().getOrgId());
+		qarecord.setId_grp(Context.get().getGroupId());
+		qarecord.setId_qa_ty(ICiMrDictCodeConst.ID_EXEC_END);
+		qarecord.setSd_qa_ty(ICiMrDictCodeConst.SD_EXEC_END);
+		qarecord.setDt_plan(new FDateTime());
+		qarecord.setId_exec_user(Context.get().getUserId());
+		qarecord.setId_exec_dept(Context.get().getDeptId());
+		qarecord.setId_ent(qaPatListDto.getId_ent());
+		qarecord.setScore_qa_ty(qaPatListDto.getScore_process());
+		qarecord.setStatus(DOStatus.NEW);
+		IQaCudService qaCudService = ServiceFinder.find(IQaCudService.class);
+		qaCudService.save(new QaRecordDO[]{qarecord});
+		return true;
+	}
+	private void SaveAmr(QaPatListDTO qaPatListDto) throws BizException{
+		ICiamrRService amrFService=ServiceFinder.find(ICiamrRService.class);
+		ICiamrCudService amrSService=ServiceFinder.find(ICiamrCudService.class);
+		AMrDO amrDo=amrFService.findById(qaPatListDto.getId_amr());
+		amrDo.setScore_terminal_qa(qaPatListDto.getScore_terminal());
+		amrDo.setId_emp_terminal_qa(Context.get().getUserId());
+		amrDo.setFg_terminal_qa(FBoolean.TRUE);
+		amrDo.setDt_terminal_qa(new FDateTime());
+		amrDo.setDept_terminal_qa(Context.get().getDeptId());
+		amrDo.setId_divide_level(getAmrLvl(qaPatListDto.getScore_terminal()));
+		amrDo.setStatus(DOStatus.UPDATED);
+		amrSService.save(new AMrDO[]{amrDo});
+	}
+	/**
+	 * 根据分数获取病案等级
+	 * @param score
+	 * @return
+	 * @throws BizException 
+	 */
+	private String getAmrLvl(FDouble score) throws BizException {
+		IDividelevelRService lvlService=ServiceFinder.find(IDividelevelRService.class);
+		double terminalScore = score.doubleValue();
+		DivideLevelDO[] lvlDoArr=lvlService.find("1=1", "", FBoolean.FALSE);
+		for (DivideLevelDO divideLevelDO : lvlDoArr) {
+			if (divideLevelDO.getMax_scr()>=terminalScore&&terminalScore>divideLevelDO.getMin_scr()) {
+				return divideLevelDO.getLvl();
+			}
+		}
+		return "甲";
+	}
+}

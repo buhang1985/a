@@ -1,0 +1,24 @@
+package iih.ei.bl.ecinc.bosssoft.v2.s.bp;
+
+import iih.ei.bl.ecinc.d.EcIncPaperCurIncNoInDTO;
+import iih.ei.bl.ecinc.d.EcIncPaperCurIncNoOutDTO;
+import iih.ei.bl.ecinc.d.EcIncResultDTO;
+import xap.mw.core.data.BizException;
+
+/**
+ * 博思纸质发票获取当前号
+ * @author ly 2019/12/04
+ *
+ */
+public class BossSoftEcIncPaperCurIncNoBP {
+	
+	/**
+	 * 纸质发票获取当前号
+	 * @param dto
+	 * @return
+	 * @throws BizException
+	 */
+	public EcIncResultDTO<EcIncPaperCurIncNoOutDTO> exec(EcIncPaperCurIncNoInDTO dto) throws BizException {
+		return null;
+	}
+}

@@ -1,0 +1,45 @@
+package iih.ci.ord.s.external.obtain.bp.bl;
+
+import java.util.List;
+
+import iih.bd.bc.udi.pub.ICiDictCodeConst;
+import iih.bl.params.BlParams;
+import xap.sys.jdbc.facade.DAException;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.ColumnListHandler;
+import xap.sys.jdbc.kernel.SqlParam;
+
+/**
+ * 获取待记账医嘱信息
+ * @author HUMS
+ *
+ */
+public class GgetWaitingAccountOrdsBP {
+
+	public String[] getIdOrSrv(String idEn, String codeEntp, String idDepMp) throws DAException {
+		
+		SqlParam sqlParam = new SqlParam();
+		DAFacade dAFacade = new DAFacade();
+		String qrySql = null;
+		sqlParam.addParam(idEn);
+//		String qrySql = "select id_or from ci_order where ds = 0 and id_en = ?  and fg_sign = 'Y' and fg_canc= 'N' and sd_su_bl='"
+//				+ ICiDictCodeConst.SD_SU_BL_NONE + "'";
+		if(BlParams.BLSTOEP0063() != null && BlParams.BLSTOEP0063() == 1){
+			 qrySql = "select id_orsrv "
+			 		+ "from ci_or_srv srv left outer join ci_order ord on ord.id_or = srv.id_or "
+			 		+ "where ord.ds = 0 and srv.id_en = ? and ord.fg_sign= 'Y' and ord.fg_canc = 'N' and srv.fg_bl = 'Y' "
+			 		+ "and srv.sd_su_bl = '"+ICiDictCodeConst.SD_SU_BL_NONE+"'";
+		}else {
+			sqlParam.addParam(idDepMp);
+			 qrySql = "select srv.id_orsrv "
+					+ "from ci_or_srv srv  left outer join ci_order ord on ord.id_or = srv.id_or "
+					+ "where ord.ds = 0 and srv.id_en = ? and ord.fg_sign = 'Y' and ord.fg_canc = 'N' and srv.fg_bl = 'Y' and srv.id_dep_mp = ? and srv.sd_srvtp not like '01%' "
+					+ "and srv.sd_su_bl = '"+ICiDictCodeConst.SD_SU_BL_NONE + "'";
+		}
+		List<String> idOrList = (List<String>)dAFacade.execQuery(qrySql, sqlParam,new ColumnListHandler());
+
+		return idOrList.toArray(new String[idOrList.size()]);
+
+	}
+
+}

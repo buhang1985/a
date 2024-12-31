@@ -1,0 +1,53 @@
+package iih.ci.mrqc.mrterminalqc.bp;
+
+import java.util.List;
+
+import iih.bd.bc.udi.pub.IBdFcDictCodeConst;
+import iih.bd.bc.udi.pub.ICiMrDictCodeConst;
+import iih.ci.mrqc.itmdto.d.ItmDTO;
+import iih.ci.mrqc.qapatlist.d.QaPatListDTO;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.Context;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.BeanListHandler;
+
+public class MrTerminalQcQryBP {
+	/**
+	 * 获取终末评分项目列表
+	 * @param sd_qctype
+	 * @return
+	 * @throws BizException
+	 */
+	public ItmDTO[] getMrQcTerminalItmList(QaPatListDTO qaPatDto) throws BizException {
+		// TODO Auto-generated method stub
+		DAFacade daf = new DAFacade();  	
+    	StringBuilder sql = new StringBuilder();
+				sql.append("select ci_qa_itm_fst.id_fst as id_fst_itm,");
+				sql.append("       ci_qa_itm_fst.name as name_fst_itm,");
+				sql.append("	   ci_qa_itm.req as req,");
+				sql.append("	   ci_qa_itm.Id_qa_drp_scr_tp,");
+				sql.append("	   ci_qa_itm.sd_qa_drp_scr_tp,");
+				sql.append("	   ci_qa_itm.id_qa_itm as id_qa_itm,");
+				sql.append("       ci_qa_itm.fg_serious as fg_serious,");
+				sql.append("       ci_qa_itm.deduct_des as deduct_des,");
+				sql.append("       ci_qa_itm.Once_drp_scr as Once_drp_scr,");
+				sql.append("       ci_qa_itm.fg_repair as fg_repair,");
+				sql.append("       ci_qa_itm.sortno as sortno,"); 
+				sql.append("       (select count(*) from ci_qa_divide  ci_qa_divide where ci_qa_divide.id_qa_itm=ci_qa_itm.id_qa_itm and ci_qa_divide.id_ent='"+qaPatDto.getId_ent()+"' and ci_qa_divide.id_sbmt_user='"+Context.get().getUserId()+"') as deduct_scr_times,");
+				sql.append("       ci_qa_divide.drp_des as drp_des,"); 
+				sql.append("       ci_qa_itm.fg_auto_qa as fg_auto_qa"); 
+				sql.append("    from ci_qa_itm ci_qa_itm"); 
+				sql.append("    inner join ci_qa_itm_fst ci_qa_itm_fst"); 
+				sql.append("       on ci_qa_itm_fst.id_fst = ci_qa_itm.id_fst");
+				sql.append("    left join ci_qa_divide ci_qa_divide"); 
+				sql.append("       on ci_qa_divide.id_qa_itm = ci_qa_itm.id_qa_itm and ci_qa_divide.id_ent='"+qaPatDto.getId_ent()+"' ");
+				sql.append("    where ci_qa_itm.sd_qa like '%"+ICiMrDictCodeConst.SD_EXEC_END+"%'"); 
+				sql.append("    AND ci_qa_itm.fg_active = 'Y'"); 
+				sql.append("    AND ci_qa_itm_fst.id_entp = '"+ IBdFcDictCodeConst.ID_CODE_ENTP_IP+"'");
+				sql.append("       order by ci_qa_itm.sortno");
+				String sqlStr=sql.toString();
+       @SuppressWarnings("unchecked")
+       List<ItmDTO> listMr = (List<ItmDTO>) daf.execQuery(sqlStr, new BeanListHandler(ItmDTO.class));
+       return (ItmDTO[]) listMr.toArray(new ItmDTO[0]);
+	}
+}

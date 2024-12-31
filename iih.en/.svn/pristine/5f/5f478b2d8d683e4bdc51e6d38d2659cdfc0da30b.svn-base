@@ -1,0 +1,60 @@
+package iih.en.pv.s.bp.op;
+
+import iih.ci.ord.i.external.provide.ICiOrdEnService;
+import iih.ci.ord.i.external.provide.meta.en.Mode4CheckExistValidOrdersEnum;
+import iih.en.comm.IEnMsgConst;
+import iih.en.comm.ep.PvEP;
+import iih.en.pv.pativisit.d.PatiVisitDO;
+import xap.mw.core.data.BizException;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.sf.core.util.ServiceFinder;
+
+/**
+ * 退号校验
+ * 
+ * @author liubin
+ *
+ */
+public class CancOpRegValidateBP {
+	/**
+	 * 退号校验
+	 * 
+	 * @param entId
+	 * @throws BizException
+	 */
+	public void exec(String entId) throws BizException {
+		//1.校验挂号是否已经取消
+		this.validatePv(entId);
+		//2.校验是否存在已付费医嘱
+		this.validateBl(entId);
+	}
+	/**
+	 * 校验挂号是否已经取消
+	 * 
+	 * @param entId
+	 * @throws BizException
+	 */
+	private void validatePv(String entId) throws BizException{
+		PvEP ep = new PvEP();
+		PatiVisitDO pv = ep.getPvById(entId);
+		if(pv==null){
+			throw new BizException(IEnMsgConst.ERROR_OP_PVINFO_NOT_EXISTS);
+		}
+		if(FBoolean.TRUE.equals(pv.getFg_canc())){
+			throw new BizException(IEnMsgConst.ERROR_OP_REG_HAS_CANCED);
+		}
+	}
+	/**
+	 * 校验是否存在已付费医嘱
+	 * 
+	 * @param entId
+	 * @throws BizException
+	 */
+	private void validateBl(String entId) throws BizException {
+		ICiOrdEnService serv = ServiceFinder.find(ICiOrdEnService.class);
+		FBoolean result = serv.isExistValidOrders(entId, Mode4CheckExistValidOrdersEnum.ORDERSTATUS2);
+		if (FBoolean.TRUE.equals(result)) {
+			throw new BizException("患者当前存在已付费医嘱，不可以退号！");
+		}
+	}
+}

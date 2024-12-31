@@ -1,0 +1,32 @@
+package iih.ei.std.s.v1.bp.en;
+
+import iih.ei.std.d.v1.en.ipinfo.d.IpInfoAllResultDTO;
+import iih.ei.std.d.v1.en.ipinfo.d.IpInfoByIpCodeParamDTO;
+import iih.ei.std.d.v1.en.ipinfo.d.IpInfoParamDTO;
+import iih.ei.std.s.v1.bp.IIHServiceBaseBP;
+import xap.mw.core.data.BizException;
+import xap.mw.core.utils.StringUtil;
+
+public class GetIpInfoAllByIpCodeBp extends IIHServiceBaseBP<IpInfoByIpCodeParamDTO, IpInfoAllResultDTO> {
+
+	@Override
+	protected void checkParam(IpInfoByIpCodeParamDTO param) throws BizException {
+		if (StringUtil.isEmpty(param.getCode_amr_ip())) {
+			throw new BizException("患者住院号不能为空");
+		}
+	}
+
+	@Override
+	protected IpInfoAllResultDTO process(IpInfoByIpCodeParamDTO param) throws BizException {
+		GetIpInfoUtilsBP getIpInfoUtilsBP = new GetIpInfoUtilsBP();
+		return getIpInfoUtilsBP.getResultsAll(setValue(param));
+	}
+
+	private IpInfoParamDTO setValue(IpInfoByIpCodeParamDTO param) {
+		IpInfoParamDTO dto = new IpInfoParamDTO();
+		dto.setCode_amr_ip(param.getCode_amr_ip());
+		dto.setSd_status(param.getSd_status());
+		return dto;
+	}
+
+}

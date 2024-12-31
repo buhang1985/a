@@ -1,0 +1,575 @@
+package iih.ci.ord.ciordsheet;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.mysql.jdbc.StringUtils;
+
+import iih.ci.ord.ciordsheet.bp.GetLastPagePrnedDataBP;
+import iih.ci.ord.ciordsheet.bp.GetOrdData4PrnBP;
+import iih.ci.ord.ciordsheet.bp.GetPrnData4CancOrdBP;
+import iih.ci.ord.ciordsheet.bp.GetPrnData4StopOrdBP;
+import iih.ci.ord.ciordsheet.bp.GetPrnedData8IdenBP;
+import iih.ci.ord.ciordsheet.bp.GetPrnedData8PageNumBP;
+import iih.ci.ord.printmanage.srv.CiorderPrintUtils;
+import xap.mw.coreitf.d.FBoolean;
+
+/**
+ * 医嘱单数据查询服务
+ * @author Young
+ *
+ */
+public class CiOrdSheetQryService {
+
+	public final static String Str_reformrow = "-------------重整医嘱-------------";
+	
+	/**
+	 * 每种场景查询医嘱单打印数据
+	 * @param id_ordsheet  医嘱单样式ID
+	 * @param name_ordsheet  医嘱单名称：由医嘱单样式自定义档案维护
+	 * @param print_mode  医嘱单打印场景
+	 * @param id_ent 患者就诊ID
+	 * @param fg_long 医嘱单长临标识：由医嘱单样式自定义档案维护，控制医嘱单打印长期or临时医嘱
+	 * @param fg_herb 医嘱单草药标识：由医嘱单样式自定义档案维护，控制医嘱单是否打印草药医嘱
+	 * @param page_no 指定已打印的页码
+	 * @return
+	 * @throws Exception
+	 */
+	public List<CiOrdSheetDTO> exec(String id_ordsheet, String name_ordsheet, String print_mode, String id_ent, String fg_long, String fg_herb, String page_no) 
+			throws Exception {
+		List<CiOrdSheetDTO> rst = new ArrayList<CiOrdSheetDTO>();
+		if(StringUtils.isNullOrEmpty(id_ent) || StringUtils.isNullOrEmpty(print_mode)) {
+			// 医嘱单空数据对象，仅用于显示医嘱单名称
+			rst.add(this.getEmptyCiOrdSheetDTO(name_ordsheet));
+			return rst;
+		}
+		
+		//构造医嘱单参数对象
+		CiOrdSheetParamDTO paramDTO = new CiOrdSheetParamDTO();
+		paramDTO.setId_ordsheet(id_ordsheet);
+		paramDTO.setName_ordsheet(name_ordsheet);
+		paramDTO.setPrint_mode(print_mode);
+		paramDTO.setId_en(id_ent);
+		paramDTO.setFg_long(new FBoolean("Y".equals(fg_long)));
+		paramDTO.setFg_herb(new FBoolean("Y".equals(fg_herb)));
+		if (!StringUtils.isNullOrEmpty(page_no)) {
+			paramDTO.setPage_no(Integer.parseInt(page_no));
+		}
+		
+		List<CiOrdSheetDTO> qryDTOs = null;
+		if ("1".equals(print_mode) || "2".equals(print_mode)) {
+			// 一般续打、重整打印
+			// 查询未打印的医嘱数据，在前台设置报表打印模式为：续打模式
+			GetOrdData4PrnBP bpPrn = new GetOrdData4PrnBP();
+			qryDTOs = bpPrn.exec(paramDTO, null);
+			
+			// 查询当前就诊已打印的医嘱数据
+			GetPrnedData8IdenBP bpPrnedData = new GetPrnedData8IdenBP();
+			List<CiOrdSheetDTO> qryDTOsPrned = bpPrnedData.exec(paramDTO, null);
+			
+			if ("2".equals(print_mode) && qryDTOs != null && !qryDTOs.isEmpty()) {
+				// 添加重整标记行数据
+				qryDTOs.add(0, this.getReformrowData(qryDTOs.get(0), name_ordsheet));
+			}
+			if (qryDTOsPrned != null && !qryDTOsPrned.isEmpty()) {
+				// 组装已打印+未打印医嘱数据
+				qryDTOs.addAll(0, qryDTOsPrned);
+			}
+		} else if ("3".equals(print_mode) || "4".equals(print_mode) || "6".equals(print_mode)) {
+			// 作废打印、停止打印、查询已打印
+			// 查询就诊已打印全部数据
+			// 作废打印、停止打印，在前台设置报表打印模式为：补打模式，根据报表文件里面配置的脚本，判断是否需要补打相应信息
+			// 查询已打印，在前台设置报表打印模式为：常规模式，点选单据可进行整页补打
+			GetPrnedData8IdenBP bpPrnedData = new GetPrnedData8IdenBP();
+			qryDTOs = bpPrnedData.exec(paramDTO, null);
+		}
+		
+		// 设置各种服务类型医嘱内容格式
+		this.setOrdMainInfo(name_ordsheet, id_ent, qryDTOs, rst);
+		
+		return rst;
+	}
+	
+	/**
+	 * 每种场景查询医嘱单打印数据
+	 * @param id_ordsheet  医嘱单样式ID
+	 * @param name_ordsheet  医嘱单名称：由医嘱单样式自定义档案维护
+	 * @param print_mode  医嘱单打印场景
+	 * @param id_ent 患者就诊ID
+	 * @param fg_long 医嘱单长临标识：由医嘱单样式自定义档案维护，控制医嘱单打印长期or临时医嘱
+	 * @param fg_herb 医嘱单草药标识：由医嘱单样式自定义档案维护，控制医嘱单是否打印草药医嘱
+	 * @param page_no 指定已打印的页码
+	 * @return
+	 * @throws Exception
+	 */
+	public List<CiOrdSheetDTO> exec1(String id_ordsheet, String name_ordsheet, String print_mode, String id_ent, String fg_long, String fg_herb, String page_no) 
+			throws Exception {
+		List<CiOrdSheetDTO> rst = new ArrayList<CiOrdSheetDTO>();
+		if(StringUtils.isNullOrEmpty(id_ent) || StringUtils.isNullOrEmpty(print_mode)) {
+			// 医嘱单空数据对象，仅用于显示医嘱单名称
+			rst.add(this.getEmptyCiOrdSheetDTO(name_ordsheet));
+			return rst;
+		}
+		
+		//构造医嘱单参数对象
+		CiOrdSheetParamDTO paramDTO = new CiOrdSheetParamDTO();
+		paramDTO.setId_ordsheet(id_ordsheet);
+		paramDTO.setName_ordsheet(name_ordsheet);
+		paramDTO.setPrint_mode(print_mode);
+		paramDTO.setId_en(id_ent);
+		paramDTO.setFg_long(new FBoolean("Y".equals(fg_long)));
+		paramDTO.setFg_herb(new FBoolean("Y".equals(fg_herb)));
+		if (!StringUtils.isNullOrEmpty(page_no)) {
+			paramDTO.setPage_no(Integer.parseInt(page_no));
+		}
+		
+		//五种打印场景 + 一种查询场景：每种场景查询数据逻辑各异
+		//1、一般续打：1>查询需要续打的数据；
+		//         2>查询之前已经打印的最后一页的数据，判断最后一条数据是否已经打印到最后一行；
+		//         预览数据：最后一页未打满，组合这两部分显示为预览数据（包括最后一页已打印且需要补打的作废或停止信息）。
+		//         打印数据：最后一页已打印且需要补打作废或停止信息的数据   + 需要续打的数据。
+		//2、重整打印：1>重整标记行，医嘱内容列显示：以下为重整医嘱内容；其他列显示空白；
+		//         2>查询重整后的数据；
+		//         3>查询之前已经打印的最后一页的数据，判断最后一条数据是否已经打印到最后一行，最后一页未打满，组合这两部分显示为预览数据。
+		//         预览数据：最后一页未打满，组合这两部分显示为预览数据（不需要包括最后一页已打印且需要补打作废或停止的信息，之前打印的数据作废）。
+		//         打印数据：最后一页已打印的数据  + 重整标记行  + 重整后的数据。
+		//3、撤销打印：1>之前已经打印医嘱内容，未打印作废信息的数据；
+		//         预览数据：需要补打的作废信息   + 作废信息所在页的已打印数据。
+		//         打印数据：需要补打的作废信息。
+		//4、停止打印：1>之前已经打印医嘱内容，未打印停止信息的数据；
+		//         预览数据：需要补打的停止信息   + 停止信息所在页的已打印数据。
+		//         打印数据：需要补打的停止信息。
+		//5、单页补打：1>指定页码的已打印数据；
+        //         预览数据：指定页码的已打印数据   + 该页需要补打的作废或停止信息。
+		//         打印数据：指定页码的已打印数据   + 该页需要补打的作废或停止信息。
+		//6、历史数据查询：查询已打印全部数据
+		List<CiOrdSheetDTO> qryDTOs = null;
+		if ("1".equals(print_mode) || "2".equals(print_mode)) {
+			// 一般续打、重整打印
+			// 查询未打印的医嘱数据
+			GetOrdData4PrnBP bpPrn = new GetOrdData4PrnBP();
+			qryDTOs = bpPrn.exec(paramDTO, null);
+			
+			// 查询当前就诊已打印最后一页的医嘱数据
+			GetLastPagePrnedDataBP bpLastPage = new GetLastPagePrnedDataBP();
+			List<CiOrdSheetDTO> qryDTOsLastPagePrned = bpLastPage.exec(paramDTO);
+			
+			if ("2".equals(print_mode)) {
+				// 添加重整标记行数据
+				qryDTOs.add(0, this.getReformrowData(qryDTOs.get(0), name_ordsheet));
+			}
+			if (qryDTOsLastPagePrned!=null&&!qryDTOsLastPagePrned.isEmpty()) {
+				// 组装已打印+未打印医嘱数据
+				qryDTOs.addAll(0, qryDTOsLastPagePrned);
+			}
+		} else if ("3".equals(print_mode)) {
+			// 撤销打印
+			GetPrnData4CancOrdBP bp = new GetPrnData4CancOrdBP();
+			qryDTOs = bp.exec(paramDTO);
+		} else if ("4".equals(print_mode)) {
+			// 停止打印
+			GetPrnData4StopOrdBP bp = new GetPrnData4StopOrdBP();
+			qryDTOs = bp.exec(paramDTO);
+		} else if ("5".equals(print_mode)) {
+			// 单页补打，查询指定页码数据
+			GetPrnedData8PageNumBP bp = new GetPrnedData8PageNumBP();
+			qryDTOs = bp.exec(paramDTO, String.format("'%s'", String.valueOf(paramDTO.getPage_no() - 1)));
+		} else if ("6".equals(print_mode)) {
+			// 查询就诊已打印全部数据
+			GetPrnedData8IdenBP bp = new GetPrnedData8IdenBP();
+			qryDTOs = bp.exec(paramDTO, null);
+		}
+		
+		// 设置各种服务类型医嘱内容格式
+		this.setOrdMainInfo(name_ordsheet, id_ent, qryDTOs, rst);
+		
+		return rst;
+	}
+	
+	/**
+	 * 获取重整标记行数据
+	 * @param qryDTO
+	 * @param name_ordsheet
+	 * @return
+	 */
+	private CiOrdSheetDTO getReformrowData(CiOrdSheetDTO qryDTO, String name_ordsheet) {
+		// 构建重整标记行
+		CiOrdSheetDTO sheetDTO = new CiOrdSheetDTO();
+		sheetDTO.setFg_reformrow(FBoolean.TRUE);
+		sheetDTO.setName_orprn(name_ordsheet);
+		sheetDTO.setId_org(qryDTO.getId_org());
+		sheetDTO.setCode_or(Str_reformrow);
+		sheetDTO.setName_org(qryDTO.getName_org());
+		sheetDTO.setId_en(qryDTO.getId_en());
+		sheetDTO.setName_pat_en(qryDTO.getName_pat_en());
+		sheetDTO.setName_dep_phy(qryDTO.getName_dep_phy());
+		sheetDTO.setName_dep_nur(qryDTO.getName_dep_nur());
+		sheetDTO.setName_bed(qryDTO.getName_bed());
+		sheetDTO.setCode_amr_ip(qryDTO.getCode_amr_ip());
+		sheetDTO.setDiag_name(qryDTO.getDiag_name());
+		sheetDTO.setId_orsrv_key("reformrow_key");
+		sheetDTO.setName_srv(Str_reformrow);
+		return sheetDTO;
+	}
+	
+	/**
+	 * 设置各种服务类型医嘱内容格式
+	 * @param name_ordsheet
+	 * @param id_ent
+	 * @param qryDTOs
+	 * @param rst
+	 * @throws Exception
+	 */
+	private void setOrdMainInfo(String name_ordsheet, String id_ent, List<CiOrdSheetDTO> qryDTOs, List<CiOrdSheetDTO> rst)
+			throws Exception {
+		if (qryDTOs != null && qryDTOs.size() > 0) {
+			// 用于判断是否成组
+			Map<String, Integer> mapidors = new HashMap<String, Integer>();
+			for (CiOrdSheetDTO qryDTO : qryDTOs) {
+				if (FBoolean.TRUE.equals(qryDTO.getFg_reformrow()))
+					continue;
+				qryDTO.setName_orprn(name_ordsheet);
+				if (mapidors.containsKey(qryDTO.getId_or())) {
+					mapidors.put(qryDTO.getId_or(), mapidors.get(qryDTO.getId_or()).intValue() + 1);
+				} else {
+					mapidors.put(qryDTO.getId_or(), 1);
+				}
+			}
+			
+			// 设置诊断信息
+			this.setDiagInfo(qryDTOs, id_ent);
+			// 设置西成药拼接格式
+			this.setDrugInfo(qryDTOs, mapidors);
+			// 设置诊疗拼接格式
+			this.setTreatInfo(qryDTOs, mapidors);
+			// 设置检查拼接格式
+			this.setRisInfo(qryDTOs);
+			// 设置检验拼接格式
+			this.setLisInfo(qryDTOs);
+			// 设置手术拼接格式
+			this.setOprInfo(qryDTOs);
+			// 设置卫材拼接格式
+			this.setSaniInfo(qryDTOs);
+			// 设置血拼接格式
+			this.setBloodInfo(qryDTOs);
+			// 设置嘱托拼接格式
+			this.setEntrustInfo(qryDTOs);
+			// 设置护理拼接格式
+			this.setNurseInfo(qryDTOs);
+			// 设置草药拼接格式
+			this.setHerbInfo(qryDTOs, rst);
+		} else {
+			rst.add(this.getEmptyCiOrdSheetDTO(name_ordsheet));
+		}
+		
+		// 设置分组字段code_or
+		Map<String, Integer> mapcnt = new HashMap<String, Integer>();
+		String lastcodeor = "";
+		for(CiOrdSheetDTO dto : rst) {
+			if ( !dto.getCode_or().equals(lastcodeor)) {
+				if(mapcnt.containsKey(dto.getCode_or())) {
+					mapcnt.put(dto.getCode_or(), mapcnt.get(dto.getCode_or()) + 1);
+				} else {
+					mapcnt.put(dto.getCode_or(), 0);
+				}
+				lastcodeor = dto.getCode_or();
+			}
+			
+			if(mapcnt.containsKey(dto.getCode_or()) && mapcnt.get(dto.getCode_or()).intValue() > 0) {
+				dto.setCode_or(String.format("%s_%d", dto.getCode_or(), mapcnt.get(dto.getCode_or())));
+			}
+		}
+	}
+	
+	/**
+	 * 获取空数据对象，用于空预览界面显示
+	 * @param name_ordsheet
+	 * @return
+	 */
+	private CiOrdSheetDTO getEmptyCiOrdSheetDTO(String name_ordsheet) {
+		CiOrdSheetDTO sheetDTO = new CiOrdSheetDTO();
+		sheetDTO.setName_orprn(name_ordsheet);
+		sheetDTO.setId_orprn("");
+		sheetDTO.setFg_chk_canc("N");
+		sheetDTO.setFg_chk_stop("N");
+		sheetDTO.setFg_canc_prn("N");
+		sheetDTO.setFg_stop_prn("N");
+		return sheetDTO;
+	}
+	
+	/**
+	 * 设置诊断信息
+	 * @param qryDTOs
+	 * @param id_ent
+	 * @throws Exception 
+	 */
+	private void setDiagInfo(List<CiOrdSheetDTO> qryDTOs, String id_ent) throws Exception {
+		String diag_name = CiorderPrintUtils.GetStr_name_di(id_ent);
+		for (CiOrdSheetDTO qryDTO : qryDTOs) {
+			qryDTO.setDiag_name(diag_name);
+		}
+	}
+	
+	/**
+	 * 设置西成药拼接格式
+	 * @param qryDTOs
+	 * @param mapidors
+	 */
+	private void setDrugInfo(List<CiOrdSheetDTO> qryDTOs, Map<String,Integer> mapidors) {
+//		List<String> idors = new ArrayList<String>();
+		for (CiOrdSheetDTO qryDTO : qryDTOs) {
+			if (FBoolean.TRUE.equals(qryDTO.getFg_reformrow()))
+				continue;
+			if (qryDTO.getSd_srvtp().startsWith("0101")) {
+//				if (mapidors.get(qryDTO.getId_or()) > 1) {
+//					qryDTO.setName_srv(CiOrdSheetContentCfgUtils.getOrSrvContent4Drugs(qryDTO));
+//					if (!idors.contains(qryDTO.getId_or())) {
+//						qryDTO.setContent_or_prn(CiOrdSheetContentCfgUtils.getOrContent4Drugs(qryDTO));
+//						idors.add(qryDTO.getId_or());
+//					}
+//				} else {
+					qryDTO.setName_srv(CiOrdSheetContentCfgUtils.getOrSrvContent4Drug(qryDTO));
+//				}
+			}
+		}
+	}
+	
+	/**
+	 * 设置草药拼接格式
+	 * @param qryDTOs
+	 * @param lstResult
+	 * @throws IOException
+	 * @throws ClassNotFoundException 
+	 */
+	private void setHerbInfo(List<CiOrdSheetDTO> qryDTOs, List<CiOrdSheetDTO> lstResult) throws IOException, ClassNotFoundException {
+		//获取草药医嘱集合
+		Map<String, List<CiOrdSheetDTO>> mapDTOs_herb = new HashMap<String, List<CiOrdSheetDTO>>();
+		for (CiOrdSheetDTO qryDTO : qryDTOs) {
+			if (FBoolean.TRUE.equals(qryDTO.getFg_reformrow()))
+				continue;
+			if (qryDTO.getSd_srvtp().startsWith("0103")) {
+				if (mapDTOs_herb.containsKey(qryDTO.getId_or())) {
+					mapDTOs_herb.get(qryDTO.getId_or()).add(qryDTO);
+				} else {
+					List<CiOrdSheetDTO> lst = new ArrayList<CiOrdSheetDTO>();
+					lst.add(qryDTO);
+					mapDTOs_herb.put(qryDTO.getId_or(), lst);
+				}
+			}
+		}
+		//拼接草药医嘱内容字符串
+		Map<String, List<CiOrdSheetDTO>> mapDTOs_herb_rst = new HashMap<String, List<CiOrdSheetDTO>>();
+		if (mapDTOs_herb.size() > 0) {
+			for (String key : mapDTOs_herb.keySet()) {
+				List<CiOrdSheetDTO> lstDTOs = mapDTOs_herb.get(key);
+				List<CiOrdSheetDTO> lstDTOs_detl = new ArrayList<CiOrdSheetDTO>();
+				int n = 0;//每行药个数标记，不计自备药
+				for (int i = 0; i < lstDTOs.size(); i++) {
+					if ("Y".equals(lstDTOs.get(i).getFg_self())) {
+						lstDTOs.get(i).setName_srv("(自备)" + lstDTOs.get(i).getName_srv());//自备草药
+					} else if (n > 0 && !"Y".equals(lstDTOs.get(i - 1).getFg_self()) && n < 4) {
+						//四味草药成一行，自备药单独一行（第一味药不拼接，自备药不拼接）
+						lstDTOs.get(i).setName_srv(lstDTOs.get(i - 1).getName_srv() + "," + lstDTOs.get(i).getName_srv());
+						lstDTOs.get(i).setName_mm(lstDTOs.get(i - 1).getName_mm() + "," + lstDTOs.get(i).getName_mm());
+					}
+					Boolean isNew = n >= 3;//是否每行最后一味药
+					if (i == lstDTOs.size() - 1 || n >= 3 || "Y".equals(lstDTOs.get(i).getFg_self())
+							|| "Y".equals(lstDTOs.get(i + 1).getFg_self())) {
+						//当每一行已经有四味药，或者已经是整个医嘱最后一味药，或者当前是自备药，或者下一味是自备药；则该行数据结束。
+						lstDTOs_detl.add(deepClone(lstDTOs.get(i)));
+						n = 0;//一行结束，初始化每行药个数标记
+					}
+					if(!"Y".equals(lstDTOs.get(i).getFg_self()) && !isNew){
+						n++;//每行药个数标记递增，不计自备药
+					}
+				}
+				
+				//拼接草药医嘱头信息
+				CiOrdSheetDTO herbdto_sum = new CiOrdSheetDTO();
+				herbdto_sum = deepClone(lstDTOs.get(0));
+				herbdto_sum.setName_srv(herbdto_sum.getOrders() == null ? "" : "草药" + herbdto_sum.getOrders() + "剂：" 
+						+ (StringUtils.isNullOrEmpty(herbdto_sum.getDes_or()) ? "" : herbdto_sum.getDes_or()));
+				herbdto_sum.setSortno(null);
+				lstDTOs_detl.add(herbdto_sum);
+				mapDTOs_herb_rst.put(lstDTOs_detl.get(0).getId_or(), lstDTOs_detl);
+			}
+		}
+		//替换草药医嘱信息
+		List<String> lstidors = new ArrayList<String>();
+		for (int i = 0; i < qryDTOs.size(); i++) {
+			if (!FBoolean.TRUE.equals(qryDTOs.get(i).getFg_reformrow()) && qryDTOs.get(i).getSd_srvtp().startsWith("0103")) {
+				if (!lstidors.contains(qryDTOs.get(i).getId_or()) && mapDTOs_herb_rst.containsKey(qryDTOs.get(i).getId_or())) {
+					for (int j = 0; j < mapDTOs_herb_rst.get(qryDTOs.get(i).getId_or()).size(); j++) {
+						lstResult.add(mapDTOs_herb_rst.get(qryDTOs.get(i).getId_or()).get(j));
+					}
+					lstidors.add(qryDTOs.get(i).getId_or());
+				}
+			} else {
+				lstResult.add(qryDTOs.get(i));
+			}
+		}
+	}
+	
+	/**
+	 * 设置诊疗拼接格式
+	 * @param qryDTOs
+	 * @param mapidors
+	 */
+	private void setTreatInfo(List<CiOrdSheetDTO> qryDTOs, Map<String,Integer> mapidors) {
+//		List<String> idors = new ArrayList<String>();
+		for (CiOrdSheetDTO qryDTO : qryDTOs) {
+			if (FBoolean.TRUE.equals(qryDTO.getFg_reformrow()))
+				continue;
+			if (qryDTO.getSd_srvtp().startsWith("05")) {
+//				if (mapidors.get(qryDTO.getId_or()) > 1) {
+//					qryDTO.setName_srv(CiOrdSheetContentCfgUtils.getOrSrvContent4Treats(qryDTO));
+//					if (!idors.contains(qryDTO.getId_or())) {
+//						qryDTO.setContent_or_prn(CiOrdSheetContentCfgUtils.getOrContent4Treats(qryDTO));
+//						idors.add(qryDTO.getId_or());
+//					}
+//				} else {
+					qryDTO.setName_srv(CiOrdSheetContentCfgUtils.getOrSrvContent4Treat(qryDTO));
+//				}
+			}
+		}
+	}
+	
+	/**
+	 * 设置检查拼接格式
+	 * @param qryDTOs
+	 * @throws Exception
+	 */
+	private void setRisInfo(List<CiOrdSheetDTO> qryDTOs) throws Exception {
+		List<String> idors_ris_set = new ArrayList<String>();// 检查(套)医嘱ID
+		List<String> idors_ris = new ArrayList<String>();// 检查(非套)医嘱ID
+		for (CiOrdSheetDTO qryDTO : qryDTOs) {
+			if (FBoolean.TRUE.equals(qryDTO.getFg_reformrow()))
+				continue;
+			if (qryDTO.getSd_srvtp().startsWith("02")) {
+				if (FBoolean.TRUE.equals(qryDTO.getFg_set())) {
+					idors_ris_set.add(qryDTO.getId_or());
+				} else {
+					idors_ris.add(qryDTO.getId_or());
+				}
+			}
+		}
+		Map<String, String> mapBodyNames = CiOrdSheetContentCfgUtils.getRisBodyName(idors_ris_set.toArray(new String[0]), idors_ris.toArray(new String[0]));
+		for (CiOrdSheetDTO qryDTO : qryDTOs) {
+			if (FBoolean.TRUE.equals(qryDTO.getFg_reformrow()))
+				continue;
+			if (mapBodyNames.containsKey(qryDTO.getId_or())) {
+				qryDTO.setName_srv(qryDTO.getName_srv() + "(" + mapBodyNames.get(qryDTO.getId_or()) + ")");
+			}
+//			if(StringUtils.isNotEmpty(qryDTO.getDes_or())) {
+//				qryDTO.setName_srv(qryDTO.getName_srv() + "(" + qryDTO.getDes_or() + ")");
+//			}
+		}
+	}
+	
+	/**
+	 * 设置检验拼接格式
+	 * @param qryDTOs
+	 */
+	private void setLisInfo(List<CiOrdSheetDTO> qryDTOs) {
+		for (CiOrdSheetDTO qryDTO : qryDTOs) {
+			if (FBoolean.TRUE.equals(qryDTO.getFg_reformrow()))
+				continue;
+			if (qryDTO.getSd_srvtp().startsWith("03")) {
+				qryDTO.setName_srv(CiOrdSheetContentCfgUtils.getOrSrvContent4Lis(qryDTO));
+			}
+		}
+	}
+	
+	/**
+	 * 设置手术拼接格式
+	 * @param qryDTOs
+	 */
+	private void setOprInfo(List<CiOrdSheetDTO> qryDTOs) {
+		for (CiOrdSheetDTO qryDTO : qryDTOs) {
+			if (FBoolean.TRUE.equals(qryDTO.getFg_reformrow()))
+				continue;
+			if (qryDTO.getSd_srvtp().startsWith("04")) {
+				qryDTO.setName_srv(CiOrdSheetContentCfgUtils.getOrSrvContent4Opr(qryDTO));
+			}
+		}
+	}
+	
+	/**
+	 * 设置卫材拼接格式
+	 * @param qryDTOs
+	 */
+	private void setSaniInfo(List<CiOrdSheetDTO> qryDTOs) {
+		for (CiOrdSheetDTO qryDTO : qryDTOs) {
+			if (FBoolean.TRUE.equals(qryDTO.getFg_reformrow()))
+				continue;
+			if (qryDTO.getSd_srvtp().startsWith("07")) {
+				qryDTO.setName_srv(CiOrdSheetContentCfgUtils.getOrSrvContent4Sani(qryDTO));
+			}
+		}
+	}
+	
+	/**
+	 * 设置血拼接格式
+	 * @param qryDTOs
+	 */
+	private void setBloodInfo(List<CiOrdSheetDTO> qryDTOs) {
+		for (CiOrdSheetDTO qryDTO : qryDTOs) {
+			if (FBoolean.TRUE.equals(qryDTO.getFg_reformrow()))
+				continue;
+			if (qryDTO.getSd_srvtp().startsWith("14")) {
+				qryDTO.setName_srv(CiOrdSheetContentCfgUtils.getOrSrvContent4Blood(qryDTO));
+			}
+		}
+	}
+	
+	/**
+	 * 设置嘱托拼接格式
+	 * @param qryDTOs
+	 */
+	private void setEntrustInfo(List<CiOrdSheetDTO> qryDTOs) {
+		for (CiOrdSheetDTO qryDTO : qryDTOs) {
+			if (FBoolean.TRUE.equals(qryDTO.getFg_reformrow()))
+				continue;
+			if (qryDTO.getSd_srvtp().startsWith("0801")) {
+				qryDTO.setName_srv(CiOrdSheetContentCfgUtils.getOrSrvContent4Entrust(qryDTO));
+			}
+		}
+	}
+	
+	/**
+	 * 设置护理拼接格式
+	 * @param qryDTOs
+	 */
+	private void setNurseInfo(List<CiOrdSheetDTO> qryDTOs) {
+		for (CiOrdSheetDTO qryDTO : qryDTOs) {
+			if (FBoolean.TRUE.equals(qryDTO.getFg_reformrow()))
+				continue;
+			if (qryDTO.getSd_srvtp().startsWith("06")) {
+				qryDTO.setName_srv(CiOrdSheetContentCfgUtils.getOrSrvContent4Nurse(qryDTO));
+			}
+		}
+	}
+	
+	/**
+	 * 深复制对象
+	 * @param dto
+	 * @return
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	private CiOrdSheetDTO deepClone(CiOrdSheetDTO dto) throws IOException, ClassNotFoundException {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ObjectOutputStream oos = new ObjectOutputStream(bos);
+		oos.writeObject(dto);
+		ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+		ObjectInputStream ois = new ObjectInputStream(bis);
+		return (CiOrdSheetDTO) ois.readObject();
+	}
+}

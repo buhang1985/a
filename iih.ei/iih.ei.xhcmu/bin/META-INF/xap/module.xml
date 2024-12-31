@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	
+	<!--通用查询服务-->
+	<bean id="iih.ei.xhcmu.i.IXhcmuQueryService" class="iih.ei.xhcmu.s.IXhcmuQueryServiceImpl"/>
+	<xap:service ref="iih.ei.xhcmu.i.IXhcmuQueryService" interface="iih.ei.xhcmu.i.IXhcmuQueryService">
+		<xap:binding name="ws" />
+	</xap:service>
+	
+	<!--通用维护服务-->
+	<bean id="iih.ei.xhcmu.i.IXhcmuMaintanceService" class="iih.ei.xhcmu.s.IXhcmuMaintanceServiceImpl"/>
+	<xap:service ref="iih.ei.xhcmu.i.IXhcmuMaintanceService" interface="iih.ei.xhcmu.i.IXhcmuMaintanceService"
+		requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+	
+</beans>

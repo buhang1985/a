@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <head>
+    <TransID>GHYY_JD001</TransID>
+  </head>
+  <body>
+    <input_param>
+      <P_ZDBH00></P_ZDBH00>
+      <P_FZXBH0></P_FZXBH0>
+      <P_CARDNO></P_CARDNO>
+      <P_ID0000></P_ID0000>
+      <P_CARDTYPE></P_CARDTYPE>
+      <P_SFZHAO></P_SFZHAO>
+      <P_XMING0></P_XMING0>
+      <P_XBIE00></P_XBIE00>
+      <P_BRNL00></P_BRNL00>
+      <P_RYLB00></P_RYLB00>
+      <P_CSRQ00></P_CSRQ00>
+      <P_FZXMC0></P_FZXMC0>
+      <P_GZDWMC></P_GZDWMC>
+      <P_GRZHYE>0</P_GRZHYE>
+      <P_LXDH00></P_LXDH00>
+      <P_BYRC00></P_BYRC00>
+      <temp_district></temp_district>
+      <temp_street></temp_street>
+    </input_param>
+  </body>
+</root>

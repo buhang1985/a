@@ -1,0 +1,27 @@
+package iih.ei.std.s.v1.bp.pi.utils;
+
+import iih.pi.dic.patientcategory.d.PiPatCaDO;
+import iih.pi.dic.patientcategory.i.IPatientcategoryRService;
+import xap.mw.core.data.BizException;
+import xap.mw.core.utils.ArrayUtil;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.sf.core.util.ServiceFinder;
+
+public class PiApiUtils {
+
+	/**
+	 * 获取默认患者分类
+	 * @return
+	 */
+	public static PiPatCaDO getDefPatCa() throws BizException {
+		
+		IPatientcategoryRService caService = ServiceFinder.find(IPatientcategoryRService.class);
+		
+		PiPatCaDO[] caDos = caService.find("a0.fg_def = 'Y' ", null, FBoolean.FALSE);
+		if(ArrayUtil.isEmpty(caDos)){
+			return null;
+		}
+		
+		return caDos[0];
+	}
+}

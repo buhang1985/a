@@ -1,0 +1,12 @@
+package iih.ci.ord.s.ems.ip.assi.cp.pathgy;
+
+import iih.ci.ord.s.ems.base.BaseEmsDriver;
+
+/**
+ * 
+ * @author wangqingzhu
+ *
+ */
+public class CpPathgyDriver extends BaseEmsDriver {
+
+}

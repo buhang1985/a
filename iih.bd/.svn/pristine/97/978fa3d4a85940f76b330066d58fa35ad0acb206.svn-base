@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+
+	<!--诊疗目录基础服务 -->
+	<xap:service ref="HptreatCrudService"
+		interface="iih.bd.mhi.hptreat.i.IHptreatCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HptreatCrudService"
+		class="iih.bd.mhi.hptreat.s.HptreatCrudServiceImpl">
+	</bean>
+	<xap:service ref="HptreatCrudService"
+		interface="iih.bd.mhi.hptreat.i.IHptreatRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!--诊疗目录对照基础服务 -->
+	<xap:service ref="HptreatdircompCrudService"
+		interface="iih.bd.mhi.hptreatdircomp.i.IHptreatdircompCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HptreatdircompCrudService"
+		class="iih.bd.mhi.hptreatdircomp.s.HptreatdircompCrudServiceImpl">
+	</bean>
+	<xap:service ref="HptreatdircompCrudService"
+		interface="iih.bd.mhi.hptreatdircomp.i.IHptreatdircompRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!--诊疗目录对照扩展服务 -->
+	<xap:service ref="HptreatdircompExtCrudService"
+		interface="iih.bd.mhi.hptreatdircomp.i.IHptreatdircompExtCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HptreatdircompExtCrudService"
+		class="iih.bd.mhi.hptreatdircomp.s.HptreatdircompExtCrudServiceImpl">
+	</bean>
+	<xap:service ref="HptreatdircompExtCrudService"
+		interface="iih.bd.mhi.hptreatdircomp.i.IHptreatdircompExtRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 药品对照扩展服务 -->
+	<xap:service ref="HpdrugdircompExtCrudService"
+		interface="iih.bd.mhi.hpdrugdircomp.i.IHpdrugdircompExtCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="HpdrugdircompExtCrudService"
+		class="iih.bd.mhi.hpdrugdircomp.s.HpdrugdircompExtCrudServiceImpl"></bean>
+	<xap:service ref="HpdrugdircompExtCrudService"
+		interface="iih.bd.mhi.hpdrugdircomp.i.IHpdrugdircompExtRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 药品对照基础服务 -->
+	<xap:service ref="HpdrugdircompCrudService"
+		interface="iih.bd.mhi.hpdrugdircomp.i.IHpdrugdircompCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="HpdrugdircompCrudService"
+		class="iih.bd.mhi.hpdrugdircomp.s.HpdrugdircompCrudServiceImpl"></bean>
+	<xap:service ref="HpdrugdircompCrudService"
+		interface="iih.bd.mhi.hpdrugdircomp.i.IHpdrugdircompRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 药品目录基础服务 -->
+	<xap:service ref="HpdrugCrudService"
+		interface="iih.bd.mhi.hpdrug.i.IHpdrugCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="HpdrugCrudService"
+		class="iih.bd.mhi.hpdrug.s.HpdrugCrudServiceImpl"></bean>
+	<xap:service ref="HpdrugCrudService"
+		interface="iih.bd.mhi.hpdrug.i.IHpdrugRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!--就诊类型基础服务 -->
+	<xap:service ref="HpentpCrudService"
+		interface="iih.bd.mhi.hpentp.i.IHpentpCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpentpCrudService"
+		class="iih.bd.mhi.hpentp.s.HpentpCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpentpCrudService"
+		interface="iih.bd.mhi.hpentp.i.IHpentpRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!--转诊类型基础服务 -->
+	<xap:service ref="HpreferraltpCrudService"
+		interface="iih.bd.mhi.hpreferraltp.i.IHpreferraltpCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpreferraltpCrudService"
+		class="iih.bd.mhi.hpreferraltp.s.HpreferraltpCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpreferraltpCrudService"
+		interface="iih.bd.mhi.hpreferraltp.i.IHpreferraltpRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!--就诊类型对照基础服务 -->
+	<xap:service ref="HpentpcompCrudService"
+		interface="iih.bd.mhi.hpentpcomp.i.IHpentpcompCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpentpcompCrudService"
+		class="iih.bd.mhi.hpentpcomp.s.HpentpcompCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpentpcompCrudService"
+		interface="iih.bd.mhi.hpentpcomp.i.IHpentpcompRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 医保产品_地区目录服务 -->
+	<xap:service ref="HpregionCudService"
+		interface="iih.bd.mhi.hpregion.i.IHpregionCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpregionCudService"
+		class="iih.bd.mhi.hpregion.s.HpregionCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpregionCudService"
+		interface="iih.bd.mhi.hpregion.i.IHpregionRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 入院状态对照服务 -->
+	<xap:service ref="HpadmstatusdircompCrudService"
+		interface="iih.bd.mhi.hpadmstatusdircomp.i.IHpadmstatusdircompCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpadmstatusdircompCrudService"
+		class="iih.bd.mhi.hpadmstatusdircomp.s.HpadmstatusdircompCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpadmstatusdircompCrudService"
+		interface="iih.bd.mhi.hpadmstatusdircomp.i.IHpadmstatusdircompRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 入院状态基础服务 -->
+	<xap:service ref="AdmstatusCrudService"
+		interface="iih.bd.mhi.admstatus.i.IAdmstatusCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="AdmstatusCrudService"
+		class="iih.bd.mhi.admstatus.s.AdmstatusCrudServiceImpl">
+	</bean>
+	<xap:service ref="AdmstatusCrudService"
+		interface="iih.bd.mhi.admstatus.i.IAdmstatusRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 出院状态基础服务 -->
+	<xap:service ref="HpdischargedstatusCrudService"
+		interface="iih.bd.mhi.hpdischargedstatus.i.IHpdischargedstatusCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpdischargedstatusCrudService"
+		class="iih.bd.mhi.hpdischargedstatus.s.HpdischargedstatusCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpdischargedstatusCrudService"
+		interface="iih.bd.mhi.hpdischargedstatus.i.IHpdischargedstatusRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 转诊状态基础服务 -->
+	<xap:service ref="ReferralstatusCrudService"
+		interface="iih.bd.mhi.referralstatus.i.IReferralstatusCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="ReferralstatusCrudService"
+		class="iih.bd.mhi.referralstatus.s.ReferralstatusCrudServiceImpl">
+	</bean>
+	<xap:service ref="ReferralstatusCrudService"
+		interface="iih.bd.mhi.referralstatus.i.IReferralstatusRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 操作员权限基础服务 -->
+	<xap:service ref="HpopepermapplyCrudService"
+		interface="iih.bd.mhi.hpopepermapply.i.IHpopepermapplyCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpopepermapplyCrudService"
+		class="iih.bd.mhi.hpopepermapply.s.HpopepermapplyCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpopepermapplyCrudService"
+		interface="iih.bd.mhi.hpopepermapply.i.IHpopepermapplyRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 操作员权限扩展服务 -->
+	<xap:service ref="HpOpePermApplyExtCrudService"
+		interface="iih.bd.mhi.hpopepermapply.i.IHpOpePermApplyExtCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpOpePermApplyExtCrudService"
+		class="iih.bd.mhi.hpopepermapply.s.HpOpePermApplyExtCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpOpePermApplyExtCrudService"
+		interface="iih.bd.mhi.hpopepermapply.i.IHpOpePermApplyExtRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 医院医保信息基础服务 -->
+	<xap:service ref="HospmedinsurCrudService"
+		interface="iih.bd.mhi.hospmedinsur.i.IHospmedinsurCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HospmedinsurCrudService"
+		class="iih.bd.mhi.hospmedinsur.s.HospmedinsurCrudServiceImpl">
+	</bean>
+	<xap:service ref="HospmedinsurCrudService"
+		interface="iih.bd.mhi.hospmedinsur.i.IHospmedinsurRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 费用类别基础服务 -->
+	<xap:service ref="HpfeecateCrudService"
+		interface="iih.bd.mhi.hpfeecate.i.IHpfeecateCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpfeecateCrudService"
+		class="iih.bd.mhi.hpfeecate.s.HpfeecateCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpfeecateCrudService"
+		interface="iih.bd.mhi.hpfeecate.i.IHpfeecateRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 医疗机构级别基础服务 -->
+	<xap:service ref="HpmedorglevelCrudService"
+		interface="iih.bd.mhi.hpmedorglevel.i.IHpmedorglevelCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpmedorglevelCrudService"
+		class="iih.bd.mhi.hpmedorglevel.s.HpmedorglevelCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpmedorglevelCrudService"
+		interface="iih.bd.mhi.hpmedorglevel.i.IHpmedorglevelRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 医疗付款方式基础服务 -->
+	<xap:service ref="HpmedpaytpCrudService"
+		interface="iih.bd.mhi.hpmedpaytp.i.IHpmedpaytpCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpmedpaytpCrudService"
+		class="iih.bd.mhi.hpmedpaytp.s.HpmedpaytpCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpmedpaytpCrudService"
+		interface="iih.bd.mhi.hpmedpaytp.i.IHpmedpaytpRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 医疗机构级别基础服务 -->
+	<xap:service ref="HpmedtpCrudService"
+		interface="iih.bd.mhi.hpmedtp.i.IHpmedtpCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpmedtpCrudService"
+		class="iih.bd.mhi.hpmedtp.s.HpmedtpCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpmedtpCrudService"
+		interface="iih.bd.mhi.hpmedtp.i.IHpmedtpRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 费用类别字典基础服务 -->
+	<xap:service ref="HpfeecaCrudService"
+		interface="iih.bd.mhi.hpfeeca.i.IHpfeecaCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpfeecaCrudService"
+		class="iih.bd.mhi.hpfeeca.s.HpfeecaCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpfeecaCrudService"
+		interface="iih.bd.mhi.hpfeeca.i.IHpfeecaRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 科别对照基础服务 -->
+	<xap:service ref="HpdepdircompCrudService"
+		interface="iih.bd.mhi.hpdepdircomp.i.IHpdepdircompCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpdepdircompCrudService"
+		class="iih.bd.mhi.hpdepdircomp.s.HpdepdircompCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpdepdircompCrudService"
+		interface="iih.bd.mhi.hpdepdircomp.i.IHpdepdircompRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 出院状态对照基础服务 -->
+	<xap:service ref="HpdischargedstatusdircompCrudService"
+		interface="iih.bd.mhi.hpdischargedstatusdircomp.i.IHpdischargedstatusdircompCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpdischargedstatusdircompCrudService"
+		class="iih.bd.mhi.hpdischargedstatusdircomp.s.HpdischargedstatusdircompCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpdischargedstatusdircompCrudService"
+		interface="iih.bd.mhi.hpdischargedstatusdircomp.i.IHpdischargedstatusdircompRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 转诊审批类别基础服务 -->
+	<xap:service ref="ReferralapprcateCrudService"
+		interface="iih.bd.mhi.referralapprcate.i.IReferralapprcateCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="ReferralapprcateCrudService"
+		class="iih.bd.mhi.referralapprcate.s.ReferralapprcateCrudServiceImpl">
+	</bean>
+	<xap:service ref="ReferralapprcateCrudService"
+		interface="iih.bd.mhi.referralapprcate.i.IReferralapprcateRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 剂型目录基础服务 -->
+	<xap:service ref="HpdosageCrudService"
+		interface="iih.bd.mhi.hpdosage.i.IHpdosageCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpdosageCrudService"
+		class="iih.bd.mhi.hpdosage.s.HpdosageCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpdosageCrudService"
+		interface="iih.bd.mhi.hpdosage.i.IHpdosageRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+
+	<!-- 医保计划医保处方权开始 -->
+	<xap:service ref="HpinsurpresCrudService"
+		interface="iih.bd.mhi.hpinsurpres.i.IHpinsurpresCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpinsurpresCrudService"
+		class="iih.bd.mhi.hpinsurpres.s.HpinsurpresCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpinsurpresCrudService"
+		interface="iih.bd.mhi.hpinsurpres.i.IHpinsurpresRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<!-- 医保计划医保处方权结束 -->
+
+
+	<!-- 医保计划医师类别开始 -->
+	<xap:service ref="HpphytpCrudService"
+		interface="iih.bd.mhi.hpphytp.i.IHpphytpCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpphytpCrudService"
+		class="iih.bd.mhi.hpphytp.s.HpphytpCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpphytpCrudService"
+		interface="iih.bd.mhi.hpphytp.i.IHpphytpRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<!-- 医保计划医师类别结束 -->
+
+	<!-- 医保计划医师职称 -->
+	<xap:service ref="HpphytitleCrudService"
+		interface="iih.bd.mhi.hpphytitle.i.IHpphytitleCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpphytitleCrudService"
+		class="iih.bd.mhi.hpphytitle.s.HpphytitleCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpphytitleCrudService"
+		interface="iih.bd.mhi.hpphytitle.i.IHpphytitleRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 医保计划性别 -->
+	<xap:service ref="HpsexCrudService"
+		interface="iih.bd.mhi.hpsex.i.IHpsexCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpsexCrudService"
+		class="iih.bd.mhi.hpsex.s.HpsexCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpsexCrudService"
+		interface="iih.bd.mhi.hpsex.i.IHpsexRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 医保计划医院人员类别基础服务 -->
+	<xap:service ref="HpstafftpCrudService"
+		interface="iih.bd.mhi.hpstafftp.i.IHpstafftpCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpstafftpCrudService"
+		class="iih.bd.mhi.hpstafftp.s.HpstafftpCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpstafftpCrudService"
+		interface="iih.bd.mhi.hpstafftp.i.IHpstafftpRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 医保计划医院操作员信息上报基础服务 -->
+	<xap:service ref="HpstaffinfoCrudService"
+		interface="iih.bd.mhi.hpstaffinfo.i.IHpstaffinfoCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpstaffinfoCrudService"
+		class="iih.bd.mhi.hpstaffinfo.s.HpstaffinfoCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpstaffinfoCrudService"
+		interface="iih.bd.mhi.hpstaffinfo.i.IHpstaffinfoRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 医保计划医院操作员信息上报扩展服务 -->
+	<xap:service ref="HpstaffinfoExtCrudService"
+		interface="iih.bd.mhi.hpstaffinfo.i.IHpstaffinfoExtCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpstaffinfoExtCrudService"
+		class="iih.bd.mhi.hpstaffinfo.s.HpstaffinfoExtCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpstaffinfoExtCrudService"
+		interface="iih.bd.mhi.hpstaffinfo.i.IHpstaffinfoExtRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 医保计划疾病分类基础服务 -->
+	<xap:service ref="HpditpCrudService"
+		interface="iih.bd.mhi.hpditp.i.IHpditpCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpditpCrudService"
+		class="iih.bd.mhi.hpditp.s.HpditpCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpditpCrudService"
+		interface="iih.bd.mhi.hpditp.i.IHpditpRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 操作人员信息上传 -->
+	<bean id="OperatoruploadCrudService"
+		class="iih.bd.mhi.operatorupload.s.OperatoruploadCrudServiceImpl"></bean>
+	<xap:service ref="OperatoruploadCrudService"
+		interface="iih.bd.mhi.operatorupload.i.IOperatoruploadCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<xap:service ref="OperatoruploadCrudService"
+		interface="iih.bd.mhi.operatorupload.i.IOperatoruploadRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="OperatoruploadExtService"
+		class="iih.bd.mhi.operatorupload.s.OperatoruploadExtServiceImpl"></bean>
+	<xap:service ref="OperatoruploadExtService"
+		interface="iih.bd.mhi.operatorupload.i.IOperatoruploadExtService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 医保档案CRUD服务 -->
+	<bean id="IHpdocCrudService"
+		class="iih.bd.mhi.hpdoc.s.HpdocCrudServiceImpl"></bean>
+	<xap:service ref="IHpdocCrudService"
+		interface="iih.bd.mhi.hpdoc.i.IHpdocCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 未通过对照信息查询 -->
+	<bean id="HpunpasscompareinfoCrudService"
+		class="iih.bd.mhi.hpunpasscompareinfo.s.HpunpasscompareinfoCrudServiceImpl"></bean>
+	<xap:service ref="HpunpasscompareinfoCrudService"
+		interface="iih.bd.mhi.hpunpasscompareinfo.i.IHpunpasscompareinfoCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<xap:service ref="HpunpasscompareinfoCrudService"
+		interface="iih.bd.mhi.hpunpasscompareinfo.i.IHpunpasscompareinfoRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 费用类别对照扩展服务 -->
+	<bean id="IHpfeecaExtService"
+		class="iih.bd.mhi.hpfeeca.s.HpfeecaExtServiceImpl"></bean>
+	<xap:service ref="IHpfeecaExtService"
+		interface="iih.bd.mhi.hpfeeca.i.IHpfeecaExtService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 日志服务 -->
+	<bean id="BdMhiLogService"
+		class="iih.bd.mhi.log.BdMhiLogServiceImpl">
+	</bean>
+	<xap:service ref="BdMhiLogService"
+		interface="iih.bd.log.IBdMhiLogService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 医保项目明细上传排斥基础服务 -->
+	<xap:service ref="HpdetailuploadexcludeCrudService"
+		interface="iih.bd.mhi.hpdetailuploadexclude.i.IHpdetailuploadexcludeCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpdetailuploadexcludeCrudService"
+		class="iih.bd.mhi.hpdetailuploadexclude.s.HpdetailuploadexcludeCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpdetailuploadexcludeCrudService"
+		interface="iih.bd.mhi.hpdetailuploadexclude.i.IHpdetailuploadexcludeRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 医保计划自付部分减免配置基础服务 -->
+	<xap:service ref="HpsrvselfpayfreeCrudService"
+		interface="iih.bd.mhi.hpsrvselfpayfree.i.IHpsrvselfpayfreeCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HpsrvselfpayfreeCrudService"
+		class="iih.bd.mhi.hpsrvselfpayfree.s.HpsrvselfpayfreeCrudServiceImpl">
+	</bean>
+	<xap:service ref="HpsrvselfpayfreeCrudService"
+		interface="iih.bd.mhi.hpsrvselfpayfree.i.IHpsrvselfpayfreeRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+</beans>

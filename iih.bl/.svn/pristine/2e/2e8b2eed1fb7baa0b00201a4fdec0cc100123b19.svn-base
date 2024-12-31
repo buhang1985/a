@@ -1,0 +1,103 @@
+package iih.bl.pay.blpaypat.bp;
+
+import java.util.List;
+
+import org.apache.commons.dbutils.handlers.BeanListHandler;
+
+import iih.bl.pay.blprepayunstdetaildto.d.BlPrepayUnStDetailDTO;
+import xap.mw.core.data.BizException;
+import xap.sie.common.utils.StringUtils;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.kernel.SqlParam;
+
+public class BlprepayUnStDetailBp {
+	public BlPrepayUnStDetailDTO[] findPrepayUnStDetail(String id_pat, String code_enttp, String Dt_start, String Dt_end)
+			throws BizException {
+
+		if (StringUtils.isEmpty(id_pat)) {
+			throw new BizException("患者ID不能为空!");
+		}
+
+		if (StringUtils.isEmpty(code_enttp)) {
+			throw new BizException("患者类型不能为空!");
+		}
+		
+		StringBuffer sql = new StringBuffer();
+
+		if("00".equals(code_enttp)){
+			sql.append("select ci.code_or, ");
+			sql.append("       ci.id_or, ");
+			sql.append("       cgitm.id_srv, ");
+			sql.append("       cgitm.name_srv, " );
+			sql.append("       cgitm.name_mm, " );
+			sql.append("       cgitm.price_ratio, " );
+			sql.append("       cgitm.quan * cg.eu_direct quan, " );
+			sql.append("       mea.name as util, " );
+			sql.append("       cgitm.amt_ratio * cg.eu_direct amt_ratio, " );
+			sql.append("       ordep.name name_dep_or, " );
+			sql.append("       cg.dt_cg " );
+			sql.append("  from bl_cg_itm_oep cgitm " );
+			sql.append(" inner join bl_cg_oep cg " );
+			sql.append("    on cgitm.id_cgoep = cg.id_cgoep " );
+			sql.append("  left join ci_order ci " );
+			sql.append("    on ci.id_or = cgitm.id_or " );
+			sql.append("  left join bd_measdoc mea " );
+			sql.append("    on cgitm.srvu = mea.id_measdoc " );
+			sql.append("  left join bd_dep ordep " );
+			sql.append("    on ordep.id_dep = cgitm.id_dep_or " );
+			sql.append(" where cgitm.fg_st = 'N' " );
+			sql.append("   and cgitm.id_pat = ? " );
+			sql.append("   and cgitm.code_enttp = '00' ");
+		}
+		else if("10".equals(code_enttp)){
+			sql.append("select ci.content_or, ");
+			sql.append("       ci.id_or, ");
+			sql.append("       cgitm.id_srv, ");
+			sql.append("       ci.code_or, " );
+			sql.append("       cgitm.name_srv, " );
+			sql.append("       cgitm.name_mm, " );
+			sql.append("       cgitm.spec, " );
+			sql.append("       mea.name as util, " );
+			sql.append("       cgitm.price_ratio, " );
+			sql.append("       cgitm.quan * cgitm.eu_direct quan, " );
+			sql.append("       cgitm.amt_ratio * cgitm.eu_direct amt_ratio, " );
+			sql.append("       cgitm.dt_cg, " );
+			sql.append("       ordep.name as name_dep_or, " );
+			sql.append("       mpdep.name name_dep_mp, " );
+			sql.append("       cgitm.fg_research " );
+			sql.append("  from bl_cg_ip cgitm " );
+			sql.append(" left join ci_order ci " );
+			sql.append("    on cgitm.id_or = ci.id_or " );
+			sql.append(" left join bd_measdoc mea " );
+			sql.append("    on cgitm.srvu = mea.id_measdoc " );
+			sql.append(" left join bd_dep ordep " );
+			sql.append("    on ordep.id_dep = cgitm.id_dep_or " );
+			sql.append(" left join bd_dep mpdep " );
+			sql.append("    on mpdep.id_dep = cgitm.id_dep_mp " );
+			sql.append(" where cgitm.fg_st = 'N' " );
+			sql.append("   and cgitm.id_ent = ? " );
+			sql.append("   and cgitm.code_enttp = '10' ");
+
+
+		}
+		
+		if (Dt_start != null)
+			sql.append(" and cgitm.dt_cg >= ? ");
+		if (Dt_end != null)
+			sql.append(" and cgitm.dt_cg < ? ");
+		sql.append(" order by cgitm.dt_cg ");
+		
+		SqlParam sp = new SqlParam();
+		sp.addParam(id_pat);
+		if (Dt_start != null)
+			sp.addParam(Dt_start);
+		if (Dt_end != null)
+			sp.addParam(Dt_end);
+		
+		List<BlPrepayUnStDetailDTO> ipdtos = (List<BlPrepayUnStDetailDTO>) new DAFacade().execQuery(sql.toString(), sp,
+				new BeanListHandler(BlPrepayUnStDetailDTO.class));
+		return ipdtos.toArray(new BlPrepayUnStDetailDTO[0]);
+		
+	}
+	
+}

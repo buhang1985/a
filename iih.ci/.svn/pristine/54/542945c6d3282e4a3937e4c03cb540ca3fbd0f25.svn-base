@@ -1,0 +1,16 @@
+package iih.ci.ord.s.bp.ordprn.ref;
+
+import iih.ci.ord.dto.ordprintdto.d.OrdPrintDataDTO;
+
+/**
+ * 武威医嘱单内容拼接
+ * @author zhangwq
+ *
+ */
+public class WuweiOrdPrintContentAssembleBP extends DefaultOrdPrintContentAssembleBP {
+
+	@Override
+	protected void assembleDes_or(OrdPrintDataDTO qryDTOs) {
+	}
+	
+}

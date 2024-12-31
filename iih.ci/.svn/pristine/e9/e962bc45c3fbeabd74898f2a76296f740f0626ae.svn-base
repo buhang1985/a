@@ -1,0 +1,10 @@
+package iih.ci.ord.s.ems.ip.order.copy;
+
+/**
+ * 西药复制
+ * @author Young
+ *
+ */
+public class OrderDrugsCopyBP extends iih.ci.ord.s.ems.op.order.copy.OrderDrugsCopyBP {
+
+}

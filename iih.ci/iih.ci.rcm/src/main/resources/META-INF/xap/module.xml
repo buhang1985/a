@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+
+	<!--传染上报 -->
+	<bean id="IContagionCrudServiceExtImpl" class="iih.ci.rcm.contagion.s.ContagionCrudServiceExtImpl"></bean>  
+	                                       
+	<bean id="IContagionCrudServiceImpl" class="iih.ci.rcm.contagion.s.ContagionCrudServiceImpl"></bean>  
+	<bean id="IContagionMDOCrudServiceImpl" class="iih.ci.rcm.contagion.s.ContagionMDOCrudServiceImpl"></bean>  
+	<bean id="IStdDOCrudServiceImpl" class="iih.ci.rcm.contagion.s.StdDOCrudServiceImpl"></bean>  
+	<bean id="IHepatitisBDOCrudServiceImpl" class="iih.ci.rcm.contagion.s.HepatitisBDOCrudServiceImpl"></bean>  
+	<bean id="ISyphilisDOCrudServiceImpl" class="iih.ci.rcm.contagion.s.SyphilisDOCrudServiceImpl"></bean>  
+	<bean id="IHFMDOCrudServiceImpl" class="iih.ci.rcm.contagion.s.HFMDOCrudServiceImpl"></bean>  
+	<bean id="IAidsDOCrudServiceImpl" class="iih.ci.rcm.contagion.s.AidsDOCrudServiceImpl"></bean>
+	<bean id="ICondylomaDOCrudServiceImpl" class="iih.ci.rcm.contagion.s.CondylomaDOCrudServiceImpl"></bean>
+	
+	<!-- 院感上报 start -->
+		
+	<bean id="HospitalreportCrudService" class="iih.ci.rcm.hospitalreport.s.HospitalreportCrudServiceImpl"></bean>
+	<bean id="HosmiddleCrudService" class="iih.ci.rcm.hosmiddle.s.HosmiddleCrudServiceImpl"></bean>
+	<bean id="ConsitedoCrudService" class="iih.ci.rcm.consite.s.ConsitedoCrudServiceImpl"></bean>
+	<bean id="AntibioticusedoCrudService" class="iih.ci.rcm.au.s.AntibioticusedoCrudServiceImpl"></bean>
+	<bean id="DrugsensitiinfoCrudService" class="iih.ci.rcm.drugsinfo.s.DrugsensitiinfoCrudServiceImpl"></bean>
+	<bean id="OperinciinfectCrudService" class="iih.ci.rcm.operinciinfect.s.OperinciinfectCrudServiceImpl"></bean>
+
+	<bean id="HospService" class="iih.ci.rcm.dto.s.HospServiceImpl"></bean>
+	<bean id="IContagionQryServiceImpl" class="iih.ci.rcm.contagionqrydto.s.IContagionQryServiceImpl"></bean>
+	<bean id="IContagionRecordQryServiceImpl" class="iih.ci.rcm.contagionrecordop.s.IContagionRecordQryServiceImpl"></bean>	
+	<bean id="IContagionRecordService" class="iih.ci.rcm.contagionrecordop.s.ContagionRecordServiceImpl"></bean>	
+	<!-- 院感上报 end -->                                        
+	
+	<bean id="ConInfoService" class="iih.ci.rcm.coninfodto.s.ConInfoServiceImpl"></bean>
+	<bean id="IContagionMessageService" class="iih.ci.rcm.contagionmessagedto.s.IContagionMessageServiceImpl"></bean>			
+	<bean id="IHospInfectionService" class="iih.ci.rcm.hospitalinfectiondto.s.IHospInfectionServiceImpl"></bean>
+	
+	<!--药敏信息 -->
+	<bean id="DrugsensitiinfoCrudServiceImpl" class="iih.ci.rcm.drugsinfo.s.DrugsensitiinfoCrudServiceImpl"></bean>
+	<xap:service ref="DrugsensitiinfoCrudServiceImpl" interface="iih.ci.rcm.drugsinfo.i.IDrugsensitiinfoCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="DrugsensitiinfoCrudServiceImpl" interface="iih.ci.rcm.drugsinfo.i.IDrugsensitiinfoRService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="DrugallergyCrudServiceImpl" class="iih.ci.rcm.drugallergy.s.DrugallergyCrudServiceImpl"></bean>
+	<xap:service ref="DrugallergyCrudServiceImpl" interface="iih.ci.rcm.drugallergy.i.IDrugallergyCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="DrugallergyCrudServiceImpl" interface="iih.ci.rcm.drugallergy.i.IDrugallergyRService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--参数工具类 -->
+	<bean id="ICiRcmParamService" class="iih.ci.rcm.s.CiRcmParamServiceImpl"></bean>
+	
+	<!--传染病既往已报生成服务 -->
+	<bean id="iih.ci.rcm.conpastreport.i.IConpastreportCudService" class="iih.ci.rcm.conpastreport.s.ConpastreportCrudServiceImpl"></bean>
+	
+	<!-- 传染病既往已报操作服务 -->
+	<bean id="iih.ci.rcm.i.ICiRcmConPassService" class="iih.ci.rcm.s.CiRcmConPassServiceImpl"></bean>
+	
+	<!-- 报卡文书相关服务 -->
+	<bean id="ReportcarddocCurdService" class="iih.ci.rcm.reportcarddoc.s.ReportcarddocCrudServiceImpl"></bean>
+	<bean id="ReportcarddofsCurdService" class="iih.ci.rcm.reportcarddocfs.s.ReportcarddocfsCrudServiceImpl"></bean>
+	<bean id="ReportcarddocCrudService" class="iih.ci.rcm.reportcarddoc.s.ReportcarddocCrudServiceImpl"></bean>  
+	<bean id="ReportcarddocfsCrudService" class="iih.ci.rcm.reportcarddocfs.s.ReportcarddocfsCrudServiceImpl"></bean>  
+	<bean id="RptCardDocServiceUtilImpl" class="iih.ci.rcm.reportcarddoc.s.RptCardDocServiceUtilImpl"></bean>
+		
+	<!--  院感上报病原学检验 -->
+	<bean id="IPathogenService" class="iih.ci.rcm.pathogen.s.PathogenCrudServiceImpl"></bean>
+	<xap:service ref="IPathogenService" interface="iih.ci.rcm.pathogen.i.IPathogenCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IPathogenService" interface="iih.ci.rcm.pathogen.i.IPathogenRService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="IAntibiotService" class="iih.ci.rcm.antibiot.s.AntibiotCrudServiceImpl"></bean>
+	<xap:service ref="IAntibiotService" interface="iih.ci.rcm.antibiot.i.IAntibiotCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IAntibiotService" interface="iih.ci.rcm.antibiot.i.IAntibiotRService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 医院感染现患率 -->
+	<bean id="NosoInfectionService" class="iih.ci.rcm.nosoinfection.s.NosoInfectionServiceExtImpl"></bean>
+	<xap:service ref="NosoInfectionService" interface="iih.ci.rcm.nosoinfection.i.INosoInfectionServiceExt" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<xap:service ref="InfectionrateService" interface="iih.ci.rcm.infectionrate.i.IInfectionrateRService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="InfectionrateService" class="iih.ci.rcm.infectionrate.s.InfectionrateCrudServiceImpl"></bean>
+	<xap:service ref="InfectionrateService" interface="iih.ci.rcm.infectionrate.i.IInfectionrateCudService" requires="tx" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<xap:service ref="InfectionrateMDOCrudService" interface="iih.ci.rcm.infectionrate.i.IInfectionrateMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="InfectionrateMDOCrudService" class="iih.ci.rcm.infectionrate.s.InfectionrateMDOCrudServiceImpl"></bean>
+	<xap:service ref="InfectionrateMDOCrudService" interface="iih.ci.rcm.infectionrate.i.IInfectionrateMDORService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<xap:service ref="InfectionSiteDOService" interface="iih.ci.rcm.infectionrate.i.IInfectionSiteDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="InfectionSiteDOService" class="iih.ci.rcm.infectionrate.s.InfectionSiteDOCrudServiceImpl"></bean>
+	<xap:service ref="InfectionSiteDOService" interface="iih.ci.rcm.infectionrate.i.IInfectionSiteDORService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="InfectionDiagnosisDOCrudService" class="iih.ci.rcm.infectionrate.s.InfectionDiagnosisDOCrudServiceImpl"></bean>
+	
+	
+	<!-- ICU病例监测 -->
+	<bean id="PatientRService" class="iih.ci.rcm.nosoinfection.s.PatientRServiceExtImpl"></bean>
+	<xap:service ref="PatientRService" interface="iih.ci.rcm.nosoinfection.i.IPatientRServiceExt" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<xap:service ref="CasesurverillanceService" interface="iih.ci.rcm.casesurverillance.i.ICasesurverillanceCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="CasesurverillanceService" class="iih.ci.rcm.casesurverillance.s.CasesurverillanceCrudServiceImpl"></bean>
+	<xap:service ref="CasesurverillanceService" interface="iih.ci.rcm.casesurverillance.i.ICasesurverillanceRService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<xap:service ref="CatheterService" interface="iih.ci.rcm.catheter.i.ICatheterCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="CatheterService" class="iih.ci.rcm.catheter.s.CatheterCrudServiceImpl"></bean>
+	<xap:service ref="CatheterService" interface="iih.ci.rcm.catheter.i.ICatheterRService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<xap:service ref="SpecimenService" interface="iih.ci.rcm.specimen.i.ISpecimenCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="SpecimenService" class="iih.ci.rcm.specimen.s.SpecimenCrudServiceImpl"></bean>
+	<xap:service ref="SpecimenService" interface="iih.ci.rcm.specimen.i.ISpecimenRService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="CaseMonitorService" class="iih.ci.rcm.nosoinfection.s.CaseMonitorServiceImpl"></bean>
+	<xap:service ref="CaseMonitorService" interface="iih.ci.rcm.nosoinfection.i.ICaseMonitorService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="InfectionpreService" class="iih.ci.rcm.infectionpre.s.InfectionpreServiceImpl"></bean>
+	<xap:service ref="InfectionpreService" interface="iih.ci.rcm.infectionpre.i.InfectionpreService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	
+	<!-- 医疗锐器伤 -->
+	<xap:service ref="MsinjuryService" interface="iih.ci.rcm.msinjury.i.IMsinjuryRService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="MsinjuryService" class="iih.ci.rcm.msinjury.s.MsinjuryCrudServiceImpl"></bean>
+	<xap:service ref="MsinjuryService" interface="iih.ci.rcm.msinjury.i.IMsinjuryCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	
+	<!-- 血液/体液暴露接触 -->
+	<xap:service ref="LiqexpcontactService" interface="iih.ci.rcm.liqexpcontact.i.ILiqexpcontactRService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="LiqexpcontactService" class="iih.ci.rcm.liqexpcontact.s.LiqexpcontactCrudServiceImpl"></bean>
+	<xap:service ref="LiqexpcontactService" interface="iih.ci.rcm.liqexpcontact.i.ILiqexpcontactCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	
+	<!-- 暴露后追踪记录 -->
+	<xap:service ref="TrackafterexposureService" interface="iih.ci.rcm.trackafterexposure.i.ITrackafterexposureRService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="TrackafterexposureService" class="iih.ci.rcm.trackafterexposure.s.TrackafterexposureCrudServiceImpl"></bean>
+	<xap:service ref="TrackafterexposureService" interface="iih.ci.rcm.trackafterexposure.i.ITrackafterexposureCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<xap:service ref="TrackafterexposureMDOCrudService" interface="iih.ci.rcm.trackafterexposure.i.ITrackafterexposureMDORService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="TrackafterexposureMDOCrudService" class="iih.ci.rcm.trackafterexposure.s.TrackafterexposureMDOCrudServiceImpl"></bean>
+	<xap:service ref="TrackafterexposureMDOCrudService" interface="iih.ci.rcm.trackafterexposure.i.ITrackafterexposureMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	
+	<xap:service ref="TrackCheckResAfExpDOCrudService" interface="iih.ci.rcm.trackafterexposure.i.ITrackCheckResAfExpDORService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="TrackCheckResAfExpDOCrudService" class="iih.ci.rcm.trackafterexposure.s.TrackCheckResAfExpDOCrudServiceImpl"></bean>
+	<xap:service ref="TrackCheckResAfExpDOCrudService" interface="iih.ci.rcm.trackafterexposure.i.ITrackCheckResAfExpDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	
+	<xap:service ref="TreatPeMeaAfExpDOCrudService" interface="iih.ci.rcm.trackafterexposure.i.ITreatPeMeaAfExpDORService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="TreatPeMeaAfExpDOCrudService" class="iih.ci.rcm.trackafterexposure.s.TreatPeMeaAfExpDOCrudServiceImpl"></bean>
+	<xap:service ref="TreatPeMeaAfExpDOCrudService" interface="iih.ci.rcm.trackafterexposure.i.ITreatPeMeaAfExpDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	
+	<xap:service ref="BasicLabResultDOCrudService" interface="iih.ci.rcm.trackafterexposure.i.IBasicLabResultDORService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="BasicLabResultDOCrudService" class="iih.ci.rcm.trackafterexposure.s.BasicLabResultDOCrudServiceImpl"></bean>
+	<xap:service ref="BasicLabResultDOCrudService" interface="iih.ci.rcm.trackafterexposure.i.IBasicLabResultDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	
+	<xap:service ref="LabFollowupResultDOCrudService" interface="iih.ci.rcm.trackafterexposure.i.ILabFollowupResultDORService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="LabFollowupResultDOCrudService" class="iih.ci.rcm.trackafterexposure.s.LabFollowupResultDOCrudServiceImpl"></bean>
+	<xap:service ref="LabFollowupResultDOCrudService" interface="iih.ci.rcm.trackafterexposure.i.ILabFollowupResultDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	
+	
+	<!-- 医院感染暴发报告登记表 -->
+	<xap:service ref="InfecOutbreakDetailReportDOService" interface="iih.ci.rcm.infectionoutbreakreport.i.IInfecOutbreakDetailReportDORService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="InfecOutbreakDetailReportDOService" class="iih.ci.rcm.infectionoutbreakreport.s.InfecOutbreakDetailReportDOCrudServiceImpl"></bean>
+	<xap:service ref="InfecOutbreakDetailReportDOService" interface="iih.ci.rcm.infectionoutbreakreport.i.IInfecOutbreakDetailReportDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	
+	<xap:service ref="InfectionoutbreakreportService" interface="iih.ci.rcm.infectionoutbreakreport.i.IInfectionoutbreakreportRService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="InfectionoutbreakreportService" class="iih.ci.rcm.infectionoutbreakreport.s.InfectionoutbreakreportCrudServiceImpl"></bean>
+	<xap:service ref="InfectionoutbreakreportService" interface="iih.ci.rcm.infectionoutbreakreport.i.IInfectionoutbreakreportCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	
+	<xap:service ref="InfectionoutbreakreportMDOService" interface="iih.ci.rcm.infectionoutbreakreport.i.IInfectionoutbreakreportMDORService" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="InfectionoutbreakreportMDOService" class="iih.ci.rcm.infectionoutbreakreport.s.InfectionoutbreakreportMDOCrudServiceImpl"></bean>
+	<xap:service ref="InfectionoutbreakreportMDOService" interface="iih.ci.rcm.infectionoutbreakreport.i.IInfectionoutbreakreportMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="InfecOutbreakDetailReportService" class="iih.ci.rcm.nosoinfection.s.InfecOutbreakDetailReportServiceImpl"></bean>
+	<xap:service ref="InfecOutbreakDetailReportService" interface="iih.ci.rcm.nosoinfection.i.IInfecOutbreakDetailReportService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service> 
+	
+	<!-- 院感病例 -->
+	<bean id="InfectionCaseService" class="iih.ci.rcm.nosoinfection.s.InfectionCaseServiceImpl"></bean>
+	<xap:service ref="InfectionCaseService" interface="iih.ci.rcm.nosoinfection.i.IInfectionCaseService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	
+	<!-- 医疗锐器伤 -->
+	<bean id="MsInjuryService" class="iih.ci.rcm.nosoinfection.s.MsInjuryServiceImpl"></bean>
+	
+
+	<!-- 液体血液暴露接触 -->
+	<bean id="LiqExpContactService" class="iih.ci.rcm.nosoinfection.s.LiqExpContactServiceImpl"></bean>
+	<xap:service ref="LiqExpContactService" interface="iih.ci.rcm.nosoinfection.i.ILiqExpContactService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	
+	<!-- 暴露后追踪记录 -->
+	<bean id="TrackAfExposureService" class="iih.ci.rcm.nosoinfection.s.TrackAfExposureServiceImpl"></bean>
+	<xap:service ref="TrackAfExposureService" interface="iih.ci.rcm.nosoinfection.i.ITrackAfExposureService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service> 
+	
+	<!-- 院感监测查询-->
+	<bean id="HospitalSenMonitor" class="iih.ci.rcm.hospitalsenmonitordto.s.IHospitalSenMonitorImpl"></bean>
+	
+	<!-- 报卡漏报查询节点服务 -->
+	<bean id="IReportCardMissQryService" class="iih.ci.rcm.reportcardmissqry.s.ReportCardMissQryServiceImpl"></bean>
+	<xap:service ref="IReportCardMissQryService"
+		interface="iih.ci.rcm.reportcardmissqry.i.IReportCardMissQryService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 报卡填报提醒相关服务 -->
+	<bean id="IReportCardRemindService" class="iih.ci.rcm.reportcardremind.s.ReportCardRemindServiceImpl"></bean>
+	<xap:service ref="IReportCardRemindService"
+		interface="iih.ci.rcm.reportcardremind.i.IReportCardRemindService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--新冠肺炎附卡 -->
+	<xap:service ref="NCPDOCrudServiceImpl"
+		interface="iih.ci.rcm.contagion.i.INCPDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="NCPDOCrudServiceImpl"
+		class="iih.ci.rcm.contagion.s.NCPDOCrudServiceImpl">
+	</bean>
+	<xap:service ref="NCPDOCrudServiceImpl"
+		interface="iih.ci.rcm.contagion.i.INCPDORService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+</beans>

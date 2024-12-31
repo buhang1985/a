@@ -1,0 +1,445 @@
+package iih.ei.itf.eiitfcate.s.bp;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+
+import iih.bd.base.utils.DoUtils;
+import iih.ei.itf.eiitfcate.d.EiItfCateDO;
+import iih.ei.itf.eiitfcate.i.IEiitfcateRService;
+import iih.ei.itf.eiitfcateitm.d.ItfCateItmDO;
+import iih.ei.itf.eiitfcateitm.i.IEiitfcateitmRService;
+import iih.ei.itf.eiitfdo.d.EiItfDO;
+import iih.ei.itf.eiitfdo.i.IEiitfdoRService;
+import iih.ei.itf.itftest.s.bp.BuildItfParamTempXmlBp;
+import xap.dp.dmengine.d.PropertyDO;
+import xap.dp.dmengine.s.MdCachePoolProxy;
+import xap.mw.core.data.BaseDO;
+import xap.mw.core.data.BizException;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.appfw.orm.desc.ent.dataobject.DmEnumDesc;
+
+/**
+ * 使用接口分类构建MD文件
+ * 
+ * @author hao_wu 2019-10-30
+ *
+ */
+public class BuildMDFileByCateIdBp {
+
+	public byte[] exec(String itfCateId) throws BizException {
+		IEiitfcateRService eiitfcateRService = ServiceFinder.find(IEiitfcateRService.class);
+		EiItfCateDO itfCateDo = eiitfcateRService.findById(itfCateId);
+
+		EiItfDO[] itfDos = null;
+		IEiitfcateitmRService iEiitfcateitmRService = ServiceFinder.find(IEiitfcateitmRService.class);
+		ItfCateItmDO[] itms = iEiitfcateitmRService.findByAttrValString(ItfCateItmDO.ID_ITFCATE, itfCateId);
+		if (ArrayUtils.isNotEmpty(itms)) {
+			String[] itfIds = DoUtils.getAttrValArr(itms, ItfCateItmDO.ID_ITF, String.class);
+			IEiitfdoRService itfRService = ServiceFinder.find(IEiitfdoRService.class);
+			itfDos = itfRService.findByIds(itfIds, FBoolean.FALSE);
+		}
+
+		Arrays.sort(itfDos, new Comparator<EiItfDO>() {
+
+			@Override
+			public int compare(EiItfDO paramT1, EiItfDO paramT2) {
+				return paramT1.getCode().compareToIgnoreCase(paramT2.getCode());
+			}
+		});
+
+		return build(itfCateDo, itfDos);
+	}
+
+	private byte[] build(EiItfCateDO itfCateDo, EiItfDO[] itfDos) throws BizException {
+		MDFileBuilder builder = new MDFileBuilder();
+
+		builder.appendH1(itfCateDo.getName());
+
+		buildItfs(builder, itfDos);
+
+		return builder.toBytes();
+	}
+
+	/**
+	 * 构建接口文档
+	 * 
+	 * @param builder
+	 * @param itfDos
+	 * @throws BizException
+	 */
+	private void buildItfs(MDFileBuilder builder, EiItfDO[] itfDos) throws BizException {
+		if (ArrayUtils.isEmpty(itfDos)) {
+			return;
+		}
+
+		for (int i = 0; i < itfDos.length; i++) {
+			EiItfDO itfDo = itfDos[i];
+			try {
+				buildItf(builder, itfDos[i], i + 1);
+			} catch (Exception e) {
+				String msg = String.format("构建接口文档错误,接口编码:%s.", itfDo.getCode());
+				throw new BizException(msg, e);
+			}
+
+		}
+	}
+
+	private void buildItf(MDFileBuilder builder, EiItfDO eiItfDO, int sortNo) throws BizException {
+		EiItfDO itfDo = eiItfDO;
+
+		String title = String.format("%s %s %s", sortNo, itfDo.getCode(), itfDo.getName());
+		builder.appendH2(title);
+
+		double chapterNum = sortNo;
+
+		title = String.format("%.1f 接口信息", chapterNum += 0.1);
+		builder.appendH3(title);
+
+		if (FBoolean.FALSE.equals(eiItfDO.getFg_active())) {
+			builder.appendText("★警告：接口已停用");
+		}
+
+		String[][] itfInfoTable = new String[2][3];
+		itfInfoTable[0] = new String[] { "接口编码", "方法名", "接口名称" };
+		itfInfoTable[1] = new String[] { itfDo.getCode(), itfDo.getMethodname(), itfDo.getName() };
+		builder.appendTable(itfInfoTable);
+
+		title = String.format("%.1f 详细说明", chapterNum += 0.1);
+		builder.appendH3(title);
+		builder.appendText(itfDo.getDes());
+
+		Method method = getMethod(itfDo);
+		Class<?> inParamType = getInParamType(method);
+		Class<?> outParamType = method.getReturnType();
+
+		if (inParamType != null && BaseDO.class.isAssignableFrom(inParamType)
+				&& !Modifier.isAbstract(inParamType.getModifiers())) {
+			BuildItfParamTempXmlBp bp = new BuildItfParamTempXmlBp();
+			String paramXml = bp.exec(inParamType);
+			if (StringUtils.isNotBlank(paramXml)) {
+				title = String.format("%.1f 入参示例", chapterNum += 0.1);
+				builder.appendH3(title);
+
+				builder.appendCode(MDFileBuilder.CODE_TYPE_XML, paramXml);
+			}
+		}
+
+		if (outParamType != null && BaseDO.class.isAssignableFrom(outParamType)
+				&& !Modifier.isAbstract(outParamType.getModifiers())) {
+			BuildItfParamTempXmlBp bp = new BuildItfParamTempXmlBp();
+			String paramXml = bp.exec(outParamType);
+			if (StringUtils.isNotBlank(paramXml)) {
+				title = String.format("%.1f 出参示例", chapterNum += 0.1);
+				builder.appendH3(title);
+				builder.appendCode(MDFileBuilder.CODE_TYPE_XML, paramXml);
+			}
+		}
+
+		if (inParamType != null && BaseDO.class.isAssignableFrom(inParamType)
+				&& !Modifier.isAbstract(inParamType.getModifiers())) {
+			Map<String, String[][]> paramDesMap = getItfParamDes(inParamType);
+			if (paramDesMap.size() > 0) {
+				title = String.format("%.1f 入参说明", chapterNum += 0.1);
+				builder.appendH3(title);
+
+				for (String type : paramDesMap.keySet()) {
+					String[][] paramDes = paramDesMap.get(type);
+
+					builder.appendH4(type);
+					builder.appendTable(paramDes);
+				}
+			}
+		}
+
+		if (outParamType != null && BaseDO.class.isAssignableFrom(outParamType)
+				&& !Modifier.isAbstract(outParamType.getModifiers())) {
+			Map<String, String[][]> paramDesMap = getItfParamDes(outParamType);
+			if (paramDesMap.size() > 0) {
+				title = String.format("%.1f 出参说明", chapterNum += 0.1);
+				builder.appendH3(title);
+
+				for (String type : paramDesMap.keySet()) {
+					String[][] paramDes = paramDesMap.get(type);
+
+					builder.appendH4(type);
+					builder.appendTable(paramDes);
+				}
+			}
+		}
+	}
+
+	/**
+	 * 获取入参类型
+	 * 
+	 * @param method
+	 * @return
+	 */
+	private Class<?> getInParamType(Method method) {
+		Class<?>[] paramTypes = method.getParameterTypes();
+
+		if (ArrayUtils.isEmpty(paramTypes) || !BaseDO.class.isAssignableFrom(paramTypes[0])) {
+			return null;
+		}
+
+		return paramTypes[0];
+	}
+
+	/**
+	 * 获取出参描述
+	 * 
+	 * @param paramType
+	 * @return
+	 * @throws BizException
+	 */
+	private Map<String, String[][]> getItfParamDes(Class<?> paramType) throws BizException {
+		Map<String, String[][]> paramDesMap = new LinkedHashMap<String, String[][]>();
+
+		String[][] paramDes = getParamDes(paramType);
+		if (paramDes == null) {
+			return paramDesMap;
+		}
+		paramDesMap.put("Data", paramDes);
+
+		PropertyDO[] propDos = MdCachePoolProxy.getInstance().getPropertyDOsByEntityName(paramType.getName());
+
+		sortPropDos(propDos);
+
+		for (PropertyDO propertyDO : propDos) {
+			if (FBoolean.TRUE.equals(propertyDO.getIsnotserialize())) {
+				continue;
+			}
+
+			String subFullClassName = MdCachePoolProxy.getInstance()
+					.getSubFullClassNameByEntityProperty(paramType.getName(), propertyDO.getName());
+			if (StringUtils.isBlank(subFullClassName)) {
+				continue;
+			}
+
+			Class<?> subClass = null;
+			try {
+				subClass = Class.forName(subFullClassName);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+
+			Map<String, String[][]> typeDesMap = getTypeDes(subClass);
+			if (typeDesMap != null) {
+				paramDesMap.putAll(typeDesMap);
+			}
+		}
+		return paramDesMap;
+	}
+
+	private Map<String, String[][]> getTypeDes(Class<?> dataType) throws BizException {
+
+		Map<String, String[][]> paramDesMap = new HashMap<String, String[][]>();
+		if (dataType.isInterface()) {
+			String[][] enumDes = getEnumDes(dataType);
+			if (enumDes != null) {
+				paramDesMap.put(dataType.getSimpleName(), enumDes);
+				return paramDesMap;
+			}
+
+		}
+
+		if (dataType == null || !BaseDO.class.isAssignableFrom(dataType)) {
+			return null;
+		}
+
+		String[][] paramDes = getParamDes(dataType);
+		paramDesMap.put(dataType.getSimpleName(), paramDes);
+
+		PropertyDO[] propDos = MdCachePoolProxy.getInstance().getPropertyDOsByEntityName(dataType.getName());
+
+		sortPropDos(propDos);
+
+		for (PropertyDO propertyDO : propDos) {
+			if (FBoolean.TRUE.equals(propertyDO.getIsnotserialize())) {
+				continue;
+			}
+
+			String subFullClassName = MdCachePoolProxy.getInstance()
+					.getSubFullClassNameByEntityProperty(dataType.getName(), propertyDO.getName());
+			if (StringUtils.isBlank(subFullClassName)) {
+				continue;
+			}
+
+			Class<?> subClass = null;
+			try {
+				subClass = Class.forName(subFullClassName);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			if (subClass == null) {
+				continue;
+			}
+			if (subClass.equals(dataType)) {
+				continue;
+			}
+
+			Map<String, String[][]> typeDesMap = getTypeDes(subClass);
+			if (typeDesMap != null) {
+				paramDesMap.putAll(typeDesMap);
+			}
+		}
+		return paramDesMap;
+	}
+
+	private String[][] getEnumDes(Class<?> dataType) {
+		// 获取所有的字段
+		Field[] fields = dataType.getDeclaredFields();
+		if (ArrayUtils.isEmpty(fields)) {
+			return null;
+		}
+
+		List<Field> enumFieldList = new ArrayList<>();
+		for (Field field : fields) {
+			// 判断字段注解是否存在
+			boolean isEnum = field.isAnnotationPresent(DmEnumDesc.class);
+			if (isEnum) {
+				enumFieldList.add(field);
+			}
+		}
+
+		if (enumFieldList.size() <= 0) {
+			return null;
+		}
+
+		String[][] enumDes = new String[enumFieldList.size() + 1][4];
+		enumDes[0] = new String[] { "编码", "名称", "值", "描述" };
+
+		for (int i = 0; i < enumFieldList.size(); i++) {
+			Field field = enumFieldList.get(i);
+			DmEnumDesc enumDesc = field.getAnnotation(DmEnumDesc.class);
+			// 获取注解值
+			String name = enumDesc.name();
+			String des = enumDesc.description();
+
+			String code = field.getName();
+			String value = null;
+
+			try {
+				Class<?> fieldType = field.getType();
+				if (String.class.equals(fieldType)) {
+					value = (String) field.get(null);
+				} else if (Integer.class.equals(fieldType)) {
+					value = ((Integer) field.get(null)).toString();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			enumDes[i + 1] = new String[] { code, name, value, des };
+		}
+		return enumDes;
+	}
+
+	/**
+	 * 获取参数描述
+	 * 
+	 * @param returnType
+	 * @return
+	 * @throws BizException
+	 */
+	private String[][] getParamDes(Class<?> returnType) throws BizException {
+		PropertyDO[] propDos = MdCachePoolProxy.getInstance().getPropertyDOsByEntityName(returnType.getName());
+		if (propDos == null || propDos.length <= 0) {
+			return null;
+		}
+		propDos = this.sortPropDos(propDos);
+
+		ArrayList<PropertyDO> propList = new ArrayList<PropertyDO>();
+		for (PropertyDO propertyDO : propDos) {
+			if (!FBoolean.TRUE.equals(propertyDO.getIsnotserialize())) {
+				propList.add(propertyDO);
+			}
+		}
+
+		String[][] paramDes = new String[propList.size() + 1][6];
+		paramDes[0] = new String[] { "序号", "参数", "名称", "类型", "是否可空", "备注" };
+		for (int i = 0, sortNo = 1; i < propList.size(); i++, sortNo++) {
+			PropertyDO propDo = propList.get(i);
+			String[] propDes = new String[6];
+			propDes[0] = String.valueOf(sortNo);
+			String propName = propDo.getName();
+			propDes[1] = String.format("%s%s", propName.substring(0, 1).toUpperCase(),
+					propName.subSequence(1, propName.length()));
+			propDes[2] = propDo.getDisplayname();
+			propDes[3] = propDo.getDatatype();
+			propDes[4] = propDo.getIsnullable().toString();
+			propDes[5] = propDo.getDescription();
+			paramDes[sortNo] = propDes;
+
+			String subFullClassName = MdCachePoolProxy.getInstance()
+					.getSubFullClassNameByEntityProperty(returnType.getName(), propDo.getName());
+			if (StringUtils.isNotBlank(subFullClassName)) {
+				if (FBoolean.class.getName().equals(subFullClassName)) {
+					propDes[3] = "String";
+					propDes[5] = StringUtils.isBlank(propDes[5]) ? "[Y,N]" : String.format("[Y,N] %s", propDes[5]);
+				} else {
+					String[] strs = subFullClassName.split("\\.");
+					propDes[3] = strs[strs.length - 1];
+				}
+			}
+		}
+
+		return paramDes;
+	}
+
+	/**
+	 * 按照属性序号排序
+	 * 
+	 * @param propertyDOs
+	 * @return
+	 */
+	private PropertyDO[] sortPropDos(PropertyDO[] propertyDOs) {
+		Arrays.sort(propertyDOs, new Comparator<PropertyDO>() {
+
+			@Override
+			public int compare(PropertyDO o1, PropertyDO o2) {
+				if (o2.getSeqno() != null && o1.getSeqno() != null) {
+					return o1.getSeqno() - o2.getSeqno();
+				}
+				return 0;
+			}
+
+		});
+		return propertyDOs;
+	}
+
+	/**
+	 * 获取接口方法
+	 * 
+	 * @param itfDo 接口信息
+	 * @return
+	 */
+	private Method getMethod(EiItfDO itfDo) {
+		String fullName = itfDo.getFullname();
+		String methodName = itfDo.getMethodname();
+		Class<?> itfClass;
+		try {
+			itfClass = Class.forName(fullName);
+		} catch (ClassNotFoundException e) {
+			return null;
+		}
+		Method[] methods = itfClass.getMethods();
+		for (Method method : methods) {
+			if (method.getName().equals(methodName)) {
+				return method;
+			}
+		}
+		return null;
+	}
+}

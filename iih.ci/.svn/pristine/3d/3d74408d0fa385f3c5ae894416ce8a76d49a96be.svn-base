@@ -1,0 +1,11 @@
+package iih.ci.event.ord.reissue.action.ris.pathy;
+
+import iih.ci.event.ord.bps.sign.op.listenerbp.OpPathSignStandardBP;
+import iih.ci.event.ord.reissue.common.ReissueCommonBP;
+
+public class OpReissuePathyBP extends ReissueCommonBP{
+	
+	public OpReissuePathyBP() {
+		this.listener = new OpPathSignStandardBP();
+	}
+}

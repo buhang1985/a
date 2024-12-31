@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	<bean id="IBlincissCudService" class="iih.bl.inc.blinciss.s.BlincissCrudServiceImpl"></bean>
+	<bean id="IBlincipMDOCudService" class="iih.bl.inc.blincip.s.BlincipMDOCrudServiceImpl"></bean> 
+	<bean id="IBlincoepCudService" class="iih.bl.inc.blincoep.s.BlincoepCrudServiceImpl"></bean> 
+	<bean id="IBlreinclogCudService" class="iih.bl.inc.blreinclog.s.BlreinclogCrudServiceImpl"></bean>
+	<bean id="IBlincoepMDOCudService" class="iih.bl.inc.blincoep.s.BlincoepMDOCrudServiceImpl"></bean>
+	
+	<bean id="IBlinccancCudService" class="iih.bl.inc.blinccanc.s.BlinccancCrudServiceImpl"></bean>
+	<!-- 门诊发票作废日志 -->
+	<bean id="IBlincoepcanclogCudService" class="iih.bl.inc.blincoepcanclog.s.BlincoepcanclogCrudServiceImpl"></bean> 
+	
+	<!--bean id="IBlIncItmOepDOCudService" class="iih.bl.inc.blincoep.s.BlIncItmOepDOCrudServiceImpl"></bean--> 
+	
+	<bean id="IBLInvoiceService" class="iih.bl.inc.Service.s.BLInvoiceServiceImpl"></bean>
+	<xap:service ref="IBLInvoiceService" interface="iih.bl.inc.service.i.IBLInvoiceService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!--公共实现类 -->
+	<bean id="IBlincQryService" class="iih.bl.inc.Service.s.IBlincQryServiceImpl"></bean>
+	
+	<bean id="IBlincipCudService" class="iih.bl.inc.blincip.s.BlincipCrudServiceImpl"></bean>
+	
+	<!-- 优惠券入库Agg -->
+	<bean id="IBlcpninCudService" class="iih.bl.inc.blcpnin.s.BlcpninCrudServiceImpl"></bean>
+	<xap:service ref="IBlcpninCudService" interface="iih.bl.inc.blcpnin.i.IBlcpninCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 优惠券入主DO -->
+	<bean id="iih.bl.inc.blcpnin.i.IBlcpninMDOCudService" class="iih.bl.inc.blcpnin.s.BlcpninMDOCrudServiceImpl"></bean>
+	<xap:service ref="iih.bl.inc.blcpnin.i.IBlcpninMDOCudService" interface="iih.bl.inc.blcpnin.i.IBlcpninMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 优惠券入库子DO -->
+	<bean id="iih.bl.inc.blcpnin.i.IBlCpnDOCudService" class="iih.bl.inc.blcpnin.s.BlCpnDOCrudServiceImpl"></bean>
+	<xap:service ref="iih.bl.inc.blcpnin.i.IBlCpnDOCudService" interface="iih.bl.inc.blcpnin.i.IBlCpnDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="IBLIncMaintainService" class="iih.bl.inc.Service.s.IBLIncMaintainServiceImpl"></bean>
+	<xap:service ref="IBLIncMaintainService" interface="iih.bl.inc.service.i.IBLIncMaintainService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 票据查询服务 -->
+	<bean id="IBlIncQryService" class="iih.bl.inc.s.BlIncQryServiceImpl"/>
+	<!-- 票据命令服务 -->
+	<bean id="IBlIncCmdService" class="iih.bl.inc.s.BlIncCmdServiceImpl"/>   
+    <xap:service ref="IBlIncCmdService" interface="iih.bl.inc.i.IBlIncCmdService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>	
+	
+	<!-- 票据对外查询服务 -->
+	<bean id="IBlIncOutQryService" class="iih.bl.inc.s.BlIncOutQryServiceImpl"/>
+	
+	<!-- 票据对外命令服务 -->
+	<bean id="IBlIncOutCmdService" class="iih.bl.inc.s.BlIncOutCmdServiceImpl"/>
+	 <xap:service ref="IBlIncOutCmdService" interface="iih.bl.inc.i.IBlIncOutCmdService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 票据校验服务 -->
+	<bean id="IBlIncValidateService" class="iih.bl.inc.s.BlIncValidateServiceImpl"/>
+	
+	<!-- 票据包工具类服务 -->
+	<bean id="IBlIncUtilService" class="iih.bl.inc.s.BlIncUtilServiceImpl"/>
+	 <xap:service ref="IBlIncUtilService" interface="iih.bl.inc.i.IBlIncUtilService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+		<!--发票票据转移记录服务 -->
+	<bean id="IBlinctfCudService" class="iih.bl.inc.blinctf.s.BlinctfCrudServiceImpl"/>
+	 <xap:service ref="IBlinctfCudService" interface="iih.bl.inc.blinctf.i.IBlinctfCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--门诊发票查询服务 -->
+	<bean id="IBlStIncOepDOCrudService" class="iih.bl.inc.blincoep.s.BlStIncOepDOCrudServiceImpl"/>
+	 <xap:service ref="IBlStIncOepDOCrudService" interface="iih.bl.inc.blincoep.i.IBlStIncOepDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="IBlStIncOepDOCrudService" interface="iih.bl.inc.blincoep.i.IBlStIncOepDORService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--电子票据交易记录CRUD服务 -->
+	<bean id="IBlecinctransCrudService" class="iih.bl.inc.blecinctrans.s.BlecinctransCrudServiceImpl"/>
+	 <xap:service ref="IBlecinctransCrudService" interface="iih.bl.inc.blecinctrans.i.IBlecinctransCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--门急诊纸质发票CRUD服务 -->
+	<bean id="IBlincoeppaperCrudService" class="iih.bl.inc.blincoeppaper.s.BlincoeppaperCrudServiceImpl"/>
+	 <xap:service ref="IBlincoeppaperCrudService" interface="iih.bl.inc.blincoeppaper.i.IBlincoeppaperCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--电子票据对照CRUD服务 -->
+	<bean id="IBlecinccompCrudService" class="iih.bl.inc.blecinccomp.s.BlecinccompCrudServiceImpl"/>
+	 <xap:service ref="IBlecinccompCrudService" interface="iih.bl.inc.blecinccomp.i.IBlecinccompCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+</beans>

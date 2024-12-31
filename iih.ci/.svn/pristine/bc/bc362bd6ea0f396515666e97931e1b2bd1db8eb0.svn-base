@@ -1,0 +1,12 @@
+package iih.ci.ord.s.ems.ip.order;
+
+/**
+ * 医嘱复制
+ * @author Young
+ *
+ */
+public class OrderCopyBP extends iih.ci.ord.s.ems.op.order.OrderCopyBP {
+	public OrderCopyBP(){
+		this.factory  = new iih.ci.ord.s.ems.ip.order.copy.OrderCopyFactory();
+	}
+}

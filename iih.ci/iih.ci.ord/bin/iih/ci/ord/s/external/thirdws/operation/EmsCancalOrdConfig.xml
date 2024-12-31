@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 就诊信息 -->
+  <ent>
+    <!-- 所属集团 -->
+  	<code_grp>600903</code_grp>
+  	<!-- 所属组织 -->
+  	<code_org>600903</code_org>
+  	<!-- 患者编码 -->
+  	<code_pat>100039779300</code_pat>
+  	<!-- 就诊次数 -->
+  	<times_en>1</times_en>
+  	<!-- 就诊编码 -->
+  	<code_en>1900008349</code_en>
+  	<!-- 就诊类型编码 -->
+  	<code_entp>00</code_entp>
+  	<!--作废信息  -->
+  	<cancal>
+  		<!-- 医嘱编码-->
+  		<code_or>123456789</code_or>
+  		<!-- 作废医生 -->
+  		<code_emp_canc>00000</code_emp_canc>
+  		<!-- 作废科室 -->
+  		<code_dep_canc>103901</code_dep_canc>
+  		<!-- 作废操作时间 -->
+  		<dt_canc>2019/6/17 17:01:00</dt_canc>
+  		<!-- 操作类型 -->
+  		<eu_actiontp>0</eu_actiontp>
+  	</cancal>
+  </ent>
+</root>

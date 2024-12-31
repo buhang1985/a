@@ -1,0 +1,47 @@
+package iih.ci.mr.s.bp.createmr;
+
+import java.util.ArrayList;
+import java.util.List;
+import xap.mw.core.data.BaseDO;
+import xap.mw.core.data.BizException;
+import xap.mw.core.utils.StringUtil;
+
+public class AutoCreateMrGetIdEntsBp {
+
+	public List<String> getIdEnts(Object[] newObjs) throws BizException {
+		List<String> list =new ArrayList<String>();
+		if (newObjs != null && newObjs.length > 0) {
+			for(Object obj:newObjs){
+				String id_ent="";
+				
+				boolean isarr=obj instanceof Object[];
+                if(isarr){
+                	Object[] objArr=(Object[])obj;
+                	for(Object o:objArr){
+                		if(o instanceof BaseDO){
+                			BaseDO baseDo=(BaseDO) o;
+                			id_ent=(String) baseDo.getAttrVal("Id_ent");	
+                			if(StringUtil.isEmptyWithTrim(id_ent)){
+        						id_ent=(String) baseDo.getAttrVal("Id_en");
+        					}
+                		}
+                	}
+                }
+							
+				boolean flag=obj instanceof BaseDO;
+				if(flag){
+					BaseDO baseDo = (BaseDO) obj;
+					id_ent=(String) baseDo.getAttrVal("Id_ent");
+					if(StringUtil.isEmptyWithTrim(id_ent)){
+						id_ent=(String) baseDo.getAttrVal("Id_en");
+					}				
+				}
+				
+				if(!StringUtil.isEmptyWithTrim(id_ent)&&id_ent.length()==20){
+					list.add(id_ent);
+				}				
+			}
+		}
+		return list;
+	}
+}

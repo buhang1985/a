@@ -1,0 +1,75 @@
+package iih.pmp.pay.custom.bp;
+
+import java.util.Map;
+
+import iih.pmp.pay.custom.i.IPmpDataconvert;
+import iih.pmp.pay.custom.i.IPmpSdk;
+import iih.pmp.pay.ord.d.OrdDO;
+import iih.pmp.pay.ordreqdto.d.OrdReqDTO;
+import iih.pmp.pay.ordrstdto.d.BizStatusEnum;
+import iih.pmp.pay.ordrstdto.d.OrdRstDTO;
+import iih.pmp.pay.trade.d.TradeDO;
+import iih.pmp.pay.util.PmpPayAppBaseUtils;
+import iih.pmp.pay.util.PmpPayAppUtils;
+import iih.pmp.pay.util.PmpPayBaseCost;
+import iih.pmp.pay.util.WXPayAppUtils;
+import xap.mw.core.data.BizException;
+
+public class PmpRefundTradeCreateBP {
+
+	PmpPayAppBaseUtils pmputils = new PmpPayAppBaseUtils();
+	WXPayAppUtils utils = new WXPayAppUtils();
+	PmpPayUtils utilspmp = new PmpPayUtils();
+
+	public OrdRstDTO exec(OrdReqDTO dto) throws BizException {
+		if (dto == null || pmputils.isStrEmpty(dto.getRefund_req_no()) || pmputils.isStrEmpty(dto.getOrd_no()))
+			throw new BizException("退款单号或外部订单号为空");
+		if(dto.getAmount()==null||dto.getAmount().getDouble()<=0)
+			throw new BizException("退款申请金额为空，或金额小于等于0");
+		OrdDO ord = null;
+		ord = utils.getPaidOrdDO(dto);
+		if (ord == null)
+			return null;
+		if(!dto.getSd_chl().equals(ord.getSd_chl())) {
+			throw new BizException("传入的渠道不正确，请重新选择渠道！");
+		}
+		if(dto.getAmount().getDouble()>ord.getAmount_bk().getDouble())
+			throw new BizException("退款申请金额大于可退款金额！");
+		TradeDO paidtra=utilspmp.getPaidTrade(dto,ord);
+		if(paidtra==null)throw new BizException("未查询到已支付交易");
+		IPmpDataconvert dataconvert = PmpPayAppUtils.getDataconvert(dto.getSd_chl());
+		IPmpSdk pay=PmpPayAppUtils.getPmpSdk(dto.getSd_chl());
+		PmpRefundValidateBP validatebp = new PmpRefundValidateBP(pay,dataconvert);
+		OrdRstDTO rnt = new OrdRstDTO();
+		Map<String, Object> vrt = validatebp.isTradecanReFund(dto, ord,rnt,paidtra);
+		boolean flag = (boolean) vrt.get(PmpPayBaseCost.PMP_FLAG);
+		if (flag) {
+			TradeDO tra = null;
+
+			// 如果退款失败,需要再生成流水号,继续退,不能使用之前的流水号
+			if (ord != null) {
+				tra = new PmpPayUtils().createReFundTradeDo(dto, ord,paidtra);
+			}
+
+			if (ord != null) {
+				if (tra != null) {
+					rnt.setBiz_status(BizStatusEnum.BIZ_SUCCESS);
+					rnt.setTrade_no(tra.getTrade_no());
+					rnt.setTradetime(tra.getDt_req());
+					rnt.setSv(tra.getSv());
+				}
+			}
+			if (ord == null || tra == null) {
+				flag = false;
+				vrt.put(PmpPayBaseCost.ERR_MSG, "未查找到可退款的订单或者交易！！！");
+			}
+		}
+		if (!flag) {
+			String err = (String) vrt.get(PmpPayBaseCost.ERR_MSG);
+			rnt.setBiz_status(BizStatusEnum.BIZ_FAIL);
+			rnt.setMsg(err);
+		}
+		return rnt;
+	}
+
+}

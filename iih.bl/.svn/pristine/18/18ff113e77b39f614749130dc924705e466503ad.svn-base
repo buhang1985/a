@@ -1,0 +1,26 @@
+package iih.bl.inc.s.bp.ecinc;
+
+import iih.bl.inc.blecincprint.d.BlEcSwithPaperInDTO;
+import iih.bl.inc.blecincprint.d.BlEcSwithPaperOutDTO;
+import xap.mw.core.data.BizException;
+
+/**
+ * 
+ * 电子发票换开纸质发票(住院)
+ * @author ly 2020/01/16
+ *
+ */
+public class BlEcIncSwitchPaperIpBP {
+
+	/**
+	 * 电子发票换开纸质发票
+	 * @param dto
+	 * @return
+	 * @throws BizException
+	 */
+	public BlEcSwithPaperOutDTO exec(BlEcSwithPaperInDTO dto) throws BizException{
+		
+		
+		return null;
+	}
+}

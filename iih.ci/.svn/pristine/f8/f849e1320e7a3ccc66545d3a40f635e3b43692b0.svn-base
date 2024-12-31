@@ -1,0 +1,128 @@
+package iih.ci.ord.s.bp.ems.hp;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import iih.ci.mi.ord.i.ICiMiOrdRService;
+import iih.ci.mi.ord.i.meta.OrdRuleParamDTO;
+import iih.ci.mi.ord.i.meta.OrdRuleRstDTO;
+import iih.ci.mi.ord.i.meta.OrdSrvRuleParamDTO;
+import iih.ci.ord.ciorder.d.CiOrderDO;
+import iih.ci.ord.ciorder.d.CiorderAggDO;
+import iih.ci.ord.ciorder.d.OrdSrvDO;
+import iih.ci.ord.ems.d.CiEnContextDTO;
+import iih.ci.ord.ordext.d.HpJudgeRstEnum;
+import iih.ci.ord.ordsrvmm.d.OrdSrvMmDO;
+import iih.ci.ord.ordsrvmm.d.desc.OrdSrvMmDODesc;
+import iih.ci.ord.pub.CiOrdUtils;
+import iih.ci.ord.s.bp.ems.CiOrAggAndRelDatum;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.DOStatus;
+import xap.mw.core.data.FMap;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.sf.core.util.ServiceFinder;
+
+/**
+ * 医保开单规则校验
+ * @author HUMS
+ *
+ */
+public class GetMiRuleVerifyRstBP {
+
+	private ICiMiOrdRService ciMiOrdRService ; 
+	public GetMiRuleVerifyRstBP(){
+		ciMiOrdRService = ServiceFinder.find(ICiMiOrdRService.class);
+	}
+	
+	public OrdRuleRstDTO getMiRuleRst(CiEnContextDTO ctx, CiOrAggAndRelDatum orAggAndRelDatum) throws BizException{
+		
+		List<OrdRuleParamDTO> orderList = null;
+		
+		CiorderAggDO orderAgg = orAggAndRelDatum.getOraggdo();
+		FMap ordSrvMmMap = null;
+		if (!CiOrdUtils.isEmpty(orAggAndRelDatum.getOrattachht()))
+			ordSrvMmMap = (FMap) orAggAndRelDatum.getOrattachht().get(OrdSrvMmDODesc.CLASS_FULLNAME);
+		
+		CiOrderDO order = orderAgg.getParentDO();
+		OrdSrvDO[] ordSrvs = orderAgg.getOrdSrvDO();
+		
+		OrdRuleParamDTO ordRule = new OrdRuleParamDTO();
+		ordRule.setId_or(order.getId_or());
+		ordRule.setCode_or(order.getCode_or());
+		ordRule.setName_or(order.getName_or());
+		ordRule.setSd_srvtp(order.getSd_srvtp());
+		ordRule.setId_srv(order.getId_srv());
+		ordRule.setDays_or(order.getDays_or());
+		ordRule.setOrders(order.getOrders());
+		for(OrdSrvDO ordSrv : ordSrvs){
+			
+			if(ordSrv.getId_srv().equals(ordRule.getId_srv())){
+				ordRule.setCode_srv(ordSrv.getCode_srv());
+				ordRule.setName_srv(ordSrv.getName_srv());
+			}
+			
+			if(ordSrv.getStatus() == DOStatus.DELETED || !FBoolean.TRUE.equals(ordSrv.getFg_bl())){
+				continue;					
+			}
+			
+			if(FBoolean.TRUE.equals(ordSrv.getFg_self())){
+				continue;
+			}
+			
+			// 费用关联出来的药品不做开单校验，费用关联出来的物品，fg_or=N 
+			if(!FBoolean.TRUE.equals(ordSrv.getFg_or()) && FBoolean.TRUE.equals(ordSrv.getFg_mm())){
+				continue;
+			}
+			
+			// 自费的，或者不需要判断（科研、不计费医嘱）的不处理
+			if(HpJudgeRstEnum.NOT_JUDGE.equals(ordSrv.getEu_orsrvhp()) ||HpJudgeRstEnum.SELFPAY.equals(ordSrv.getEu_orsrvhp())){
+				continue;
+			}
+			
+			OrdSrvRuleParamDTO ordSrvRule = new OrdSrvRuleParamDTO();
+			
+			ordSrvRule.setId_or(order.getId_or());
+			ordSrvRule.setId_orsrv(ordSrv.getId_orsrv());
+			ordSrvRule.setSd_srvtp(ordSrv.getSd_srvtp());
+			
+			ordSrvRule.setId_srv(ordSrv.getId_srv());
+			ordSrvRule.setCode_srv(ordSrv.getCode_srv());
+			ordSrvRule.setName_srv(ordSrv.getName());
+			ordSrvRule.setPrice(ordSrv.getPri());
+			
+			ordSrvRule.setId_dsdef(ordSrv.getId_dsdef());
+			ordSrvRule.setCode_dsdef(ordSrv.getCode_dsdef());
+			ordSrvRule.setName_dsdef(ordSrv.getName_dsdef());
+			
+			if(FBoolean.TRUE.equals(ordSrv.getFg_mm()) && ordSrvMmMap != null){
+				
+				@SuppressWarnings("unchecked")
+				OrdSrvMmDO ordSrvMm = ((List<OrdSrvMmDO>)ordSrvMmMap.get(ordSrv.getId_srv() + "_"+ ordSrv.getId_mm())).get(0);			
+			
+				ordSrvRule.setId_mm(ordSrvMm.getId_mm());
+				ordSrvRule.setCode_mm(ordSrvMm.getCode_mm());
+				ordSrvRule.setName_mm(ordSrvMm.getName_mm());
+				ordSrvRule.setId_dosage(ordSrvMm.getId_dosage());
+				ordSrvRule.setDays_available(ordSrvMm.getDays_available());
+				ordSrvRule.setFactor(ordSrvMm.getFactor());
+				ordSrvRule.setFactor_mb(ordSrvMm.getFactor_mb());
+				ordSrvRule.setPrice(ordSrvMm.getPrice_pgku_cur());
+				ordSrvRule.setQuan_cur(ordSrvMm.getQuan_cur());
+				ordSrvRule.setId_pgku_cur(ordSrvMm.getId_pgku_cur());
+				ordSrvRule.setName_pgku_cur(ordSrvMm.getName_pgku_cur());
+			}
+			
+			ordRule.addChild(ordSrvRule);
+		}
+		
+		if(ordRule.getChildSzie() == 0 ){
+			return null;
+		}
+	
+		orderList = new ArrayList<OrdRuleParamDTO>();
+		orderList.add(ordRule);
+		List<OrdRuleRstDTO> orderRstList = ciMiOrdRService.checkWholeRule(ctx, orderList);
+		return orderRstList.get(0);
+	}
+	
+}

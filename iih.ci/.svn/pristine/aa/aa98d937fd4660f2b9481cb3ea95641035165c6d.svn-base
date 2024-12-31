@@ -1,0 +1,12 @@
+package iih.ci.ord.s.ems.ip.assi.cp.lis;
+
+import iih.ci.ord.s.ems.base.BaseCpSaveBP;
+
+/**
+ * 临床路径 - 检验保存逻辑
+ * @author wangqingzhu
+ *
+ */
+public class CpLisSaveBP extends BaseCpSaveBP {
+
+}

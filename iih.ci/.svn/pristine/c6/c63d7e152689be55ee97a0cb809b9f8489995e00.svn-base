@@ -1,0 +1,59 @@
+package iih.ci.event.ord.reissue.common;
+
+import iih.ci.event.i.reissue.IRessueAssebleDataService;
+import iih.ci.event.reissue.d.IEMsgReissueConst;
+import iih.ci.event.reissue.d.IEMsgReissueDTO;
+import iih.ci.ord.ciorder.d.CiOrderDO;
+import iih.ci.ord.ciorder.i.ICiorderMDORService;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.Context;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.xbd.paramset.i.ParamsetQryUtil;
+
+public abstract class ReissueCommonAction implements IRessueAssebleDataService {
+	protected ReissueCommonBP reissueBP;
+	protected IEMsgReissueDTO iEMsgReissueDTO;
+	public ReissueCommonAction(){};
+	public void setiEMsgReissueDTO(IEMsgReissueDTO iEMsgReissueDTO) {
+		this.iEMsgReissueDTO = iEMsgReissueDTO;
+	}
+	public ReissueCommonBP getReissueBP() {
+		return reissueBP;
+	}
+	public void setReissueBP(ReissueCommonBP reissueBP) {
+		this.reissueBP = reissueBP;
+	}
+	
+	@Override
+	public CiOrderDO[] getOrders() throws BizException {
+		// TODO 过滤出医嘱
+		String[] ordCodes = this.iEMsgReissueDTO.getOrderno().split(",");
+		String str = "";
+		for (String code : ordCodes) {
+			str = String.format(",'%s'", code);
+		}
+		String param = "";
+		try {
+			param=ParamsetQryUtil.getParaString(Context.get().getOrgId(), "BLCG0002");
+		} catch (Exception e) {
+			param="1";//出异常 默认不执行记账
+		}
+		String whereStr = "";
+		if (IEMsgReissueConst.OPVISITTYPE.equals(this.iEMsgReissueDTO.getVisittypecode())) {
+			if ("4".equals(param)) {
+				whereStr = "a0.Code_or in (" + str.substring(1) + ") and sd_su_bl = '1' "
+						+ "and fg_sign = 'Y' and fg_canc = 'N' and sd_su_mp = '0'";
+			} else if (!"4".equals(param)) {
+				whereStr = "a0.Code_or in (" + str.substring(1) + ") and sd_su_bl != '2' "
+						+ "and fg_sign = 'Y' and fg_canc = 'N' and sd_su_mp = '0'";
+			}
+		} else if (IEMsgReissueConst.IPVISITTYPE.equals(this.iEMsgReissueDTO.getVisittypecode())) {
+			whereStr = "a0.Code_or in (" + str.substring(1) + ") and fg_chk = 'Y' "
+					+ "and fg_chk_canc = 'N' and sd_su_mp = '0'";
+		}
+		CiOrderDO[] orderDOs = ServiceFinder.find(ICiorderMDORService.class)
+				.find(whereStr, "", FBoolean.FALSE);
+		return orderDOs;
+	}
+}

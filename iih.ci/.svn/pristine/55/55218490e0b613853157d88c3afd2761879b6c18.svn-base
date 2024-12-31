@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+
+	<bean id="IQaProcessQryService" class="iih.ci.mrqc.qapatlist.s.IQaProcessQryServiceImpl"></bean>
+	<bean id="IQaProcessRecordQryService" class="iih.ci.mrqc.qarecorddto.s.IQaProcessRecordQryServiceImpl"></bean>
+	<bean id="IMrManagePatQryService" class="iih.ci.mrqc.qapatlist.s.IMrManagePatQryServiceImpl"></bean>
+	<bean id="IQcNoticeTraceQryService" class="iih.ci.mrqc.serviceext.s.IQcNoticeTraceQryServiceImpl"></bean>
+	<bean id="IAutoitmconfigCudService" class="iih.ci.mrqc.autoitmconfig.s.AutoitmconfigCrudServiceImpl"></bean>
+	<bean id="IQafltCrudService" class="iih.ci.mrqc.qaflt.s.QafltCrudServiceImpl"></bean>
+	<bean id="IMrqcQryService" class="iih.ci.mrqc.s.MrqcQryServiceImpl"></bean>
+	<bean id="IMrqcMaintainService" class="iih.ci.mrqc.s.MrqcMaintainServiceImpl"></bean>
+	<bean id="IQcServiceExt" class="iih.ci.mrqc.serviceext.s.IQcServiceExtImpl"></bean>
+	<bean id="IRevisionnoticeCrudService" class="iih.ci.mrqc.revisionnotice.s.RevisionnoticeCrudServiceImpl"></bean>
+	<bean id="IQaCrudService" class="iih.ci.mrqc.qared.s.QaCrudServiceImpl"></bean>
+	<bean id="IAutoQc" class="iih.ci.mrqc.autoqc.s.IAutoQcImpl"></bean>
+	<bean id="DivideCrudService" class="iih.ci.mrqc.divide.s.DivideCrudServiceImpl"></bean>
+	<bean id="IScoreItmDtoService" class="iih.ci.mrqc.scoreitmdto.s.IScoreItmDtoServiceImpl"></bean>
+	<bean id="QcreportCrudService" class="iih.ci.mrqc.qcreport.s.QcreportCrudServiceImpl"></bean>
+	<bean id="QcreportgrpCrudService" class="iih.ci.mrqc.qcreport.s.QcreportgrpCrudServiceImpl"></bean>
+	<bean id="MrtaskCrudServiceImpl" class="iih.ci.mrqc.mrtask.s.MrtaskCrudServiceImpl"></bean>
+	<bean id="AmrapplyCrudServiceImpl" class="iih.ci.mrqc.amrapply.s.AmrapplyCrudServiceImpl"></bean>
+	<bean id="MrborrowapplyCrudServiceImpl" class="iih.ci.mrqc.mrborrowapply.s.MrborrowapplyCrudServiceImpl"></bean>
+	<bean id="IQaScoreDtoQryService" class="iih.ci.mrqc.qascoredto.s.IQaScoreDtoQryServiceImpl"></bean>
+	<bean id="IOutQaPatListQryServiceImpl" class="iih.ci.mrqc.outqapatlist.s.IOutQaPatListQryServiceImpl"></bean>
+	<bean id="SpotcheckCrudServiceImpl" class="iih.ci.mrqc.spotcheck.s.SpotcheckCrudServiceImpl"></bean>
+	<bean id="ConcerndepCrudServiceImpl" class="iih.ci.mrqc.concerndep.s.ConcerndepCrudServiceImpl"></bean>
+	<bean id="ConcernempCrudServiceImpl" class="iih.ci.mrqc.concernemp.s.ConcernempCrudServiceImpl"></bean>
+<bean id="CimrrecallCrudServiceImpl" class="iih.ci.mrqc.cimrrecall.s.CimrrecallCrudServiceImpl"></bean>
+<xap:service ref="iih.ci.mrqc.cimrrecallentdto.i.ICiMrRecallEntRService" interface="iih.ci.mrqc.cimrrecallentdto.i.ICiMrRecallEntRService">
+	<xap:binding name="jsonrpc"></xap:binding>
+</xap:service>
+	<bean id="iih.ci.mrqc.cimrrecallentdto.i.ICiMrRecallEntRService"
+		class="iih.ci.mrqc.cimrrecallentdto.s.CiMrRecallEntRServiceImpl">
+	</bean>
+	
+<xap:service ref="iih.ci.mrqc.cimrrecallresultdto.i.ICiMrRecallResultService" interface="iih.ci.mrqc.cimrrecallresultdto.i.ICiMrRecallResultService">
+	<xap:binding name="jsonrpc"></xap:binding>
+</xap:service>
+	<bean
+		id="iih.ci.mrqc.cimrrecallresultdto.i.ICiMrRecallResultService"
+		class="iih.ci.mrqc.cimrrecallResult.s.CiMrRecallResultServiceImpl">
+	</bean>
+	
+	<bean id="iih.ci.mrqc.i.ICiMrQcParamService"
+		class="iih.ci.mrqc.s.CiMrQcParamServiceImpl">
+	</bean>
+<xap:service ref="iih.ci.mrqc.i.IMrPigeonholeUpdateAffair" interface="iih.ci.mrqc.i.IMrPigeonholeUpdateAffair">
+	<xap:binding name="ws"></xap:binding>
+</xap:service>
+	<bean id="iih.ci.mrqc.i.IMrPigeonholeUpdateAffair"
+		class="iih.ci.mrqc.s.MrPigeonholeUpdateAffair">
+	</bean>
+	
+	<!-- 记录主表 -->
+	<bean id="MrqcrandomcheckMDOCrudServiceImpl" class="iih.ci.mrqc.randomcheck.s.MrqcrandomcheckMDOCrudServiceImpl"></bean>
+    
+    <xap:service ref="MrqcrandomcheckMDOCrudServiceImpl" interface="iih.ci.mrqc.randomcheck.i.IMrqcrandomcheckMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 记录 -->
+	<bean id="MrqcrandomcheckCrudServiceImpl" class="iih.ci.mrqc.randomcheck.s.MrqcrandomcheckCrudServiceImpl"></bean>
+	<!-- 记录子表 -->
+	<bean id="CiMrQcRandomRecordItmDOCrudServiceImpl" class="iih.ci.mrqc.randomcheck.s.CiMrQcRandomRecordItmDOCrudServiceImpl"></bean>
+	<!-- 记录查询记录明细 -->
+	<bean id="IMrQcOutRandomItmQryServiceImpl" class="iih.ci.mrqc.randomqc.s.IMrQcOutRandomItmQryServiceImpl"></bean>
+	<!-- 抽查规则-->
+	<bean id="CimrqcrandomruleCrudServiceImpl" class="iih.ci.mrqc.cimrqcrandomrule.s.CimrqcrandomruleCrudServiceImpl"></bean>
+<xap:service ref="iih.ci.mrqc.cimrqcrandomrule.i.ICimrqcrandomruleRService" interface="iih.ci.mrqc.cimrqcrandomrule.i.ICimrqcrandomruleRService">
+	<xap:binding name="jsonrpc"></xap:binding>
+</xap:service>
+	<!-- 门诊质控主服务 -->
+	<bean id="OutMrQcMaintainServiceImpl" class="iih.ci.mrqc.s.OutMrQcMaintainServiceImpl"></bean>
+	<!-- 病历召回记录服务 -->
+	<bean id="CimrrecallrecordCrudServiceImpl" class="iih.ci.mrqc.cimrrecallrecord.s.CimrrecallrecordCrudServiceImpl"></bean>
+	<!-- 病历召回新增服务 -->
+	<bean id="CimrrecalladdCrudServiceImpl" class="iih.ci.mrqc.cimrrecalladd.s.CimrrecalladdCrudServiceImpl"></bean>
+	<!-- 内涵质控主表 -->
+	<bean id="MrconnotationqcMDOCrudServiceImpl" class="iih.ci.mrqc.mrconnotationqc.s.MrconnotationqcMDOCrudServiceImpl"></bean>
+    
+    <xap:service ref="MrconnotationqcMDOCrudServiceImpl" interface="iih.ci.mrqc.mrconnotationqc.i.IMrconnotationqcMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 内涵质控主表 -->
+	<bean id="MrconnotationqcCrudServiceImpl" class="iih.ci.mrqc.mrconnotationqc.s.MrconnotationqcCrudServiceImpl"></bean>
+	<!-- 内涵质控主表子表 -->
+	<bean id="MrConnotationQcItmDOCrudServiceImpl" class="iih.ci.mrqc.mrconnotationqc.s.MrConnotationQcItmDOCrudServiceImpl"></bean>
+	
+	
+	<!--  环节质控查询缺陷项 -->
+	<bean id="QafltRServiceExtImpl" class="iih.ci.mrqc.qaflt.s.QafltRServiceExtImpl"></bean>
+	<!-- 病历超时申请查询 -->
+	<bean id="ICiMrOverApplyServiceImpl" class="iih.ci.mrqc.cimroverapplydto.s.ICiMrOverApplyServiceImpl"></bean>
+	<xap:service ref="ICiMrOverApplyServiceImpl" interface="iih.ci.mrqc.cimroverapplydto.i.ICiMrOverApplyService">
+		<xap:binding name="jsonrpc"></xap:binding>
+    </xap:service>
+	<!-- 病历任务查询 -->
+	<bean id="ICiMrTaskServiceImpl" class="iih.ci.mrqc.cimrtaskdto.s.ICiMrTaskServiceImpl"></bean>
+	<!-- 病历超时申请 -->
+	<bean id="iih.ci.mrqc.cimroverapply.i.ICimroverapplyCudService" class="iih.ci.mrqc.cimroverapply.s.CimroverapplyCrudServiceImpl"></bean>
+	<!-- 病历召回申请查询 -->
+	<bean id="ICiMrReCallApplyServiceImpl" class="iih.ci.mrqc.cimrrecallapplydto.s.ICiMrReCallApplyServiceImpl"></bean>
+	<!-- 病历召回申请 -->
+	<bean id="iih.ci.mrqc.recallapply.i.IRecallapplyCudService" class="iih.ci.mrqc.recallapply.s.RecallapplyCrudServiceImpl"></bean>	<xap:service ref="QafltRServiceExtImpl" interface="iih.ci.mrqc.qaflt.i.IQafltRServiceExt">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service> 
+	
+	<!-- 门诊医务质控抽查 -->
+	<bean id="IOutQaMedPatListQryService" class="iih.ci.mrqc.outqamedpatlist.s.IOutQaMedPatListQryServiceImpl"></bean>
+	<xap:service ref="IOutQaMedPatListQryService" interface="iih.ci.mrqc.outqamedpatlist.i.IOutQaMedPatListQryService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<!--  门诊科室质控记录导出全部 -->
+	<bean id="OutMrQcMaintainServiceExt" class="iih.ci.mrqc.s.OutMrQcMaintainServiceExtImpl"></bean>
+	<xap:service ref="OutMrQcMaintainServiceExt" interface="iih.ci.mrqc.i.IOutMrQcMaintainServiceExt">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	
+	<!--  医务质控报表分页导出全部 -->
+	<bean id="MedicalDepMrQcMaintainService" class="iih.ci.mrqc.s.MedicalDepMrQcMaintainServiceImpl"></bean>
+	<xap:service ref="MedicalDepMrQcMaintainService" interface="iih.ci.mrqc.i.IMedicalDepMrQcMaintainService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<!--  环节质控主服务 -->
+	<bean id="MrProcessQcMaintainService" class="iih.ci.mrqc.mrprocessqc.s.MrProcessQcMaintainServiceImpl"></bean>
+	<xap:service ref="MrProcessQcMaintainService" interface="iih.ci.mrqc.mrprocessqc.i.IMrProcessQcMaintainService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<!--  科室质控主服务 -->
+	<bean id="MrDeptQcMaintainService" class="iih.ci.mrqc.mrdeptqc.s.MrDeptQcMaintainServiceImpl"></bean>
+	<xap:service ref="MrDeptQcMaintainService" interface="iih.ci.mrqc.mrdeptqc.i.IMrDeptQcMaintainService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+    <!--  终末质控主服务 -->
+	<bean id="IMrTerminalQcMaintainService" class="iih.ci.mrqc.mrterminalqc.s.MrTerminalQcMaintainServiceImpl"></bean>
+	<xap:service ref="IMrTerminalQcMaintainService" interface="iih.ci.mrqc.mrterminalqc.i.IMrTerminalQcMaintainService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<!--  病历质控任务 -->
+	<bean id="ICiMrTaskService" class="iih.ci.mrqc.cimrtaskdto.s.ICiMrTaskServiceImpl"></bean>
+	<xap:service ref="ICiMrTaskService" interface="iih.ci.mrqc.cimrtaskdto.i.ICiMrTaskService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<!-- 病历完成情况查询 -->
+	<bean id="IMrCompleteStatusServiceImpl" class="iih.ci.mrqc.mrcompletestatusdto.s.IMrCompleteStatusServiceImpl"></bean>
+	
+	
+<!-- 质控提醒消息 -->
+	<bean id="QaProcessRemindServiceImpl" class="iih.ci.mrqc.qcremindmsgdto.s.QaProcessRemindServiceImpl"></bean>
+	<xap:service ref="QaProcessRemindServiceImpl" interface="iih.ci.mrqc.qcremindmsgdto.i.IQaProcessRemindService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<!-- 病历完成情况查询 -->
+	<bean id="MrQcCommonServiceImpl" class="iih.ci.mrqc.mrqccommon.s.MrQcCommonServiceImpl"></bean>
+	
+</beans>

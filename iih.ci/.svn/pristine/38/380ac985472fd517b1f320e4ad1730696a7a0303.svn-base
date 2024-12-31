@@ -1,0 +1,243 @@
+package iih.ci.mrqc.cimrrecallResult.s;
+
+import xap.mw.core.annotation.Service;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.Context;
+import xap.mw.core.service.constant.Binding;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.rui.control.qrysqlgenerator.i.IQrySQLGeneratorService;
+import xap.sys.appfw.orm.handle.dataobject.paging.PaginationInfo;
+import xap.sys.appfw.orm.handle.dataobject.paging.PagingRtnData;
+import xap.sys.appfw.orm.handle.dataobject.paging.PagingServiceImpl;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+import xap.sys.permfw.pub.EnvContextUtil;
+import iih.bd.bc.udi.pub.ICiMrDictCodeConst;
+import iih.ci.mrqc.cimrrecall.d.CiMrRecallDO;
+import iih.ci.mrqc.cimrrecallresultdto.d.CiMrRecallResultDTO;
+import iih.ci.mrqc.cimrrecallresultdto.i.ICiMrRecallResultService;
+
+@Service(serviceInterfaces = { ICiMrRecallResultService.class }, binding = Binding.JSONRPC)
+public class CiMrRecallResultServiceImpl extends PagingServiceImpl<CiMrRecallResultDTO>
+		implements ICiMrRecallResultService {
+
+	/**
+	 * 查询得到病历召回列表
+	 */
+	@Override
+	public PagingRtnData<CiMrRecallResultDTO> getCiMrRecallResults(QryRootNodeDTO qryRootNodeDTO,
+			PaginationInfo paginationInfo) throws BizException {
+		// TODO Auto-generated method stub
+		IQrySQLGeneratorService service = ServiceFinder.find(IQrySQLGeneratorService.class);
+		String sqlFixationWhere = " ";
+		String sqlwhere = " where 1=1 and CI_MR_RECALL.code_entp ='" + ICiMrDictCodeConst.SD_ENTP_MENZHEN + "' "
+				+" and "+ EnvContextUtil.processEnvContext("", new CiMrRecallDO(), false) + sqlFixationWhere;
+		if (qryRootNodeDTO != null) {
+			sqlwhere += "  AND " + service.getQueryStringWithoutDesc(qryRootNodeDTO);
+		}
+		StringBuilder sql = getSql(sqlwhere);
+		String sqlStr = sql.toString();
+		PagingRtnData<CiMrRecallResultDTO> pagingRtnData = super.findByPageInfo(new CiMrRecallResultDTO(),
+				paginationInfo, sqlStr, "", null);
+
+		return pagingRtnData;
+
+	}
+
+	/**
+	 * 查询自己的病历召回列表
+	 */
+	@Override
+	public PagingRtnData<CiMrRecallResultDTO> getCiMrRecallResults4MySelf(QryRootNodeDTO qryRootNodeDTO,
+			PaginationInfo paginationInfo) throws BizException {
+		// TODO Auto-generated method stub
+		IQrySQLGeneratorService service = ServiceFinder.find(IQrySQLGeneratorService.class);
+
+		// 当前人员id
+		String psnId = Context.get().getStuffId();
+		String sqlFixationWhere = " and  ent.id_emp_phy = '" + psnId + "' and CI_MR_RECALL.ds ='0'";
+		String sqlwhere = " where 1=1 and CI_MR_RECALL.code_entp ='" + ICiMrDictCodeConst.SD_ENTP_MENZHEN + "' "
+				+ sqlFixationWhere;
+		if (qryRootNodeDTO != null) {
+			sqlwhere += "  AND " + service.getQueryStringWithoutDesc(qryRootNodeDTO);
+		}
+		StringBuilder sql = getSql(sqlwhere);
+		String sqlStr = sql.toString();
+		PagingRtnData<CiMrRecallResultDTO> pagingRtnData = super.findByPageInfo(new CiMrRecallResultDTO(),
+				paginationInfo, sqlStr, "", null);
+
+		return pagingRtnData;
+
+	}
+
+	/**
+	 * 获取sql语句
+	 * 
+	 * @return
+	 */
+	private StringBuilder getSql(String sqlWhere) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("select CI_MR_RECALL.id_ci_mr_recall as id_recall,");
+		sql.append(" pat.barcode_chis as barcode_chis,");
+		sql.append(" ent.code as ent_code,");
+		sql.append(" ent.code_entp,");
+		sql.append(" CI_MR_RECALL.dt_end,");
+		sql.append(" dep.name name_dep_apply,");
+		sql.append(" psn1.name name_psn_apply,");
+		sql.append(" CI_MR_RECALL.apply_reson as apply_reason,");
+		sql.append(" udi.name as name_state,");
+		sql.append(" CI_MR_RECALL.id_ent as id_ent,");
+		sql.append(" pat.name as pat_name,");
+		sql.append(" case when pat.sd_sex = '0' then '未知的性别'");
+		sql.append("  when pat.sd_sex = '1' then '男'");
+		sql.append("  when pat.sd_sex = '2' then '女'");
+		sql.append(" when pat.sd_sex = '9' then '未说明性别' end as pat_sex,");
+		sql.append(" pat.dt_birth as pat_age,");
+		sql.append(" CI_MR_RECALL.reject_reson as reason_reject,");
+		sql.append(" op.dt_valid_b as dt_ent,");
+		sql.append(" CI_MR_RECALL.dt_apply as dt_apply,");
+		sql.append(" case when CI_MR_RECALL.fg_timeout = 'Y' then '是' ");
+		sql.append("when CI_MR_RECALL.fg_timeout ='N' then '否' end as fg_timeout,");
+		sql.append(" psn.name name_psn_approve,");
+		sql.append(" CI_MR_RECALL.dt_audit as dt_approve");
+		sql.append(" from ci_mr_recall CI_MR_RECALL");
+		sql.append(" left join bd_udidoc udi on CI_MR_RECALL.id_state = udi.id_udidoc");
+		sql.append(" left join en_ent_op op on CI_MR_RECALL.id_ent = op.id_ent");
+		sql.append(" left join bd_psndoc psn on CI_MR_RECALL.id_psn_audit = psn.id_psndoc");
+		sql.append(" left join bd_dep dep on CI_MR_RECALL.id_dep_apply = dep.id_dep");
+		sql.append(" left join en_ent ent on CI_MR_RECALL.id_ent = ent.id_ent");
+		sql.append(" left join pi_pat pat on ent.id_pat = pat.id_pat");
+		sql.append(" left join  bd_psndoc psn1 on CI_MR_RECALL.id_psn_apply = psn1.id_psndoc");
+		sql.append(sqlWhere);
+		return sql;
+
+	}
+
+	/**
+	 * 住院召回审核列表
+	 * 
+	 * @return
+	 */
+	@Override
+	public PagingRtnData<CiMrRecallResultDTO> getIpMrRecallResultsApprove(QryRootNodeDTO qryRootNodeDTO,
+			PaginationInfo paginationInfo) throws BizException {
+		IQrySQLGeneratorService service = ServiceFinder.find(IQrySQLGeneratorService.class);
+		String sqlwhere = "  where 1=1 and ci_mr_recall.code_entp ='" + ICiMrDictCodeConst.SD_ENTP_ZHUYUAN + "' ";
+		if (qryRootNodeDTO != null) {
+			sqlwhere += "  AND " + service.getQueryStringWithoutDesc(qryRootNodeDTO);
+		}
+		StringBuilder sql = getIpMrSql(sqlwhere);
+		String sqlStr = sql.toString();
+		PagingRtnData<CiMrRecallResultDTO> pagingRtnData = super.findByPageInfo(new CiMrRecallResultDTO(),
+				paginationInfo, sqlStr, "", null);
+
+		return pagingRtnData;
+	}
+
+	/**
+	 * 住院召回查看
+	 * 
+	 * @return
+	 */
+	@Override
+	public PagingRtnData<CiMrRecallResultDTO> getIpMrRecallResults4MySelf(QryRootNodeDTO qryRootNodeDTO,
+			PaginationInfo paginationInfo) throws BizException {
+		// TODO Auto-generated method stub
+		IQrySQLGeneratorService service = ServiceFinder.find(IQrySQLGeneratorService.class);
+
+		// 当前人员id
+		String psnId = Context.get().getStuffId();
+		String sqlFixationWhere = " and ci_mr_recall.id_psn_apply = '" + psnId + "' and ci_mr_recall.code_entp ='"
+				+ ICiMrDictCodeConst.SD_ENTP_ZHUYUAN + "' and ci_mr_recall.ds ='0'";
+		String sqlwhere = " where 1=1  " + sqlFixationWhere;
+		if (qryRootNodeDTO != null) {
+			sqlwhere += "  AND " + service.getQueryStringWithoutDesc(qryRootNodeDTO);
+		}
+		StringBuilder sql = getIpMrSql(sqlwhere);
+		String sqlStr = sql.toString();
+		PagingRtnData<CiMrRecallResultDTO> pagingRtnData = super.findByPageInfo(new CiMrRecallResultDTO(),
+				paginationInfo, sqlStr, "", null);
+
+		return pagingRtnData;
+	}
+
+	/**
+	 * 获取住院召回查询sql语句
+	 * 
+	 * @return
+	 */
+	private StringBuilder getIpMrSql(String sqlWhere) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("       SELECT \n");
+		sql.append("       ci_mr_recall.id_ci_mr_recall as id_recall,\n");
+		sql.append("       ci_mr_recall.apply_reson as apply_reason,\n");
+		sql.append("       ci_mr_recall.reject_reson as reason_reject,\n");
+		sql.append("       ci_mr_recall.id_ent as id_ent,\n");
+		sql.append("       ci_mr_recall.id_state as id_state,\n");
+		sql.append("       ci_mr_recall.sd_state as sd_state,\n");
+		sql.append("       udi.name as name_state,\n");
+		sql.append("       ci_mr_recall.id_psn_apply as id_psn_apply,\n");
+		sql.append("       psnapply.name as name_psn_apply,\n");
+		sql.append("       ci_mr_recall.id_psn_audit as id_psn_audit,\n");
+		sql.append("       psnaudit.name name_psn_approve,\n");
+		sql.append("       bd2.name name_dep_apply,\n");
+		sql.append("       ci_mr_recall.dt_apply as dt_apply,\n");
+		sql.append("       ci_mr_recall.dt_audit as dt_approve,\n");
+		sql.append("       ci_mr_recall.dt_end as dt_end,\n");
+		sql.append("       ci_amr.id_enhr as id_amr,\n");
+		sql.append("       ci_amr.ID_QA_DOCTOR_PART_STA,\n");
+		sql.append("       ci_amr.SD_QA_DOCTOR_PART_STA,\n");
+		sql.append("       ee.name_pat as pat_name,\n");
+		sql.append("       ee.id_pat as id_pat,\n");
+		sql.append("       ee.code as ent_code,\n");
+		sql.append("       ee.dt_birth_pat as dt_birth_pat,\n");
+		sql.append("       (CASE WHEN ee.sd_sex_pat= '0'\n");
+		sql.append("          THEN  '未知的性别'\n");
+		sql.append("        WHEN ee.sd_sex_pat= '1'\n");
+		sql.append("          THEN  '男'\n");
+		sql.append("        WHEN ee.sd_sex_pat= '2'\n");
+		sql.append("          THEN  '女'\n");
+		sql.append("        WHEN ee.sd_sex_pat= '9'\n");
+		sql.append("          THEN  '未说明性别'\n");
+		sql.append("       end) as pat_sex,");
+		// sql.append(" ci_amr.pat_age as pat_age,\n");
+		sql.append("       ci_amr.code_amr_ip as code_amr_ip,\n");
+		sql.append("       ci_amr.code_amr_ip as hospital_code,\n");
+		sql.append("       ee.code_entp as code_entp,\n");
+		sql.append("       case when ci_mr_recall.fg_timeout = 'Y' then '是' ");
+		sql.append("       when ci_mr_recall.fg_timeout ='N' then '否' end as fg_timeout,");
+		sql.append("       eei.id_inpatient,\n");
+		sql.append("       eei.name_bed as bed_code,\n");
+		sql.append("       eei.id_dep_phydisc as id_dep_phydisc,\n");
+		sql.append("       bd2.name as dep_phydisc,\n");
+		sql.append("       ee.id_dep_phy as id_dep_phy,\n");
+		sql.append("       bd.name dep_phy_name,\n");
+		sql.append("       ee.dt_acpt as dt_en_in,\n");
+		sql.append("       ee.dt_end as dt_en_out,\n");
+		sql.append("       ci_amr.id_enhr,\n");
+		sql.append("       ee.id_emp_phy as id_emp_phy,\n");
+		sql.append("       su.name emp_phy_name\n");
+		sql.append("       FROM ci_mr_recall ci_mr_recall\n");
+		sql.append("       LEFT JOIN en_ent ee\n");
+		sql.append("       ON ci_mr_recall.id_ent = ee.id_ent\n");
+		sql.append("       LEFT JOIN ci_amr ci_amr\n");
+		sql.append("       ON ci_amr.id_ent = ci_mr_recall.id_ent\n");
+		sql.append("       LEFT JOIN en_ent_ip eei\n");
+		sql.append("       ON ee.id_ent = eei.id_ent\n");
+		sql.append("       LEFT JOIN bd_dep bd\n");
+		sql.append("       ON ee.id_dep_phy = bd.id_dep\n");
+		sql.append("       LEFT JOIN bd_dep bd2\n");
+		sql.append("       ON eei.id_dep_phydisc = bd2.id_dep\n");
+		sql.append("       LEFT JOIN sys_user su\n");
+		sql.append("       ON ee.id_emp_phy = su.id_psn and ee.id_emp_phy <> '~'\n");
+		sql.append("       left join bd_udidoc udi on ci_mr_recall.id_state = udi.id_udidoc");
+		sql.append("       left join bd_psndoc psnapply on ci_mr_recall.id_psn_apply = psnapply.id_psndoc");
+		sql.append("       left join bd_psndoc psnaudit on ci_mr_recall.id_psn_audit = psnaudit.id_psndoc");
+		sql.append("       LEFT JOIN bd_dep bd2\n");
+		sql.append("       ON ci_mr_recall.id_dep_apply = bd2.id_dep\n");
+		sql.append(sqlWhere);
+		sql.append(" order by ci_mr_recall.dt_apply desc");
+		return sql;
+
+	}
+
+}

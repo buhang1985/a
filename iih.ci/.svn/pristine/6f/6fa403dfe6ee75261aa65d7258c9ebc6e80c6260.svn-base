@@ -1,0 +1,117 @@
+package iih.ci.rcm.reportcardmissqry.s;
+
+import iih.bd.srv.reportcardtpl.d.ReportCardTplDo;
+import iih.ci.rcm.contagion.dto.d.EntDto;
+import iih.ci.rcm.reportcardmissqry.bp.FindDefQryBp;
+import iih.ci.rcm.reportcardmissqry.bp.FindReportedHistoryBp;
+import iih.ci.rcm.reportcardmissqry.bp.GetDataBp;
+import iih.ci.rcm.reportcardmissqry.bp.GetEntDTOListBp;
+import iih.ci.rcm.reportcardmissqry.bp.HasCiRcmPassBp;
+import iih.ci.rcm.reportcardmissqry.bp.HasDiagPassBp;
+import iih.ci.rcm.reportcardmissqry.bp.NewCiRcmPassBp;
+import iih.ci.rcm.reportcardmissqry.i.IReportCardMissQryService;
+import xap.mw.core.annotation.Service;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.FArrayList2;
+import xap.mw.core.service.constant.Binding;
+import xap.sys.appfw.orm.handle.dataobject.paging.PaginationInfo;
+import xap.sys.appfw.orm.handle.dataobject.paging.PagingRtnData;
+import xap.sys.appfw.orm.handle.dataobject.paging.PagingServiceImpl;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+
+/**
+ * 报卡漏报查询节点服务
+ */
+@Service(serviceInterfaces = { IReportCardMissQryService.class }, binding = Binding.JSONRPC)
+public class ReportCardMissQryServiceImpl extends PagingServiceImpl<EntDto> implements IReportCardMissQryService {
+
+	/**
+	 * 就诊列表查询
+	 * @param qryRootNodeDTO
+	 * @param paginationInfo
+	 * @return
+	 * @throws BizException
+	 */
+	@Override
+	public PagingRtnData<EntDto> getEntDTOList(QryRootNodeDTO qryRootNodeDTO, PaginationInfo paginationInfo)
+			throws BizException {
+		GetEntDTOListBp bp = new GetEntDTOListBp();
+		return bp.getEntDTOList(qryRootNodeDTO, paginationInfo);
+	}
+
+	/**
+	 * 报卡信息（文书，模板，流）
+	 * @param enDto
+	 * @return
+	 * @throws BizException
+	 */
+	@Override
+	public FArrayList2 GetData(EntDto enDto) throws BizException {
+		GetDataBp bp = new GetDataBp();
+		return bp.GetData(enDto);
+	}
+
+	/**
+	 * 无报卡但是既往已报时查询既往已报文书ID
+	 * @param enDto
+	 * @return
+	 * @throws BizException
+	 */
+	@Override
+	public String findReportedHistory(EntDto enDto) throws BizException {
+		FindReportedHistoryBp bp = new FindReportedHistoryBp();
+		return bp.findReportedHistory(enDto);
+	}
+
+	/**
+	 * 判断当前诊断是否关联报卡类型，如果关联则返回报卡类型主键
+	 * @param id_di
+	 * @return
+	 * @throws BizException
+	 */
+	@Override
+	public String hasDiagPass(String id_di) throws BizException {
+		HasDiagPassBp bp = new HasDiagPassBp();
+		return bp.hasDiagPass(id_di);
+	}
+	
+	/**
+	 *  判断当次就诊当前诊断是否弹报卡弹框提示,如果需要true，不需要false
+	 * @param id_ent
+	 * @param id_di
+	 * @return
+	 * @throws BizException
+	 */
+	@Override
+	public Boolean hasCiRcmPass(String id_ent, String id_bd_rcm_tp) throws BizException {
+		HasCiRcmPassBp bp = new HasCiRcmPassBp();
+		return bp.hasCiRcmPass(id_ent,id_bd_rcm_tp);
+	}
+	
+	/**
+	 * 创建既往已报数据
+	 * @param id_ent
+	 * @param id_bd_rcm_tp
+	 * @return true 成功  false 失败
+	 */
+	@Override
+	public Boolean newCiRcmPass(String id_ent, String id_bd_rcm_tp) throws BizException {
+		NewCiRcmPassBp bp = new NewCiRcmPassBp();
+		return bp.newCiRcmPass(id_ent,id_bd_rcm_tp);
+	}
+	
+	/**
+	 * 根据报卡类型主键查找默认模板，如果没有返回
+	 * @param id_bd_rcm_tp
+	 * @return 
+	 * @throws BizException
+	 */
+	@Override
+	public ReportCardTplDo findDefQry(String id_bd_rcm_tp) throws BizException {
+		FindDefQryBp bp = new FindDefQryBp();
+		return bp.findDefQry(id_bd_rcm_tp);
+	}
+	
+	
+	
+}

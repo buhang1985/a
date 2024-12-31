@@ -1,0 +1,28 @@
+package iih.en.que.s.bp.mt;
+
+import iih.en.comm.validator.EnValidator;
+import iih.en.que.dto.d.TriageBenInfoDTO;
+import iih.en.que.dto.d.TriagePatInfoDTO;
+import iih.en.que.dto.d.TriageQueSiteDTO;
+import iih.en.que.enqueue.d.EntQueStatus;
+import xap.mw.core.data.BizException;
+import xap.mw.log.logging.Logger;
+
+public class TriageToSite4MtBP {
+
+	public void exec(TriageQueSiteDTO triageQueSiteDTO,TriageBenInfoDTO triageInfo) throws BizException{
+		EnValidator.validateParam("TriageQueSiteDTO", triageQueSiteDTO);
+		EnValidator.validateParam("TriageBenInfoDTO", triageInfo);
+		GetTriageQueByBenBP bp = new GetTriageQueByBenBP();
+		TriagePatInfoDTO[] triagePatInfoDTOs = bp.exec(triageInfo, triageInfo.getId_dayslot(),EntQueStatus.Arrived);
+		if(EnValidator.isEmpty(triagePatInfoDTOs)){
+			Logger.info("签到的就诊患者为空");
+			return;
+		}
+		//分诊到站点
+		MtTriageToSiteBP triageToSiteBP = new MtTriageToSiteBP();
+		for(TriagePatInfoDTO triagePatInfoDTO : triagePatInfoDTOs){
+			triageToSiteBP.exec(triageQueSiteDTO,triagePatInfoDTO.getId_ent_que());
+		}
+	}
+}

@@ -1,0 +1,284 @@
+package iih.ci.mr.s.bp.task;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import iih.bd.bc.udi.pub.IBdSrvTpDictCodeConst;
+import iih.bd.bc.udi.pub.ICiDictCodeConst;
+import iih.bd.bc.udi.pub.ICiMrDictCodeConst;
+import iih.bd.bs.workcalendar.i.IWorkcalendarExtService;
+import iih.ci.mr.ciamr.d.AMrDO;
+import iih.ci.mr.ciamr.i.ICiamrCudService;
+import iih.ci.mr.ciamr.i.ICiamrRService;
+import iih.ci.mr.i.ICiMrParamService;
+import iih.ci.mr.s.bp.common.CiMrParamUtils;
+import iih.ci.ord.ciorder.d.CiOrderDO;
+import iih.ci.ord.ciorder.i.ICiorderMDORService;
+import iih.en.pv.pativisit.d.PatiVisitDO;
+import iih.en.pv.pativisit.i.IPativisitRService;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.Context;
+import xap.mw.core.data.DOStatus;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.coreitf.d.FDateTime;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.devcfg.alert.PreAlertObject;
+import xap.sys.devcfg.alert.taskcenter.BgWorkingContext;
+import xap.sys.devcfg.alert.taskcenter.IBackgroundWorkPlugin;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.BeanListHandler;
+import xap.sys.orgfw.org.d.OrgDO;
+import xap.sys.orgfw.org.i.IOrgRServiceExt;
+
+public class HoMrmAutoPigeonholeTask implements IBackgroundWorkPlugin {
+
+	@Override
+	public PreAlertObject executeTask(BgWorkingContext arg0)
+			throws BizException {
+		// TODO Auto-generated method stub
+		
+		String id_grp = Context.get().getGroupId();
+		
+		IOrgRServiceExt orgRService =ServiceFinder.find(IOrgRServiceExt.class);
+		OrgDO[] orgs = orgRService.queryAllOrgUnitVOsByGroupID(id_grp,false,true);//获取集团下所有组织id
+		for(OrgDO org :orgs)
+		{
+			String id_org = org.getId_org();
+			Context.get().setOrgId(id_org);
+			if(CiMrParamUtils.GetSysParamMrmHoAutoPigeonhole(id_org))
+			{
+				
+				//UpdWithSql(id_org);
+				UpdWithService(id_org);
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * 使用sql更新完成自动归档
+	 * @param id_org
+	 * @throws BizException
+	 */
+	private void UpdWithSql(String id_org) throws BizException
+	{
+		IWorkcalendarExtService calService = ServiceFinder.find(IWorkcalendarExtService.class);//工作日历
+		ICiMrParamService paraService = ServiceFinder.find(ICiMrParamService.class);//参数
+		int days = CiMrParamUtils.GetSysParamMrmHoPigeonholeInterval(id_org);
+		String id_cld = paraService.getSysParamHoliday(id_org);	//工作日历
+		DAFacade daf = new DAFacade(); 	
+		FDateTime fd = new FDateTime();
+		String time_now = fd.toLocalString();
+		fd = calService.getEndDateTime(fd, -days*24, id_cld);//过期时间
+		StringBuilder sql = new StringBuilder();
+		sql.append("update ci_amr  set ci_amr.id_qa_doctor_part_sta = '");	
+		sql.append(ICiMrDictCodeConst.ID_MR_HASTOFILE);
+		sql.append("' , ci_amr.sd_qa_doctor_part_sta = '");
+		sql.append(ICiMrDictCodeConst.SD_MR_HASTOFILE);	
+		sql.append("', ci_amr.dt_pigeonhole = '");
+		sql.append(time_now);
+		sql.append("',ci_amr.id_dep_pigeonhole ='IIH',ci_amr.id_user_pigeonhole ='IIH'");
+		sql.append(" where exists(select * from en_ent where ci_amr.id_ent = en_ent.id_ent and en_ent.dt_end< '");
+		sql.append(fd.toLocalString());
+		sql.append("' and ci_amr.id_qa_doctor_part_sta <> '");
+		sql.append(ICiMrDictCodeConst.ID_MR_HASTOFILE);
+		sql.append("' and ci_amr.ds ='0')");
+	    String sqlStr = sql.toString();
+		daf.execUpdate(sqlStr);
+	}
+	
+	/**
+	 * 使用框架完成自动归档
+	 */
+	private void UpdWithService(String id_org) throws BizException
+	{
+		//获得服务
+		IPativisitRService PativisitRService = ServiceFinder.find(IPativisitRService.class);
+		
+		IWorkcalendarExtService calService = ServiceFinder.find(IWorkcalendarExtService.class);//工作日历
+		ICiMrParamService paraService = ServiceFinder.find(ICiMrParamService.class);//参数
+//		ICiOrdMrService ordService = ServiceFinder.find(ICiOrdMrService.class);
+		ICiorderMDORService ordService = ServiceFinder.find(ICiorderMDORService.class);
+		
+		if(PativisitRService!=null&&ordService!=null)
+		{
+			
+			//死亡患者自动完成和归档是否单独任务(GetSysParamDeathCompletePigeonholeAlone)
+			
+			Boolean blean = CiMrParamUtils.GetSysParamDeathCompletePigeonholeAlone(id_org);
+			if(blean == true){
+				//为true时，先判断是否死亡患者，是的话，修改病案状态
+				String id_cld = paraService.getSysParamHoliday(id_org);	//工作日历
+				DAFacade daf = new DAFacade();
+				int deathday = CiMrParamUtils.GetSysParamMrmDeathHoPigeonholeinterval(id_org);
+				FDateTime deathfd = new FDateTime();
+				FDateTime death_time_now = (FDateTime)deathfd.clone();
+				deathfd = calService.getEndDateTime(deathfd,-deathday*24,id_cld);
+				List<PatiVisitDO>deathlist = new ArrayList<PatiVisitDO>();
+				String deathsqlWhere_op = "dt_end < '"+deathfd.toLocalString()+"'";
+				PatiVisitDO[] deathentDOs = PativisitRService.find(deathsqlWhere_op, null, FBoolean.FALSE);
+				if(deathentDOs != null && deathentDOs.length > 0){
+					for (PatiVisitDO entdo : deathentDOs) {
+						CiOrderDO[] orddo = ordService.find("id_en = '"+ entdo.getId_ent() +"' and sd_srvtp = '"+ IBdSrvTpDictCodeConst.SD_SRVTP_PATIMAN_CLIDEATH
+ +"' and sd_su_or = '"+  ICiDictCodeConst.SD_SU_CHECKTHROUGH +"' ", "", FBoolean.FALSE);
+						if(orddo != null && orddo.length > 0){
+							deathlist.add(entdo);
+						}
+					}
+				}
+				if(deathlist != null && deathlist.size() > 0){
+					PatiVisitDO[] deathpatDOs = new PatiVisitDO[deathlist.size()];
+					for (int i = 0 ; i < deathlist.size() ; i++) {
+						deathpatDOs[i] = deathlist.get(i);
+					}
+					if(deathpatDOs != null && deathpatDOs.length > 0){
+						SaveAmrDO(deathpatDOs,death_time_now);
+					}
+				}
+				
+				//先判断是否死亡患者，不是的话，修改病案状态
+				int days = CiMrParamUtils.GetSysParamMrmHoPigeonholeInterval(id_org);
+//				String id_cld = paraService.getSysParamHoliday(id_org);	//工作日历
+//				DAFacade daf = new DAFacade(); 	
+				FDateTime fd = new FDateTime();
+				FDateTime time_now = (FDateTime)fd.clone();
+				fd = calService.getEndDateTime(fd, -days*24, id_cld);//过期时间
+				fd = fd.addSeconds(-24*3600*days);
+				
+				String sqlWhere_op = "dt_end < '"+fd.toLocalString()+"'";
+				String sql = Getsql(sqlWhere_op);
+				@SuppressWarnings("unchecked")
+				List<PatiVisitDO> listDto = (List<PatiVisitDO>) daf.execQuery(sql,
+						new BeanListHandler(PatiVisitDO.class));
+				PatiVisitDO[] patDO = listDto.toArray(new PatiVisitDO[0]);
+//				PatiVisitDO[] entDOs = PativisitRService.find(sqlWhere_op, null, FBoolean.FALSE);
+				if(patDO != null && patDO.length > 0){
+					SaveAmrDO(patDO,time_now);
+				}
+				
+			}else{
+				//参数为不为true时，走原有流程，流程不变
+			int days = CiMrParamUtils.GetSysParamMrmHoPigeonholeInterval(id_org);
+			String id_cld = paraService.getSysParamHoliday(id_org);	//工作日历
+			FDateTime fd = new FDateTime();
+			FDateTime time_now = (FDateTime)fd.clone();
+			fd = calService.getEndDateTime(fd, -days*24, id_cld);//过期时间
+			fd = fd.addSeconds(-24*3600*days);
+			
+			String sqlWhere_op = "dt_end < '"+fd.toLocalString()+"'";
+			PatiVisitDO[] entDOs = PativisitRService.find(sqlWhere_op, null, FBoolean.FALSE);
+			if(entDOs != null && entDOs.length > 0){
+				SaveAmrDO(entDOs,time_now);
+			}
+			
+			
+//			if(entDOs!=null&&entDOs.length>0)
+//			{
+//				String opIds = "id_ent in ( '";
+//				int count =0;
+//				for(PatiVisitDO ent :entDOs)
+//				{
+//					count+=1;
+//					if(count ==900)
+//					{
+//						opIds += ent.getId_ent()+"') or id_ent in ( '";
+//						count =0;
+//					}
+//					
+//					else
+//						opIds += ent.getId_ent()+"' ,'";
+//					
+//				}
+//				opIds = opIds.substring(0, opIds.length()-2)+")";
+//				
+//				String sqlWhere_amr = opIds+
+//						" and ds ='0' and id_qa_doctor_part_sta <> '"+
+//						ICiMrDictCodeConst.ID_MR_HASTOFILE+"'";
+//				
+//				AMrDO[] amrDOs = CiamrRService.find(sqlWhere_amr, null, FBoolean.FALSE);
+//				if(amrDOs!=null&&amrDOs.length>0)
+//				{
+//					for(AMrDO amr :amrDOs)
+//					{
+//						amr.setId_qa_doctor_part_sta(ICiMrDictCodeConst.ID_MR_HASTOFILE);
+//						amr.setSd_qa_doctor_part_sta(ICiMrDictCodeConst.SD_MR_HASTOFILE);
+//						amr.setDt_pigeonhole(time_now);
+//						amr.setId_dep_pigeonhole("IIH");
+//						amr.setId_user_pigeonhole("IIH");
+//						amr.setStatus(DOStatus.UPDATED);
+//					}
+//					CiamrCudService.save(amrDOs);
+//				}
+//				
+//			}
+		}
+			
+		}
+	}
+	
+	//提出部分公共代码（根据患者id_ent查询并修改病案状态）
+	public void SaveAmrDO(PatiVisitDO[] entDOs,FDateTime time) throws BizException{
+		
+		ICiamrRService CiamrRService = ServiceFinder.find(ICiamrRService.class);
+		ICiamrCudService CiamrCudService =  ServiceFinder.find(ICiamrCudService.class);
+		if(CiamrRService!=null&&CiamrCudService!=null){
+			if(entDOs!=null&&entDOs.length>0)
+			{
+				String opIds = "id_ent in ( '";
+				int count =0;
+				for(PatiVisitDO ent :entDOs)
+				{
+					count+=1;
+					if(count ==900)
+					{
+						opIds += ent.getId_ent()+"') or id_ent in ( '";
+						count =0;
+					}
+					
+					else
+						opIds += ent.getId_ent()+"' ,'";
+					
+				}
+				opIds = opIds.substring(0, opIds.length()-2)+")";
+				
+				String sqlWhere_amr = opIds+
+						" and ds ='0' and id_qa_doctor_part_sta <> '"+
+						ICiMrDictCodeConst.ID_MR_HASTOFILE+"'";
+				
+				AMrDO[] amrDOs = CiamrRService.find(sqlWhere_amr, null, FBoolean.FALSE);
+				if(amrDOs!=null&&amrDOs.length>0)
+				{
+					for(AMrDO amr :amrDOs)
+					{
+						amr.setId_qa_doctor_part_sta(ICiMrDictCodeConst.ID_MR_HASTOFILE);
+						amr.setSd_qa_doctor_part_sta(ICiMrDictCodeConst.SD_MR_HASTOFILE);
+						amr.setDt_pigeonhole(time);
+						amr.setId_dep_pigeonhole("IIH");
+						amr.setId_user_pigeonhole("IIH");
+						amr.setStatus(DOStatus.UPDATED);
+					}
+					CiamrCudService.save(amrDOs);
+				}
+				
+			}
+		}
+		
+	}
+	
+	//查询自动归档个时间内不是死亡患者的信息
+	public String Getsql(String sqlWhere_op){
+		StringBuilder sb = new StringBuilder();
+		sb.append(" select * ");
+		sb.append(" from en_ent ee ");
+		sb.append(" left join ci_order co ");
+		sb.append(" on ee.id_ent = co.id_en ");
+		sb.append(" where ");
+		sb.append(" id_srvtp <> '"+ IBdSrvTpDictCodeConst.SD_SRVTP_PATIMAN_CLIDEATH_ID
+ +"' ");
+//		sb.append(" and sd_su_or = '"+  ICiDictCodeConst.SD_SU_CHECKTHROUGH +"' ");
+		sb.append(" and '"+ sqlWhere_op +"' ");
+		return sb.toString();
+	}
+
+}

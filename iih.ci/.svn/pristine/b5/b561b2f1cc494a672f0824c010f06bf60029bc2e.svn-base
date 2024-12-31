@@ -1,0 +1,61 @@
+package iih.ci.ord.s.bp.ordprn;
+
+import java.util.List;
+
+import iih.ci.ord.ordprn.d.OrdPrintDO;
+import iih.ci.ord.ordprn.dto.d.CiOrdSheetParamDTO;
+import xap.mw.core.data.BizException;
+import xap.mw.coreitf.d.FBoolean;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.ColumnListHandler;
+import xap.sys.jdbc.kernel.SqlParam;
+
+/**
+ * 清空医嘱单打印数据（逻辑删除）
+ * @author Young
+ *
+ */
+public class ClearOrdPrintDOsBP {
+
+	public FBoolean exec(CiOrdSheetParamDTO paramDTO, Integer page_no, Integer row_no) throws BizException {
+		SqlParam sqlparam = new SqlParam();
+		sqlparam.addParam(paramDTO.getId_en());
+		if (row_no == null) {
+			sqlparam.addParam(page_no - 1);
+		} else {
+			sqlparam.addParam(page_no - 1);
+			sqlparam.addParam(row_no - 1);
+			sqlparam.addParam(page_no - 1);
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append(String.format("select distinct id_or from ci_or_prn where ds<1 and id_en=? and id_ordsheet='%s'", paramDTO.getId_ordsheet()));
+		if (row_no == null) {
+			sb.append(" and page_num>=?");
+		} else {
+			sb.append(" and ((page_num=? and row_num>=?) or page_num>?)");
+		}
+		
+		@SuppressWarnings("unchecked")
+		List<String> idors = (List<String>) new DAFacade().execQuery(sb.toString(), sqlparam, new ColumnListHandler());
+		if (idors != null && !idors.isEmpty()) {
+			SqlParam params = new SqlParam();
+			StringBuilder filters=new StringBuilder();
+			for(String idor : idors) {
+				params.addParam(idor);
+				filters.append(",?");
+			}
+			@SuppressWarnings("unchecked")
+			List<OrdPrintDO> ordPrintDOs = (List<OrdPrintDO>) new DAFacade()
+					.findByCond(OrdPrintDO.class, String.format(" ds<1 and id_or in (%s)",filters.substring(1)), params);
+			if (ordPrintDOs != null && !ordPrintDOs.isEmpty()) {
+				for (OrdPrintDO ordPrintDO : ordPrintDOs) {
+					ordPrintDO.setDs(1);
+				}
+				new DAFacade().updateDOArray(ordPrintDOs.toArray(new OrdPrintDO[0]), new String[] { OrdPrintDO.DS });
+				return FBoolean.TRUE;
+			}
+		}
+		
+		return FBoolean.FALSE;
+	}
+}

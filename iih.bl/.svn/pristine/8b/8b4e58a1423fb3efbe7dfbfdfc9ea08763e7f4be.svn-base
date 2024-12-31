@@ -1,0 +1,137 @@
+package iih.bl.st.blhpspecillpi.bp;
+
+import java.util.List;
+
+import iih.mi.mc.mimcpatspec.d.MiMcPatSpecDO;
+import iih.mi.mc.mimcpatspec.d.MiMcPatSpecDiDO;
+import iih.mi.mc.mimcpatspec.d.MimcpatspecdiAggDO;
+import iih.mi.mc.mimcpatspec.i.IMimcpatspecdiRService;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.FArrayList;
+import xap.mw.core.utils.ListUtil;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.rui.control.qrysqlgenerator.i.IQrySQLGeneratorService;
+import xap.sys.appfw.orm.handle.dataobject.paging.PaginationInfo;
+import xap.sys.appfw.orm.handle.dataobject.paging.PagingRtnData;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.BeanListHandler;
+
+public class BlHpSpecificIllPiBp {
+	@SuppressWarnings("unchecked")
+	public PagingRtnData<MiMcPatSpecDO> findByQCondAndPageInfo(QryRootNodeDTO qryRootNodeDTO, String orderStr,
+			PaginationInfo pg) throws BizException {
+		IQrySQLGeneratorService ser = (IQrySQLGeneratorService) ServiceFinder.find(IQrySQLGeneratorService.class);
+		String whereStr = ser.getQueryStringWithoutDesc(qryRootNodeDTO);
+		int pageSize = pg.getPageSize();
+		int pageIndex = pg.getPageIndex();
+
+		StringBuffer sql = new StringBuffer();
+		sql.append("(select  *  from ");
+		sql.append(
+				"  ( select a.id_mimcpatspec,a.id_org,a.id_grp,a.no_hp,w.name as hp_name ,d.id_dsdef , def.name as name , def.code as code ,w.code as hp_code,a.id_hp,a.tel_pat,c.code as code_pat, a.name_pat, ");
+		sql.append("    d.code_di,a.sv                              ");
+		sql.append("    from  mi_mc_pat_spec   a                           ");
+		sql.append("    left outer join pi_pat_hp  b  on a.no_hp=b.no_hp               ");
+		sql.append("    left outer join pi_pat     c  on  b.id_pat=c.id_pat      ");
+		sql.append("    left outer join bd_hp     w  on  w.id_hp=a.id_hp   ");
+		sql.append("    left join  mi_mc_pat_spec_di  d  on  a.id_mimcpatspec=d.id_mimcpatspec   ");
+        sql.append("    left join  bd_di_def def on def.id_didef = d.id_didef  order by  a.no_hp desc )x )");
+		StringBuffer sqlb = new StringBuffer();
+		sqlb.append("( select * from ( ");
+		sqlb.append("select rownum as rowno,a0.* from ");
+		sqlb.append(sql);
+		sqlb.append(String.format(" a0 where 1 = 1 %s and rownum <= %s ) T2",
+				whereStr == null ? "" : String.format("and %s", whereStr), (pageIndex + 1) * pageSize));
+		sqlb.append(String.format(" where T2.rowno >= %s )", pageIndex * pageSize + 1));
+
+		List<MiMcPatSpecDO> list = (List<MiMcPatSpecDO>) new DAFacade().execQuery(sqlb.toString(),
+				new BeanListHandler(MiMcPatSpecDO.class));
+		for (int m = 0; m < list.size(); m++) {
+			for (int n = list.size() - 1; n > m; n--) {
+				if (list.get(m).getId_mimcpatspec().equals(list.get(n).getId_mimcpatspec())
+						|| list.get(m).getNo_hp().equals(list.get(n).getNo_hp())) {
+					list.remove(list.get(n));
+				}
+			}
+		}
+		FArrayList pageData = new FArrayList();
+		pageData.addAll(list);
+
+		sqlb = new StringBuffer();
+		sqlb.append("select count(*) as rowcount from ( select * from  ");
+		sqlb.append(sql);
+		sqlb.append(String.format(" a0 where 1 = 1 %s ) ", whereStr == null ? "" : String.format("and %s", whereStr)));
+
+		List<MiMcPatSpecDO> list1 = (List<MiMcPatSpecDO>) new DAFacade().execQuery(sql.toString(),
+				new BeanListHandler(MiMcPatSpecDO.class));
+		if (list1 == null || list1.size() == 0) {
+			PagingRtnData<MiMcPatSpecDO> prdata = new PagingRtnData<MiMcPatSpecDO>();
+			prdata.setPagingInfo(pg);
+			return prdata;
+
+		}
+		for (int m = 0; m < list1.size(); m++) {
+			for (int n = list1.size() - 1; n > m; n--) {
+				if (list1.get(m).getId_mimcpatspec().equals(list1.get(n).getId_mimcpatspec())
+						|| list1.get(m).getNo_hp().equals(list1.get(n).getNo_hp())) {
+					list1.remove(list1.get(n));
+				}
+			}
+		}
+		int dataCount = list1.size();
+		pg.setPageCount(dataCount / pageSize);
+		pg.setRecordsCount(dataCount);
+		PagingRtnData<MiMcPatSpecDO> pagingRtnData = new PagingRtnData<MiMcPatSpecDO>();
+		pagingRtnData.setPageData(pageData);
+		pagingRtnData.setPagingInfo(pg);
+		return pagingRtnData;
+	}
+
+	/**
+	 * 通过医保号查询患者编码
+	 * 
+	 * @param NoHp
+	 * @return
+	 * @throws BizException
+	 */
+	public MiMcPatSpecDO findCodeByNoHp(String NoHp) throws BizException {
+		StringBuffer sql = new StringBuffer();
+		sql.append(" select a.code code_pat ");
+		sql.append(" from pi_pat a ");
+		sql.append(" left join pi_pat_hp b ");
+		sql.append(" on a.id_pat = b.id_pat ");
+		sql.append(" where ");
+		sql.append(" b.no_hp = '" + NoHp + "' ");
+
+		// SqlParam sp = new SqlParam();
+		// sp.addParam(NoHp);
+
+		@SuppressWarnings("unchecked")
+		List<MiMcPatSpecDO> list = (List<MiMcPatSpecDO>) new DAFacade().execQuery(sql.toString(),
+				new BeanListHandler(MiMcPatSpecDO.class));
+
+		if (ListUtil.isEmpty(list) || list == null) {
+			return null;
+		}
+
+		return list.get(0);
+	}
+
+	public MiMcPatSpecDiDO[] getBlHpPatSpecDiItmsByIdhppat(MiMcPatSpecDO blhpPatSpecDO) throws BizException {
+		MiMcPatSpecDiDO[] MiMcPatSpecDiDO = new MiMcPatSpecDiDO[] {};
+		IMimcpatspecdiRService rservice = (IMimcpatspecdiRService) ServiceFinder.find(IMimcpatspecdiRService.class);
+		if (blhpPatSpecDO != null) {
+			String a = blhpPatSpecDO.getId_mimcpatspec();
+			System.out.println(a + "是齐佳患者的特殊病主键");
+			MimcpatspecdiAggDO[] mimcpatspecdiAggDOs = rservice.find("  id_hppatspec='" + a + "'", "", FBoolean.FALSE);
+			for (MimcpatspecdiAggDO mimcpatspecdiAggDO : mimcpatspecdiAggDOs) {
+				MiMcPatSpecDiDO = mimcpatspecdiAggDO.getMiMcPatSpecDiDO();
+			}
+			return MiMcPatSpecDiDO;
+		}
+		return null;
+	}
+
+}

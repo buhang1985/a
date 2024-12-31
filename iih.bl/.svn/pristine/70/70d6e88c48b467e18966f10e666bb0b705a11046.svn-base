@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	<!-- 医生站：医保查询 -->
+	<bean id="IHpQueService" class="iih.bl.hp.Service.s.IHpQueServiceImpl"></bean>
+	<bean id="IBlhporsharelogCudService" class="iih.bl.hp.hporshare.s.BlhporsharelogCrudServiceImpl"></bean>
+	<bean id="IBlhporsharelogRService" class="iih.bl.hp.hporshare.s.BlhporsharelogCrudServiceImpl"></bean>
+	
+	<!-- 一医保特殊病患者主、子服务 -->
+	<bean id="BlhppatspecCrudServiceImpl" class="iih.bl.hp.blhppatspec.s.BlhppatspecCrudServiceImpl"></bean>
+	<bean id="BlHpPatSpecDiDOCrudServiceImpl" class="iih.bl.hp.blhppatspec.s.BlHpPatSpecDiDOCrudServiceImpl"></bean>
+	<bean id="BlhppatspecMDOCrudServiceImpl" class="iih.bl.hp.blhppatspec.s.BlhppatspecMDOCrudServiceImpl"></bean>
+	
+	<!-- 医保外配处方上传记录 -->
+	<bean id="IBlputexrxpresCudService" class="iih.bl.hp.blputexrxpres.s.BlputexrxpresCrudServiceImpl"></bean>
+
+	<!-- 一医保特殊病患者诊断 -->
+	<bean id="IBlHpPatSpecDiDOCudService" class="iih.bl.hp.blhppatspec.s.BlHpPatSpecDiDOCrudServiceImpl"></bean>
+	<bean id="IBlHpPatSpecDiDORService" class="iih.bl.hp.blhppatspec.s.BlHpPatSpecDiDOCrudServiceImpl"></bean>
+
+	<!-- 安徽门诊医保交易记录 -->
+	<bean id="IHptransactahCudService" class="iih.bl.hp.hptransactah.s.HptransactahCrudServiceImpl"></bean>
+	<bean id="IHptransactahMDOCudService" class="iih.bl.hp.hptransactah.s.HptransactahMDOCrudServiceImpl"></bean>
+	
+	<!-- 医保登记信息 -->
+	 <bean id="IHpentcodeRService" class="iih.bl.hp.hpentcode.s.HpentcodeCrudServiceImpl"></bean>
+     <xap:service ref="IHpentcodeCudService" interface="iih.bl.hp.hpentcode.i.IHpentcodeCudService" requires="tx">
+        <xap:binding name="jsonrpc" />
+    </xap:service>
+    
+    <!-- 医保统计查询对账服务 -->
+    <bean id="IHpcheckaccountRService" class="iih.bl.hp.hpcheckaccount.s.HpcheckaccountCrudServiceImpl"></bean>
+     <bean id="IHpcheckaccountCudService" class="iih.bl.hp.hpcheckaccount.s.HpcheckaccountCrudServiceImpl"></bean>
+     <xap:service ref="IHpcheckaccountCudService" interface="iih.bl.hp.hpcheckaccount.i.IHpcheckaccountCudService" requires="tx">
+        <xap:binding name="jsonrpc" />
+    </xap:service>
+    
+    
+    <!-- 安徽住院医保交易记录 -->
+	<bean id="IHptransactahipCudService" class="iih.bl.hp.hptransactahip.s.HptransactahipCrudServiceImpl"></bean>
+	<bean id="IHptransactahipMDOCudService" class="iih.bl.hp.hptransactahip.s.HptransactahipMDOCrudServiceImpl"></bean>
+	<xap:service ref="IHptransactahipMDOCudService" interface="iih.bl.hp.hptransactahip.i.IHptransactahipMDOCudService" requires="tx">
+        <xap:binding name="jsonrpc" />
+    </xap:service>
+
+	<!-- 接口业务时间 -->
+	<bean id="IBlinterfaceacttimeCudService" class="iih.bl.hp.blinterfaceacttime.s.BlinterfaceacttimeCrudServiceImpl"></bean>
+	
+	<!-- 医保签到 -->
+	<bean id="IHpsigninCudService" class="iih.bl.hp.hpsignin.s.HpsigninCrudServiceImpl"></bean>
+	
+	<!-- 医保黑名单 -->
+	<bean id="IHppatblacklistCudService" class="iih.bl.hp.hppatblacklist.s.HppatblacklistCrudServiceImpl"></bean>
+	
+	<!-- 医保零挂 -->
+	<bean id="IHpzeroregCudService" class="iih.bl.hp.hpzeroreg.s.HpzeroregCrudServiceImpl"></bean>
+	
+	<!-- 与老CHIS做数据平台，给老CHIS提供数据 -->
+	<bean id="iih.bl.hp.service.i.IBLHpMzShareQueService" class="iih.bl.hp.Service.s.IBLHpMzShareQueServiceImpl"></bean>
+	<xap:service ref="iih.bl.hp.service.i.IBLHpMzShareQueService"
+		interface="iih.bl.hp.service.i.IBLHpMzShareQueService" requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+
+	<!-- 医保查询服务 -->
+	<bean id="IBlHpQryService" class="iih.bl.hp.s.BlHpQryServiceImpl" />
+	
+	<!-- 医保命令服务 -->
+	<bean id="IBlHpCmdService" class="iih.bl.hp.s.BlHpCmdServiceImpl" />
+	<xap:service ref="IBlHpCmdService" interface="iih.bl.hp.i.IBlHpCmdService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 医保对外查询服务 -->
+	<bean id="IBlHpOutQryService" class="iih.bl.hp.s.BlHpOutQryServiceImpl" />
+	
+	<!-- 医保对外命令服务 -->
+	<bean id="IBlHpOutCmdService" class="iih.bl.hp.s.BlHpOutCmdServiceImpl" />
+	<xap:service ref="IBlHpOutCmdService" interface="iih.bl.hp.i.IBlHpOutCmdService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 医保平台组装数据 -->
+	<bean id="IBlMiParamPackagingService" class="iih.bl.hp.s.BlMiParamPackagingServiceImpl" />
+	<xap:service ref="IBlMiParamPackagingService" interface="iih.bl.hp.i.IBlMiParamPackagingService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 医保交易明细查询 -->
+	<bean id="IHpblllitmRService" class="iih.bl.hp.hpblllitm.s.HpblllitmCrudServiceImpl" />
+	<xap:service ref="IHpblllitmRService" interface="iih.bl.hp.hpblllitm.i.IHpblllitmRService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 医保交易明细 数据维护-->
+	<bean id="IHpblllitmCudService" class="iih.bl.hp.hpblllitm.s.HpblllitmCrudServiceImpl" />
+	<xap:service ref="IHpblllitmCudService" interface="iih.bl.hp.hpblllitm.i.IHpblllitmCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--医保交易记录-->
+	<bean id="IHptranactoepCudService" class="iih.bl.hp.hptranactoep.s.HptranactoepCrudServiceImpl" />
+	<xap:service ref="IHptranactoepCudService" interface="iih.bl.hp.hptranactoep.i.IHptranactoepCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--医保交易记录住院-->
+	<bean id="IHptransactipRService" class="iih.bl.hp.hptransactip.s.HptransactipCrudServiceImpl" />
+	<xap:service ref="IHptransactipCudService" interface="iih.bl.hp.hptransactip.i.IHptransactipCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--门诊医保登记记录-->
+	<bean id="IHpentcodeoepRService" class="iih.bl.hp.hpentcodeoep.s.HpentcodeoepCrudServiceImpl" />
+	<xap:service ref="IHpentcodeoepCudService" interface="iih.bl.hp.hpentcodeoep.i.IHpentcodeoepCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 医保贫困患者 -->
+	<bean id="IBlhppatpoordoRService" class="iih.bl.hp.blhppatpoor.s.BlhppatpoordoCrudServiceImpl" />
+	<xap:service ref="IBlhppatpoordoCudService" interface="iih.bl.hp.blhppatpoor.i.IBlhppatpoordoCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 医保对账结算下载数据-->
+	<bean id="IHpreconRService" class="iih.bl.hp.hprecon.s.HpreconCrudServiceImpl" />
+	<xap:service ref="IHpreconCudService" interface="iih.bl.hp.hprecon.i.IHpreconCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 医保登记记录银行交易扩展CRUD服务 -->
+	<bean id="IBlhptransbankpayCrudService" class="iih.bl.hp.blhptransbankpay.s.BlhptransbankpayCrudServiceImpl" />
+	<xap:service ref="IBlhptransbankpayCrudService" interface="iih.bl.hp.blhptransbankpay.i.IBlhptransbankpayCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 医保预结算保存 -->
+	<bean id="IHprepayCudService" class="iih.bl.hp.prepay.s.HprepayCrudServiceImpl" />
+	<xap:service ref="IHprepayCudService" interface="iih.bl.hp.prepay.i.IHprepayCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 医保半退明细记录CRUD服务 -->
+	<bean id="IHpentrefunddetailCrudService" class="iih.bl.hp.hpentrefunddetail.s.HpentrefunddetailCrudServiceImpl" />
+	<xap:service ref="IHpentrefunddetailCrudService" interface="iih.bl.hp.hpentrefunddetail.i.IHpentrefunddetailCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+</beans>

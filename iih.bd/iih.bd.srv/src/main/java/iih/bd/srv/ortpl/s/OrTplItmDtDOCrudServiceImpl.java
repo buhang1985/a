@@ -1,0 +1,31 @@
+package iih.bd.srv.ortpl.s;
+import iih.bd.srv.ortpl.d.OrTplItmDtDO;
+import iih.bd.srv.ortpl.d.desc.OrTplItmDtDODesc;
+import iih.bd.srv.ortpl.i.IOrTplItmDtDOCudService;
+import iih.bd.srv.ortpl.i.IOrTplItmDtDORService;
+import xap.mw.core.annotation.Service;
+import xap.mw.core.service.constant.Binding;
+import xap.sys.appfw.bizrule.validation.Validator;
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.sys.appfw.orm.handle.dataobject.BaseDOService;
+import xap.sys.appfw.orm.utils.IAppFwTempTbl;
+import xap.sys.permfw.pub.BDReferenceChecker;
+
+/**
+ * 医嘱模板项目主实体CRUD服务实现
+ */
+@Service(serviceInterfaces={IOrTplItmDtDOCudService.class,IOrTplItmDtDORService.class}, binding=Binding.JSONRPC)
+public class OrTplItmDtDOCrudServiceImpl extends BaseDOService<OrTplItmDtDO> implements IOrTplItmDtDOCudService,IOrTplItmDtDORService {
+
+    public OrTplItmDtDOCrudServiceImpl() {
+        super(DescManager.getInstance().getDODesc(OrTplItmDtDODesc.class),IAppFwTempTbl.tmp_iaw_16.name()); 
+    }
+    
+    @Override
+	protected Validator[] getDeleteValidator() {
+		return new Validator[] {
+				BDReferenceChecker.getInstance()
+		};
+	}
+}
+

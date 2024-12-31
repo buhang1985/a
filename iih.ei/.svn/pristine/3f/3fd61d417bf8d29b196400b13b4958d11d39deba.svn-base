@@ -1,0 +1,76 @@
+package iih.ei.bl.ecinc.bosssoft.v2.s.bp;
+
+import com.alibaba.fastjson.JSON;
+
+import iih.ei.bl.ecinc.bosssoft.constant.IEcIncBossSoftConst;
+import iih.ei.bl.ecinc.bosssoft.v2.s.data.ReturnParam;
+import iih.ei.bl.ecinc.bosssoft.v2.s.data.paper.EcPaperSwitchParam;
+import iih.ei.bl.ecinc.bosssoft.v2.s.http.BossSoftHttpClient;
+import iih.ei.bl.ecinc.d.EcIncPaperReSwitchInDTO;
+import iih.ei.bl.ecinc.d.EcIncPaperReSwitchOutDTO;
+import iih.ei.bl.ecinc.d.EcIncResultDTO;
+import iih.ei.bl.ecinc.util.EcIncDataUtil;
+import iih.ei.bl.util.EIThirdLogger;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.Context;
+import xap.mw.coreitf.d.FBoolean;
+import xap.sys.bdfw.bbd.d.PsnDocDO;
+
+/**
+ * 
+ * 博思重新换开纸质发票
+ * @author ly 2020/01/02
+ *
+ */
+public class BossSoftEcIncPaperReSwitchBP {
+
+	/**
+	 * 重新换开纸质发票
+	 * @param dto
+	 * @return
+	 * @throws BizException
+	 */
+	public EcIncResultDTO<EcIncPaperReSwitchOutDTO> exec(EcIncPaperReSwitchInDTO dto) throws BizException {
+		
+		EcPaperSwitchParam inParam = new EcPaperSwitchParam();
+		inParam.setBillBatchCode(dto.getEcinc_code());
+		inParam.setBillNo(dto.getEcincno());
+		inParam.setpBillBatchCode(dto.getPinc_code());
+		inParam.setpBillNo(dto.getPincno());
+		inParam.setBusDateTime(EcIncDataUtil.getBusiTime());
+		
+		PsnDocDO psnDO = EcIncDataUtil.getPsnData(Context.get().getStuffId());
+		inParam.setPlaceCode(psnDO.getCode());
+		inParam.setOperator(psnDO.getName());
+		
+		String data = JSON.toJSONString(inParam);
+		ReturnParam rtnParam = null;
+		
+		try {
+			BossSoftHttpClient httpClient = new BossSoftHttpClient(IEcIncBossSoftConst.METHOD_RETURNPAPER, IEcIncBossSoftConst.METHOD_RETURNPAPER_NAME);
+			rtnParam = httpClient.invoke(data);
+		} catch (Exception e) {
+			e.printStackTrace();
+			EIThirdLogger.error(String.format("%s失败:", IEcIncBossSoftConst.METHOD_RETURNPAPER_NAME) + e.getMessage(), e);
+			EcIncResultDTO<EcIncPaperReSwitchOutDTO> rlt = new EcIncResultDTO<EcIncPaperReSwitchOutDTO>();
+			rlt.setFg_success(FBoolean.FALSE);
+			rlt.setErrormsg(e.getMessage());
+			rlt.setOutparam(e.getMessage());
+			return rlt;
+		}
+		
+		EcIncResultDTO<EcIncPaperReSwitchOutDTO> rlt = new EcIncResultDTO<EcIncPaperReSwitchOutDTO>();
+		rlt.setFg_success(new FBoolean(rtnParam.getFgSuccess()));
+		if(FBoolean.TRUE.equals(rlt.getFg_success())){
+			EcIncPaperReSwitchOutDTO outDto = new EcIncPaperReSwitchOutDTO();
+			outDto.setPinc_code(dto.getPinc_code());
+			outDto.setPincno(dto.getPincno());
+			rlt.setData(outDto);
+		}else{
+			rlt.setErrormsg(rtnParam.getErrorMsg());
+		}
+		rlt.setInparam(rtnParam.getInputStr());
+		rlt.setOutparam(rtnParam.getOutputStr());
+		return rlt;
+	}
+}

@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <!-- 就诊信息 -->
+ 	<ent>
+ 		<!-- 所属集团-->
+ 		<code_grp>600903</code_grp>
+ 		<!-- 所属组织-->
+ 		<code_org>600903</code_org>
+ 		<!-- 患者-->
+ 		<code_pat>100039779200</code_pat>
+ 		<!-- 就诊次数-->
+ 		<times_en>2</times_en>
+ 		<!-- 就诊-->
+ 		<code_en>1900008353</code_en>
+ 		<!-- 就诊类型编码-->
+ 		<code_entp>10</code_entp>
+ 		<!-- 当前就诊科室-->
+ 		<code_dep_phy>100101</code_dep_phy>
+ 		<!-- 当前主管医生-->
+ 		<code_emp_phy>00062</code_emp_phy>
+ 		<!-- 当前责任护士-->
+ 		<code_emp_nur></code_emp_nur>
+ 		<!-- 当前所在病区-->
+ 		<code_dep_nur></code_dep_nur>
+ 		<!-- 床位号-->
+ 		<code_bed></code_bed>
+ 		<!-- VIP标识-->
+ 		<fg_vip>N</fg_vip>
+ 		<!-- 高端商保标识-->
+ 		<fg_hecominsur>Y</fg_hecominsur>
+ 		<!-- 婴儿标识-->
+ 		<fg_bb>N</fg_bb>
+ 		<print>
+ 		   <!-- 申请单打印号-->
+ 		   <code_app>1234567</code_app>
+ 		   <!-- 申请金额-->
+ 		   <amt_app>555</amt_app>
+ 		   <order>
+ 		       <!-- 医嘱序号-->
+ 		       <sortno_or>11</sortno_or>
+ 		       <!-- 医嘱编码-->
+ 		       <code_or>098765</code_or>
+ 		       <!-- 检查项目编码-->
+ 		       <code_srv_or>210300002</code_srv_or>
+ 		       <!-- 检查项目名称-->
+ 		       <name_srv_or>ct平扫</name_srv_or>
+ 		       <!-- 检查申请单号-->
+ 		       <no_applyform>1234567</no_applyform>
+ 		       <!-- 检查部位编码-->
+ 		       <sd_body>1087</sd_body>
+ 		       <!-- 临床诊断编码-->
+ 		       <code_diag>R10.402</code_diag>
+ 		       <!-- 临床诊断名称-->
+ 		       <name_diag>腹痛</name_diag>
+ 		       <!-- 计划检查日期-->
+ 		       <dt_plan>2019/06/19 21:21:21</dt_plan>
+ 		       <!-- 临床症状及体征-->
+ 		       <clinicalzztz>lalla</clinicalzztz>
+ 		       <!-- 检查目的-->
+ 		       <sd_pps>0</sd_pps>
+ 		       <!-- 加急标识-->
+ 		       <fg_urgent>N</fg_urgent>
+ 		       <!-- 单次数量-->
+ 		       <quan_medu_or>1</quan_medu_or>
+ 		       <!-- 单位支付标志-->
+ 		       <fg_pay_unit></fg_pay_unit>
+ 		       <!-- 嘱托-->
+ 		       <des_or>777</des_or>
+ 		       <!-- 开立机构-->
+ 		       <code_org_or>001</code_org_or>
+ 		       <!-- 开立部门-->
+ 		       <code_dep_or>100101</code_dep_or>
+ 		       <!-- 开立医疗组-->
+ 		       <code_wg_or></code_wg_or>
+ 		       <!-- 开立医生-->
+ 		       <code_emp_or>00062</code_emp_or>
+ 		       <!-- 开立日期-->
+ 		       <dt_entry_or>2019/06/19 21:21:21</dt_entry_or>
+ 		       <!-- 医嘱执行机构-->
+ 		       <code_org_mp_or>100101</code_org_mp_or>
+ 		       <!-- 医嘱执行科室-->
+ 		       <code_dep_mp_or>100101</code_dep_mp_or>
+ 			   <srv>
+ 		           <!-- 费用项目编码-->
+ 		           <code_srv>230200035</code_srv>
+ 		           <!-- 费用项目名称-->
+ 		           <name_srv>肝胶体显象</name_srv>
+ 		           <!-- 费用项目单次数量-->
+ 		           <quan_medu_srv>2</quan_medu_srv>
+ 		           <!-- 医保目录类型-->
+ 		           <sd_hpsrvtp>2</sd_hpsrvtp>
+ 		           <!-- 自费标识-->
+ 		           <fg_selfpay>Y</fg_selfpay>
+ 		           <!-- 特种病标识-->
+ 		           <fg_specill>Y</fg_specill>
+ 		           <!-- 单价-->
+ 		           <pri>11</pri>
+ 		           <!-- 标准价-->
+ 		           <pri_std>12</pri_std>
+ 		           <!-- 价格系数-->
+ 		           <pri_ratio>111</pri_ratio>
+ 		           <!-- 科研标识-->
+ 		           <fg_research>Y</fg_research>
+ 		           <!-- 科研项目编码-->
+ 		           <code_researchproject>123</code_researchproject>
+ 		           <!-- 费用执行机构-->
+ 		           <code_org_mp_srv>100101</code_org_mp_srv>
+ 		           <!-- 费用执行科室-->
+ 		           <code_dep_mp_srv>100101</code_dep_mp_srv>
+ 		        </srv>
+ 		    </order>     
+ 		</print>
+ 	</ent>
+</root>

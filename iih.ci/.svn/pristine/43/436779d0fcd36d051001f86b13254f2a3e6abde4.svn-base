@@ -1,0 +1,158 @@
+package iih.ci.ord.s.ems.ip.assi.cp.drugs;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import iih.ci.ord.ciorder.d.CiOrderDO;
+import iih.ci.ord.ciorder.d.OrdSrvDO;
+import iih.ci.ord.ciorder.i.ICiorderMDOCudService;
+import iih.ci.ord.ciorder.i.IOrdSrvDOCudService;
+import iih.ci.ord.content.d.CiOrContentDO;
+import iih.ci.ord.dws.ip.ems.d.EmsHerbsViewDTO;
+import iih.ci.ord.dws.ip.order.d.OrderListViewDTO;
+import iih.ci.ord.ems.d.CiEnContextDTO;
+import iih.ci.ord.i.ICiOrdNSysParamConst;
+import iih.ci.ord.i.error.ErrorEmsDTO;
+import iih.ci.ord.ordsrvmm.d.OrdSrvMmDO;
+import iih.ci.ord.pub.CiOrdAppUtils;
+import iih.ci.ord.pub.CiOrdUtils;
+import iih.ci.ord.s.ems.defsave.DefaultDrugsCreateOrderInfo;
+import iih.ci.ord.s.ems.ip.ems.commondrugs.EmsCommonDrugsSaveBP;
+import iih.ci.ord.s.ems.ip.ems.commondrugs.EmsCommonDrugsValidate;
+import iih.ci.ord.s.ems.meta.ErrorEmsList;
+import iih.ci.ord.s.ems.meta.OrderPackageInfo;
+import iih.ci.ord.s.ems.meta.OrderPackageInfoList;
+import iih.ci.ord.s.ems.orcontent.CiOrContentUtils;
+import iih.ci.ord.s.ems.orcontent.meta.CommonDrugItemOrContentParam;
+import iih.ci.ord.s.ems.orcontent.meta.CommonDrugOrContentParam;
+import iih.ci.ord.s.ems.orcontent.meta.HerbOrContentParam;
+import iih.ci.ord.s.ems.utils.OrderUtils;
+import iih.ci.ord.s.ems.utils.SysParamUtils;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.DOStatus;
+import xap.mw.core.data.FArrayList;
+import xap.mw.sf.core.util.ServiceFinder;
+
+public class EmsCommonDrugsSave4CP extends EmsCommonDrugsSaveBP{
+	
+	public EmsCommonDrugsSave4CP() {
+		this.setEmsValidate(new CpDrugsValidateBp());
+		this.setDefaultCreateOrderInfo(new DefaultDrugsCreateOrderInfo());
+	}
+    @Override
+	protected EmsSaveRstInfo handleSaveOrderPackageList(CiEnContextDTO ctx, OrderPackageInfo[] szOrderPackageInfo)
+			throws BizException {
+    	EmsSaveRstInfo emsSaveRstInfo = new EmsSaveRstInfo();
+
+		OrderPackageInfoList orderPackageInfoList = new OrderPackageInfoList(szOrderPackageInfo);
+
+		// 保存医嘱服务物品信息
+		OrdSrvMmDO[] szOrdSrvMmInfo = orderPackageInfoList.asOrderSrvMmArray();
+		if (!CiOrdUtils.isEmpty(szOrdSrvMmInfo)) {
+			emsSaveRstInfo.szOrderSrvMmInfo = CiOrdAppUtils.getOrsrvmmService().save(szOrdSrvMmInfo);
+		}
+
+		// 保存医嘱服务信息
+		OrdSrvDO[] szOrdSrvInfo = orderPackageInfoList.asOrderSrvArray();
+		if (!CiOrdUtils.isEmpty(szOrdSrvInfo)) {
+			emsSaveRstInfo.szOrderSrvInfo = ServiceFinder.find(IOrdSrvDOCudService.class).save(szOrdSrvInfo);
+		}
+
+		// 保存医嘱信息
+		CiOrderDO[] szOrderInfo = orderPackageInfoList.asOrderArray();
+		this.setOrdSortno(szOrderInfo, ctx.getId_en());// 设置医嘱序号
+		validateErroInfo( ctx, orderPackageInfoList);
+		
+		if (!CiOrdUtils.isEmpty(szOrderInfo)) {
+			emsSaveRstInfo.szOrderInfo = ServiceFinder.find(ICiorderMDOCudService.class).save(szOrderInfo);
+		}
+		return emsSaveRstInfo;
+	}
+    
+    private void validateErroInfo(CiEnContextDTO ctx,OrderPackageInfoList orderPackageInfoList) throws BizException {
+    	OrderPackageInfo[] pkgs=orderPackageInfoList.asArray();
+    	for (OrderPackageInfo orderPackageInfo : pkgs) {  
+    		ArrayList obj=(ArrayList)orderPackageInfo.getUiModel();
+    		ErrorEmsList errorlist=new EmsCommonDrugsValidate().viewModelValidate(obj.toArray(), ctx);
+    		if (!CiOrdUtils.isEmpty(errorlist)) {
+    			//存在错误信息
+    			setErroInfo( errorlist,orderPackageInfo);
+    			CiOrContentDO orcontent=this.getOrderContent2(ctx, obj,orderPackageInfo.getOrderInfo());
+    			orderPackageInfo.getOrderInfo().setContent_or(orcontent.toString());
+    		}else {
+    			
+    			errorlist=new CpDrugsValidateBp().afterSaveValidate(ctx,new CiOrderDO[] {orderPackageInfo.getOrderInfo()},orderPackageInfo.getOrderSrvList(),orderPackageInfo.asOrderSrvMmList().toArray(new OrdSrvMmDO[0]),null);
+    			if (!CiOrdUtils.isEmpty(errorlist)) {
+        			//存在错误信息
+        			setErroInfo( errorlist,orderPackageInfo);
+        			CiOrContentDO orcontent=this.getOrderContent2(ctx, obj,orderPackageInfo.getOrderInfo());
+        			orderPackageInfo.getOrderInfo().setContent_or(orcontent.toString());
+        		}
+    		}
+    		
+		}
+    	
+    }
+    
+    private void setErroInfo(ErrorEmsList errorAllList,OrderPackageInfo orderPackageInfo) {
+    	String error_des = "";
+    	if(orderPackageInfo.getOrderInfo().getError_des()!=null)
+    	 error_des =  orderPackageInfo.getOrderInfo().getError_des();
+    	for(ErrorEmsDTO error:errorAllList){
+    		error_des += error.getError_message();
+		}
+    	orderPackageInfo.getOrderInfo().setError_level(errorAllList.get(0).getError_level());
+		orderPackageInfo.getOrderInfo().setError_des(error_des);
+    }
+    
+    protected CiOrContentDO getOrderContent2(CiEnContextDTO ctx, Object uiModel,CiOrderDO orderInfo) {
+    	List<OrderListViewDTO> uiList = (List<OrderListViewDTO>) uiModel;
+    	String paramDosage = SysParamUtils.getSysParam().getSYS_PARAM_IntravenousDrugCreateMode().getOrgParam();
+    	FArrayList items = new FArrayList();
+		CommonDrugOrContentParam content = new CommonDrugOrContentParam();
+		OrderListViewDTO drug = uiList.get(0);
+		content.setDays_or(drug.getDays_or());
+		// content.setFg_propc(drug.getfg);
+		content.setFg_urgent(drug.getFg_urgent());
+		content.setIsmuldose(drug.getIsmuldose());
+		content.setIsmulexec(drug.getIsmulexec());
+		content.setName_freq(drug.getName_freq());
+		content.setName_route(drug.getName_route());
+		content.setName_srv(drug.getName_srv());
+		content.setName_unit_med(drug.getName_unit_med());
+		content.setNote(drug.getNote());
+		content.setPri(drug.getPri());
+		// content.setQuan_med(drug.getQuan_med());
+		content.setSd_srvtp(drug.getSd_srvtp());
+		content.setTotal_pri(drug.getTotalprice());
+		for (int i = 0; i < uiList.size(); i++) {
+			OrderListViewDTO ui = (OrderListViewDTO) uiList.get(i);
+			if (DOStatus.DELETED != ui.getStatus()) {
+				CommonDrugItemOrContentParam item = new CommonDrugItemOrContentParam();
+				item.setName_mm(ui.getName_mm());
+				item.setName_srv(ui.getName_srv());
+				item.setFg_self(ui.getFg_self());
+				item.setFg_selfsrv(ui.getFg_selfsrv());
+				item.setQuan_med(ui.getQuan_med());
+				item.setName_unit_med(ui.getName_unit_med());
+				item.setPri(ui.getPri());
+				item.setFg_or(ui.getFg_or());
+				item.setQuan_cur(ui.getQuan_cur());
+				item.setSd_nodispense(ui.getSd_nodispense());
+				// CIOR0380 入壶类药品成组开单模式,参数值:0 用法开单,1用法要求开单
+				if (0 != i && ICiOrdNSysParamConst.SYS_PARAM_IntravenousDrugCreateMode_Route.equals(paramDosage)){
+					item.setName_routedes(ui.getName_route());
+				}
+				item.setStatus(ui.getStatus());
+				items.add(item);
+			}
+		}
+		content.setItems(items);
+		CiOrContentDO ciOrContentDO = CiOrContentUtils.create(content);
+		ArrayList<ArrayList<String>> list =ciOrContentDO.getItemInfos();
+		ArrayList<String> tailInfos = new ArrayList<>();
+		tailInfos.add(orderInfo.getError_des());
+		list.add(tailInfos);
+		return ciOrContentDO;
+	}
+}

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<!-- 就诊信息 -->
+	<ent>
+		<weight/>
+		<code_emp_nur/>
+		<sd_bloodtype_pi/>
+		<code_pat/>
+		<sd_rhd_pi/>
+		<times_en/>
+		<code_entp/>
+		<code_dep_nur/>
+		<code_org/>
+		<code_emp_phy/>
+		<code_grp/>
+		<preslist/>
+		<fg_hecominsur/>
+		<code_bed/>
+		<code_en/>
+		<code_dep_phy/>
+		<fg_vip/>
+		<code_weight_unit/>
+		<!-- 处方信息 1..n -->
+		<pres>
+			<!-- 处方号 -->
+			<ordlist/>
+			<names_diag/>
+			<sd_prestp/>
+			<code_pois/>
+			<sd_prestpword/>
+			<code_pres/>
+			<codes_diag/>
+			<!-- 医嘱信息 1..n-->
+			<order>
+				<code_freq_or/>
+				<des_or/>
+				<code_org_or/>
+				<code_dep_mp_or/>
+				<code_dep_or/>
+				<code_or/>
+				<sortno_or/>
+				<sd_dripspeed/>
+				<code_emp_or/>
+				<dt_entry_or/>
+				<code_route/>
+				<sd_excessive_reason/>
+				<code_org_mp_or/>
+				<fg_pay_unit/>
+				<days_or/>
+				<code_wg_or/>
+				<fg_urgent/>
+				<srvlist/>
+				<!-- 药品及费用信息1..n -->
+				<srv>
+					<fg_specill/>
+					<code_routedes/>
+					<id_medu_cur/>
+					<quan_medu_cur/>
+					<code_mm/>
+					<code_researchproject/>
+					<sd_propc/>
+					<fg_research/>
+					<quan_num_base/>
+					<code_org_mp_srv/>
+					<factor_pgku_cur/>
+					<pri_ratio/>
+					<code_dep_mp_srv/>
+					<code_pgku_cur/>
+					<code_dep_wh/>
+					<fg_base/>
+					<sortno_srv/>
+					<factor_cur/>
+					<quan_den_base/>
+					<fg_or/>
+					<pri/>
+					<fg_selfpay/>
+					<pri_std/>
+					<id_pgku_base/>
+					<quan_cur/>
+					<sd_nodispense/>
+					<sd_skintest_skip_reason/>
+					<sd_hpsrvtp/>
+					<name_mm/>
+				</srv>
+			</order>
+		</pres>	
+	</ent>
+</root>

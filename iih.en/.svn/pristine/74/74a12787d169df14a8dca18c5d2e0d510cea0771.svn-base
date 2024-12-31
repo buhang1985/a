@@ -1,0 +1,32 @@
+package iih.en.que.s.bp.mt;
+
+import iih.bd.bc.udi.pub.IEnDictCodeConst;
+import iih.en.comm.ep.EnQueEP;
+import iih.en.comm.validator.EnValidator;
+import iih.en.que.dto.d.TriageBenInfoDTO;
+import iih.en.que.dto.d.TriageQueSiteDTO;
+import iih.en.que.enqueue.d.EnQueueDO;
+import xap.mw.core.data.BizException;
+
+public class TriageToSite4MtBP {
+
+	public void exec(String id_que_site,TriageBenInfoDTO triageInfo) throws BizException{
+		EnValidator.validateParam("id_que_site", id_que_site);
+		EnValidator.validateParam("TriageBenInfoDTO", triageInfo);
+		EnQueEP queBP = new EnQueEP();
+		
+		
+		
+	}
+	/**
+	 * 验证
+	 * 
+	 * @param triageQueSite
+	 * @param enQueue
+	 * @throws BizException 
+	 */
+	private void volidate(TriageQueSiteDTO triageQueSite, EnQueueDO enQueue) throws BizException{
+		if(IEnDictCodeConst.SD_STATUS_ACPT_NOTARRIVED.equals(enQueue.getSd_status_acpt()))
+			throw new BizException("该患者已经取消到诊！");
+	}
+}

@@ -1,0 +1,42 @@
+package iih.bd.res.bed.s;
+
+import iih.bd.res.bed.d.BedAttrDO;
+import iih.bd.res.bed.d.desc.BedAttrDODesc;
+import iih.bd.res.bed.i.IBedAttrDOCudService;
+import iih.bd.res.bed.i.IBedAttrDORService;
+import xap.mw.core.annotation.Service;
+import xap.mw.core.service.constant.Binding;
+import xap.sys.appfw.bizrule.validation.Validator;
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.sys.appfw.orm.handle.dataobject.BaseDOService;
+import xap.sys.appfw.orm.utils.IAppFwTempTbl;
+import xap.sys.permfw.pub.BDReferenceChecker;
+import xap.sys.permfw.pub.BDUniqueRuleValidate;
+
+/**
+ * 床位管理主实体CRUD服务实现
+ */
+@Service(serviceInterfaces = { IBedAttrDOCudService.class, IBedAttrDORService.class }, binding = Binding.JSONRPC)
+public class BedAttrDOCrudServiceImpl extends BaseDOService<BedAttrDO>
+		implements IBedAttrDOCudService, IBedAttrDORService {
+
+	public BedAttrDOCrudServiceImpl() {
+		super(DescManager.getInstance().getDODesc(BedAttrDODesc.class), IAppFwTempTbl.tmp_iaw_25.name());
+	}
+
+	@Override
+	protected Validator[] getDeleteValidator() {
+		return new Validator[] { BDReferenceChecker.getInstance() };
+	}
+
+	@Override
+	protected Validator[] getInsertValidator() {
+		return new Validator[] { new BDUniqueRuleValidate() };
+	}
+
+	@Override
+	protected Validator[] getUpdateValidator(BedAttrDO[] oldDOs) {
+		return new Validator[] { new BDUniqueRuleValidate() };
+	}
+
+}

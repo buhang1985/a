@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	
+	<!-- 预住院医嘱转正式医嘱生成记录 -->
+	<!-- 增删改 -->
+    <bean id="iih.ci.preip.order.i.ICiorpipCudService"
+        class="iih.ci.preip.order.s.CiorpipCrudServiceImpl"></bean>
+    <xap:service ref="iih.ci.preip.order.i.ICiorpipCudService"
+        interface="iih.ci.preip.order.i.ICiorpipCudService" requires="tx">
+        <xap:binding name="jsonrpc" />
+    </xap:service>
+    <!-- 查询 -->
+    <bean id="iih.ci.preip.order.i.ICiorpipRService"
+        class="iih.ci.preip.order.s.CiorpipCrudServiceImpl"/>
+	
+
+	<!--预住院医嘱导入成为正式住院医嘱接口注册 -->
+	<bean id="iih.ci.preip.imp.ICiPreIPImpOrderMainService"
+		class="iih.ci.preip.imp.CiPreIPImpOrderMainServiceImpl"></bean>
+	<xap:service ref="iih.ci.preip.imp.ICiPreIPImpOrderMainService"
+		interface="iih.ci.preip.imp.ICiPreIPImpOrderMainService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--预住院医嘱申请项目查询接口注册【提供给就诊域】 -->
+	<bean id="iih.ci.preip.qry.ICiPreIPQryOrderService"
+		class="iih.ci.preip.qry.CiPreIPQryOrderServiceImpl"></bean>
+		
+	<!-- 预住院诊断转 住院诊断接口注册 -->
+	<bean id="iih.ci.preip.di.ICiPreToIpDiService" 
+		class="iih.ci.preip.di.CiPreToIpDiServiceImpl"></bean>
+    <xap:service ref="iih.ci.preip.di.ICiPreToIpDiService" 
+    	interface="iih.ci.preip.di.ICiPreToIpDiService" requires="tx">
+    	<xap:binding name="jsonrpc"/>
+    </xap:service>
+</beans>

@@ -1,0 +1,246 @@
+package iih.ci.ord.s.listener;
+
+import org.apache.commons.lang3.ArrayUtils;
+
+import iih.bd.bc.udi.pub.ICiDictCodeConst;
+import iih.bd.utils.ParamUtils;
+import iih.ci.ord.ciorder.d.CiOrderDO;
+import iih.ci.ord.i.ICiOrdCustomSysParamConst;
+import iih.ci.ord.pub.CiOrdAppUtils;
+import iih.ci.ord.pub.CiOrdUtils;
+import iih.ci.ord.skintest.d.CiSkinTestRstDO;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.FMap2;
+import xap.mw.coreitf.d.FDateTime;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.appfw.businessevent.IBusinessEvent;
+import xap.sys.appfw.businessevent.IBusinessListener;
+import xap.sys.appfw.businessevent.IEventType;
+import xap.sys.appfw.businessevent.bd.BDCommonEvent;
+import xap.sys.devcfg.alert.taskcenter.itf.ISchedulerServiceAPI;
+import xap.sys.jdbc.facade.DAException;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.BeanHandler;
+
+/**
+ * 皮试结果监听
+ * 
+ * @author LiYue
+ *
+ */
+public class SkinTestResultsOfListener implements IBusinessListener {
+
+	@Override
+	public void doAction(IBusinessEvent event) throws BizException {
+		// TODO Auto-generated method stub
+
+		// 事件源及事件类型判断
+		if (!(event.getSourceID().equals(IBizPlugInSourecIDConst.CISKINTESTRSTDO_FULLCLASSNAME)
+				&& event.getEventType().equals(IEventType.TYPE_UPDATE_AFTER)))
+			return;
+
+		// 皮试结果改变的数据及空判断逻辑
+		BDCommonEvent dbevent = (BDCommonEvent) event;
+		Object[] newObjs = dbevent.getNewObjs();
+		if (ArrayUtils.isEmpty(newObjs))
+			return;
+
+		for (Object object : newObjs) {
+
+			// 皮试对应医嘱主键、皮试结果、皮试结果编码，及空判断逻辑
+			SkinTestRstDTO ord = getIdRstSkintestInfo(object);
+			if (ord == null)
+				return;
+
+			// 皮试结果为阴性，挂上定时签署任务
+			if ((ICiDictCodeConst.SD_RST_SKINTEST_L1_MINUS).equals(ord.getSd_rsttp().substring(1, 2))) {
+				FMap2 map= new FMap2();
+				map.put("idor", ord.getId_or());
+				
+				// 定时任务执行时间
+				FDateTime afterDate = getDt();
+				ISchedulerServiceAPI api = ServiceFinder.find(ISchedulerServiceAPI.class);
+				api.submitTask0("SkinTest", afterDate, map);
+			}
+		}
+
+	}
+
+	/**
+	 * 获取皮试结果及对应医嘱Id_or
+	 * 
+	 * @param newObjs
+	 * @return
+	 */
+	private SkinTestRstDTO getIdRstSkintestInfo(Object newObjs) {
+		// 有效性校验
+		if (CiOrdUtils.isEmpty(newObjs))
+			return null;
+		
+		SkinTestRstDTO resDto = new SkinTestRstDTO();// 皮试对应医嘱主键 皮试结果 结果编码
+
+		// 获得皮试主键
+		String idskintest = getIdSkintest(newObjs);
+		if (CiOrdUtils.isEmpty(idskintest))
+			return null;
+
+		// 获取皮试对应医嘱主键
+		resDto.setId_or(getId_or(idskintest));
+		if (CiOrdUtils.isEmpty(resDto.getId_or()))
+			return null;
+
+		// 获取皮试结果
+		resDto.setId_rsttp(getIdRstSkintest(newObjs));
+		if (CiOrdUtils.isEmpty(resDto.getId_rsttp()))
+			return null;
+
+		// 获取皮试结果编码
+		resDto.setSd_rsttp(getSdRstSkintest(newObjs));
+		if (CiOrdUtils.isEmpty(resDto.getSd_rsttp()))
+			return null;
+
+		return resDto;
+
+	}
+
+	/**
+	 * 获得皮试主键 ID_SKINTEST
+	 * 
+	 * @param newObj
+	 * @return
+	 */
+	private String getIdSkintest(Object newObj) {
+		if (CiOrdUtils.isEmpty(newObj))
+			return null;
+		CiSkinTestRstDO ciSkinTestRstDO = (CiSkinTestRstDO) newObj;
+		String idskintest = CiOrdUtils.getSqlCondStrWithComma(ciSkinTestRstDO.getId_skintest());
+		return idskintest.substring(1);
+	}
+
+	/**
+	 * 获取皮试结果 ID_RST_SKINTEST
+	 * 
+	 * @param newObj
+	 * @return
+	 */
+	private String getIdRstSkintest(Object newObj) {
+		if (CiOrdUtils.isEmpty(newObj))
+			return null;
+		CiSkinTestRstDO ciSkinTestRstDO = (CiSkinTestRstDO) newObj;
+		String idRstSkintest = CiOrdUtils.getSqlCondStrWithComma(ciSkinTestRstDO.getId_rst_skintest());
+		return idRstSkintest.substring(1);
+	}
+
+	/**
+	 * 获取皮试结果编码 SD_RST_SKINTEST
+	 * 
+	 * @param newObj
+	 * @return
+	 */
+	private String getSdRstSkintest(Object newObj) {
+		if (CiOrdUtils.isEmpty(newObj))
+			return null;
+		CiSkinTestRstDO ciSkinTestRstDO = (CiSkinTestRstDO) newObj;
+		String sdRstSkintest = CiOrdUtils.getSqlCondStrWithComma(ciSkinTestRstDO.getSd_rst_skintest());
+		return sdRstSkintest.substring(1);
+	}
+
+	/**
+	 * 通过皮试对应医嘱主键 ID_OR
+	 * 
+	 * @param newObj
+	 * @return
+	 */
+	private String getId_or(String id_skintest) {
+		if (CiOrdUtils.isEmpty(id_skintest))
+			return null;
+		String sql = getSql(id_skintest);
+		CiOrderDO ciOrderDO = null;
+		try {
+			ciOrderDO = (CiOrderDO) new DAFacade().execQuery(sql, new BeanHandler(CiOrderDO.class));
+		} catch (DAException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(ciOrderDO == null ) 
+			return null;
+		
+		return ciOrderDO.getId_or().toString();
+	}
+
+	/**
+	 * 通过皮试对应医嘱主键 sql
+	 * 
+	 * @param id_skintest
+	 * @return
+	 */
+	private String getSql(String id_skintest) {
+		StringBuffer sql = new StringBuffer();
+		sql.append(" SELECT srv.id_or FROM ci_or_srv srv LEFT JOIN ci_skin_test skin ON srv.ID_OR_REL = skin.id_or ");
+		sql.append("  WHERE skin.id_skintest = " + id_skintest + " ");
+		return sql.toString();
+	}
+
+	/**
+	 * 获取轻量级配置定时时间
+	 */
+	public FDateTime getDt() {
+		try {
+			/**
+			 * 定时时间，单位是秒（s）,默认3分钟
+			 */
+			int dt = 180;
+			dt = ParamUtils.GetOrgParamIntegerValue(ICiOrdCustomSysParamConst.LL_DT_SKINTEST);
+			FDateTime nowDate = CiOrdAppUtils.getServerDateTime();
+			return nowDate.addSeconds(dt);
+		} catch (BizException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	/**
+	 * 
+	 * @code 皮试对应的医嘱
+	 * @author LiYue
+	 * @date 2019年8月16日,下午6:02:49
+	 */
+	class SkinTestRstDTO{
+		/**
+		 * 皮试对应医嘱主键
+		 */
+		String id_or;
+		/**
+		 * 皮试结果ID
+		 */
+		String id_rsttp;
+		/**
+		 * 皮试结果SD
+		 */
+		String sd_rsttp;
+		public String getId_or() {
+			return id_or;
+		}
+
+		public void setId_or(String id_or) {
+			this.id_or = id_or;
+		}
+
+		public String getId_rsttp() {
+			return id_rsttp;
+		}
+
+		public void setId_rsttp(String id_rsttp) {
+			this.id_rsttp = id_rsttp;
+		}
+
+		public String getSd_rsttp() {
+			return sd_rsttp;
+		}
+
+		public void setSd_rsttp(String sd_rsttp) {
+			this.sd_rsttp = sd_rsttp;
+		}
+		
+	}
+}

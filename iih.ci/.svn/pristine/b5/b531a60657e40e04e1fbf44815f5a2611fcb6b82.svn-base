@@ -1,0 +1,9 @@
+package iih.ci.ord.s.ems.ip.assi.cp.drugs;
+
+import iih.ci.ord.s.ems.base.BaseCpValidate;
+
+public class CpDrugsValidateBp  extends BaseCpValidate{
+
+
+
+}

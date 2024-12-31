@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	<!-- 转诊申请单信息AggDO数据CRUD服务 -->
+	<bean id="IMireferralinfoCrudService" class="iih.mi.biz.mireferralinfo.s.MireferralinfoCrudServiceImpl" />
+	<xap:service ref="IMireferralinfoCrudService" interface="iih.mi.biz.mireferralinfo.i.IMireferralinfoCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 医保签到AggDO数据CRUD服务 -->
+	<bean id="IHpsigninCrudService" class="iih.mi.biz.hpsignin.s.HpsigninCrudServiceImpl"/>
+	<xap:service ref="IHpsigninCrudService" interface="iih.mi.biz.hpsignin.i.IHpsigninCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<!-- 住院医保登记 -->
+	<bean id="IIpRegOperationService" class="iih.mi.biz.ip.ipreg.s.IpRegOperationServiceImpl"/>
+	<xap:service ref="IIpRegOperationService" interface="iih.mi.biz.ip.ipreg.i.IIpRegOperationService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<!-- 医保签到服务 -->
+	<bean id="IMiHpSignServiceService" class="iih.mi.biz.s.hpsign.MiHpSignServiceImpl"/>
+	<xap:service ref="IMiHpSignServiceService" interface="iih.mi.biz.i.hpsign.IMiHpSignService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<!--国家平台医保分摊数据保存-->	
+	<bean id="IMihppropruraliptmpCudService" class="iih.mi.biz.insureprop.ruraltmp.s.MihppropruraliptmpCrudServiceImpl"/>
+	<xap:service ref="IMihppropruraliptmpCudService" interface="iih.mi.biz.insureprop.ruraltmp.i.IMihppropruraliptmpCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<!--国家新农合医保最终分摊数据-->
+	<bean id="IMihpproparruralipCudService" class="iih.mi.biz.insureprop.rural.s.MihpproparruralipCrudServiceImpl" />
+	<xap:service ref="IMihpproparruralipCudService" interface="iih.mi.biz.insureprop.rural.i.IMihpproparruralipCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<!--山东兰陵东软住院医保分摊表-->
+	<bean id="IMiproparipneusoftlyCudService" class="iih.mi.biz.insureprop.lyneusoftip.s.MiproparipneusoftlyCrudServiceImpl" />
+	<xap:service ref="IMiproparipneusoftlyCudService" interface="iih.mi.biz.insureprop.lyneusoftip.i.IMiproparipneusoftlyCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="IMiproparipneusoftlyRService" class="iih.mi.biz.insureprop.lyneusoftip.s.MiproparipneusoftlyCrudServiceImpl" />
+	<xap:service ref="IMiproparipneusoftlyRService" interface="iih.mi.biz.insureprop.lyneusoftip.i.IMiproparipneusoftlyRService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<!--山东兰陵东软门诊医保分摊表-->
+	<bean id="IMiproparoeplyneusoftoepCudService" class="iih.mi.biz.insureprop.lyneusoftoep.s.MiproparoeplyneusoftoepCrudServiceImpl" />
+	<xap:service ref="IMiproparoeplyneusoftoepCudService" interface="iih.mi.biz.insureprop.lyneusoftoep.i.IMiproparoeplyneusoftoepCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="IMiproparoeplyneusoftoepRService" class="iih.mi.biz.insureprop.lyneusoftoep.s.MiproparoeplyneusoftoepCrudServiceImpl" />
+	<xap:service ref="IMiproparoeplyneusoftoepRService" interface="iih.mi.biz.insureprop.lyneusoftoep.i.IMiproparoeplyneusoftoepRService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<!--云南玉溪东软住院医保分摊表-->
+	<bean id="IMipropipynyuxiethCrudServiceImpl" class="iih.mi.biz.insureprop.ynyuxiethip.s.MipropynyuxiethCrudServiceImpl" />
+	<xap:service ref="IMipropipynyuxiethCrudServiceImpl" interface="iih.mi.biz.insureprop.ynyuxiethip.i.IMipropynyuxiethCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="IMipropipynyuxiethRServiceImpl" class="iih.mi.biz.insureprop.ynyuxiethip.s.MipropynyuxiethCrudServiceImpl" />
+	<xap:service ref="IMipropipynyuxiethRServiceImpl" interface="iih.mi.biz.insureprop.ynyuxiethip.i.IMipropynyuxiethRService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<!--云南玉溪东软门诊医保分摊表-->
+	<bean id="IMipropoepynyuxiethCrudServiceImpl" class="iih.mi.biz.insureprop.ynyuxiethoep.s.MoepropynyuxiethCrudServiceImpl" />
+	<xap:service ref="IMipropoepynyuxiethCrudServiceImpl" interface="iih.mi.biz.insureprop.ynyuxiethoep.i.IMoepropynyuxiethCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="IMipropoepynyuxiethRServiceImpl" class="iih.mi.biz.insureprop.ynyuxiethoep.s.MoepropynyuxiethCrudServiceImpl" />
+	<xap:service ref="IMipropoepynyuxiethRServiceImpl" interface="iih.mi.biz.insureprop.ynyuxiethoep.i.IMoepropynyuxiethRService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<!-- 医保登记记录 -->
+	<bean id="IMiregopCudService" class="iih.mi.biz.miregop.s.MiregopCrudServiceImpl"/>
+	<xap:service ref="IMiregopCudService" interface="iih.mi.biz.miregop.i.IMiregopCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<!-- 医保订单记录 -->
+	<bean id="IMiorderrecordCudService" class="iih.mi.biz.miorderrecord.s.MiorderrecordCrudServiceImpl"/>
+	<xap:service ref="IMiorderrecordCudService" interface="iih.mi.biz.miorderrecord.i.IMiorderrecordCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>	
+	<!-- 医保订单结算状态 -->
+	<bean id="IMirecordstrecordCudService" class="iih.mi.biz.mirecordstrecord.s.MirecordstrecordCrudServiceImpl"/>
+	<xap:service ref="IMirecordstrecordCudService" interface="iih.mi.biz.mirecordstrecord.i.IMirecordstrecordCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<!-- 医保交易记录 -->
+	<bean id="IMitransrecordCudService" class="iih.mi.biz.mitransrecord.s.MitransrecordCrudServiceImpl"/>
+	<xap:service ref="IMitransrecordCudService" interface="iih.mi.biz.mitransrecord.i.IMitransrecordCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<!-- 医保退费记录 -->
+	<bean id="IMirefundrecordCudService" class="iih.mi.biz.mirefundrecord.s.MirefundrecordCrudServiceImpl"/>
+	<xap:service ref="IMirefundrecordCudService" interface="iih.mi.biz.mirefundrecord.i.IMirefundrecordCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<!-- 医保相关记录信息查询-->
+	<bean id="IMiBizQueService" class="iih.mi.biz.service.s.MiBizQueServiceImpl"/>
+	<xap:service ref="IMiBizQueService" interface="iih.mi.biz.service.i.IMiBizQueService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<!-- 医保共享信息-->
+	<bean id="IMihporsharelogCudService" class="iih.mi.biz.mihporsharelog.s.MihporsharelogCrudServiceImpl"/>
+	<xap:service ref="IMihporsharelogCudService" interface="iih.mi.biz.mihporsharelog.i.IMihporsharelogCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+</beans>

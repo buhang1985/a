@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<!-- 所属集团 -->
+   <code_grp></code_grp>
+   <!--  所属组织-->
+   <code_org></code_org>
+   <!--  就诊类型编码-->
+   <code_entp></code_entp>
+   <!--  是否在院患者-->
+   <fg_ip></fg_ip>
+   <!--  患者编码-->            
+   <code_pat></code_pat>
+   <!--  就诊次数-->         
+   <times_en></times_en>
+   <!--  就诊编码-->         
+   <code_en></code_en>
+   <!--  服务基本分类编码-->          
+   <code_srvca></code_srvca>
+   <!--  医嘱类型-->       
+   <sd_srvtp></sd_srvtp>
+   <!--  长期临时标志-->         
+   <fg_long></fg_long>
+   <!--  查询开始时间-->          
+   <dt_b_search></dt_b_search>
+   <!--  查询结束时间-->      
+   <dt_e_search></dt_e_search>
+   <!--  医嘱号-->      
+   <code_or></code_or>
+   <!--  开单医生编码-->          
+   <code_emp_or></code_emp_or>
+   <!--  开单科室编码-->      
+   <code_dep_or></code_dep_or>
+   <!--  病区编码-->      
+   <code_dep_nur_or></code_dep_nur_or>
+   <!--  签署医生编码-->  
+   <code_emp_sign></code_emp_sign>
+   <!--  签署科室编码-->   
+   <code_dep_sign></code_dep_sign>
+   <!--  签署标识-->   
+   <fg_sign></fg_sign>
+   <!--  签署核对标识-->          
+   <fg_chk></fg_chk>
+   <!--  停止标识-->           
+   <fg_stop></fg_stop>
+   <!--  停止核对标识-->          
+   <fg_chk_stop></fg_chk_stop>
+   <!--  作废标志-->      
+   <fg_canc></fg_canc>
+   <!--  作废确认标志-->          
+   <fg_chk_canc></fg_chk_canc>
+   <!--  医嘱状态-->      
+   <sd_su_or></sd_su_or>
+   <!--  物资流向科室编码-->         
+   <code_wh></code_wh>
+   <!--  Pivas药房标志-->          
+   <fg_pivas></fg_pivas>
+   <!--  是否跨病区查询-->         
+   <fg_crossdepnur></fg_crossdepnur>
+   <!--  是否活动医嘱-->   
+   <sd_or_active></sd_or_active>
+   <!--  长期医嘱活动判断可后延天数-->     
+   <delaydays_active></delaydays_active> 
+
+</root>

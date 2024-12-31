@@ -1,0 +1,24 @@
+package iih.ci.mi.ord.bp;
+
+import iih.ci.mi.common.utils.MiEnContextUtil;
+import iih.ci.ord.ems.d.CiEnContextDTO;
+import xap.mw.core.data.BizException;
+
+public abstract class BasicOrdMiVerifyBP {
+
+	public boolean isMiVerifyEnabled(CiEnContextDTO ctx) throws BizException{
+		return isEnabledVerify(ctx);
+	}
+	
+	/**
+	 * 判断当前患者是否为医保就诊患者
+	 * @param CiEnContextDTO 当前患者就诊环境对象
+	 * @return true 医保就诊， false 非医保就诊
+	 */
+	public static boolean isHpPat(CiEnContextDTO ctx) {
+
+		return MiEnContextUtil.IsHpPat(ctx);
+	}
+	
+	public abstract boolean isEnabledVerify(CiEnContextDTO ctx) throws BizException;
+}

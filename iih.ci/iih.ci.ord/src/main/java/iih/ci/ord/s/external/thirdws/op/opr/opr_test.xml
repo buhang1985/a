@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<!-- 就诊信息 -->
+	<ent>
+		<code_grp>001</code_grp>
+		<code_org>49523741-2</code_org>
+		<code_pat>100039779300</code_pat>
+		<times_en>1000</times_en>
+		<code_en>1900008375</code_en>
+		<code_entp>00</code_entp>
+		<!--  0001Z8100000000007P5 肝胆外科 -->
+		<code_dep_phy>100101</code_dep_phy>
+		<code_dep_nur></code_dep_nur>
+		<code_emp_phy>00000</code_emp_phy>
+		<code_emp_nur></code_emp_nur>
+		
+		<code_bed></code_bed>
+		<fg_vip>N</fg_vip>
+		<fg_hecominsur>N</fg_hecominsur>
+		<fg_bb>N</fg_bb>		
+		
+		<weight></weight>
+		<code_weight_unit></code_weight_unit>
+		
+		<sd_bloodtype_pi></sd_bloodtype_pi>
+		<sd_rhd_pi></sd_rhd_pi>
+		
+		<!-- 医嘱list -->
+		<order>
+			<sortno_or>1</sortno_or>
+			<code_or>A6481599</code_or>
+			<code_srv_or>331003022</code_srv_or>
+			<name_srv_or>阑尾切除术</name_srv_or>
+			<code_freq_or>ONCE</code_freq_or>
+			<no_appluform>A012115</no_appluform>
+			<code_emp_operate>11101</code_emp_operate>
+			<code_emp_helper>12657</code_emp_helper>
+			<code_diag>R52.900</code_diag>
+			<name_diag>疼痛</name_diag>
+			<dt_plan>2019-06-22 09:56:57</dt_plan>
+			<sugplantime>5</sugplantime>
+			<sd_anestp>01</sd_anestp>
+			<announcements>注意事项123</announcements>
+			<sd_sugbody>00</sd_sugbody>
+			<sd_datelimittype></sd_datelimittype>
+			<sd_surgical_site>001</sd_surgical_site>
+			<specialdes>无特殊准备</specialdes>
+			<fg_allergy>Y</fg_allergy>
+			<des_or>描述123</des_or>
+			<code_org_or>49523741-2</code_org_or>
+			<code_dep_or>100101</code_dep_or>
+			<code_wg_or></code_wg_or>
+			<code_emp_or>00000</code_emp_or>
+			<dt_entry_or>2019-06-22 09:58:19</dt_entry_or>
+			<code_org_mp_or>49523741-2</code_org_mp_or>
+			<code_dep_mp_or>100101</code_dep_mp_or>
+			<!--  附加手术List集合 -->
+			<additional_surgery>
+				<sortno_sug_add>1</sortno_sug_add>
+				<code_srv_sug_add>311000017</code_srv_sug_add>
+				<name_or_sug_add>肾周脓肿引流术</name_or_sug_add>
+			</additional_surgery>
+			<additional_surgery>
+				<sortno_sug_add>2</sortno_sug_add>
+				<code_srv_sug_add>311000019</code_srv_sug_add>
+				<name_or_sug_add>经皮肾盂镜取石术</name_or_sug_add>
+			</additional_surgery>
+			<!--  手术人员List集合 -->
+			<!-- <sug_emp>
+				<sortno_sug_emp></sortno_sug_emp>
+				<code_emp_sug_emp></code_emp_sug_emp>
+				<sd_role_sug_emp></sd_role_sug_emp>				
+			</sug_emp>	 -->		
+			<!-- 费用项目 -->	
+			<srv>
+				<code_srv>331003022</code_srv>
+				<name_srv>阑尾切除术</name_srv>				
+				<quan_medu_srv>1</quan_medu_srv>
+				<quan_cur_srv>1</quan_cur_srv>
+				<sd_hpsrvtp>3</sd_hpsrvtp>
+				<fg_selfpay>Y</fg_selfpay>
+				<fg_specill>N</fg_specill>
+				<sd_nodispense></sd_nodispense>
+				<pri>884</pri>
+				<pri_std>884</pri_std>
+				<pri_ratio>1</pri_ratio>
+				<fg_research>N</fg_research>
+				<code_researchproject></code_researchproject>
+				<code_org_mp_srv>49523741-2</code_org_mp_srv>
+				<code_dep_mp_srv>300101</code_dep_mp_srv>			
+			</srv>
+			<srv>
+				<code_srv>210300001d</code_srv>
+				<name_srv>16—40层螺旋CT扫描</name_srv>				
+				<quan_medu_srv>1</quan_medu_srv>
+				<quan_cur_srv>1</quan_cur_srv>
+				<sd_hpsrvtp>3</sd_hpsrvtp>
+				<fg_selfpay>Y</fg_selfpay>
+				<fg_specill>N</fg_specill>
+				<sd_nodispense></sd_nodispense>
+				<pri>172.8</pri>
+				<pri_std>216</pri_std>
+				<pri_ratio>0.8</pri_ratio>
+				<fg_research>N</fg_research>
+				<code_researchproject></code_researchproject>
+				<code_org_mp_srv>49523741-2</code_org_mp_srv>
+				<code_dep_mp_srv>300101</code_dep_mp_srv>			
+			</srv>
+		</order>
+		
+	</ent>
+</root>

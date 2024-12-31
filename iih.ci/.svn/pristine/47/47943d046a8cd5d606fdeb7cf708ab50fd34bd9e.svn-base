@@ -1,0 +1,12 @@
+package iih.ci.ord.s.ems.ip.assi.cp.herbs;
+
+import iih.ci.ord.s.ems.base.BaseCpSaveBP;
+
+/**
+ * 临床路径 - 草药保存逻辑
+ * @author wangqingzhu
+ *
+ */
+public class CpHerbsSaveBP extends BaseCpSaveBP {
+
+}

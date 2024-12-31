@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<!-- 就诊信息 -->
+	<ent>
+		<code_grp></code_grp>
+		<code_org></code_org>
+		<code_pat></code_pat>
+		<times_en></times_en>
+		<code_en></code_en>
+		<code_entp></code_entp>
+		<code_dep_phy></code_dep_phy>
+		<code_dep_nur></code_dep_nur>
+		<code_emp_phy></code_emp_phy>
+		<code_emp_nur></code_emp_nur>
+		
+		<code_bed></code_bed>
+		<fg_vip></fg_vip>
+		<fg_hecominsur></fg_hecominsur>
+		<fg_bb></fg_bb>		
+		
+		<weight></weight>
+		<code_weight_unit></code_weight_unit>
+		
+		<sd_bloodtype_pi></sd_bloodtype_pi>
+		<sd_rhd_pi></sd_rhd_pi>
+		
+		<!-- 医嘱list -->
+		<order>
+			<sortno_or></sortno_or>
+			<code_or></code_or>
+			<code_srv_or></code_srv_or>
+			<name_srv_or></name_srv_or>
+			<code_freq_or></code_freq_or>
+			<no_appluform></no_appluform>
+			<code_emp_operate></code_emp_operate>
+			<code_emp_helper></code_emp_helper>
+			<code_diag></code_diag>
+			<name_diag></name_diag>
+			<dt_plan></dt_plan>
+			<sugplantime></sugplantime>
+			<sd_anestp></sd_anestp>
+			<announcements></announcements>
+			<sd_sugbody></sd_sugbody>
+			<sd_datelimittype></sd_datelimittype>
+			<sd_surgical_site></sd_surgical_site>
+			<specialdes></specialdes>
+			<fg_allergy></fg_allergy>
+			<des_or></des_or>
+			<code_org_or></code_org_or>
+			<code_dep_or></code_dep_or>
+			<code_wg_or></code_wg_or>
+			<code_emp_or></code_emp_or>
+			<dt_entry_or></dt_entry_or>
+			<code_org_mp_or></code_org_mp_or>
+			<code_dep_mp_or></code_dep_mp_or>
+			<!--  附加手术List集合 -->
+			<additional_surgery>
+				<sortno_sug_add></sortno_sug_add>
+				<code_srv_sug_add></code_srv_sug_add>
+				<name_or_sug_add></name_or_sug_add>
+			</additional_surgery>
+			<!--  手术人员List集合 -->
+			<sug_emp>
+				<sortno_sug_emp></sortno_sug_emp>
+				<code_emp_sug_emp></code_emp_sug_emp>
+				<sd_role_sug_emp></sd_role_sug_emp>				
+			</sug_emp>			
+			<!-- 费用项目 -->	
+			<srv>
+				<code_srv></code_srv>
+				<name_srv></name_srv>				
+				<quan_medu_srv></quan_medu_srv>
+				<quan_cur_srv></quan_cur_srv>
+				<sd_hpsrvtp></sd_hpsrvtp>
+				<fg_selfpay></fg_selfpay>
+				<fg_specill></fg_specill>
+				<sd_nodispense></sd_nodispense>
+				<pri></pri>
+				<pri_std></pri_std>
+				<pri_ratio></pri_ratio>
+				<fg_research></fg_research>
+				<code_researchproject></code_researchproject>
+				<code_org_mp_srv></code_org_mp_srv>
+				<code_dep_mp_srv></code_dep_mp_srv>			
+			</srv>
+		</order>
+		
+	</ent>
+</root>

@@ -1,0 +1,24 @@
+package iih.ei.bl.ecinc.bosssoft.v2.s.bp;
+
+import iih.ei.bl.ecinc.d.EcIncPaperSwitchInDTO;
+import iih.ei.bl.ecinc.d.EcIncPaperSwitchOutDTO;
+import iih.ei.bl.ecinc.d.EcIncResultDTO;
+import xap.mw.core.data.BizException;
+
+/**
+ * 博思换开纸质发票
+ * @author ly 2019/12/04
+ *
+ */
+public class BossSoftEcIncPaperSwitchBP {
+
+	/**
+	 * 换开纸质发票
+	 * @param dto
+	 * @return
+	 * @throws BizException
+	 */
+	public EcIncResultDTO<EcIncPaperSwitchOutDTO> exec(EcIncPaperSwitchInDTO dto) throws BizException {
+		return null;
+	}
+}

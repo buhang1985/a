@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+
+	<!-- 就诊类型 -->
+	<bean id="IEntpCrudService"
+		class="iih.bd.fc.entp.s.EntpCrudServiceImpl" />
+	<xap:service ref="IEntpCrudService"
+		interface="iih.bd.fc.entp.i.IEntpCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 就诊流程定义 -->
+	<bean id="IEntpwfCrudService"
+		class="iih.bd.fc.entpwf.s.EntpwfCrudServiceImpl" />
+	<xap:service ref="IEntpwfCrudService"
+		interface="iih.bd.fc.entpwf.i.IEntpwfCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 就诊流程定义 自定义服务 -->
+	<bean id="IEntpwfExtService"
+		class="iih.bd.fc.entpwf.s.IEntpwfExtServiceImpl" />
+	<xap:service ref="IEntpwfExtService"
+		interface="iih.bd.fc.entpwf.i.IEntpwfExtService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IEntpwfmrCrudService"
+		class="iih.bd.fc.entpwfmr.s.EntpwfmrCrudServiceImpl" />
+
+	<bean id="IMdwfmpCrudService"
+		class="iih.bd.fc.mdwfmp.s.MdwfmpCrudServiceImpl" />
+	<!-- 医嘱流向开立参数 -->
+	<bean id="IMdwforCrudService"
+		class="iih.bd.fc.mdwfor.s.MdwforCrudServiceImpl" />
+	<xap:service ref="IMdwforCrudService"
+		interface="iih.bd.fc.mdwfor.i.IMdwforCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IMdwfsrvtpCudService"
+		class="iih.bd.fc.mdwfsrvtp.s.MdwfsrvtpCrudServiceImpl" />
+	<bean id="IMdwforQryRService"
+		class="iih.bd.fc.mdwfor.s.MdwforQryRServiceImpl" />
+
+	<!-- 就诊状况 -->
+	<bean id="IEnstateCudService"
+		class="iih.bd.fc.enstate.s.EnstateCrudServiceImpl" />
+	<xap:service ref="IEnstateCudService"
+		interface="iih.bd.fc.enstate.i.IEnstateCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 科室就诊状况 -->
+	<bean id="IEnstatedepCudService"
+		class="iih.bd.fc.enstate.s.EnstatedepCrudServiceImpl" />
+	<xap:service ref="IEnstatedepCudService"
+		interface="iih.bd.fc.enstate.i.IEnstatedepCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 就诊状况类型扩展 -->
+	<bean id="IBdenstatetpextCudService"
+		class="iih.bd.fc.enstatetpext.s.BdenstatetpextCrudServiceImpl" />
+	<xap:service ref="IBdenstatetpextCudService"
+		interface="iih.bd.fc.enstatetpext.i.IBdenstatetpextCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 队列工作台 -->
+	<bean id="IQuebenCudService"
+		class="iih.bd.fc.queben.s.QuebenCrudServiceImpl" />
+	<!-- 队列 -->
+	<bean id="IQueCrudService"
+		class="iih.bd.fc.que.s.QueCrudServiceImpl" />
+	<bean id="IQueGenService"
+		class="iih.bd.fc.que.s.QueGenServiceImpl" />
+	<xap:service ref="IQueGenService"
+		interface="iih.bd.fc.que.i.IQueGenService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IQueQryService"
+		class="iih.bd.fc.que.s.QueQryServiceImpl" />
+
+	<!-- 队列规则 -->
+	<bean id="IQueruleCudService"
+		class="iih.bd.fc.querule.s.QueruleCrudServiceImpl" />
+	<xap:service ref="IQueruleCudService"
+		interface="iih.bd.fc.querule.i.IQueruleCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IQueruleMDOCudService"
+		class="iih.bd.fc.querule.s.QueruleMDOCrudServiceImpl" />
+	<bean id="IQueRuleItmDOCudService"
+		class="iih.bd.fc.querule.s.QueRuleItmDOCrudServiceImpl" />
+	<bean id="IRuleQryService"
+		class="iih.bd.fc.querule.s.RuleQryServiceImpl"></bean>
+	<bean id="IRuleExecService"
+		class="iih.bd.fc.querule.s.RuleExecServiceImpl"></bean>
+	<!-- 队列工作点 -->
+	<bean id="IQuesiteCudService"
+		class="iih.bd.fc.quesite.s.QuesiteCrudServiceImpl" />
+	<!-- 队列工作点扩展 -->
+	<bean id="IQueSiteQryService"
+		class="iih.bd.fc.quesite.s.QueSiteQryServiceImpl" />
+	<bean id="IQueSiteExtService"
+		class="iih.bd.fc.quesite.s.QueSiteExtServiceImpl" />
+	<xap:service ref="IQueSiteExtService"
+		interface="iih.bd.fc.quesite.i.IQueSiteExtService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+
+
+	<!-- 医嘱执行计划闭环状态 -->
+	<bean id="IOrpltpCudService"
+		class="iih.bd.fc.orpltp.s.OrpltpCrudServiceImpl" />
+	<xap:service ref="IOrpltpCudService"
+		interface="iih.bd.fc.orpltp.i.IOrpltpCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IOrpltpMDOCudService"
+		class="iih.bd.fc.orpltp.s.OrpltpMDOCrudServiceImpl" />
+	<xap:service ref="IOrpltpMDOCudService"
+		interface="iih.bd.fc.orpltp.i.IOrpltpMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IOrpltpStaDOCudService"
+		class="iih.bd.fc.orpltp.s.OrpltpStaDOCrudServiceImpl" />
+	<xap:service ref="IOrpltpStaDOCudService"
+		interface="iih.bd.fc.orpltp.i.IOrpltpStaDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 医嘱执行计划闭环状态 -->
+	<bean id="IOrpltpmtparaCrudService"
+		class="iih.bd.fc.orpltpmtpara.s.OrpltpmtparaCrudServiceImpl" />
+
+	<!-- 自定义服务 MaintainService -->
+	<bean id="IBdFcMaintainService"
+		class="iih.bd.fc.s.BdFcMaintainServiceImpl"></bean>
+	<xap:service ref="IBdFcMaintainService"
+		interface="iih.bd.fc.i.IBdFcMaintainService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+
+	<!-- 自定义服务 QryService -->
+	<bean id="iBdFcQryServiceImpl"
+		class="iih.bd.fc.s.BdFcQryServiceImpl"></bean>
+	<!-- 组件AggDO数据CRUD服务实现 -->
+	<bean id="iEntpwfCrudServiceImpl"
+		class="iih.bd.fc.entpwf.s.EntpwfCrudServiceImpl"></bean>
+	<bean id="iMdWfDOCrudServiceImpl"
+		class="iih.bd.fc.mdwfconfig.s.MdWfDOCrudServiceImpl"></bean>
+
+	<!-- 医嘱执行闭环参数配置 -->
+	<bean id="IOrderLoopTypeExtService"
+		class="iih.bd.fc.orderlooptype.s.IOrderLoopTypeExtServiceImpl"></bean>
+	<bean id="IOrpltpmtparaCudService"
+		class="iih.bd.fc.orpltpmtpara.s.OrpltpmtparaCrudServiceImpl"></bean>
+	<xap:service ref="IOrpltpmtparaCudService"
+		interface="iih.bd.fc.orpltpmtpara.i.IOrpltpmtparaCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 接口，获取医嘱执行闭环状态 -->
+	<bean id="IOrpltpmtParaService"
+		class="iih.bd.fc.s.IOrpltpmtParaServiceImpl"></bean>
+
+
+	<!-- 医嘱执行闭环顺序维护 -->
+	<bean id="IOrderLoopSeqnoService"
+		class="iih.bd.fc.orderloopseqno.s.IOrderLoopSeqnoServiceImpl"></bean>
+
+	<!-- 医嘱闭环匹配 -->
+	<bean id="iih.bd.fc.orpltpmatch.i.IOrpltpMatchAttrDORService"
+		class="iih.bd.fc.orpltpmatch.s.OrpltpMatchAttrDOCrudServiceImpl" />
+	<xap:service
+		ref="iih.bd.fc.orpltpmatch.i.IOrpltpMatchAttrDOCudService"
+		interface="iih.bd.fc.orpltpmatch.i.IOrpltpMatchAttrDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="iih.bd.fc.orpltpmatch.i.IOrpltpmatchMDORService"
+		class="iih.bd.fc.orpltpmatch.s.OrpltpmatchMDOCrudServiceImpl" />
+	<xap:service
+		ref="iih.bd.fc.orpltpmatch.i.IOrpltpmatchMDOCudService"
+		interface="iih.bd.fc.orpltpmatch.i.IOrpltpmatchMDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="iih.bd.fc.orpltpmatch.i.IOrpltpmatchRService"
+		class="iih.bd.fc.orpltpmatch.s.OrpltpmatchCrudServiceImpl" />
+	<xap:service
+		ref="iih.bd.fc.orpltpmatch.i.IOrpltpmatchCudService"
+		interface="iih.bd.fc.orpltpmatch.i.IOrpltpmatchCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+
+	<!-- 医嘱执行闭环状态标记 -->
+	<bean id="IOrderexesigndictService"
+		class="iih.bd.fc.orderexesigndict.s.IOrderexesigndictServiceImpl"></bean>
+	<xap:service ref="IOrderexesigndictService"
+		interface="iih.bd.fc.orderexesigndict.i.IOrderexesigndictService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 获取个性化医嘱流向树列表 -->
+	<bean id="IMdwfcfgTreeService"
+		class="iih.bd.fc.mdwfcfg.s.IMdwfcfgTreeServiceImpl"></bean>
+	<!-- 医嘱流向 -->
+	<bean id="IMdwfconfigCrudService"
+		class="iih.bd.fc.mdwfconfig.s.MdwfconfigCrudServiceImpl" />
+	<xap:service ref="IMdwfconfigCrudService"
+		interface="iih.bd.fc.mdwfconfig.i.IMdwfconfigCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 医嘱流向 DO -->
+	<bean id="IMdwfconfigMDOCrudService"
+		class="iih.bd.fc.mdwfconfig.s.MdwfconfigMDOCrudServiceImpl" />
+	<xap:service ref="IMdwfconfigMDOCrudService"
+		interface="iih.bd.fc.mdwfconfig.i.IMdwfconfigMDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 医嘱流向分类Do -->
+	<bean id="IMdWfDOCrudService"
+		class="iih.bd.fc.mdwfconfig.s.MdWfDOCrudServiceImpl" />
+	<xap:service ref="IMdWfDOCrudService"
+		interface="iih.bd.fc.mdwfconfig.i.IMdWfDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 仪表板使用范围 -->
+	<bean id="IMatchscopeCudService"
+		class="iih.bd.fc.portallet.s.MatchscopeCrudServiceImpl" />
+	<xap:service ref="IMatchscopeCudService"
+		interface="iih.bd.fc.portallet.i.IMatchscopeCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 医嘱流向Agg -->
+	<bean id="IWfCudService" class="iih.bd.fc.wf.s.WfCrudServiceImpl" />
+	<xap:service ref="IWfCudService"
+		interface="iih.bd.fc.wf.i.IWfCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 医嘱流向主实体 -->
+	<bean id="IWfMDOCudService"
+		class="iih.bd.fc.wf.s.WfMDOCrudServiceImpl" />
+	<xap:service ref="IWfMDOCudService"
+		interface="iih.bd.fc.wf.i.IWfMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 医嘱流向_服务类型 -->
+	<bean id="IWfSrvtpDOCudService"
+		class="iih.bd.fc.wf.s.WfSrvtpDOCrudServiceImpl" />
+	<xap:service ref="IWfSrvtpDOCudService"
+		interface="iih.bd.fc.wf.i.IWfSrvtpDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 医嘱流向_流向科室 -->
+	<bean id="IWfDepDOCudService"
+		class="iih.bd.fc.wf.s.WfDepDOCrudServiceImpl" />
+	<xap:service ref="IWfDepDOCudService"
+		interface="iih.bd.fc.wf.i.IWfDepDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 医嘱流向_扩展服务 -->
+	<bean id="IWfExtService" class="iih.bd.fc.wf.s.IWfExtServiceImpl" />
+	<xap:service ref="IWfExtService"
+		interface="iih.bd.fc.wf.i.IWfExtService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 医嘱闭环功能对照 -->
+	<bean id="IOrpltpstafuncCudService"
+		class="iih.bd.fc.orpltpstafunc.s.OrpltpstafuncCrudServiceImpl" />
+	<xap:service ref="IOrpltpstafuncCudService"
+		interface="iih.bd.fc.orpltpstafunc.i.IOrpltpstafuncCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 医嘱闭环状态第三方厂商对照 -->
+	<bean id="OrpltpstamspCrudService"
+		class="iih.bd.fc.orpltpstamsp.s.OrpltpstamspCrudServiceImpl" />
+	<xap:service ref="OrpltpstamspCrudService"
+		interface="iih.bd.fc.orpltpstamsp.s.OrpltpstamspCrudServiceImpl"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 队列工作点_扩展服务 -->
+	<xap:service ref="IQuesiteService"
+		interface="iih.bd.fc.quesite.i.IQuesiteService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="IQuesiteService"
+		class="iih.bd.fc.quesite.s.QueSiteServiceImpl">
+	</bean>
+	<!-- 队列_扩展服务 -->
+	<xap:service ref="IQuePharmacyService"
+		interface="iih.bd.fc.que.i.IQuePharmacyService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="IQuePharmacyService"
+		class="iih.bd.fc.que.s.QuePharmacyServiceImpl">
+	</bean>
+
+	<!-- 检伤分类基础服务 -->
+	<xap:service ref="TriagecaCrudService"
+		interface="iih.bd.fc.triageca.i.ITriagecaCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="TriagecaCrudService"
+		class="iih.bd.fc.triageca.s.TriagecaCrudServiceImpl">
+	</bean>
+	<xap:service ref="TriagecaCrudService"
+		interface="iih.bd.fc.triageca.i.ITriagecaRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 检伤主诉基础服务 -->
+	<xap:service ref="TriagecmptCrudService"
+		interface="iih.bd.fc.triagecmpt.i.ITriagecmptCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="TriagecmptCrudService"
+		class="iih.bd.fc.triagecmpt.s.TriagecmptCrudServiceImpl">
+	</bean>
+	<xap:service ref="TriagecmptCrudService"
+		interface="iih.bd.fc.triagecmpt.i.ITriagecmptRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 检伤主诉扩展服务 -->
+	<xap:service ref="TriageCmptExtCrudService"
+		interface="iih.bd.fc.triagecmpt.i.ITriageCmptExtCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="TriageCmptExtCrudService"
+		class="iih.bd.fc.triagecmpt.s.TriageCmptExtCrudServiceImpl">
+	</bean>
+	<xap:service ref="TriageCmptExtCrudService"
+		interface="iih.bd.fc.triagecmpt.i.ITriageCmptExtRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 检伤判定基础服务 -->
+	<xap:service ref="TriageresCrudService"
+		interface="iih.bd.fc.triageres.i.ITriageresCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="TriageresCrudService"
+		class="iih.bd.fc.triageres.s.TriageresCrudServiceImpl">
+	</bean>
+	<xap:service ref="TriageresCrudService"
+		interface="iih.bd.fc.triageres.i.ITriageresRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 站点变更记录基础服务 -->
+	<xap:service ref="SitechangerecCrudService"
+		interface="iih.bd.fc.sitechangerec.i.ISitechangerecCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="SitechangerecCrudService"
+		class="iih.bd.fc.sitechangerec.s.SitechangerecCrudServiceImpl" />
+	<xap:service ref="SitechangerecCrudService"
+		interface="iih.bd.fc.sitechangerec.i.ISitechangerecRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 流程配置_医嘱流向_整体控制基础服务 -->
+	<xap:service ref="BdwfdepctrCrudService"
+		interface="iih.bd.fc.bdwfdepctr.i.IBdwfdepctrCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="BdwfdepctrCrudService"
+		class="iih.bd.fc.bdwfdepctr.s.BdwfdepctrCrudServiceImpl" />
+	<xap:service ref="BdwfdepctrCrudService"
+		interface="iih.bd.fc.bdwfdepctr.i.IBdwfdepctrRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 流程配置_医嘱流向_流向配置（新）agg服务 -->
+	<bean id="iih.bd.fc.orwf.i.IOrwfCudService" class="iih.bd.fc.orwf.s.OrwfCrudServiceImpl"/>
+	<xap:service ref="iih.bd.fc.orwf.i.IOrwfCudService" interface="iih.bd.fc.orwf.i.IOrwfCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 流程配置_医嘱流向_流向配置（新）主服务 -->
+	<bean id="iih.bd.fc.orwf.i.IOrwfMDOCudService" class="iih.bd.fc.orwf.s.OrwfMDOCrudServiceImpl"/>
+	<xap:service ref="iih.bd.fc.orwf.i.IOrwfMDOCudService" interface="iih.bd.fc.orwf.i.IOrwfMDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 流程配置_医嘱流向_流向配置（新）子服务 -->
+	<bean id="iih.bd.fc.orwf.i.IWfCfgAttrDOCudService" class="iih.bd.fc.orwf.s.WfCfgAttrDOCrudServiceImpl"/>
+	<xap:service ref="iih.bd.fc.orwf.i.IWfCfgAttrDOCudService" interface="iih.bd.fc.orwf.i.IWfCfgAttrDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 标签 -->
+	<xap:service ref="TagtpCrudService"
+		interface="iih.bd.fc.tagtp.i.ITagtpCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="TagtpCrudService"
+		class="iih.bd.fc.tagtp.s.TagtpCrudServiceImpl">
+	</bean>
+	<xap:service ref="TagtpCrudService"
+		interface="iih.bd.fc.tagtp.i.ITagtpRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 日志服务 -->
+	<bean id="BdFcLogService" class="iih.bd.fc.log.BdFcLogServiceImpl">
+	</bean>
+	<xap:service ref="BdFcLogService"
+		interface="iih.bd.log.IBdFcLogService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 住院特定类型基础服务 -->
+	<xap:service ref="IpspectpCrudService"
+		interface="iih.bd.fc.ipspectp.i.IIpspectpCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IpspectpCrudService"
+		class="iih.bd.fc.ipspectp.s.IpspectpCrudServiceImpl">
+	</bean>
+	<xap:service ref="IpspectpCrudService"
+		interface="iih.bd.fc.ipspectp.i.IIpspectpRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+</beans>

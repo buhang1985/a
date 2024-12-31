@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<ent> 
+  <!-- 所属集团-->
+ 		<code_grp>001</code_grp>
+ 		<!-- 所属组织-->
+ 		<code_org></code_org>
+ 		<!-- 患者-->
+ 		<code_pat>100039779200</code_pat>
+ 		<!-- 就诊次数-->
+ 		<times_en></times_en>
+ 		<!-- 就诊-->
+ 		<code_en>1900008353</code_en>
+ 		<!-- 就诊类型编码-->
+ 		<code_entp>00</code_entp>
+ 		<!-- 当前就诊科室-->
+ 		<code_dep_phy>100101</code_dep_phy>
+ 		<!-- 当前主管医生-->
+ 		<code_emp_phy></code_emp_phy>
+ 		<!-- 当前责任护士-->
+ 		<code_emp_nur></code_emp_nur>
+ 		<!-- 当前所在病区-->
+ 		<code_dep_nur></code_dep_nur>
+ 		<!-- 床位号-->
+ 		<code_bed></code_bed>
+ 		<!-- VIP标识-->
+ 		<fg_vip></fg_vip>
+ 		<!-- 高端商保标识-->
+ 		<fg_hecominsur>Y</fg_hecominsur>
+ 	 <order> 
+	<!--医嘱序号 -->
+	<sortno_or>1212</sortno_or>
+	<!--医嘱编码 -->
+	<code_or>12321212</code_or>
+	<!--医嘱项目编码 -->
+	<code_srv_or>0501</code_srv_or>
+	<!--医嘱项目名称 -->
+	<name_srv_or>asdsad</name_srv_or>
+	<!--医嘱频次 -->
+	<code_freq_or>QD</code_freq_or>
+	<!--医嘱用法 -->
+	<code_route>001</code_route>
+	<!--医嘱天数 -->
+	<days_or>1</days_or>
+	<!--加急标识 -->
+	<fg_urgent>Y</fg_urgent>
+	<!--嘱托 -->
+	<des_or>44442</des_or>
+	<!--开立机构 -->
+	<code_org_or>600903</code_org_or>
+	<!--开立部门 -->
+	<code_dep_or>103901</code_dep_or>
+	<!--开立医疗组 -->
+	<code_wg_or></code_wg_or>
+	<!--开立医生 -->
+	<code_emp_or>00062</code_emp_or>
+	<!--开立日期 -->
+	<dt_entry_or>2018-09-16 18:09:27</dt_entry_or>
+	<!--医嘱单次数量 -->
+	<quan_medu_or>1</quan_medu_or>
+	<!--医嘱次数 -->
+	<times_cur_or>2</times_cur_or>
+	<!--医嘱总量 -->
+	<quan_cur_or>2</quan_cur_or>
+	<!--单位支付标志 -->
+	<fg_pay_unit>Y</fg_pay_unit>
+	<!--医嘱执行机构 -->
+	<code_org_mp_or>600903</code_org_mp_or>
+	<!--医嘱执行科室 -->
+	<code_dep_mp_or>300201</code_dep_mp_or>
+	  <srv>
+	<!--费用项目编码 -->
+	<code_srv>0501</code_srv>
+	<!--费用项目名称 -->
+	<name_srv>大换药</name_srv>
+	<!--费用项目频次 -->
+	<code_freq_srv>QD</code_freq_srv>
+	<!--费用项目单次数量 -->
+	<quan_medu_srv>1</quan_medu_srv>
+	<!--费用项目总量 -->
+	<quan_cur_srv>2</quan_cur_srv>
+	<!--医保目录类型 -->
+	<sd_hpsrvtp>2</sd_hpsrvtp>
+	<!--自费标识 -->
+	<fg_selfpay>Y</fg_selfpay>
+	<!--特种病标识 -->
+	<fg_specill>Y</fg_specill>
+	<!--不计费类型 -->
+	<sd_nodispense></sd_nodispense>
+	<!--单价 -->
+	<pri>11</pri>
+	<!--标准价 -->
+	<pri_std>12</pri_std>
+	<!--价格系数 -->
+	<pri_ratio>111</pri_ratio>
+	<!--科研标识 -->
+	<fg_research>Y</fg_research>
+	<!--科研项目编码 -->
+	<code_researchproject>123</code_researchproject>
+	<!--费用执行机构 -->
+	<code_org_mp_srv>600903</code_org_mp_srv>
+	<!--费用执行科室 -->
+	<code_dep_mp_srv>300201</code_dep_mp_srv>
+	  </srv>
+	 </order> 
+	</ent> 
+</root>

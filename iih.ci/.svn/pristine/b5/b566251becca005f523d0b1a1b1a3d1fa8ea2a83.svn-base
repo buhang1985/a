@@ -1,0 +1,142 @@
+package iih.ci.mi.external.obtain.mi.bp;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import iih.ci.diag.i.ICidiagQryService;
+import iih.ci.mi.diag.i.meta.CiMiDiagDTO;
+import iih.ci.mi.ord.i.meta.OrdSpecillParamDTO;
+import iih.ci.mi.ord.i.meta.OrdSpecillRstDTO;
+import iih.ci.mi.ord.i.meta.OrdSrvSpecillParamDTO;
+import iih.ci.mi.sysparam.CiMiParamUtil;
+import iih.ci.ord.ems.d.CiEnContextDTO;
+import iih.mi.mc.dto.mimcspecdrug.d.MiMcSpecDrugInDTO;
+import iih.mi.mc.dto.mimcspecdrug.d.MiMcSpecDrugOutDTO;
+import iih.mi.mc.i.IMiMcRuleService;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.FArrayList;
+import xap.mw.core.data.FMap;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sie.common.utils.StringUtils;
+
+/**
+ * 患者特殊b病药品判断
+ * @author HUMS
+ *
+ */
+public class GetPatSpecillDrugCheckBP extends BasicMiVerifyBP{
+
+	private ICidiagQryService diagService;
+	private IMiMcRuleService miMcRuleService;
+
+	public GetPatSpecillDrugCheckBP() {
+		miMcRuleService = ServiceFinder.find(IMiMcRuleService.class);
+		diagService = ServiceFinder.find(ICidiagQryService.class);
+	}
+	
+	@Override
+	public boolean isEnabledVerify(CiEnContextDTO ctx) throws BizException {
+		
+		return false;
+	}
+	
+	/**
+	 * 获取特殊病判断结果
+	 * @param ctx
+	 * @param orderParam
+	 * @return
+	 * @throws BizException 
+	 */
+	public List<OrdSpecillRstDTO> checkPatSpecillDrug(CiEnContextDTO ctx, List<OrdSpecillParamDTO> orderParamList) throws BizException{
+		
+		 MiMcSpecDrugInDTO specDrugParam = new MiMcSpecDrugInDTO(); 
+		 
+		 List<String> idDidefList = this.getDiagIdDefs(ctx.getId_en());
+		 
+		 // 是否存在特殊病诊断，非药品当存在特殊病诊断时，返回特殊病
+		 FBoolean isSpecill = this.isContainsPatSpecillDiag(ctx.getId_hp(), ctx.getId_pat(), idDidefList);
+		 
+		 specDrugParam.setId_ent(ctx.getId_en());
+		 specDrugParam.setId_hp(ctx.getId_hp());
+		 FArrayList idDidefFList = new FArrayList();
+		 idDidefFList.addAll(idDidefList);
+		 specDrugParam.setId_didefs(idDidefFList);
+		 
+		 FMap mmDsdefMap = new FMap();
+		 for(OrdSpecillParamDTO orderParam : orderParamList){
+			 
+			 List<OrdSrvSpecillParamDTO> ordSrvList = orderParam.getOrdSrvSpecillParamList();
+			 
+			 for(OrdSrvSpecillParamDTO ordSrv : ordSrvList){
+				 
+				 if(StringUtils.isNotEmpty(ordSrv.getId_mm())){
+					 mmDsdefMap.put(ordSrv.getId_mm(), ordSrv.getId_dsdef());	 
+				 } 
+			 }
+		 }
+		 
+		 if(mmDsdefMap.size() >0){
+			 specDrugParam.setMmdsdefs(mmDsdefMap);
+			 MiMcSpecDrugOutDTO[] specDrgu = miMcRuleService.isPatSpecDrug(specDrugParam);	 
+		 }		 
+		 
+		 for(OrdSpecillParamDTO ordParam :  orderParamList){
+			 
+			 OrdSpecillRstDTO ordRst = new OrdSpecillRstDTO();
+			 ordRst.setId_pat(ctx.getId_pat());
+			 ordRst.setId_hp(ctx.getId_hp());
+			 ordRst.setSd_hptp(ctx.getSd_hptp());
+			 ordRst.setFg_hpfundpay(ctx.getFg_hpfundpay());
+			 ordRst.setId_en(ctx.getId_en());
+			 ordRst.setCode_entp(ctx.getCode_entp());
+			 
+		 }
+		 
+		return null;
+	}
+	
+	/**
+	 * 获取诊断定义ID
+	 * @param id_en
+	 * @return
+	 * @throws BizException
+	 */
+	protected List<String> getDiagIdDefs(String id_en) throws BizException {
+		
+		List<String> idDidefList = new ArrayList<String>();
+		List<CiMiDiagDTO> diagList = this.getMiDiagLsit(id_en);
+		for (CiMiDiagDTO diag : diagList) {		
+			idDidefList.add(diag.getId_didef());
+		}
+		return idDidefList;
+	}
+	
+	/**
+	 * 特殊病患者是否存在特殊病诊断
+	 * @param id_hp 医保计划id
+	 * @param id_pat 患者id
+	 * @param idDidefList 诊断定义id集合
+	 * @return
+	 * @throws BizException 
+	 */
+	protected FBoolean isContainsPatSpecillDiag(String id_hp, String id_pat ,List<String> idDidefList) throws BizException{
+		
+		if (CiMiParamUtil.MHIR0001() != 1){
+			return FBoolean.FALSE;
+		}
+		
+		FMap map = miMcRuleService.isPatSpecDi(id_hp, id_pat, idDidefList.toArray(new String[idDidefList.size()]));
+		if(map ==null || map.size() ==0){
+			return FBoolean.FALSE;
+		}
+		
+		for(String key : map.keySet()){
+			if(FBoolean.TRUE.equals(map.get(key))){
+				return FBoolean.TRUE;
+			}
+		}
+		
+		return FBoolean.FALSE;
+	}
+}

@@ -1,0 +1,34 @@
+package iih.ei.bl.ecinc.bosssoft.v2.s;
+
+import java.util.List;
+
+import iih.ei.bl.ecinc.bosssoft.v2.s.bp.BossSoftEcIncManageGetActicePIncCodeBP;
+import iih.ei.bl.ecinc.d.EcIncManagePaperIncCodeInDTO;
+import iih.ei.bl.ecinc.d.EcIncManagePaperIncCodeOutDTO;
+import iih.ei.bl.ecinc.d.EcIncResultDTO;
+import iih.ei.bl.ecinc.s.EcIncManageBaseServiceImpl;
+import xap.mw.core.data.BizException;
+
+/**
+ * 博思电子发票票据管理处理
+ * @author ly 2019/12/03
+ *
+ */
+public class BossSoftEcIncManageServiceImpl extends EcIncManageBaseServiceImpl{
+
+	private static BossSoftEcIncManageServiceImpl instance;
+	
+	static{
+		instance = new BossSoftEcIncManageServiceImpl();
+	}
+	
+	public static BossSoftEcIncManageServiceImpl getInstance(){
+		return instance;
+	}
+	
+	@Override
+	public EcIncResultDTO<List<EcIncManagePaperIncCodeOutDTO>> getPaperActiveIncCode(EcIncManagePaperIncCodeInDTO dto) throws BizException {
+		BossSoftEcIncManageGetActicePIncCodeBP bp = new BossSoftEcIncManageGetActicePIncCodeBP();
+		return bp.exec(dto);
+	}
+}

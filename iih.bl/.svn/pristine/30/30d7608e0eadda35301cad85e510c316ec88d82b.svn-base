@@ -1,0 +1,12 @@
+package iih.bl.hp.s.bp;
+
+import xap.sys.jdbc.facade.DAException;
+import xap.sys.jdbc.facade.DAFacade;
+
+public class BlHpDeletePoorBP {
+    public void exec () throws DAException{
+    	String sql =" delete from bl_hp_pat_poor ";
+    	new DAFacade().execUpdate(sql);
+    	return ;
+    }
+}

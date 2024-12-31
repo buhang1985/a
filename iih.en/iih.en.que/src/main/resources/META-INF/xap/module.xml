@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	<!-- 队列服务 -->
+	<bean id="iEnqueueCrudService" class="iih.en.que.enqueue.s.EnqueueCrudServiceImpl"/>
+	<xap:service ref="iEnqueueCrudService" interface="iih.en.que.enqueue.i.IEnqueueCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 就诊队列查询服务  -->
+	<bean id="IEnQueQryService" class="iih.en.que.s.EnQueQryServiceImpl"/>
+	<!-- 就诊队列命令服务  -->
+	<bean id="IEnQueCmdService" class="iih.en.que.s.EnQueCmdServiceImpl"/>
+	<xap:service ref="IEnQueCmdService" interface="iih.en.que.i.IEnQueCmdService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 就诊队列对外查询服务  -->
+	<bean id="IEnQueOutQryService" class="iih.en.que.s.EnQueOutQryServiceImpl"/>
+	<!-- 就诊队列对外命令服务  -->
+	<bean id="IEnQueOutCmdService" class="iih.en.que.s.EnQueOutCmdServiceImpl"/>
+	<xap:service ref="IEnQueOutCmdService" interface="iih.en.que.i.IEnQueOutCmdService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 医技分诊查询 -->
+	<bean id="IMtQryService" class="iih.en.que.s.MtQryServiceImpl"/>
+	<!-- 医技分诊 -->
+	<bean id="IMtTriageService" class="iih.en.que.s.MtTriageServiceImpl"/>
+	<xap:service ref="IMtTriageService" interface="iih.en.que.i.IMtTriageService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 就诊优先级计算 -->
+	<bean id="ICalcPriService" class="iih.en.que.s.CalcPriServiceImpl"/>
+	
+	<bean id="IEnOpQue4DisplayListener" class="iih.en.que.s.listener.EnOpQue4DisplayListener"></bean>
+	
+	<bean id="IEnAllQue4DisplayListener" class="iih.en.que.s.listener.EnAllQue4DisplayListener"></bean>
+	
+	<bean id="IDrugQue4DisplayListener" class="iih.en.que.s.listener.DrugQue4DisplayListener"></bean>
+	
+	<!-- 患者就诊_大屏数据维护服务 -->
+	<bean id="iEnbrddoCrudService" class="iih.en.que.board.s.EnbrddoCrudServiceImpl"/>
+	<xap:service ref="iEnbrddoCrudService" interface="iih.en.que.board.i.IEnbrddoCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="IEnbrddoRService" class="iih.en.que.board.s.EnbrddoCrudServiceImpl"/>
+	
+	<!-- 患者就诊_大屏站点服务 -->
+	<bean id="IEnbrdsitedoCudService" class="iih.en.que.board.s.EnbrdsitedoCrudServiceImpl"/>
+	<xap:service ref="IEnbrdsitedoCudService" interface="iih.en.que.board.i.IEnbrdsitedoCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 患者就诊_大屏叫号服务 -->
+	<bean id="IEbbrdcalldoCudService" class="iih.en.que.board.s.EbbrdcalldoCrudServiceImpl"/>
+	<xap:service ref="IEbbrdcalldoCudService" interface="iih.en.que.board.i.IEbbrdcalldoCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者就诊_大屏叫号对外服务 -->
+    <bean id="IEnBrdExternalService" class="iih.en.que.s.EnBrdExternalServiceImpl"/>   
+    <xap:service ref="IEnBrdExternalService" interface="iih.en.que.i.IEnBrdExternalService"
+		requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+	
+	<!-- 患者就诊_大屏数据维护agg服务 -->
+	<bean id="IEnbrddoCrudService" class="iih.en.que.board.s.EnbrddoCrudServiceImpl"/>
+	<xap:service ref="IEnbrddoCrudService" interface="iih.en.que.board.i.IEnbrddoCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者就诊_大屏界面配置服务 -->
+	<bean id="IEnBrdConfigDOCrudService" class="iih.en.que.board.s.EnBrdConfigDOCrudServiceImpl"/>
+	<xap:service ref="IEnBrdConfigDOCrudService" interface="iih.en.que.board.i.IEnBrdConfigDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者就诊_大屏数据维护服务 -->
+	<bean id="IEnbrddoMDOCrudService" class="iih.en.que.board.s.EnbrddoMDOCrudServiceImpl"/>
+	<xap:service ref="IEnbrddoMDOCrudService" interface="iih.en.que.board.i.IEnbrddoMDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者就诊_队列医生服务 -->
+	<bean id="IEnempqueCudService" class="iih.en.que.empque.s.EnempqueCrudServiceImpl"/>
+	<xap:service ref="IEnempqueCudService" interface="iih.en.que.empque.i.IEnempqueCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+</beans>

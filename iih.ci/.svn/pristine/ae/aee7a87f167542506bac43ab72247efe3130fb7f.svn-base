@@ -1,0 +1,12 @@
+package iih.ci.ord.s.ems.ip.assi.cp.treat;
+
+import iih.ci.ord.s.ems.base.BaseCpSaveBP;
+
+/**
+ * 临床路径 - 治疗保存逻辑
+ * @author wangqingzhu
+ *
+ */
+public class CpTreatSaveBP extends BaseCpSaveBP {
+
+}

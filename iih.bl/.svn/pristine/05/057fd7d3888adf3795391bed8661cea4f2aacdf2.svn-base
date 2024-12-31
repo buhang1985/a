@@ -1,0 +1,28 @@
+package iih.bl.itf.accountinfo.s;
+
+import xap.mw.core.annotation.Service;
+import xap.mw.core.data.BizException;
+import xap.mw.core.service.constant.Binding;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+import iih.bl.itf.accountinfo.bp.AccountInfoQryBP;
+import iih.bl.itf.accountinfo.i.AccountInfomationService;
+import iih.bl.itf.accountinformation.d.AccountInfomationDTO;
+
+@Service(serviceInterfaces={AccountInfomationService.class}, binding=Binding.JSONRPC)
+public class AccountInfomationServiceImpl implements AccountInfomationService {
+
+	@Override
+	public AccountInfomationDTO[] getAccountInfo(String id_pat) throws BizException {
+		AccountInfoQryBP bp = new AccountInfoQryBP();
+		return bp.exec(id_pat);
+	}
+
+	@Override
+	public AccountInfomationDTO[] getAccountInfoqry(QryRootNodeDTO qryNode)
+			throws BizException {
+		AccountInfoQryBP bp = new AccountInfoQryBP();
+		return bp.qry(qryNode);
+		
+	}
+
+}

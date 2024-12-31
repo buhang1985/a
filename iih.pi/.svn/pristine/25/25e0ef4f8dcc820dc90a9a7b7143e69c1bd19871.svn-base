@@ -1,0 +1,172 @@
+package iih.pi.card.s.bp.cardrtnrpt;
+
+import iih.bd.bc.udi.pub.IPiDictCodeConst;
+import iih.pi.card.act.d.PiCardActDO;
+import iih.pi.card.act.i.IActCudService;
+import iih.pi.card.card.d.CardSuEnum;
+import iih.pi.card.card.d.PiCardDO;
+import iih.pi.card.card.i.ICardCudService;
+import iih.pi.card.card.i.ICardRService;
+import iih.pi.card.dto.d.CardrtnrptDTO;
+import iih.pi.reg.pat.d.PiPatCardDO;
+import iih.pi.reg.pat.i.IPiPatCardDOCudService;
+import iih.pi.reg.pat.i.IPiPatCardDORService;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.Context;
+import xap.mw.core.data.DOStatus;
+import xap.mw.core.utils.StringUtil;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.coreitf.d.FDateTime;
+import xap.mw.sf.core.util.ServiceFinder;
+
+/**
+ * 卡挂失处理
+ * 
+ * @author 未知
+ * @version ly 2019/03/27 重构
+ *
+ */
+public class CardLossBp {
+
+	/**
+	 * 卡挂失
+	 * 
+	 * @param dto
+	 * @throws BizException
+	 */
+	public PiPatCardDO exec(CardrtnrptDTO dto) throws BizException {
+
+		this.validate(dto);
+
+		// 更新卡库卡状态
+		this.updateCard(dto);
+
+		// 插入卡操作记录
+		this.saveCardActData(dto);
+
+		// 更新就诊卡状态
+		PiPatCardDO patCardDO = this.updatePiPatCard(dto);
+		
+		//设置默认标识
+		setFgDef(dto);
+
+		return patCardDO;
+	}
+
+	/**
+	 * 校验
+	 * 
+	 * @param dto
+	 * @throws BizException
+	 */
+	private void validate(CardrtnrptDTO dto) throws BizException {
+
+		if (dto == null) {
+			throw new BizException("卡挂失:入参数据为空");
+		}
+
+		if (StringUtil.isEmpty(dto.getId_patcard())) {
+			throw new BizException("卡挂失:入参患者卡id为空");
+		}
+	}
+
+	/**
+	 * 保存卡操作记录
+	 * 
+	 * @param dto
+	 * @throws BizException
+	 */
+	private void saveCardActData(CardrtnrptDTO dto) throws BizException {
+
+		PiCardActDO actDo = new PiCardActDO();
+		actDo.setStatus(DOStatus.NEW);
+		actDo.setId_cardacttp(IPiDictCodeConst.ID_CARDACTTP_LOSE);
+		actDo.setSd_cardacttp(IPiDictCodeConst.SD_CARDACTTP_LOSE);
+		actDo.setId_emp_act(Context.get().getStuffId());
+		actDo.setDt_act(new FDateTime());
+		actDo.setId_cardiss(null);
+		actDo.setId_patcard(dto.getId_patcard());
+		actDo.setId_pat(dto.getId_pat());
+		actDo.setId_card(dto.getId_card());
+		actDo.setDes_act("挂失");
+		IActCudService actservice = ServiceFinder.find(IActCudService.class);
+		actservice.insert(new PiCardActDO[] { actDo });
+	}
+
+	/**
+	 * 更新卡库卡状态
+	 * 
+	 * @param dto
+	 * @throws BizException
+	 */
+	private void updateCard(CardrtnrptDTO dto) throws BizException {
+
+		ICardRService cardFservice = ServiceFinder.find(ICardRService.class);
+		ICardCudService cardservice = ServiceFinder.find(ICardCudService.class);
+
+		if (StringUtil.isEmpty(dto.getId_card()))
+			return;
+
+		PiCardDO cardDo = cardFservice.findById(dto.getId_card());
+		if (cardDo == null)
+			return;
+
+		cardDo.setStatus(DOStatus.UPDATED);
+		cardDo.setEu_cardsu(CardSuEnum.LOSE);
+		cardDo.setFg_canc(FBoolean.TRUE);
+		cardDo.setId_emp_canc(Context.get().getStuffId());
+		cardDo.setDt_canc(new FDateTime());
+		cardDo.setDes_canc("挂失");
+
+		cardservice.save(new PiCardDO[] { cardDo });
+	}
+
+	/**
+	 * 更新患者就诊卡状态
+	 * 
+	 * @param dto
+	 * @throws BizException
+	 */
+	private PiPatCardDO updatePiPatCard(CardrtnrptDTO dto) throws BizException {
+
+		IPiPatCardDORService piCardRService = ServiceFinder.find(IPiPatCardDORService.class);
+		IPiPatCardDOCudService piCardCudService = ServiceFinder.find(IPiPatCardDOCudService.class);
+
+		PiPatCardDO piCardDo = piCardRService.findById(dto.getId_patcard());
+		piCardDo.setFg_def(FBoolean.FALSE);
+		piCardDo.setFg_act(FBoolean.FALSE);
+		piCardDo.setFg_picardloss(FBoolean.TRUE);
+		piCardDo.setStatus(DOStatus.UPDATED);
+
+		return piCardCudService.update(new PiPatCardDO[] { piCardDo })[0];
+	}
+	
+	/**
+	 * 设置是否默认
+	 * @param dto
+	 * @throws BizException
+	 */
+	private void setFgDef(CardrtnrptDTO dto) throws BizException {
+		if (FBoolean.TRUE.equals(dto.getFg_def())) {
+			IPiPatCardDORService piCardRService = ServiceFinder.find(IPiPatCardDORService.class);
+			IPiPatCardDOCudService piCardCudService = ServiceFinder.find(IPiPatCardDOCudService.class);
+
+			PiPatCardDO[] piCardDos = piCardRService.findByAttrValString(PiPatCardDO.ID_PAT, dto.getId_pat());
+			PiPatCardDO temp = null;
+			for (PiPatCardDO piCardDo : piCardDos) {
+				if (piCardDo.getId_patcard().equals(dto.getId_patcard()))
+					continue;
+				if (!FBoolean.TRUE.equals(piCardDo.getFg_act()))
+					continue;
+				temp = piCardDo;
+				break;
+			}
+			if (temp != null) {
+				temp.setStatus(DOStatus.UPDATED);
+				temp.setFg_def(FBoolean.TRUE);
+				piCardCudService.save(new PiPatCardDO[] { temp });
+			}
+
+		}
+	}
+}

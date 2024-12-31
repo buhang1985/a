@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />	
+	
+	<!-- 住院记账CRUD服务 -->
+	<bean id="IBlcgqueryCrudService" class="iih.bl.cg.blcgquery.s.BlcgqueryCrudServiceImpl"></bean>
+	 <xap:service ref="IBlcgqueryCrudService" interface="iih.bl.cg.blcgquery.i.IBlcgqueryCudService" 
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	
+	<!--记帐额外服务-->
+    <bean id="IBlcgqueryService" class="iih.bl.cg.service.BlcgqueryServiceImpl"></bean>
+    
+    
+	<bean id="IBlcgoepCudService" class="iih.bl.cg.blcgoep.s.BlcgoepCrudServiceImpl"></bean>
+	<bean id="IBlcgoepMDOCudService" class="iih.bl.cg.blcgoep.s.BlcgoepMDOCrudServiceImpl"></bean>
+	<bean id="IBlCgItmOepDORService" class="iih.bl.cg.blcgoep.s.BlCgItmOepDOCrudServiceImpl"></bean>
+	<bean id="IRefundinfoCudService" class="iih.bl.cg.extritf.s.RefundinfoCrudServiceImpl"></bean>	
+	
+	 <bean id="IBlcgopHeadDtoService" class="iih.bl.cg.blcgopheaddto.s.BlcgopHeadDtoImpl"></bean>
+	 <!-- 住院重划价接口 -->
+	  <bean id="IBlrecgipCudService" class="iih.bl.cg.blrecgip.s.BlrecgipCrudServiceImpl"></bean>
+	 <!-- 门诊重划价接口 -->
+	  <bean id="IBlrecgoepCudService" class="iih.bl.cg.blrecgoep.s.BlrecgoepCrudServiceImpl"></bean>
+	
+	  <!-- 退费项目明细-->
+	  <bean id="IBlwardrefunddetailedCudService" class="iih.bl.cg.blwardrefund.s.BlwardrefunddetailedCrudServiceImpl"></bean>
+	   <!-- 退费申请-->
+	  <bean id="IBlredapplyCudService" class="iih.bl.cg.blredapply.s.BlredapplyCrudServiceImpl"></bean>
+	   <!-- 退费撤销 -->
+	  <bean id="IBlrefundapplycancCudService" class="iih.bl.cg.blrefundapplycanc.s.BlrefundapplycancCrudServiceImpl"></bean>
+	   <!-- 退费审核-->
+	  <bean id="IBlrefundauditCudService" class="iih.bl.cg.blrefundaudit.s.BlrefundauditCrudServiceImpl"></bean>
+	  
+	<!-- 门诊住院补费接口 -->
+	<bean id="IBLOrderAppendBillService" class="iih.bl.cg.service.s.IBLOrderAppendBillServiceImpl"></bean>
+	<xap:service ref="IBLOrderAppendBillService" interface="iih.bl.cg.service.i.IBLOrderAppendBillService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 费用结算接口 -->
+	<bean id="IBLCiOrderToBlCgService" class="iih.bl.cg.service.s.IBLCiOrderToBlCgServiceImpl"></bean>
+	<xap:service ref="IBLCiOrderToBlCgService" interface="iih.bl.cg.service.i.IBLCiOrderToBlCgService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 门诊收费专用接口 -->
+	<bean id="IOepSettlementService" class="iih.bl.cg.oep.s.OepSettlementImpl"></bean>
+	<xap:service ref="IOepSettlementService" interface="iih.bl.cg.oep.i.IOepSettlementService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 住院第三方接口计费 -->
+	<bean id="IIpExternChargeService" class="iih.bl.cg.ip.api.s.IpExternChargeServiceImpl"></bean>
+	<xap:service ref="IIpExternChargeService" interface="iih.bl.cg.ip.api.i.IIpExternChargeService" requires="tx">
+		<xap:binding name="jsonrpc"/>
+</xap:service>
+	
+<!-- 门诊lis合管接口 -->
+	<bean id="ILisBlendSamplerExtCallService" class="iih.bl.cg.oep.api.s.LisBlendSamplerExtCallServiceImpl"></bean>
+	<xap:service ref="ILisBlendSamplerExtCallService" interface="iih.bl.cg.oep.api.i.ILisBlendSamplerExtCallService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 费用结算接口:后台接口 -->
+	<bean id="IBLPricingAndSettlementBackGroundService" class="iih.bl.cg.service.s.IBLPricingAndSettlementBackGroundServiceImpl"></bean>
+	<xap:service ref="IBLPricingAndSettlementBackGroundService" interface="iih.bl.cg.service.i.IBLPricingAndSettlementBackGroundService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 住院记账信息查询接口 -->
+	<bean id="IIpChargeInfoQryService" class="iih.bl.cg.ip.s.IpChargeInfoQryServiceImpl"></bean>
+	
+	   <!-- 费用记账接口 -->
+    <bean id="IExecuChargeService" class="iih.bl.cg.ip.s.ExecuChargeServiceImpl"></bean>
+    <xap:service ref="IExecuChargeService" interface="iih.bl.cg.ip.i.IExecuChargeService" requires="tx">
+        <xap:binding name="jsonrpc" />
+    </xap:service>
+    
+    <!-- 用法关联费用对照 -->
+    <bean id="IUsageWithBillService" class="iih.bl.cg.ip.s.UsageWithBillServiceImpl"></bean>
+    
+	<!-- 退费结算日志接口 -->
+	<bean id="IBLCancelSettlementService" class="iih.bl.cg.service.s.IBLCancelSettlementImpl"></bean>
+	<xap:service ref="IBLCancelSettlementService" interface="iih.bl.cg.service.i.IBLCancelSettlement" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 固定费用事件接口 -->
+	<bean id="IBldceventCudService" class="iih.bl.cg.bldcevent.s.BldceventCrudServiceImpl"></bean>
+	
+	<!-- 住院重划价接口 -->
+	<!-- <bean id="IBLCgIpRePricingService" class="iih.bl.cg.service.s.IBLCgIpRePricingImpl"></bean>
+	<xap:service ref="IBLCgIpRePricingService" interface="iih.bl.cg.service.i.IBLCgIpRePricingService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service> -->
+	<!-- 当日退院费用查询接口 -->
+    <bean id="IBLChargesService" class="iih.bl.cg.service.s.IBLChargesServiceImpl"></bean>
+    <!-- 公共接口-->
+    <bean id="IBlCgMaintainService" class="iih.bl.cg.service.BlCgMaintainServiceImpl"></bean>
+    <xap:service ref="IBlCgMaintainService" interface="iih.bl.cg.service.IBlCgMaintainService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 门诊费用报表查询服务 -->
+    <bean id="IBlOpRptQryService" class="iih.bl.cg.s.BlOpRptQryServiceImpl"/> 
+    <!-- 住院费用报表查询服务 -->
+    <bean id="IBlIpRptQryService" class="iih.bl.cg.s.BlIpRptQryServiceImpl"/> 
+	
+	<!-- 记账查询服务 -->
+    <bean id="IBlCgQryService" class="iih.bl.cg.s.BlCgQryServiceImpl"/> 
+    <!-- 记账命令服务 -->
+    <bean id="IBlCgCmdService" class="iih.bl.cg.s.BlCgCmdServiceImpl"/>
+    <xap:service ref="IBlCgCmdService" interface="iih.bl.cg.i.IBlCgCmdService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 记账对外查询服务 -->
+    <bean id="IBlOutQryService" class="iih.bl.cg.s.BlOutQryServiceImpl"/> 
+    <!-- 记账对外命令服务 -->
+    <bean id="IBlOutCmdService" class="iih.bl.cg.s.BlOutCmdServiceImpl"/>
+    <xap:service ref="IBlOutCmdService" interface="iih.bl.cg.i.IBlOutCmdService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 外部结算服务 -->
+    <bean id="IBlOpCgExternalService" class="iih.bl.cg.s.BlOpCgExternalServiceImpl"/>
+    <xap:service ref="IBlOpCgExternalService" interface="iih.bl.cg.i.IBlOpCgExternalService"
+		requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+	
+	<!-- 自助机服务 -->
+	<bean id="IBlOpCgSelfExternalService" class="iih.bl.cg.s.BlOpCgSelfExternalServiceImpl">
+	</bean>
+	<xap:service ref="IBlOpCgSelfExternalService" interface="iih.bl.cg.i.IBlOpCgSelfExternalService"
+		requires="tx">
+		<xap:binding name="ws"></xap:binding>
+	</xap:service>
+
+		<!-- 商保平台测试服务 -->
+	<bean id="IBlCgTestService" class="iih.bl.cg.s.BlCgTestServiceImpl" />
+	<bean id="IOpSettlementQryService" class="iih.bl.cg.oep.s.OpSettlementQryServiceImpl"/>
+	
+	<!-- 费用域记账服务 -->
+	<bean id="IBlCgAccountService" class="iih.bl.cg.s.BlCgAccountServiceImpl"></bean>
+	<xap:service ref="IBlCgAccountService" interface="iih.bl.cg.i.IBlCgAccountService"
+		requires="tx">
+	</xap:service>
+	
+	<!-- 费用域记账校验服务 -->
+	<bean id="IBlCgValidateService" class="iih.bl.cg.s.BlCgValidateServiceImpl"></bean>
+	<xap:service ref="IBlCgValidateService" interface="iih.bl.cg.i.IBlCgValidateService"
+		requires="tx">
+	</xap:service>
+	
+	<!-- 费用记帐对移动医疗提供服务-->
+	<bean id="IBlCgForMbhService" class="iih.bl.cg.s.BlCgForMbhServiceImpl"></bean>
+	<xap:service ref="IBlCgForMbhService" interface="iih.bl.cg.i.IBlCgForMbhService"
+		requires="tx">
+	</xap:service>
+	
+	<!-- 门诊记账转移记录CRUD服务 -->
+	<bean id="IBlcgoeptfCrudService" class="iih.bl.cg.blcgoeptf.s.BlcgoeptfCrudServiceImpl"></bean>
+	<xap:service ref="IBlcgoeptfCrudService" interface="iih.bl.cg.blcgoeptf.i.IBlcgoeptfCudService"
+		requires="tx">
+	</xap:service>
+	
+	<!-- 门诊转住院记账明细CRUD服务 -->
+	<bean id="IBliptfinCrudService" class="iih.bl.cg.bliptfin.s.BliptfinCrudServiceImpl"></bean>
+	<xap:service ref="IBliptfinCrudService" interface="iih.bl.cg.bliptfin.i.IBliptfinCudService"
+		requires="tx">
+	</xap:service>
+	
+	<!-- 住院记账自费标识CRUD服务 -->
+	<bean id="IBlcghistCudService" class="iih.bl.cg.blcghist.s.BlcghistCrudServiceImpl"></bean>
+	 <xap:service ref="IBlcghistCudService" interface="iih.bl.cg.blcghist.i.IBlcghistCudService" 
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+    <!-- 费用域记账包装服务 -->
+	<bean id="IBlCgAccountPackService" class="iih.bl.cg.s.BlCgAccountPackServiceImpl"></bean>
+	<xap:service ref="IBlCgAccountPackService" interface="iih.bl.cg.i.IBlCgAccountPackService"
+		requires="tx">
+	</xap:service>
+	
+	<!-- 急诊记账对外查询服务 -->
+    <bean id="IBlEtCgQryService" class="iih.bl.cg.s.IBlEtCgQryServiceImpl"/> 
+    <!-- 急诊记账对外命令服务 -->
+    <bean id="IBlEtCgCmdService" class="iih.bl.cg.s.IBlEtCgCmdServiceImpl"/>
+    <xap:service ref="IBlEtCgCmdService" interface="iih.bl.cg.i.IBlEtCgCmdService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="IBlCgForEnService" class="iih.bl.cg.s.BlCgForEnServiceImpl"/>
+	<xap:service ref="IBlCgForEnService" interface="iih.bl.cg.i.IBlCgForEnService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+</beans>

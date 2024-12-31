@@ -1,0 +1,9 @@
+
+insert into sys_funcreg (ID_FUN, CODE, NAME, DES, CLASSNAME, ISENABLE, HELPNAME, ID_MODULE, FUNPROP, ISBTNPOWER, ID_ORGTYPE, FUNTYPE, ID_PARENT, ISFUNCTYPE, MDID, ISCAUSABLE, ID_GROUP, DS, SV, SCRUM_RESP, SCRUM_VERIFY, SCRUM_PHASE, SCRUM_RVER, SCRUM_PVER, SCRUM_DEF1, SCRUM_DEF2, SCRUM_DEF3, ISUSEPERSONA, PROCESSTYPE, ISNEWPAGE, ROWID)
+values ('@@@@Z8100000003KPJ04', '46106014', '医嘱（Pre）', null, 'xap.rui.engine.XUserControl,xap.rui.engine.dll', 'Y', null, '4610', 0, 'N', 'BUSINESSUNIT00000000', 0, '@@@@W11000000003UXPG', 'N', '~', 'N', '~', 0, '2020-02-13 10:39:43', null, null, null, null, null, null, null, null, 'N', '~', 'N', 'AAAYRdAAHAAE3RfAAG');
+
+insert into sys_paramreg (ID_PARAM, PARAMNAME, PARAMVALUE, ID_PARENT, DS, SV, DES, ROWID)
+values ('@@@@Z8100000003KPJ05', 'BeanConfigFilePath', 'modules\iihci\ui\iporder\iporder_config.xml', '@@@@Z8100000003KPJ04', 0, '2020-02-13 10:39:08', null, 'AAAX/2AAHAACjuYAAw');
+
+insert into sys_menuitem (ID_MENUITEM, ITEMCODE, ITEMNAME, ITEMDES, ID_FUN, ID_MENU, ISVIRTUALMENU, ICONPATH, RESID, DS, SV, ISHIDE, PYCODE, WBCODE, MNECODE)
+values ('@@@@Z8100000003KPJ08', '46106014', '医嘱（Pre）', null, '46106014', '@@@@AA1000000001WV67', 'N', null, null, 0, '2020-02-13 10:42:53', 'N', 'YZPre.', 'AKPre.', '46106014');

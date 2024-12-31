@@ -1,0 +1,108 @@
+package iih.ci.rcm.reportcardmissqry.s;
+
+import java.util.List;
+import iih.bd.srv.reportcardtpl.d.ReportCardTplDo;
+import iih.bd.srv.reportcardtpl.i.IReportcardtplRService;
+import iih.ci.mrm.cimrmfileinfo.d.CiMrmFileInfoDO;
+import iih.ci.rcm.contagion.dto.d.EntDto;
+import iih.ci.rcm.reportcarddoc.d.ReportCardDocDo;
+import iih.ci.rcm.reportcarddoc.i.IReportcarddocCudService;
+import iih.ci.rcm.reportcarddoc.i.IReportcarddocRService;
+import iih.ci.rcm.reportcarddocfs.d.ReportCardDocFsDo;
+import iih.ci.rcm.reportcarddocfs.i.IReportcarddocfsRService;
+import iih.ci.rcm.reportcardmissqry.bp.GetEntDTOListBp;
+import iih.ci.rcm.reportcardmissqry.i.IReportCardMissQryService;
+import iih.en.pv.entdi.d.EntDiDO;
+import iih.en.pv.pativisit.d.PatiVisitDO;
+import iih.en.pv.pativisit.i.IPativisitRService;
+import xap.mw.core.annotation.Service;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.FArrayList;
+import xap.mw.core.data.FArrayList2;
+import xap.mw.core.service.constant.Binding;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.rui.control.qrysqlgenerator.i.IQrySQLGeneratorService;
+import xap.sys.appfw.orm.handle.dataobject.paging.PaginationInfo;
+import xap.sys.appfw.orm.handle.dataobject.paging.PagingRtnData;
+import xap.sys.appfw.orm.handle.dataobject.paging.PagingServiceImpl;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+import xap.sys.appfw.xapformula.utils.AgeCalcUtil;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.BeanListHandler;
+import xap.sys.permfw.pub.EnvContextUtil;
+
+/**
+* 报卡漏报查询节点服务
+*/
+@Service(serviceInterfaces = { IReportCardMissQryService.class }, binding = Binding.JSONRPC)
+public class ReportCardMissQryServiceImpl  extends PagingServiceImpl<EntDto>
+       implements IReportCardMissQryService{
+
+	@Override
+	public PagingRtnData<EntDto> getEntDTOList(QryRootNodeDTO qryRootNodeDTO, PaginationInfo paginationInfo)
+			throws BizException {
+		GetEntDTOListBp bp=new GetEntDTOListBp();
+		return bp.getEntDTOList(qryRootNodeDTO, paginationInfo);
+	}
+
+	@SuppressWarnings({ "unchecked", "unchecked" })
+	@Override
+	public FArrayList2 GetData(EntDto enDto) throws BizException {
+		FArrayList2 fArrayList2 = new FArrayList2();
+		ReportCardDocDo doc=new ReportCardDocDo();
+		
+		//报卡文书DO
+		IReportcarddocRService service=ServiceFinder.find(IReportcarddocRService.class);
+		
+	    doc=service.findById(enDto.getId_contagion());		
+		if(doc!=null){
+			fArrayList2.add(doc);		
+			//报卡模板
+			IReportcardtplRService service1=ServiceFinder.find(IReportcardtplRService.class);
+			 ReportCardTplDo tplDo=service1.findById(doc.getId_bd_rcm_tpl());
+			 if(tplDo!=null){
+					fArrayList2.add(tplDo);
+				}else{
+					fArrayList2.add("1");
+				}
+			//报卡流
+			 IReportcarddocfsRService service2=ServiceFinder.find(IReportcarddocfsRService.class);
+			 ReportCardDocFsDo[] fsDos =service2.findByAttrValString("Id_ci_rcm_rd", doc.getId_ci_rcm_rd());
+			 if(fsDos!=null && fsDos.length>0){
+					fArrayList2.add(fsDos[0]);
+				}else{
+					fArrayList2.add("2");
+				}
+		}else{
+				
+			fArrayList2.add("0");
+		}	 
+		 
+		return fArrayList2;
+	}
+
+	@Override
+	public String findReportedHistory(EntDto enDto) throws BizException {	
+		String str = "";
+		DAFacade daf = new DAFacade();
+		StringBuilder sql = new StringBuilder();
+		sql.append("select rd.id_ci_rcm_rd  ");
+		sql.append("from ci_rcm_rd rd ");
+		sql.append("left join en_ent ee on rd.id_ent = ee.id_ent  ");
+		sql.append("left join pi_pat pp on pp.id_pat = ee.id_pat  ");
+		sql.append("where pp.id_pat='" + enDto.getId_pat() + "' ");
+		sql.append("and  rd.id_bd_rcm_tp='" + enDto.getIdcard()+ "' ");
+		sql.append("order by rd.sv desc");
+		String sqlStr = sql.toString();
+		@SuppressWarnings("unchecked")
+		List<ReportCardDocDo> listMr = (List<ReportCardDocDo>) daf.execQuery(sqlStr,
+				new BeanListHandler(ReportCardDocDo.class));
+		if (listMr != null && listMr.size() > 0) {
+			ReportCardDocDo doc=listMr.get(0);
+			return doc.getId_ci_rcm_rd();
+		}
+		return null;
+	}
+
+}

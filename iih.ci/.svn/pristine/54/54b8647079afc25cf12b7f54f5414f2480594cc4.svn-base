@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+XAP-Component-Version: 0.2.0-sdlanling2-SNAPSHOT
+XAP-Component-Name: iih.ci.ord
+XAP-Component-Namespace: iih
+XAP-Component-Dependencies: iih/iih.bd.base/0.2.0-sdlanling2-SNAPSHOT,
+ com.alibaba/fastjson/1.2.8
+

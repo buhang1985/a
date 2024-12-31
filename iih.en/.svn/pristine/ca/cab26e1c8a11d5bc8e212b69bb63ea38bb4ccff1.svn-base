@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module group="iih.en" name="iih.en" version="0.2.0-sdlanling2-SNAPSHOT">
+    <libraries>
+        <library>
+            <group>iih</group>
+            <artifactId>iih.en.flup</artifactId>
+            <version>0.2.0-sdlanling2-SNAPSHOT</version>
+        </library>
+        <library>
+            <group>iih</group>
+            <artifactId>iih.en.pv</artifactId>
+            <version>0.2.0-sdlanling2-SNAPSHOT</version>
+        </library>
+        <library>
+            <group>iih</group>
+            <artifactId>iih.en.que</artifactId>
+            <version>0.2.0-sdlanling2-SNAPSHOT</version>
+        </library>
+        <library>
+            <group>iih</group>
+            <artifactId>iih.en.comm</artifactId>
+            <version>0.2.0-sdlanling2-SNAPSHOT</version>
+        </library>
+        <library>
+            <group>iih</group>
+            <artifactId>iih.en.doc</artifactId>
+            <version>0.2.0-sdlanling2-SNAPSHOT</version>
+        </library>
+        <library>
+            <group>iih.en</group>
+            <artifactId>iih.en.ip</artifactId>
+            <version>0.2.0-sdlanling2-SNAPSHOT</version>
+        </library>
+        <library>
+            <group>iih.en</group>
+            <artifactId>iih.en.er</artifactId>
+            <version>0.2.0-sdlanling2-SNAPSHOT</version>
+        </library>
+    </libraries>
+</module>

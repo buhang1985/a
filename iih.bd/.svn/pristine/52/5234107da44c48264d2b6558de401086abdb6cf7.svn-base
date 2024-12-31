@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<xap:std-bundle />
+	<bean id="IBedRService"
+		class="iih.bd.res.bed.s.BedCrudServiceImpl"></bean>
+	<bean id="IBedMDORService"
+		class="iih.bd.res.bed.s.BedMDOCrudServiceImpl"></bean>
+	<bean id="IBedAttrDOCudService"
+		class="iih.bd.res.bed.s.BedAttrDOCrudServiceImpl"></bean>
+	<bean id="IBedattrdefCudService"
+		class="iih.bd.res.bed.s.BedattrdefCrudServiceImpl"></bean>
+
+	<bean id="IBedService" class="iih.bd.res.bed.s.BedServiceImpl"></bean>
+	<xap:service ref="IBedService"
+		interface="iih.bd.res.bed.i.IBedService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="IDayslotcaCudService"
+		class="iih.bd.res.dayslotca.s.DayslotcaCrudServiceImpl"></bean>
+	<bean id="IDayslotMDOCudService"
+		class="iih.bd.res.dayslot.s.DayslotMDOCrudServiceImpl"></bean>
+	<bean id="iBizgrpRService"
+		class="iih.bd.res.bizgrp.s.BizgrpCrudServiceImpl"></bean>
+	<bean id="iBizgrpMasterService"
+		class="iih.bd.res.bizgrp.s.BizgrpmasterCrudServiceImpl"></bean>
+	<bean id="IBizgrpMDOCudService"
+		class="iih.bd.res.bizgrp.s.BizgrpMDOCrudServiceImpl"></bean>
+	<bean id="IDayslotCudService"
+		class="iih.bd.res.dayslot.s.DayslotCrudServiceImpl"></bean>
+	<bean id="iDeptbCrudService"
+		class="iih.bd.res.deptb.s.DeptbCrudServiceImpl"></bean>
+	<bean id="iWorkstationCrudService"
+		class="iih.bd.res.workstation.s.WorkstationCrudServiceImpl"></bean>
+	<bean id="iHostRegService"
+		class="iih.bd.res.workstation.s.HostRegServiceImpl"></bean>
+	<bean id="iWorkstationparamCrudService"
+		class="iih.bd.res.workstation.s.WorkstationparamCrudServiceImpl"></bean>
+	<bean id="iPlaceCrudService"
+		class="iih.bd.res.place.s.PlaceCrudServiceImpl"></bean>
+	<bean id="iWareHouseCrudService"
+		class="iih.bd.res.warehouse.s.WarehouseCrudServiceImpl"></bean>
+	<bean id="iGoodsLocCrudService"
+		class="iih.bd.res.goodslocation.s.GoodslocationCrudServiceImpl"></bean>
+	<bean id="IDaysLotTimeDORService"
+		class="iih.bd.res.dayslot.s.DaysLotTimeDOCrudServiceImpl"></bean>
+	<bean id="IEmpdepCudService"
+		class="iih.bd.res.empdep.s.EmpdepCrudServiceImpl"></bean>
+
+	<!-- 医技辅 -->
+	<bean id="IMtassistCrudService"
+		class="iih.bd.res.mtassist.s.MtassistCrudServiceImpl"></bean>
+	<xap:service ref="IMtassistCrudService"
+		interface="iih.bd.res.mtassist.i.IMtassistCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IMtassistMDOCrudService"
+		class="iih.bd.res.mtassist.s.MtassistMDOCrudServiceImpl"></bean>
+	<xap:service ref="IMtassistMDOCrudService"
+		interface="iih.bd.res.mtassist.i.IMtassistMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 手术台 -->
+	<bean id="IOptCrudService"
+		class="iih.bd.res.opt.s.OptCrudServiceImpl"></bean>
+	<xap:service ref="IOptCrudService"
+		interface="iih.bd.res.opt.i.IOptCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IOptMDOCrudService"
+		class="iih.bd.res.opt.s.OptMDOCrudServiceImpl"></bean>
+	<xap:service ref="IOptMDOCrudService"
+		interface="iih.bd.res.opt.i.IOptMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 用户组和部门关系 -->
+	<bean id="IUsergrpdeptCudService"
+		class="iih.bd.res.usergrpdept.s.UsergrpdeptCrudServiceImpl"></bean>
+	<!-- 日期分组时段 -->
+	<bean id="IDayslotSecDORService"
+		class="iih.bd.res.dayslot.s.DayslotSecDOCrudServiceImpl"></bean>
+	<bean id="IWarehouseService"
+		class="iih.bd.res.warehouse.s.WarehouseServiceImpl"></bean>
+	<xap:service ref="IWarehouseService"
+		interface="iih.bd.res.warehouse.i.IWarehouseService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 日期分组查询服务 -->
+	<bean id="IDayslotQryService"
+		class="iih.bd.res.dayslot.s.DayslotQryServiceImpl"></bean>
+	<!-- 科室员工关系维护 -->
+	<bean id="IDepsEmpService"
+		class="iih.bd.res.empdep.s.DepsEmpServiceImpl"></bean>
+	<!-- 手术台扩展服务 -->
+	<bean id="IOptServiceExt"
+		class="iih.bd.res.opt.s.OptServiceExtImpl"></bean>
+	<!-- 医技辅资源扩展服务 -->
+	<bean id="IMtassistExtService"
+		class="iih.bd.res.mtassist.s.IMtassistExtServiceImpl"></bean>
+
+	<!-- 医技科室对照 -->
+	<xap:service ref="iih.bd.res.depcont.i.IDepcontCudService"
+		interface="iih.bd.res.depcont.i.IDepcontCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="iih.bd.res.depcont.i.IDepcontCudService"
+		class="iih.bd.res.depcont.s.DepcontCrudServiceImpl">
+	</bean>
+	<xap:service
+		ref="iih.bd.res.depcont.i.IDepcontMDOCudService"
+		interface="iih.bd.res.depcont.i.IDepcontMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="iih.bd.res.depcont.i.IDepcontMDOCudService"
+		class="iih.bd.res.depcont.s.DepcontMDOCrudServiceImpl">
+	</bean>
+	<xap:service
+		ref="iih.bd.res.depcont.i.IDepContItmDOCudService"
+		interface="iih.bd.res.depcont.i.IDepContItmDOCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="iih.bd.res.depcont.i.IDepContItmDOCudService"
+		class="iih.bd.res.depcont.s.DepContItmDOCrudServiceImpl">
+	</bean>
+
+	<!-- 床位扩展服务 -->
+	<xap:service ref="BedExtCrudService"
+		interface="iih.bd.res.bed.i.IBedExtCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="BedExtCrudService"
+		class="iih.bd.res.bed.s.BedExtCrudServiceImpl"></bean>
+	<xap:service ref="BedExtCrudService"
+		interface="iih.bd.res.bed.i.IBedExtRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 业务组床位扩展服务 -->
+	<bean id="BizGrpBedDOExtRService"
+		class="iih.bd.res.bizgrp.s.BizGrpBedDOExtRServiceImpl"></bean>
+	<xap:service ref="BizGrpBedDOExtRService"
+		interface="iih.bd.res.bizgrp.i.IBizGrpBedDOExtRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IBizGrpEmpsDORService"
+		class="iih.bd.res.bizgrp.s.BizGrpEmpsDOCrudServiceImpl"></bean>
+	<xap:service ref="IBizGrpEmpsDORService"
+		interface="iih.bd.res.bizgrp.i.IBizGrpEmpsDORService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 服务在线测试WebService -->
+	<bean id="OnLineTestWebService"
+		class="iih.bd.webservice.test.s.OnLineTestWebServiceImpl"></bean>
+	<xap:service ref="OnLineTestWebService"
+		interface="iih.bd.webservice.test.i.IOnLineTestWebService">
+		<xap:binding name="ws" />
+	</xap:service>
+
+	<!--部门参数配置服务 -->
+	<bean id="IBddepparadoRService"
+		class="iih.bd.res.bddepparado.s.BddepparadoCrudServiceImpl"></bean>
+	<bean id="IBddepparadoCudService"
+		class="iih.bd.res.bddepparado.s.BddepparadoCrudServiceImpl"></bean>
+
+	<!-- 日志服务 -->
+	<bean id="BdResLogService"
+		class="iih.bd.res.log.BdResLogServiceImpl">
+	</bean>
+	<xap:service ref="BdResLogService"
+		interface="iih.bd.log.IBdResLogService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 业务组扩展服务 -->
+	<bean id="BizGrpExtCrudService"
+		class="iih.bd.res.bizgrp.s.BizGrpExtCrudServiceImpl"></bean>
+	<xap:service ref="BizGrpExtCrudService"
+		interface="iih.bd.res.bizgrp.i.IBizGrpExtCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="BizGrpExtCrudService"
+		interface="iih.bd.res.bizgrp.i.IBizGrpExtRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 提供给病历域服务 -->
+	<bean id="BdResMrCrudService"
+		class="iih.bd.res.s.external.provide.BdResMrCrudServiceImpl"></bean>
+	<xap:service ref="BdResMrCrudService"
+		interface="iih.bd.res.i.external.provide.IBdResMrQryService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+</beans>

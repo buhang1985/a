@@ -1,0 +1,62 @@
+package iih.ei.itf.eiitfcateitm.s.bp;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+
+import iih.bd.base.utils.DoUtils;
+import iih.bd.base.utils.SqlUtils;
+import iih.ei.itf.eiitfcateitm.d.ItfCateItmDO;
+import iih.ei.itf.eiitfcateitm.i.IEiitfcateitmRService;
+import iih.ei.itf.eiitfdo.d.EiItfDO;
+import iih.ei.itf.eiitfdo.d.desc.EiItfDODesc;
+import iih.ei.itf.eiitfdo.i.IEiitfdoRService;
+import xap.mw.core.data.BizException;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.appfw.orm.handle.dataobject.paging.PaginationInfo;
+import xap.sys.appfw.orm.handle.dataobject.paging.PagingRtnData;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+
+/**
+ * 根据分类查询接口分页数据
+ * 
+ * @author hao_wu 2019-10-23
+ *
+ */
+public class FindPagingItfByCateBp {
+
+	public PagingRtnData<EiItfDO> exec(String itfCateId, QryRootNodeDTO qryRootNodeDTO, String orderStr,
+			PaginationInfo pg) throws BizException {
+		String wherePart = buildWherePart(itfCateId, qryRootNodeDTO);
+
+		IEiitfdoRService itfRService = ServiceFinder.find(IEiitfdoRService.class);
+		PagingRtnData<EiItfDO> result = itfRService.findByPageInfo(pg, wherePart, orderStr);
+		return result;
+	}
+
+	private String buildWherePart(String itfCateId, QryRootNodeDTO qryRootNodeDTO) throws BizException {
+		if (StringUtils.isBlank(itfCateId)) {
+			return "1 = 2";
+		}
+
+		StringBuilder wherePartBuilder = new StringBuilder("1 = 1");
+
+		IEiitfcateitmRService iEiitfcateitmRService = ServiceFinder.find(IEiitfcateitmRService.class);
+		ItfCateItmDO[] itms = iEiitfcateitmRService.findByAttrValString(ItfCateItmDO.ID_ITFCATE, itfCateId);
+		if (ArrayUtils.isEmpty(itms)) {
+			return "1 = 2";
+		}
+		String[] itfIds = DoUtils.getAttrValArr(itms, ItfCateItmDO.ID_ITF, String.class);
+		if (ArrayUtils.isNotEmpty(itfIds)) {
+			String wherePart = SqlUtils.getInSqlByIds(EiItfDO.ID_ITF, itfIds);
+			wherePartBuilder.append(" AND ");
+			wherePartBuilder.append(wherePart);
+		}
+
+		if (qryRootNodeDTO != null) {
+			String wherePart = SqlUtils.getWherePartByQCond(qryRootNodeDTO, EiItfDODesc.CLASS_FULLNAME);
+			wherePartBuilder.append(" AND ");
+			wherePartBuilder.append(wherePart);
+		}
+		return wherePartBuilder.toString();
+	}
+}

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	
+	<!-- 门诊预交金服务 -->
+	<bean id="IBlOpPrepayService" class="iih.bl.itf.std.BlOpPrepayServiceImpl"/>
+	<xap:service ref="IBlOpPrepayService" interface="iih.bl.itf.std.IBlOpPrepayService" requires="tx">
+		<xap:binding name="ws"></xap:binding>
+	</xap:service>
+	<xap:service ref="IBlOpPrepayService" interface="iih.bl.itf.std.IBlOpPrepayRService">
+		<xap:binding name="ws"></xap:binding>
+	</xap:service>
+	
+	<!-- 门诊预记账服务 -->
+	<bean id="IBlOpChargeService" class="iih.bl.itf.std.BlOpChargeServiceImpl"/>
+	<xap:service ref="IBlIpChargeService" interface="iih.bl.itf.std.IBlOpChargeService" requires="tx">
+		<xap:binding name="ws"></xap:binding>
+	</xap:service>
+	<xap:service ref="IBlIpChargeService" interface="iih.bl.itf.std.IBlOpChargeRService">
+		<xap:binding name="ws"></xap:binding>
+	</xap:service>
+	
+	<!-- 住院交金服务 -->
+	<bean id="IBlIpPrepayService" class="iih.bl.itf.std.BlIpPrepayServiceImpl"/>
+	<xap:service ref="IBlIpPrepayService" interface="iih.bl.itf.std.IBlIpPrepayService" requires="tx">
+		<xap:binding name="ws"></xap:binding>
+	</xap:service>
+	<xap:service ref="IBlIpPrepayService" interface="iih.bl.itf.std.IBlIpPrepayRService">
+		<xap:binding name="ws"></xap:binding>
+	</xap:service>
+	
+	<!-- 住院记账服务 -->
+	<bean id="IBlIpChargeService" class="iih.bl.itf.std.BlIpChargeServiceImpl"/>
+	<xap:service ref="IBlIpChargeService" interface="iih.bl.itf.std.IBlIpChargeService" requires="tx">
+		<xap:binding name="ws"></xap:binding>
+	</xap:service>
+	<xap:service ref="IBlIpChargeService" interface="iih.bl.itf.std.IBlIpChargeRService">
+		<xap:binding name="ws"></xap:binding>
+	</xap:service>
+	
+	<!-- 对账服务 -->
+	<bean id="IBlBalanceAccountService" class="iih.bl.itf.std.BlBalanceAccountServiceImpl"/>
+	<xap:service ref="IBlBalanceAccountService" interface="iih.bl.itf.std.IBlBalanceAccountService">
+		<xap:binding name="ws"></xap:binding>
+	</xap:service>
+	
+	<!-- 第三方交易记录 -->
+    <bean id="ITrdtransrcdCudService" class="iih.bl.itf.trdtrans.s.TrdtransrcdCrudServiceImpl"></bean>
+	<xap:service ref="ITrdtransrcdCudService" interface="iih.bl.itf.trdtrans.i.ITrdtransrcdCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>	
+	
+		<!-- 第三方交易接口注册 -->
+    <bean id="ITrdtransregCudService" class="iih.bl.itf.trdtrans.s.TrdtransregCrudServiceImpl"></bean>
+	<xap:service ref="ITrdtransregCudService" interface="iih.bl.itf.trdtrans.i.ITrdtransregCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>	
+		<!-- 费用交易调用记录 -->
+    <bean id="IBltranscallCudService" class="iih.bl.itf.bltranscall.s.BltranscallCrudServiceImpl"></bean>
+	<xap:service ref="IBltranscallCudService" interface="iih.bl.itf.bltranscall.i.IBltranscallCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>	
+		<!-- 對支付平台接口 -->
+    <bean id="IBlPmpBalanceQryService" class="iih.bl.itf.std.BlPmpBalanceQryServiceImpl"></bean>
+	<xap:service ref="IBlPmpBalanceQryService" interface="iih.bl.itf.std.IBlPmpBalanceQryService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>	
+	
+		<!-- 自助机门诊发票服务 -->
+    <bean id="IBlOpIncRService" class="iih.bl.itf.std.BlOpIncServiceImpl"></bean>
+	<xap:service ref="IBlOpIncRService" interface="iih.bl.itf.std.IBlOpIncRService" requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>	
+	
+	<!-- 费用标准对外服务门诊收费服务(内部接口) -->
+	<bean id="IBlOpChargeInnerService" class="iih.bl.itf.std.inner.BlOpChargeInnerServiceImpl"></bean>
+	<xap:service ref="IBlOpChargeInnerService" interface="iih.bl.itf.std.inner.IBlOpChargeInnerService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+
+	<!-- 费用标准对外服务对账服务服务(内部接口) -->
+	<bean id="IBlBalanceAccountInnerService" class="iih.bl.itf.std.inner.BlBalanceAccountInnerServiceImpl"></bean>
+	<xap:service ref="IBlBalanceAccountInnerService" interface="iih.bl.itf.std.inner.IBlBalanceAccountInnerService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 费用标准对外服务住院记账服务(内部接口) -->
+	<bean id="IBlIpChargeInnerService" class="iih.bl.itf.std.inner.BlIpChargeInnerServiceImpl"></bean>
+	<xap:service ref="IBlIpChargeInnerService" interface="iih.bl.itf.std.inner.IBlIpChargeInnerService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 费用标准对外服务住院预交金服务(内部接口) -->
+	<bean id="IBlIpPrepayInnerService" class="iih.bl.itf.std.inner.BlIpPrepayInnerServiceImpl"></bean>
+	<xap:service ref="IBlIpPrepayInnerService" interface="iih.bl.itf.std.inner.IBlIpPrepayInnerService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 费用标准对外服务门诊发票服务(内部接口) -->
+	<bean id="IBlOpIncInnerRService" class="iih.bl.itf.std.inner.BlOpIncInnerServiceImpl"></bean>
+	<xap:service ref="IBlOpIncInnerRService" interface="iih.bl.itf.std.inner.IBlOpIncInnerRService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 费用标准对外服务门诊发票服务(内部接口) -->
+	<bean id="IBlOpPrepayInnerService" class="iih.bl.itf.std.inner.BlOpPrepayInnerServiceImpl"></bean>
+	<xap:service ref="IBlOpPrepayInnerService" interface="iih.bl.itf.std.inner.IBlOpPrepayInnerService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="IBlOpChargeForEnInnerService" class="iih.bl.itf.std.inner.en.BlOpChargeForEnInnerServiceImpl"></bean>
+	<xap:service ref="IBlOpChargeForEnInnerService" interface="iih.bl.itf.std.inner.en.IBlOpChargeForEnInnerService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>	
+	
+	<!-- 应急系统同步数据服务 -->
+	<bean id="IBlEsoeSyncService" class="iih.bl.itf.esoe.s.BlEsoeSyncServiceImpl"></bean>
+	<xap:service ref="IBlEsoeSyncService" interface="iih.bl.itf.esoe.i.IBlEsoeSyncService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 转账处理查询服务 -->
+	<bean id="TransferProAndQueryService" class="iih.bl.itf.trasnsferandqry.s.TransferProAndQueryServiceImpl"/>
+	<xap:service ref="TransferProAndQueryService" interface="iih.bl.itf.trasnsferandqry.i.TransferProAndQueryService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+</beans>

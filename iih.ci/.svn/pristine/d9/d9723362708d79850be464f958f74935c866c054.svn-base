@@ -1,0 +1,159 @@
+package iih.ci.ord.s.ems.op.order.copy;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import iih.bd.bc.udi.pub.IBdSrvDictCodeConst;
+import iih.bd.bc.udi.pub.ICiDictCodeConst;
+import iih.ci.core.utils.ObjectUtils;
+import iih.ci.ord.cior.d.OrdApOpDO;
+import iih.ci.ord.cior.d.desc.OrdApOpDODesc;
+import iih.ci.ord.cior.i.ICiorappsurgeryMDORService;
+import iih.ci.ord.ciorder.d.CiorderAggDO;
+import iih.ci.ord.ems.d.CiEmsDTO;
+import iih.ci.ord.ems.d.CiEnContextDTO;
+import iih.ci.ord.i.ICiOrdQryService;
+import iih.ci.ord.pub.CiOrdAppUtils;
+import iih.ci.ord.pub.CiOrdUtils;
+import iih.ci.ord.s.ems.meta.DiagOutlineInfo;
+import iih.ci.ord.s.ems.utils.DiagInfoUtils;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.Context;
+import xap.mw.core.data.DOStatus;
+import xap.mw.core.data.FArrayList;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.coreitf.d.FDateTime;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.ColumnHandler;
+
+/**
+ * 复制手术
+ * @author Young
+ *
+ */
+public class OrderOpCopyBP extends OrderBaseCopyBP {
+	
+	@Override
+	protected String afterSaveValidate(FArrayList errorEmsList, CiorderAggDO[] aggDOs) throws BizException {
+		super.afterSaveValidate(errorEmsList, aggDOs);
+		
+		// 如果是手术医嘱，且存在动态指标，则需要提示医生填写动态指标
+		List<CiorderAggDO> opOrders = new ArrayList<CiorderAggDO>();
+		for (CiorderAggDO order : aggDOs) {
+			if (order.getParentDO().getSd_srvtp().startsWith("04")) {
+				opOrders.add(order);
+			}
+		}
+		
+		if (ObjectUtils.isEmpty(opOrders)) {
+			return null;
+		}
+		
+		// 查询是否配置动态指标
+		StringBuilder sql = new StringBuilder();
+		sql.append(" select count(*) count")
+		.append(" from BD_SRV_OF_DYNCITM dync")
+		.append("          left join BD_SRV_OF_REL rel on rel.ID_SRVOF = dync.ID_SRVOF")
+		.append(" where rel.SD_SRVTP like '04%'");
+		Integer count = (Integer) new DAFacade().execQuery(sql.toString(), new ColumnHandler("count"));
+		
+		// 创建错误返回结果
+		for (CiorderAggDO opOrder : opOrders) {
+			if (count > 0) {
+				ICiOrdQryService ordQryService = ServiceFinder.find(ICiOrdQryService.class);
+				
+				CiEmsDTO ciEmsDTO = createCiEmsDTO(ordQryService, opOrder, false, opOrder.getOrdSrvDO());//创建医疗单
+				errorEmsList.add(ciEmsDTO);
+			}
+		}
+		
+		return "手术医疗单动态指标未填写，请填写完整后再保存！";
+	}
+	
+	/**
+	 * 复制手术申请单
+	 * 
+	 * @param id_ors
+	 */
+	@Override
+	protected Boolean copyCiorderAppInfo(Map<String, String> mapIdors, FDateTime dt) throws BizException {
+		if (CiOrdUtils.isEmpty(mapIdors))
+			return false;
+		OrdApOpDO[] OrdApOpDOs = getOrdApLabOpDOs(mapIdors.keySet().toArray(new String[] {}));
+		if (CiOrdUtils.isEmpty(OrdApOpDOs))
+			return false;
+		setOrdApLabDOs(OrdApOpDOs, mapIdors);
+		return saveOrdApOpDOs(OrdApOpDOs);
+	}
+	
+	/**
+	 * 查询OrdApLabDO
+	 * @param idors
+	 * @return
+	 * @throws BizException
+	 */
+	private OrdApOpDO[] getOrdApLabOpDOs(String[] idors) throws BizException {
+		if (CiOrdUtils.isEmpty(idors))
+			return null;
+		String strIdors = "";
+		for (String id_or : idors) {
+			strIdors += ",'" + id_or + "'";
+		}
+		ICiorappsurgeryMDORService iCiorappsurgeryMDORService = CiOrdAppUtils.getICiorappsurgeryMDORService(); 
+		return iCiorappsurgeryMDORService
+				.find(OrdApOpDODesc.TABLE_ALIAS_NAME + ".id_or in (" + strIdors.substring(1) + ")", "",
+						FBoolean.FALSE);
+	}
+	
+	/**
+	 * 设置OrdApLabDO
+	 * @param ordApLabDOs
+	 * @param mapIdors
+	 * @throws BizException 
+	 */
+	private void setOrdApLabDOs(OrdApOpDO[] ordApOpDOs, Map<String, String> mapIdors) throws BizException{
+		if (CiOrdUtils.isEmpty(ordApOpDOs))
+			return;
+		for (OrdApOpDO ordApOpDO : ordApOpDOs) {
+			ordApOpDO.setId_apop(null);
+			ordApOpDO.setId_or(mapIdors.get(ordApOpDO.getId_or()));
+			ordApOpDO.setNo_applyform(this.getApplyNo(ordApOpDO.getId_or()));
+			ordApOpDO.setId_su_op(ICiDictCodeConst.ID_CI_OPER_YSQ);//手术申请状态
+			ordApOpDO.setSd_su_op(ICiDictCodeConst.SD_CI_OPER_YSQ);//手术申请状态编码
+			if(this.getTeampAggs()!=null && this.getTeampAggs().containsKey(ordApOpDO.getId_or())){
+				ordApOpDO.setDt_plan(this.getTeampAggs().get(ordApOpDO.getId_or()).getParentDO().getDt_effe());
+			}
+			ordApOpDO.setFg_prn(FBoolean.FALSE);
+			ordApOpDO.setCnt_prn(null);
+			//诊断
+			CiEnContextDTO context = (CiEnContextDTO) Context.get().getAttribute("CiEnContextDTO");
+			DiagOutlineInfo diagOutlineInfo = DiagInfoUtils.GetDiagOutLineInfo(context.getId_en());
+			if (diagOutlineInfo != null) {
+				ordApOpDO.setId_diitm(diagOutlineInfo.getId_diitm());// 主诊断的主项目id
+				ordApOpDO.setName_diag(diagOutlineInfo.getName_diag());// 主诊断名称
+			}
+			ordApOpDO.setStatus(DOStatus.NEW);
+		}
+	}
+	
+	/**
+	 * 保存OrdApLabDO
+	 * @param ordApLabDOs
+	 * @return
+	 * @throws BizException
+	 */
+	private Boolean saveOrdApOpDOs(OrdApOpDO[] OrdApOpDOs) throws BizException{
+		if (CiOrdUtils.isEmpty(OrdApOpDOs))
+			return false;
+		OrdApOpDOs = CiOrdAppUtils.getICiorappsurgeryMDOCudService().save(OrdApOpDOs);
+		return !CiOrdUtils.isEmpty(OrdApOpDOs);
+	}
+
+	@Override
+	protected String getApplyNo() throws BizException {
+		return CiOrdUtils.getApplyNo(IBdSrvDictCodeConst.SD_SRVTP_OP);
+	}
+
+}

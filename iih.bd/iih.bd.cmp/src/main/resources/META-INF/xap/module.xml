@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	<!-- 营销方案agg -->
+	<bean id="IMarplanCudService"
+		class="iih.bd.cmp.marplan.s.MarplanCrudServiceImpl" />
+	<xap:service ref="IMarplanCudService"
+		interface="iih.bd.cmp.marplan.i.IMarplanCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+		<!-- 营销方案MDO -->
+	<bean id="IMarplanMDOCudService"
+		class="iih.bd.cmp.marplan.s.MarplanMDOCrudServiceImpl" />
+	<xap:service ref="IMarplanMDOCudService"
+		interface="iih.bd.cmp.marplan.i.IMarplanMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="IBdCmpMarTreatDOCudService"
+		class="iih.bd.cmp.marplan.s.BdCmpMarTreatDOCrudServiceImpl" />
+	<xap:service ref="IBdCmpMarTreatDOCudService"
+		interface="iih.bd.cmp.marplan.i.IBdCmpMarTreatDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="IBdCmpMarFreeDOCudService"
+		class="iih.bd.cmp.marplan.s.BdCmpMarFreeDOCrudServiceImpl" />
+	<xap:service ref="IBdCmpMarFreeDOCudService"
+		interface="iih.bd.cmp.marplan.i.IBdCmpMarFreeDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="IBdCmpMarCtrDOCudService"
+		class="iih.bd.cmp.marplan.s.BdCmpMarCtrDOCrudServiceImpl" />
+	<xap:service ref="IBdCmpMarCtrDOCudService"
+		interface="iih.bd.cmp.marplan.i.IBdCmpMarCtrDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="IBdCmpMarChkDOCudService"
+		class="iih.bd.cmp.marplan.s.BdCmpMarChkDOCrudServiceImpl" />
+	<xap:service ref="IBdCmpMarChkDOCudService"
+		interface="iih.bd.cmp.marplan.i.IBdCmpMarChkDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+		
+		<!-- 营销方案分类 -->
+			<bean id="IMarplancaCudService"
+		class="iih.bd.cmp.marplanca.s.MarplancaCrudServiceImpl" />
+	<xap:service ref="IMarplancaCudService"
+		interface="iih.bd.cmp.marplanca.i.IMarplancaCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+</beans>

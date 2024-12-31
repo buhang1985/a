@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+    <!-- 患者特殊病药品增量维护日志表 -->
+	 <bean id="IMimcpatspecdrugalogquandoCudService" class="iih.mi.mc.mimcpatspecdrugalogquando.s.MimcpatspecdrugalogquandoCrudServiceImpl"></bean>
+     <xap:service ref="IMimcpatspecdrugalogquandoCudService" interface="iih.mi.mc.mimcpatspecdrugalogquando.i.IMimcpatspecdrugalogquandoCudService" requires="tx">
+        <xap:binding name="jsonrpc" />
+    </xap:service>
+    <!-- 患者特殊病药品增量表 -->
+     <bean id="IMimcpatspecdrugaquandoCudService" class="iih.mi.mc.mimcpatspecdrugaquando.s.MimcpatspecdrugaquandoCrudServiceImpl"></bean>
+     <xap:service ref="IMimcpatspecdrugaquandoCudService" interface="iih.mi.mc.mimcpatspecdrugaquando.i.IMimcpatspecdrugaquandoCudService" requires="tx">
+        <xap:binding name="jsonrpc" />
+    </xap:service>
+     <!-- 医保特殊病患者诊断维护 -->
+      <bean id="IMimcpatspecdiMDOCudService" class="iih.mi.mc.mimcpatspec.s.MimcpatspecdiMDOCrudServiceImpl"></bean>
+     <xap:service ref="IMimcpatspecdiMDOCudService" interface="iih.mi.mc.mimcpatspec.i.IMimcpatspecdiMDOCudService" requires="tx">
+        <xap:binding name="jsonrpc" />
+    </xap:service> 
+
+     <!--  医保特殊病患者 -->
+     <bean id="IMimcpatspecCudService" class="iih.mi.mc.mimcpatspec.s.MimcpatspecdiCrudServiceImpl"></bean>
+     <xap:service ref="IMimcpatspecCudService" interface="iih.mi.mc.mimcpatspec.i.IMimcpatspecdiCudService" requires="tx">
+        <xap:binding name="jsonrpc" />
+    </xap:service>
+
+	<!-- 医保策略库AggDO数据CRUD服务实现 -->
+
+	<bean id="IMimctacticsCudService" class="iih.mi.mc.mimctactics.s.MimctacticsCrudServiceImpl">
+	</bean>
+	<xap:service ref="IMimctacticsCudService"
+		interface="iih.mi.mc.mimctactics.i.IMimctacticsCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<bean id="IMimctacticsMDOCudService"
+		class="iih.mi.mc.mimctactics.s.MimctacticsMDOCrudServiceImpl">
+	</bean>
+	<xap:service ref="IMimctacticsMDOCudService"
+		interface="iih.mi.mc.mimctactics.i.IMimctacticsMDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	
+	<bean id="IMiMcTacticsParaCudService"
+		class="iih.mi.mc.mimctactics.s.MiMcTacticsParaCrudServiceImpl">
+	</bean>
+	<xap:service ref="IMiMcTacticsParaCudService"
+		interface="iih.mi.mc.mimctactics.i.IMiMcTacticsParaCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<!-- 特殊病 -->
+	<bean id="IMimcspecMDORService" class="iih.mi.mc.mimcspec.s.MimcspecMDOCrudServiceImpl" />
+	<xap:service ref="IMimcspecMDORService" interface="iih.mi.mc.mimcspec.i.IMimcspecMDORService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="IMiMcSpecDrugDOCudService" class="iih.mi.mc.mimcspec.s.MiMcSpecDrugDOCrudServiceImpl" />
+	<xap:service ref="IMiMcSpecDrugDOCudService" interface="iih.mi.mc.mimcspec.i.IMiMcSpecDrugDOCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+		<!-- 医保特殊病诊断可开医保项目服务 -->
+	<bean id="IMiMcSpecDrugDOExtCrudService" class="iih.mi.mc.mimcspec.s.MiMcSpecDrugDOExtCrudServiceImpl" />
+	<xap:service ref="IMiMcSpecDrugDOExtCrudService" interface="iih.mi.mc.mimcspec.i.IMiMcSpecDrugDOExtCrudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>	
+	</xap:service>	
+    <bean id="IMiMcQryService" class="iih.mi.mc.s.IMiMcQryServiceImpl" />
+	<xap:service ref="IMiMcQryService" interface="iih.mi.mc.i.IMiMcQryService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 医保规则 -->
+	<bean id="IMimctacticsruleCudService"
+		class="iih.mi.mc.mimctacticsrule.s.MimctacticsruleCrudServiceImpl">
+	</bean>
+	<xap:service ref="IMimctacticsruleCudService"
+		interface="iih.mi.mc.mimctacticsrule.i.IMimctacticsruleCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+		<!-- 医保单方限制-->
+	<bean id="ILimitpsdCudService"
+		class="iih.mi.mc.limitpsd.s.LimitpsdCrudServiceImpl">
+	</bean>
+	<xap:service ref="ILimitpsdCudService"
+		interface="iih.mi.mc.limitpsd.i.ILimitpsdCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+		<!-- 医保不限量药品-->
+	<bean id="IUnlimitdrugCudService"
+		class="iih.mi.mc.unlimitdrug.s.UnlimitdrugCrudServiceImpl">
+	</bean>
+	<xap:service ref="ILimitpsdCudService"
+		interface="iih.mi.mc.unlimitdrug.i.IUnlimitdrugCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<!-- 医保校验接口服务-->
+    <bean id="IMiMcRuleService" class="iih.mi.mc.s.IMiMcRuleServiceImpl" />
+	<xap:service ref="IMiMcRuleService" interface="iih.mi.mc.i.IMiMcRuleService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+</beans>

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 医嘱编码 -->
+  <code_or>05033007</code_or>
+  <code_or>05033020</code_or>
+  <code_or>05033101</code_or>
+</root>

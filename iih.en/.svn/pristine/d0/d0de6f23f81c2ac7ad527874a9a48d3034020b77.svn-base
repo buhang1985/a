@@ -1,0 +1,21 @@
+package iih.en.pv.s.bp.ip.qry;
+
+import iih.en.pv.dto.d.HosRecallQryDTO;
+import iih.en.pv.dto.d.LvHosAppDTO;
+import xap.mw.core.data.BizException;
+/***
+ * 
+ * 获取住院处出院 患者列表
+ * 
+ * @author fanlq
+ *
+ */
+public class GetLvHosListByQryDTOBP {
+
+	public LvHosAppDTO[] exec(HosRecallQryDTO recallQryDTO) throws BizException {
+		if(recallQryDTO == null)
+			return null;
+		GetLvHosListBP bp = new GetLvHosListBP();
+		return bp.exec(recallQryDTO.getId_dep(), recallQryDTO.getId_nur());
+	}
+}

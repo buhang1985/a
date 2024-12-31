@@ -1,0 +1,38 @@
+package iih.ci.mrqc.mrterminalqc.s;
+
+import iih.ci.mrqc.itmdto.d.ItmDTO;
+import iih.ci.mrqc.mrterminalqc.bp.MrTerminalQcQryBP;
+import iih.ci.mrqc.mrterminalqc.bp.MrTerminalQcSaveBP;
+import iih.ci.mrqc.mrterminalqc.i.IMrTerminalQcMaintainService;
+import iih.ci.mrqc.qapatlist.d.QaPatListDTO;
+import xap.mw.core.annotation.Service;
+import xap.mw.core.data.BizException;
+import xap.mw.core.service.constant.Binding;
+
+@Service(serviceInterfaces = { IMrTerminalQcMaintainService.class }, binding = Binding.JSONRPC)
+public class MrTerminalQcMaintainServiceImpl implements IMrTerminalQcMaintainService{
+	/**
+	 * 获取终末评分项目列表
+	 * @param sd_qctype
+	 * @return
+	 * @throws BizException
+	 */
+	@Override
+	public ItmDTO[] getMrQcTerminalItmList(QaPatListDTO qaPatDto) throws BizException {
+		// TODO Auto-generated method stub
+		MrTerminalQcQryBP qryBp=new MrTerminalQcQryBP();
+		return qryBp.getMrQcTerminalItmList(qaPatDto);
+	}
+    /**
+     * 保存终末评分
+     * @return
+     * @throws BizException
+     */
+	@Override
+	public boolean saveMrQcTerminalItmList(ItmDTO[] itmDtoArr, QaPatListDTO qaPatListDto) throws BizException {
+		// TODO Auto-generated method stub
+		MrTerminalQcSaveBP saveBp=new MrTerminalQcSaveBP();
+		return saveBp.saveMrQcTerminalItmList(itmDtoArr, qaPatListDto);
+	}
+
+}

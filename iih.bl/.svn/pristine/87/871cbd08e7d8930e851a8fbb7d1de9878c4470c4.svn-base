@@ -1,0 +1,20 @@
+package iih.bl.itf.transferdetails.s;
+
+import xap.mw.core.annotation.Service;
+import xap.mw.core.data.BizException;
+import xap.mw.core.service.constant.Binding;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+import iih.bl.itf.transferdetails.bp.TransferDetailsQryBP;
+import iih.bl.itf.transferdetails.d.TransferDetailsDTO;
+import iih.bl.itf.transferdetails.i.TransferDetailsService;
+
+@Service(serviceInterfaces = { TransferDetailsService.class }, binding = Binding.JSONRPC)
+public class TransferDetailsServiceImpl implements TransferDetailsService {
+
+	@Override
+	public TransferDetailsDTO[] transferDetailsQry(String code) throws BizException {
+		TransferDetailsQryBP bp = new TransferDetailsQryBP();
+		return bp.exec(code);
+	}
+
+}

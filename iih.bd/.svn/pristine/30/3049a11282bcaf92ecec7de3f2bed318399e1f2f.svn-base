@@ -1,0 +1,71 @@
+package iih.bd.mm.meterial.bp;
+
+import org.apache.commons.lang3.ArrayUtils;
+
+import iih.bd.bc.udi.pub.IBdMmDictCodeConst;
+import iih.bd.mm.meterial.d.MeterialAggDO;
+import iih.bd.mm.meterial.d.MeterialDO;
+import iih.bd.mm.meterial.s.ds.MaterialCache;
+import iih.bd.utils.log.BdMmLogUtils;
+import xap.mw.core.data.BizException;
+
+public class MaterialCuAfterBp {
+
+	public void exec(MeterialAggDO[] mmAggDOS) throws BizException {
+
+		// ■ 参数校验
+		this.validaPara(mmAggDOS);
+
+		// ■ 本地缓存信息更新
+		this.updateCache(mmAggDOS);
+
+		this.EnableMaterialNames(mmAggDOS);
+	}
+
+	/**
+	 * 启用药品通用名
+	 * 
+	 * @param mmAggDOS
+	 * @throws BizException 
+	 */
+	private void EnableMaterialNames(MeterialAggDO[] mmAggDOS) throws BizException {
+		EnableMaterialNamesAfterMaterialEnabledBp bp = new EnableMaterialNamesAfterMaterialEnabledBp();
+		for (MeterialAggDO meterialAggDO : mmAggDOS) {
+			if(meterialAggDO.getParentDO().getSd_mmtp().substring(0,1).equals(IBdMmDictCodeConst.SD_MMTP_WEISHENG) || meterialAggDO.getParentDO().getSd_mmtp().substring(0,1).equals(IBdMmDictCodeConst.SD_MMTP_QIXIE))//耗材的没有通用名，不进行处理
+					return;
+			MeterialDO meterialDO = meterialAggDO.getParentDO();
+			bp.exec(new MeterialDO[] { meterialDO });
+		}
+	}
+
+	private void validaPara(MeterialAggDO[] mmAggDOS) throws BizException {
+
+		if (mmAggDOS == null || mmAggDOS.length <= 0) {
+
+			throw new BizException("传入物品基本信息为空。");
+		}
+	}
+
+	private void updateCache(MeterialAggDO[] mmAggDOS) throws BizException {
+		
+		//输出更新缓存之前的数据
+		if (ArrayUtils.isNotEmpty(mmAggDOS)) {
+			MeterialDO mmDO = MaterialCache.getInstance().getMaterialInfoByID(mmAggDOS[0].getParentDO().getId_mm());
+			BdMmLogUtils.info("-----------------------------------------------");
+			BdMmLogUtils.info("物品"+mmDO.getName()+"更新缓存之前的数据"+mmDO.toString());
+			BdMmLogUtils.info("-----------------------------------------------");
+		}
+		
+		//更新缓存
+		MaterialCache.getInstance().updateMaterialAggInfo(mmAggDOS);
+		
+		//输出更新缓存之后的数据
+		if (ArrayUtils.isNotEmpty(mmAggDOS)) {
+			MeterialDO mmDO1 = MaterialCache.getInstance().getMaterialInfoByID(mmAggDOS[0].getParentDO().getId_mm());
+			BdMmLogUtils.info("-----------------------------------------------");
+			BdMmLogUtils.info("物品"+mmDO1.getName()+"更新缓存之后的数据"+mmDO1.toString());
+			BdMmLogUtils.info("-----------------------------------------------");
+			BdMmLogUtils.info("**********更新缓存之前和之后如果数据一样，可能是mq异步导致，缓存刷新延迟***************");
+		}
+	}
+}

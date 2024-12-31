@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+
+	<!-- IIH对外标准接口 -->
+	<bean id="IIHService" class="iih.ei.std.s.IIHServiceImpl"></bean>
+	<xap:service ref="IIHService"
+		interface="iih.ei.std.i.IIHService" requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+
+	<bean id="IEnApiService" class="iih.ei.std.s.v1.EnApiServiceImpl"></bean>
+	<xap:service ref="IEnApiService"
+		interface="iih.ei.std.i.v1.IEnApiService" requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+	
+	<bean id="IScApiService" class="iih.ei.std.s.v1.ScApiServiceImpl"></bean>
+	<xap:service ref="IScApiService"
+		interface="iih.ei.std.i.v1.IScApiService" requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+
+	<!-- 基础数据API -->
+	<bean id="BdApiService" class="iih.ei.std.s.v1.BdApiServiceImpl"></bean>
+	<xap:service ref="BdApiService"
+		interface="iih.ei.std.i.v1.IBdApiService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- IIH提供给门诊发药机调用的WebService -->
+	<bean id="cdm_consis_v1_CDMWebService"
+		class="iih.ei.std.consis.v1.s.CDMWebService"></bean>
+	<xap:service ref="cdm_consis_v1_CDMWebService"
+		interface="iih.ei.std.consis.v1.i.ICDMWebService" requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+
+	<!-- IIH提供给住院静脉配置中心调用的WebService -->
+	<bean id="pivas_cr_technology_v1_PivasWebService"
+		class="iih.ei.std.cr_technology.v1.s.PivasWebService"></bean>
+	<xap:service ref="pivas_cr_technology_v1_PivasWebService"
+		interface="iih.ei.std.cr_technology.v1.i.IPivasWebService"
+		requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+
+	<!-- 基础数据查询Web服务 -->
+	<bean id="BdQryWebService"
+		class="iih.ei.std.bd.v1.s.BdQryWebServiceImpl"></bean>
+	<xap:service ref="BdQryWebService"
+		interface="iih.ei.std.bd.v1.i.IBdQryWebService">
+		<xap:binding name="ws" />
+	</xap:service>
+
+	<!-- 基础数据查询服务 -->
+	<bean id="BdQryService"
+		class="iih.ei.std.bd.v1.s.BdQryServiceImpl"></bean>
+	<xap:service ref="BdQryService"
+		interface="iih.ei.std.bd.v1.i.IBdQryService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 基础数据_标准接口日志服务 -->
+	<bean id="BdStdLogService"
+		class="iih.ei.std.bd.v1.log.BdStdLogServiceImpl"></bean>
+	<xap:service ref="BdStdLogService"
+		interface="iih.ei.std.bd.v1.log.IBdStdLogService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 临床域接口服务 -->
+	<bean id="ICiApiService" class="iih.ei.std.s.v1.CiApiServiceImpl"></bean>
+	<xap:service ref="ICiApiService"
+		interface="iih.ei.std.i.v1.ICiApiService" requires="tx" >
+		<xap:binding name="ws" />
+	</xap:service>
+	
+	<!-- 执行域接口服务 -->
+	<bean id="IMpApiService" class="iih.ei.std.s.v1.MpApiServiceImpl"></bean>
+	<xap:service ref="IMpApiService"
+		interface="iih.ei.std.i.v1.IMpApiService" requires="tx" >
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 费用标准接口服务 -->
+	<bean id="IBlApiService" class="iih.ei.std.s.v1.BlApiServiceImpl"></bean>
+	<xap:service ref="IBlApiService"
+		interface="iih.ei.std.i.v1.IBlApiService" requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+	
+	<!-- 患者标准接口服务 -->
+	<bean id="IPiApiService" class="iih.ei.std.s.v1.PiApiServiceImpl"></bean>
+	<xap:service ref="IPiApiService"
+		interface="iih.ei.std.i.v1.IPiApiService" requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+	
+	<!-- 病历标准接口服务 -->
+	<bean id="IMrApiService" class="iih.ei.std.s.v1.MrApiServiceImpl"></bean>
+	<xap:service ref="IMrApiService"
+		interface="iih.ei.std.i.v1.IMrApiService" requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+	<!-- 人力管理标准接口服务 -->
+	<bean id="IHrApiService" class="iih.ei.std.s.v1.IHrApiServiceImpl"></bean>
+	<xap:service ref="IHrApiService"
+		interface="iih.ei.std.i.v1.IHrApiService" requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+	
+	<!-- 体检标准接口服务 -->
+	<bean id="IPeApiService" class="iih.ei.std.s.v1.PeApiServiceImpl"></bean>
+	<xap:service ref="IPeApiService"
+		interface="iih.ei.std.i.v1.IPeApiService" requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+
+	<!-- 微信公众号标准接口服务 -->
+	<bean id="IPisApiService" class="iih.ei.std.s.v1.PisApiServiceImpl"></bean>
+	<xap:service ref="IPisApiService"
+		interface="iih.ei.std.i.v1.IPisApiService" requires="tx">
+		<xap:binding name="ws" />
+	</xap:service>
+</beans>

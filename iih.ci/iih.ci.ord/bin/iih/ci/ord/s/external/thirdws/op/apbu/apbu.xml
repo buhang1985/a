@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<!-- 就诊信息 -->
+	<ent>
+		<weight></weight>
+		<code_emp_nur></code_emp_nur>
+		<sd_bloodtype_pi></sd_bloodtype_pi>
+		<code_pat></code_pat>
+		<times_en></times_en>
+		<sd_rhd_pi></sd_rhd_pi>
+		<code_entp></code_entp>
+		<code_dep_nur></code_dep_nur>
+		<code_org></code_org>
+		<code_emp_phy></code_emp_phy>
+		<code_grp></code_grp>
+		<fg_hecominsur></fg_hecominsur>
+		<code_bed></code_bed>
+		<code_en></code_en>
+		<code_dep_phy></code_dep_phy>
+		<fg_vip></fg_vip>
+		<code_weight_unit></code_weight_unit>
+		<!-- 医嘱list -->
+		<order>
+			<dt_bu_plan></dt_bu_plan>
+			<des_or></des_or>
+			<operationroom></operationroom>
+			<operationroomtel></operationroomtel>
+			<code_org_or></code_org_or>
+			<code_dep_mp_or></code_dep_mp_or>
+			<code_dep_or></code_dep_or>
+			<code_or></code_or>
+			<applydoctortel></applydoctortel>
+			<sortno_or></sortno_or>
+			<no_applyform_bt></no_applyform_bt>
+			<quan_medu_bt></quan_medu_bt>
+			<code_medu_bt></code_medu_bt>
+			<no_applyform_bu></no_applyform_bu>
+			<dt_entry_or></dt_entry_or>
+			<code_emp_or></code_emp_or>
+			<code_org_mp_or></code_org_mp_or>
+			<code_srv_bt></code_srv_bt>
+			<name_srv_bt></name_srv_bt>
+			<fg_urgent></fg_urgent>
+			<code_wg_or></code_wg_or>
+			<!-- 血袋信息list -->	
+			<bbinfo>
+			<barcode_bb></barcode_bb>
+			<num_bb></num_bb>
+			<code_unit_bb></code_unit_bb>
+			<code_emp_testitm></code_emp_testitm>
+			<ode_emp_retestitm></ode_emp_retestitm>
+			</bbinfo>
+			<!-- 服务/费用list -->			
+			<srv>
+				<code_dep_mp_srv></code_dep_mp_srv>
+				<pri_ratio></pri_ratio>
+				<fg_specill></fg_specill>
+				<name_srv></name_srv>
+				<code_srv></code_srv>
+				<quan_medu_srv></quan_medu_srv>
+				<pri></pri>
+				<fg_selfpay></fg_selfpay>
+				<code_researchproject></code_researchproject>
+				<fg_research></fg_research>
+				<pri_std></pri_std>
+				<sd_hpsrvtp></sd_hpsrvtp>
+				<code_org_mp_srv></code_org_mp_srv>
+			</srv>
+		</order>
+	</ent>
+</root>

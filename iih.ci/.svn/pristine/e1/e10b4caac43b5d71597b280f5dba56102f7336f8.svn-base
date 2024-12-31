@@ -1,0 +1,33 @@
+package iih.ci.ord.s.external.obtain.bp.bl;
+
+import java.util.List;
+
+import iih.bd.bc.udi.pub.ICiDictCodeConst;
+import xap.sys.jdbc.facade.DAException;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.ColumnListHandler;
+import xap.sys.jdbc.kernel.SqlParam;
+
+/**
+ * 获取待记账医嘱信息
+ * @author HUMS
+ *
+ */
+public class GgetWaitingAccountOrdsBP {
+
+	public String[] getIdOrs(String idEn, String codeEntp) throws DAException {
+		
+		SqlParam sqlParam = new SqlParam();
+		DAFacade dAFacade = new DAFacade();
+		sqlParam.addParam(idEn);
+
+		String qrySql = "select id_or from ci_order where ds = 0 and id_en = ?  and fg_sign = 'Y' and fg_canc= 'N' and sd_su_bl='"
+				+ ICiDictCodeConst.SD_SU_BL_NONE + "'";
+
+		List<String> idOrList = (List<String>)dAFacade.execQuery(qrySql, sqlParam,new ColumnListHandler());
+
+		return idOrList.toArray(new String[idOrList.size()]);
+
+	}
+
+}

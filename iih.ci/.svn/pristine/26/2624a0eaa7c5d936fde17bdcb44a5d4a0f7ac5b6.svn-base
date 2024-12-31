@@ -1,0 +1,10 @@
+package iih.ci.ord.s.ems.base;
+
+/**
+ * 临床路径保存基类
+ * @author wangqingzhu
+ *
+ */
+public class BaseCpSaveBP extends BaseEmsSaveBP {
+
+}

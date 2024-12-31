@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+
+	<!-- 患者就诊卡服务 -->
+	<bean id="ICardService" class="iih.pi.card.card.s.CardCrudServiceImpl"></bean>
+	<xap:service ref="ICardService" interface="iih.pi.card.card.i.ICardCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 就诊卡操作记录服务 -->
+	<bean id="IActService" class="iih.pi.card.act.s.ActCrudServiceImpl"></bean>
+	<xap:service ref="IActService" interface="iih.pi.card.act.i.IActCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 就诊卡发放服务 -->
+	<bean id="IIssService" class="iih.pi.card.iss.s.IssCrudServiceImpl"></bean>
+	<xap:service ref="IIssService" interface="iih.pi.card.iss.i.IIssCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 卡管理查询服务 -->
+	<bean id="PiCardQryService" class="iih.pi.card.s.PiCardQryServiceImpl"></bean>
+	
+	<!-- 卡管理维护服务 -->
+	<bean id="PiCardMaintainService" class="iih.pi.card.s.PiCardMaintainServiceImpl"></bean>
+	<xap:service ref="PiCardMaintainService" interface="iih.pi.card.i.IPiCardMaintainService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+</beans>

@@ -1,0 +1,22 @@
+package iih.ci.mi.ord.bp;
+
+import java.util.List;
+
+import iih.ci.mi.ord.i.meta.OrdSpecillParamDTO;
+import iih.ci.mi.ord.i.meta.OrdSrvSpecillRstDTO;
+import iih.ci.ord.ems.d.CiEnContextDTO;
+import xap.mw.core.data.BizException;
+
+public class GetOrdPatSpecillCheckBP extends BasicOrdMiVerifyBP{
+
+	@Override
+	public boolean isEnabledVerify(CiEnContextDTO ctx) throws BizException {
+		
+		return false;
+	}
+
+	public List<OrdSrvSpecillRstDTO> exec(CiEnContextDTO ctx, OrdSpecillParamDTO orderParam){
+		
+		return null;
+	}
+}

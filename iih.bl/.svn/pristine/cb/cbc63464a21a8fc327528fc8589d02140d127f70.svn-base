@@ -1,0 +1,49 @@
+package iih.bl.cg.s;
+
+import xap.mw.core.data.BizException;
+import iih.bl.cg.dto.cglogic.d.BlCgAccountDTO;
+import iih.bl.cg.dto.cglogic.d.BlCgAccountRltDTO;
+import iih.bl.cg.dto.cglogic.d.BlCgAccountSetDTO;
+import iih.bl.cg.dto.cglogic.d.BlCgRefundAccountDTO;
+import iih.bl.cg.dto.cglogic.d.BlCgRefundAccountSetDTO;
+import iih.bl.cg.i.IBlCgAccountPackService;
+import iih.bl.cg.s.cglogic.pkgbp.BlKeepAccountForIpFlowPackBP;
+import iih.bl.cg.s.cglogic.pkgbp.BlRefundAccountForIpFlowPackBP;
+
+/**
+ * 费用记账包装服务
+ * @author ly 2019/03/14
+ *
+ */
+public class BlCgAccountPackServiceImpl implements IBlCgAccountPackService{
+
+	/**
+	 * 住院流程记账包装
+	 * 含住院及留观
+	 * @param accDtos 待记账数据
+	 * @param accSetDto 记账配置
+	 * @return 记账结果
+	 * @throws BizException
+	 * @author ly 2019/03/14
+	 */
+	@Override
+	public BlCgAccountRltDTO keepAccountForIpFlow(BlCgAccountDTO[] accDtos, BlCgAccountSetDTO accSetDto) throws BizException {
+		BlKeepAccountForIpFlowPackBP bp = new BlKeepAccountForIpFlowPackBP();
+		return bp.exec(accDtos, accSetDto);
+	}
+
+	/**
+	 * 住院流程退记账包装
+	 * 含住院及留观
+	 * @param refundDtos 退记账数据
+	 * @param accSetDto 退记账配置
+	 * @return 退记账结果
+	 * @throws BizException
+	 * @author ly 2019/03/14
+	 */
+	@Override
+	public BlCgAccountRltDTO refundAccountForIpFlow(BlCgRefundAccountDTO[] refundDtos, BlCgRefundAccountSetDTO accSetDto) throws BizException {
+		BlRefundAccountForIpFlowPackBP bp = new BlRefundAccountForIpFlowPackBP();
+		return bp.exec(refundDtos, accSetDto);
+	}
+}

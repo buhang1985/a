@@ -1,0 +1,100 @@
+package iih.bl.itf.transferqry.bp;
+
+import java.util.List;
+
+import iih.bl.itf.transferqry.d.TransferInfoDTO;
+import xap.mw.core.data.BizException;
+import xap.mw.core.utils.ListUtil;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.rui.control.qrysqlgenerator.i.IQrySQLGeneratorService;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.BeanListHandler;
+
+public class TransferInfoBP {
+	/**
+	 * 转账查询节点转账详细信息查询
+	 * 以bl_transBlankAcc_info表为主
+	 * @param qryNode
+	 * @return
+	 * @throws BizException
+	 * @author dong.jy
+	 */
+	@SuppressWarnings("unchecked")
+	public TransferInfoDTO[] exec(QryRootNodeDTO qryNode) throws BizException{
+		IQrySQLGeneratorService qrySQLGeneratorService = ServiceFinder.find(IQrySQLGeneratorService.class);
+	    String whereStr = qrySQLGeneratorService.getQueryStringWithoutDesc(qryNode);
+		StringBuffer sql = new StringBuffer();
+		sql.append("select pat.code Pat_code,");
+		sql.append("       pat.name Pat_name,");
+		sql.append("       pm.name  Pay_org_ment,");
+		sql.append("       info.amt Amt,");
+		sql.append("       info.bank_name Bank,");
+		sql.append("       info.bank_id_code Bank_no,");
+		sql.append("       pre.dt_pay Pay_time,");
+		sql.append("       info.id_emp_transacc Id_emp_transacc,");
+		sql.append("       info.dt_tansacc Transfer_time");
+		sql.append("  from bl_transBlankAcc_info info");
+		sql.append(" inner join pi_pat pat");
+		sql.append("    on pat.id_pat = info.id_pat");
+		sql.append(" inner join bl_prepay_pat pre");
+		sql.append("    on pre.id_pat = info.id_pat");
+		sql.append(" inner join (select ip.code_amr_ip, ip.dt_disc, ip.id_dep_phyadm, en.id_ent");
+		sql.append("               from en_ent_ip ip");
+		sql.append("              inner join en_ent en");
+		sql.append("                 on en.id_ent = ip.id_ent) ent");
+		sql.append("    on ent.id_ent = pre.id_ent");
+		sql.append(" inner join bd_pri_pm pm");
+		sql.append("    on pre.id_pm = pm.id_pm");
+		sql.append(" where pre.eu_direct = '-1'");
+		sql.append("   and pre.sd_pm = '02'");
+		sql.append("   and pre.fg_refund_manual = 'Y'");
+		sql.append("   and pre.sd_paytp = '12'");
+		if(whereStr != null){
+			sql.append("and").append(whereStr).append("");
+		}
+		sql.append("   union all ");
+		sql.append("select pat.code Pat_code,");
+		sql.append("       pat.name Pat_name,");
+		sql.append("       pm.name Pay_org_ment,");
+		sql.append("       info.amt Amt,");
+		sql.append("       info.bank_name Bank,");
+		sql.append("       info.bank_id_code Bank_no,");
+		sql.append("       pay.dt_pay Pay_time,");
+		sql.append("       info.id_emp_transacc Id_emp_transacc,");
+		sql.append("       info.dt_tansacc Transfer_time");
+		sql.append("  from bl_transBlankAcc_info info");
+		sql.append(" inner join pi_pat pat");
+		sql.append("    on pat.id_pat = info.id_pat");
+		sql.append(" inner join bl_pay_pat_ip pay");
+		sql.append("    on pay.id_pat = info.id_pat");
+		sql.append(" inner join bl_pay_itm_pat_ip itm");
+		sql.append("    on pay.id_paypatip = itm.id_paypatip");
+		sql.append(" inner join bl_st_ip st");
+		sql.append("    on pay.id_stip = st.id_stip");
+		sql.append(" inner join (select ip.code_amr_ip, ip.dt_disc, ip.id_dep_phyadm, en.id_ent");
+		sql.append("               from en_ent_ip ip");
+		sql.append("              inner join en_ent en");
+		sql.append("                 on en.id_ent = ip.id_ent) ent");
+		sql.append("    on ent.id_ent = pay.id_ent");
+		sql.append(" inner join bd_pri_pm pm");
+		sql.append("    on itm.id_pm = pm.id_pm");
+		sql.append(" where st.fg_canc <> 'Y'");
+		sql.append("   and itm.id_paypat is not null");
+		sql.append("   and itm.sd_pm = '02'");
+		sql.append("   and itm.fg_realpay = 'Y'");
+		sql.append("   and itm.fg_refund_manual='Y'");
+		if(whereStr != null){
+			sql.append("and").append(whereStr).append("");
+		}
+		List<TransferInfoDTO> list = (List<TransferInfoDTO>) new DAFacade().execQuery(sql.toString(), 
+				new BeanListHandler(TransferInfoDTO.class));
+		if(ListUtil.isEmpty(list)){
+			return null;
+		}
+		return list.toArray(new TransferInfoDTO []{});
+		
+		
+	}
+
+}

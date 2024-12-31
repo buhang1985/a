@@ -1,0 +1,12 @@
+package iih.ci.ord.s.ems.ip.assi.cp.pathgy;
+
+import iih.ci.ord.s.ems.base.BaseCpSaveBP;
+
+/**
+ * 临床路径 - 病理保存
+ * @author wangqingzhu
+ *
+ */
+public class CpPathgySaveBP extends BaseCpSaveBP {
+
+}

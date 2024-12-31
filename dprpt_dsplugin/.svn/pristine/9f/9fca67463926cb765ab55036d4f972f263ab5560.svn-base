@@ -1,0 +1,96 @@
+package iih.pe.report.bp;
+
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.sun.rowset.CachedRowSetImpl;
+
+import iih.pe.report.bp.qry.SqlQryBp;
+import iih.pe.report.dto.rpt.PePsnApptDTO;
+import iih.pe.report.dto.rpt.PeRstDTO;
+import iih.pe.report.dto.rpt.PeRstHistDTO;
+import xap.dp.report.data.reader.sql.SqlReader;
+import xap.sys.jdbc.handler.BeanListHandler;
+
+public class GetHisRptBp {
+	
+	@SuppressWarnings("unchecked")
+	public List<PeRstHistDTO> exec (String id_pepsnappt) throws Exception {
+		//参数非空验证
+		if (valida(id_pepsnappt)) {
+			return null;
+		}
+		//返回查询结果
+		List<PeRstHistDTO> rstHisDtoList = null;//本次体检结果
+		SqlQryBp peRstQry = new SqlQryBp();
+		//获取体检记录
+		rstHisDtoList = (List<PeRstHistDTO>)getResultListBySql(peRstQry.getQrySQLStrOfHisDto(id_pepsnappt), PeRstHistDTO.class);
+		//查询该体检客户是否有历史体检
+		List<PePsnApptDTO> apptDosCur = (List<PePsnApptDTO>)getResultListBySql(peRstQry.getQrySQLStrOfPsnAppt(id_pepsnappt), PePsnApptDTO.class);
+		if(apptDosCur.size() > 0){
+			List<PePsnApptDTO> apptDos = (List<PePsnApptDTO>)getResultListBySql(peRstQry.getQrySQLStrOfPsnAppt(id_pepsnappt, apptDosCur.get(0).getId_pepsnbinfo()), PePsnApptDTO.class);
+			//历史体检
+			if(apptDos.size() == 2){//至少存在两次体检结果
+				//取得上次体检结果
+				List<PeRstDTO> PeRstDTOs_1 = (List<PeRstDTO>)getResultListBySql(peRstQry.getQrySQLStrOfRstDtos(id_pepsnappt), PeRstDTO.class);
+				for(PeRstHistDTO his : rstHisDtoList){
+					String id_peitem = his.getId_pesrvitem();
+					for(PeRstDTO rst : PeRstDTOs_1){
+						if(id_peitem.equals(rst.getId_pesrvitem())){
+							his.setRst_1(rst.getRst());
+							his.setUnit(rst.getUnit());
+						}
+					}
+				}
+				//获取上上次体检结果
+				List<PeRstDTO> PeRstDTOs_2 = (List<PeRstDTO>)getResultListBySql(peRstQry.getQrySQLStrOfRstDtos(id_pepsnappt), PeRstDTO.class);
+				for(PeRstHistDTO his : rstHisDtoList){
+					String id_peitem = his.getId_pesrvitem();
+					for(PeRstDTO rst : PeRstDTOs_2){
+						if(id_peitem.equals(rst.getId_pesrvitem())){
+							his.setRst_2(rst.getRst());
+						}
+					}
+				}
+			}
+		}
+		return rstHisDtoList;
+	}
+	
+
+	/**
+	 * 基础参数校验
+	 * @param dt_monday
+	 * @param id_dep_nur
+	 * @return
+	 */
+    private boolean valida(String id_pepsnappt) {
+    	return (StringUtils.isEmpty(id_pepsnappt));
+    }
+    
+	/**
+	 * 使用泛型，返回数据库结果集
+	 * @param strSql
+	 * @param classinfo
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "unchecked", "deprecation" })
+	public Object getResultListBySql(String strSql,Class<?> classinfo) throws Exception {
+		SqlReader sql_rdr = new SqlReader(null, strSql);
+		sql_rdr.runSql(null, true);
+		CachedRowSetImpl cached_rs = sql_rdr.getCacheRowSet();
+		// 转换成对应 DTO 对象
+		BeanListHandler beanlist_handler = new BeanListHandler(classinfo);
+		List<Object> result = (List<Object>) beanlist_handler.processRs(cached_rs);
+		sql_rdr.destroy();
+		return result;
+	}
+	
+	
+
+	
+	
+	
+}

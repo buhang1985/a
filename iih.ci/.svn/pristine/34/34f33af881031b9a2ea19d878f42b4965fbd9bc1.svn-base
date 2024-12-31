@@ -1,0 +1,12 @@
+package iih.ci.ord.s.ems.ip.assi.cp.ris;
+
+import iih.ci.ord.s.ems.base.BaseEmsAction;
+
+/**
+ * 
+ * @author wangqingzhu
+ *
+ */
+public class CpRisAction extends BaseEmsAction {
+
+}

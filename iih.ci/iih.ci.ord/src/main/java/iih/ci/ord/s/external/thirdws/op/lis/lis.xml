@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root> 
+  <!-- 就诊 -->  
+  <ent> 
+  <!-- 所属集团-->
+ 		<code_grp>001</code_grp>
+ 		<!-- 所属组织-->
+ 		<code_org>001</code_org>
+ 		<!-- 患者-->
+ 		<code_pat>100039790200</code_pat>
+ 		<!-- 就诊次数-->
+ 		<times_en>2</times_en>
+ 		<!-- 就诊-->
+ 		<code_en>1900008389</code_en>
+ 		<!-- 就诊类型编码-->
+ 		<code_entp>00</code_entp>
+ 		<!-- 当前就诊科室-->
+ 		<code_dep_phy>100101</code_dep_phy>
+ 		<!-- 当前主管医生-->
+ 		<code_emp_phy>00062</code_emp_phy>
+ 		<!-- 当前责任护士-->
+ 		<code_emp_nur></code_emp_nur>
+ 		<!-- 当前所在病区-->
+ 		<code_dep_nur></code_dep_nur>
+ 		<!-- 床位号-->
+ 		<code_bed></code_bed>
+ 		<!-- VIP标识-->
+ 		<fg_vip></fg_vip>
+ 		<!-- 高端商保标识-->
+ 		<fg_hecominsur>Y</fg_hecominsur>
+ 		<!-- 婴儿标识-->
+ 		<fg_bb></fg_bb>
+    <print> 
+      <ordlist/>  
+      <amt_app>111111112</amt_app>  
+      <code_app>11121234443</code_app>  
+      <order> 
+      <code_srv_or>250306002a</code_srv_or>
+      <name_srv_or>asdasd</name_srv_or>
+         <sd_samptp>h031</sd_samptp>  
+         <quan_medu_or>3</quan_medu_or>  
+         <des_or>44442</des_or>  
+         <sd_sampcollecttimetp>0201</sd_sampcollecttimetp>  
+         <name_diag>666662</name_diag>  
+          <code_diag>Z00.001</code_diag>  
+         <code_org_or>111211233</code_org_or>  
+         <code_or>123456780000</code_or>  
+         <code_dep_mp_or>100101</code_dep_mp_or>  
+         <code_dep_or>100101</code_dep_or>  
+         <sortno_or>88822</sortno_or>  
+         <dt_plan>2018-09-16 18:09:27</dt_plan>  
+        <no_applyform>111211235553</no_applyform>  
+         <sd_pps>0</sd_pps>
+ 		       <!-- 加急标识-->
+ 		       <fg_urgent>N</fg_urgent>
+ 		       <!-- 单次数量-->
+ 		       <quan_medu_or>1</quan_medu_or>
+ 		       <!-- 单位支付标志-->
+ 		       <fg_pay_unit></fg_pay_unit>
+ 		       <!-- 嘱托-->
+ 		       <des_or>777</des_or>
+ 		       <!-- 开立机构-->
+ 		       <code_org_or>600903</code_org_or>
+ 		       <!-- 开立部门-->
+ 		       <code_dep_or>103901</code_dep_or>
+ 		       <!-- 开立医疗组-->
+ 		       <code_wg_or></code_wg_or>
+ 		       <!-- 开立医生-->
+ 		       <code_emp_or>00062</code_emp_or>
+ 		       <!-- 开立日期-->
+ 		       <dt_entry_or>2019/06/20 22:21:21</dt_entry_or>
+ 		       <!-- 医嘱执行机构-->
+ 		       <code_org_mp_or>600903</code_org_mp_or>
+ 		       <!-- 医嘱执行科室-->
+ 		       <code_dep_mp_or>300201</code_dep_mp_or>
+
+             <srv>
+ 		           <!-- 费用项目编码-->
+ 		           <code_srv>250306002a</code_srv>
+ 		           <!-- 费用项目名称-->
+ 		           <name_srv>阿萨德</name_srv>
+ 		           <!-- 费用项目单次数量-->
+ 		           <quan_medu_srv>1</quan_medu_srv>
+ 		           <!-- 医保目录类型-->
+ 		           <sd_hpsrvtp>2</sd_hpsrvtp>
+ 		           <!-- 自费标识-->
+ 		           <fg_selfpay>Y</fg_selfpay>
+ 		           <!-- 特种病标识-->
+ 		           <fg_specill>Y</fg_specill>
+ 		           <!-- 单价-->
+ 		           <pri>11</pri>
+ 		           <!-- 标准价-->
+ 		           <pri_std>12</pri_std>
+ 		           <!-- 价格系数-->
+ 		           <pri_ratio>111</pri_ratio>
+ 		           <!-- 科研标识-->
+ 		           <fg_research>Y</fg_research>
+ 		           <!-- 科研项目编码-->
+ 		           <code_researchproject>123</code_researchproject>
+ 		           <!-- 费用执行机构-->
+ 		           <code_org_mp_srv>600903</code_org_mp_srv>
+ 		           <!-- 费用执行科室-->
+ 		           <code_dep_mp_srv>300201</code_dep_mp_srv>
+ 		        </srv>
+ 		            <srv>
+ 		           <!-- 费用项目编码-->
+ 		           <code_srv>250306002a</code_srv>
+ 		           <!-- 费用项目名称-->
+ 		           <name_srv>阿萨德</name_srv>
+ 		           <!-- 费用项目单次数量-->
+ 		           <quan_medu_srv>1</quan_medu_srv>
+ 		           <!-- 医保目录类型-->
+ 		           <sd_hpsrvtp>2</sd_hpsrvtp>
+ 		           <!-- 自费标识-->
+ 		           <fg_selfpay>Y</fg_selfpay>
+ 		           <!-- 特种病标识-->
+ 		           <fg_specill>Y</fg_specill>
+ 		           <!-- 单价-->
+ 		           <pri>11</pri>
+ 		           <!-- 标准价-->
+ 		           <pri_std>12</pri_std>
+ 		           <!-- 价格系数-->
+ 		           <pri_ratio>111</pri_ratio>
+ 		           <!-- 科研标识-->
+ 		           <fg_research>Y</fg_research>
+ 		           <!-- 科研项目编码-->
+ 		           <code_researchproject>123</code_researchproject>
+ 		           <!-- 费用执行机构-->
+ 		           <code_org_mp_srv>600903</code_org_mp_srv>
+ 		           <!-- 费用执行科室-->
+ 		           <code_dep_mp_srv>300201</code_dep_mp_srv>
+ 		        </srv>
+      </order> 
+    </print>  
+    <printlist/>   
+  </ent> 
+</root>

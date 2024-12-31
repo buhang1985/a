@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	<!--治疗方案服务接口 -->
+	<bean id="iCitsorderCrudServiceImpl" class="iih.ci.tsip.s.CitsorderCrudServiceImpl"></bean>
+	<!--治疗方案检验医疗单服务接口 -->
+	<bean id="iCitsaplabCrudServiceImpl" class="iih.ci.tsip.s.CitsaplabCrudServiceImpl"></bean>
+	<!--治疗方案检验医疗单服务接口 -->
+	<bean id="iCitsapobsCrudServiceImpl" class="iih.ci.tsip.s.CitsapobsCrudServiceImpl"></bean>
+	<!-- 治疗方案医嘱主表 -->
+	<bean id="iCitsorderMDOCrudServiceImpl" class="iih.ci.tsip.s.CitsorderMDOCrudServiceImpl"></bean>
+	<xap:service ref="iCitsorderMDOCrudServiceImpl"
+		interface="iih.ci.tsip.i.ICitsorderMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 治疗方案转预住院医嘱生成记录 -->
+    <!-- 增删改 -->
+    <bean id="iih.ci.tsip.i.ICitsormpCudService"
+        class="iih.ci.tsip.s.CitsormpCrudServiceImpl"/>
+    <xap:service ref="iih.ci.tsip.i.ICitsormpCudService"
+        interface="iih.ci.tsip.i.ICitsormpCudService" requires="tx">
+        <xap:binding name="jsonrpc" />
+    </xap:service>
+    <!-- 查询 -->
+    <bean id="iih.ci.tsip.i.ICitsormpRService"
+        class="iih.ci.tsip.s.CitsormpCrudServiceImpl"/>
+</beans>

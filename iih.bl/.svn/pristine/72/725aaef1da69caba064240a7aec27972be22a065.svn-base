@@ -1,0 +1,147 @@
+package iih.bl.itf.std.bp.opprepay;
+
+import iih.bd.bc.udi.pub.IBdFcDictCodeConst;
+import iih.bd.pp.pripm.d.PriPmDO;
+import iih.bl.comm.util.BlFlowContextUtil;
+import iih.bl.itf.bltranscall.d.BlTransCalledRcdDO;
+import iih.bl.itf.bltranscall.d.ItfTypeEnum;
+import iih.bl.itf.std.bean.constant.IBlWsConst;
+import iih.bl.itf.std.bean.input.prepay.WsParamPrepay;
+import iih.bl.itf.std.bean.input.prepay.sub.WsParamPrepayInfo;
+import iih.bl.itf.std.bean.output.WsResultMsg;
+import iih.bl.itf.std.bean.output.prepay.WsResultInfoPrepay;
+import iih.bl.itf.std.bean.output.prepay.WsResultPrepay;
+import iih.bl.itf.std.util.BlAmtConverUtil;
+import iih.bl.pay.blpaypat.d.BlPrePayPatDO;
+import iih.bl.pay.dto.prepay.d.BlPrepayRDTO;
+import iih.bl.pay.dto.prepay.d.BlPrepaySetDTO;
+import iih.bl.pay.i.IBlPrepayCmdService;
+import iih.pi.acc.account.d.PiPatAccDO;
+import iih.pi.acc.account.i.IAccountMDORService;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.Context;
+import xap.mw.core.data.DOStatus;
+import xap.mw.core.utils.ArrayUtil;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.coreitf.d.FDouble;
+import xap.mw.sf.core.util.ServiceFinder;
+
+/**
+ * 门诊退预交金
+ * @author ly 2019/11/21
+ *
+ */
+public class OpRefundPrepayBP extends OpRefundPrepayCheckBP{
+
+	/**
+	 * 创建交易记录
+	 * 在dowork前调用，可将部分数据初始化挪至该处理
+	 * @param xml
+	 * @param tData
+	 * @return
+	 * @throws BizException
+	 */
+	@Override
+	protected BlTransCalledRcdDO createTransRcd(String xml, WsParamPrepay param) throws BizException{
+	
+		WsParamPrepayInfo prepayInfo = param.getPrepay();
+		
+		BlTransCalledRcdDO rcdDO = new BlTransCalledRcdDO();
+		rcdDO.setId_org(Context.get().getOrgId());
+		rcdDO.setId_grp(Context.get().getGroupId());
+		rcdDO.setEu_itftp(ItfTypeEnum.OPPREPAYREFUND);
+		rcdDO.setId_pat(null);
+		rcdDO.setId_ent(null);
+		rcdDO.setCode_enttp(IBdFcDictCodeConst.SD_CODE_ENTP_OP);
+		rcdDO.setId_pm(prepayInfo.getPaymentMethod());//临时保存入参原始值
+		rcdDO.setVoucher_no(prepayInfo.getDocumentNumberOri());
+		rcdDO.setOrder_no(prepayInfo.getOrderNumberOri());
+		rcdDO.setFg_success(FBoolean.FALSE);
+		rcdDO.setId_emp_oper(Context.get().getStuffId());
+		rcdDO.setDt_oper(BlFlowContextUtil.getNowTime());
+		rcdDO.setInput(xml);
+		rcdDO.setStatus(DOStatus.NEW);
+		
+		return rcdDO;
+	}
+	
+	@Override
+	protected WsResultPrepay doWork(WsParamPrepay param) throws BizException {
+		
+		super.doWork(param);
+		
+		WsParamPrepayInfo prepayInfo = param.getPrepay();
+		
+		//退充值
+		IBlPrepayCmdService prepayService = ServiceFinder.find(IBlPrepayCmdService.class);
+		
+		FDouble refundAmt = BlAmtConverUtil.toFDouble(prepayInfo.getPayMoney());
+		
+		BlPrepayRDTO prepayDto = new BlPrepayRDTO();
+		prepayDto.setId_pat(this.patId);
+		prepayDto.setAmt(refundAmt);
+		prepayDto.setSd_pttp(prepayInfo.getTerminalNO());
+		PriPmDO pmDO = super.getPmByCode(prepayInfo.getPaymentMethod());
+		if(pmDO != null){
+			prepayDto.setId_pm(pmDO.getId_pm());
+		}
+		prepayDto.setSd_pm(prepayInfo.getPaymentMethod());
+		prepayDto.setBankno(prepayInfo.getDocumentNumber());
+		prepayDto.setPaymodenode(prepayInfo.getOrderNumber());
+		prepayDto.setId_emp_pay(Context.get().getStuffId());
+		prepayDto.setEu_direct(-1);
+		if(refundAmt.compareTo(this.oriPrepayDO.getAmt()) == 0){
+			prepayDto.setIshalfrefund(FBoolean.FALSE);
+		}else{
+			prepayDto.setIshalfrefund(FBoolean.TRUE);
+		}
+		prepayDto.setId_prepay_old(this.oriPrepayDO.getId_paypat());
+		
+		BlPrepaySetDTO setDto = new BlPrepaySetDTO();
+		setDto.setFg_print(FBoolean.FALSE);
+		setDto.setFg_accupdate(FBoolean.TRUE);
+		setDto.setFg_checkacc(FBoolean.TRUE);
+
+		BlPrePayPatDO prepayDO = prepayService.refund(prepayDto, setDto);
+		
+		//查询患者账户
+		IAccountMDORService accService = ServiceFinder.find(IAccountMDORService.class);
+		PiPatAccDO[] accDos = accService.findByAttrValString(PiPatAccDO.ID_PAT, this.patId);
+		if(ArrayUtil.isEmpty(accDos)){
+			throw new BizException("门诊预交金退充值:未查到患者账户");
+		}
+		PiPatAccDO accDO = accDos[0];
+		
+		WsResultPrepay rlt = new WsResultPrepay();
+		WsResultMsg rltMsg = new WsResultMsg();
+		rltMsg.setCode(IBlWsConst.RLT_SUCCESS);
+		
+		WsResultInfoPrepay rltInfo = new WsResultInfoPrepay();
+		rltInfo.setBalance(BlAmtConverUtil.toXmlString(accDO.getPrepay().sub(accDO.getAcc_lock())));
+		
+		rlt.setRltMsg(rltMsg);
+		rlt.setRltInfo(rltInfo);
+		
+		String output = rlt.serialize();
+		this.writebackTransSuccess(prepayDO, output);
+		
+		return rlt;
+	}
+	
+	/**
+	 * 成功后回写交易记录
+	 * @param prepayDO
+	 * @throws BizException
+	 */
+	private void writebackTransSuccess(BlPrePayPatDO prepayDO, String output) throws BizException {
+		
+		if(this.transRcdDO == null)
+			return;
+		
+		this.transRcdDO.setFg_success(FBoolean.TRUE);
+		this.transRcdDO.setId_pat(prepayDO.getId_pat());
+		this.transRcdDO.setId_pay(prepayDO.getId_paypat());
+		this.transRcdDO.setId_pm(prepayDO.getId_pm());
+		this.transRcdDO.setOutput(output);
+	}
+}

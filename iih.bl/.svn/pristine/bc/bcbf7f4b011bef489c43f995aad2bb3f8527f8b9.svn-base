@@ -1,0 +1,337 @@
+package iih.bl.cg.s.bp;
+
+import java.util.Arrays;
+import java.util.List;
+
+import iih.bd.bc.udi.pub.IBdFcDictCodeConst;
+import iih.bl.cg.blcgipprelogdo.d.BlCgIppreLogDO;
+import iih.bl.cg.blcgipprelogdo.i.IBlcgipprelogdoCudService;
+import iih.bl.cg.blcgoep.d.BlCgItmOepDO;
+import iih.bl.cg.blcgoep.d.BlCgOepDO;
+import iih.bl.cg.blcgoep.i.IBlCgItmOepDOCudService;
+import iih.bl.cg.blcgoep.i.IBlcgoepMDOCudService;
+import iih.bl.cg.blcgquery.d.BlCgIpDO;
+import iih.bl.cg.blcgquery.i.IBlcgqueryCudService;
+import iih.bl.cg.dto.d.BlPreIpParamDTO;
+import iih.bl.comm.IBlConst;
+import iih.bl.params.BlParams;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.Context;
+import xap.mw.core.data.DOStatus;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.coreitf.d.FDateTime;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.jdbc.facade.DAException;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.BeanListHandler;
+import xap.sys.jdbc.kernel.SqlParam;
+
+/**
+ * 预住院转门诊
+ * @author hanjq
+ *
+ */
+public class PreIpToOepBP {
+	/**
+	 * 参数：BLCG0037
+		参数名：预住院终止时，预住院费用结算模式
+		参数描述：
+		1：转门诊费用，按门诊结算；
+		2：按原数据，进行住院结算；
+		3：将费用转为自费，按住院自费结算
+	 */
+	private final Integer BLCG0037;
+	
+	/**
+	 * 参数：BLCG0038
+		参数名：预住院费用转门诊费用，记账时间设置
+		参数描述：
+		1：记账时间为当前时间；
+		2：记账时间为原始时间
+	 */
+	private final Integer BlCG0038;
+	
+	private final String Note;
+	
+	private final String Id_emp_oper;
+	
+	private final IBlCgItmOepDOCudService itmOepDOCudService;
+	private final IBlcgipprelogdoCudService logService;
+	private final IBlcgqueryCudService cgIpService;
+	
+	public PreIpToOepBP(){
+		BLCG0037 = BlParams.BLCG0037();
+		BlCG0038 = BlParams.BLCG0038();
+		Note = "预住院转门诊费用";
+		itmOepDOCudService = ServiceFinder.find(IBlCgItmOepDOCudService.class);
+		logService = ServiceFinder.find(IBlcgipprelogdoCudService.class);
+		cgIpService = ServiceFinder.find(IBlcgqueryCudService.class);
+		Id_emp_oper = Context.get().getUserId();
+	}
+
+	public FBoolean exec(BlPreIpParamDTO blPreIpParamDto) throws BizException {
+		FDateTime dt_end = blPreIpParamDto.getDt_e();
+		BlCgOepDO cgOep = preIpToOepPar(blPreIpParamDto,dt_end);//转有父子记录
+		cgOep = preIpToOepItm(blPreIpParamDto,cgOep,dt_end);//转剩余记录
+		return cgOep == null ? FBoolean.FALSE : FBoolean.TRUE;
+	}
+	
+	/**
+	 * 预住院转门诊明细-有父子关系
+	 * @param blPreIpParamDto
+	 * @param dt_end
+	 * @return
+	 * @throws BizException 
+	 */
+	private BlCgOepDO preIpToOepPar(BlPreIpParamDTO blPreIpParamDto, FDateTime dt_end) throws BizException {
+		BlCgOepDO cgOep = null;
+		while(true){
+			List<BlCgIpDO> parList = this.getCgDos(blPreIpParamDto, 50, FBoolean.TRUE,null);
+			if(parList == null || parList.size() == 0){
+				break;
+			}
+			if(cgOep == null){
+				cgOep = preIpToOep(parList,dt_end);
+			}
+			for(int i = 0 , size = parList.size() ; i < size ; i++){
+				BlCgIpDO cgIp = parList.get(i);
+				//1.转入门诊-父
+				BlCgItmOepDO itm = this.preIpToOepItm(cgIp, cgOep.getId_cgoep(), null, dt_end);
+				//2.保存日志-父
+				this.saveLog(cgIp, itm);
+				
+				//3.移除子-确保子全部转入门诊
+				List<BlCgIpDO> list = getCgDos(blPreIpParamDto, 500, FBoolean.FALSE, cgIp.getId_cgip());
+				while((list != null && list.size() > 0)){
+					this.preIpListToOepItms(list, cgOep, dt_end, itm.getId_cgitmoep());
+					list = getCgDos(blPreIpParamDto, 500, FBoolean.FALSE, cgIp.getId_cgip());					
+				}				
+				//3.红冲预住院-父
+				this.toRedPreIp(cgIp);
+			}
+		}
+		return cgOep;
+	}
+	
+	/**
+	 * 预住院转门诊明细-无父子关系
+	 * @param cgOep 
+	 * @param list
+	 * @param dt_end 
+	 * @return 
+	 * @throws BizException 
+	 */
+	private BlCgOepDO preIpToOepItm(BlPreIpParamDTO blPreIpParamDto,BlCgOepDO cgOep, FDateTime dt_end) throws BizException {
+		while(true){
+			List<BlCgIpDO> list = getCgDos(blPreIpParamDto, 500, null,null);
+			if(list == null || list.size() == 0){
+				break;
+			}
+			cgOep = preIpListToOepItms(list, cgOep, dt_end, null);
+		}
+		return cgOep;
+	}
+	
+	/**
+	 * 转list到门诊
+	 * @param list
+	 * @param cgOep
+	 * @param dt_end
+	 * @return
+	 * @throws BizException
+	 */
+	private BlCgOepDO preIpListToOepItms(List<BlCgIpDO> list,BlCgOepDO cgOep, FDateTime dt_end,String idPar) throws BizException{
+		if(cgOep == null){
+			cgOep = preIpToOep(list,dt_end);
+		}
+		for(BlCgIpDO cgIp : list){
+			//1.转入门诊
+			BlCgItmOepDO itm = this.preIpToOepItm(cgIp, cgOep.getId_cgoep(), idPar, dt_end);
+			//2.保存日志
+			this.saveLog(cgIp, itm);
+			//3.红冲预住院
+			this.toRedPreIp(cgIp);
+		}
+		return cgOep;
+	}
+	
+	/**
+	 * 红冲预住院
+	 * @param cgIp
+	 * @throws BizException 
+	 */
+	private void toRedPreIp(BlCgIpDO cgIp) throws BizException {
+		BlCgIpDO newCg = (BlCgIpDO) cgIp.clone();
+		newCg.setId_cgip(null);
+		newCg.setStatus(DOStatus.NEW);
+		newCg.setId_par(cgIp.getId_cgip());
+		newCg.setEu_direct(newCg.getEu_direct() * -1);
+		newCg.setFg_real(FBoolean.FALSE);
+		cgIpService.save(new BlCgIpDO[]{newCg});
+		
+		cgIp.setFg_real(FBoolean.FALSE);
+		cgIp.setStatus(DOStatus.UPDATED);
+		cgIpService.update(new BlCgIpDO[]{cgIp});
+	}
+
+	/**
+	 * 保存日志
+	 * @param cgIp
+	 * @param itm
+	 * @throws BizException
+	 */
+	private void saveLog(BlCgIpDO cgIp,BlCgItmOepDO itm) throws BizException{
+		BlCgIppreLogDO log = new BlCgIppreLogDO();
+		log.setId_cgip_pre(cgIp.getId_cgip());
+		if(1 == BLCG0037){
+			log.setCode_entp(IBdFcDictCodeConst.SD_CODE_ENTP_OP);
+			log.setId_entp(IBdFcDictCodeConst.ID_CODE_ENTP_OP);
+		}else{
+			log.setCode_entp(IBdFcDictCodeConst.SD_CODE_ENTP_IP);
+			log.setId_entp(IBdFcDictCodeConst.ID_CODE_ENTP_IP);
+		}
+		log.setId_cgip_new(itm.getId_cgitmoep());
+		log.setId_emp_oper(Id_emp_oper);
+		log.setNote(Note);
+		log.setStatus(DOStatus.NEW);
+		logService.save(new BlCgIppreLogDO[]{log});
+	}
+	
+	/**
+	 * 预住院转门诊明细
+	 * @param cgIp
+	 * @param Id_cgoep
+	 * @param idPar
+	 * @param dt_cg
+	 * @return
+	 * @throws BizException
+	 */
+	private BlCgItmOepDO preIpToOepItm(BlCgIpDO cgIp,String Id_cgoep,String idPar,FDateTime dt_cg) throws BizException{
+		BlCgItmOepDO itm = new BlCgItmOepDO();
+		String[] itmNames = itm.getAttrNames();
+		List<String> ipNames = Arrays.asList(cgIp.getAttrNames());
+		for(String name : itmNames){
+			if(ipNames.contains(name)){
+				itm.setAttrVal(name, cgIp.getAttrVal(name));
+			}
+		}
+		itm.setId_cgoep(Id_cgoep);
+		itm.setId_enttp(IBdFcDictCodeConst.SD_CODE_ENTP_IP_PRE);
+		itm.setCode_enttp(IBdFcDictCodeConst.ID_CODE_ENTP_IP_PRE);
+		itm.setId_par(idPar);
+		if(1 == BlCG0038){
+			itm.setDt_cg(dt_cg);
+			itm.setDt_srv(dt_cg);
+		}
+		itm.setNote(Note);
+		itm.setStatus(DOStatus.NEW);
+		BlCgItmOepDO[] save = itmOepDOCudService.save(new BlCgItmOepDO[]{itm});
+		return save[0];		
+	}
+	
+	/**
+	 * 预住院转门诊-主表
+	 * @param list
+	 * @throws BizException 
+	 */
+	private BlCgOepDO preIpToOep(List<BlCgIpDO> list,FDateTime dt_cg) throws BizException {
+		BlCgIpDO cgIp = list.get(0);
+		for(BlCgIpDO itm:list){
+			if(itm.getEu_direct() == 1){
+				cgIp = itm;
+				break;
+			}
+		}
+		BlCgOepDO cgOep = new BlCgOepDO();
+		cgOep.setId_grp(cgIp.getId_grp());
+		cgOep.setId_org(cgIp.getId_org());
+		cgOep.setId_org_cg(cgIp.getId_org_cg());
+		cgOep.setId_pat(cgIp.getId_pat());
+		cgOep.setId_dep_cg(cgIp.getId_dep_cg());
+		cgOep.setId_emp_cg(cgIp.getId_emp_cg());
+		cgOep.setCode_cg(cgIp.getCode_cg());
+		cgOep.setEu_direct(IBlConst.BL_CHARGES);
+		if(2 == BlCG0038){
+			cgOep.setDt_cg(cgIp.getDt_cg());
+		}else{
+			cgOep.setDt_cg(dt_cg);
+		}
+		
+//		cgOep.setEnt_invoiceno(cgIp.get);
+		cgOep.setHas_saveindb(FBoolean.TRUE);
+//		cgOep.setSt_first_incno(St_first_incno);
+//		cgOep.setEnt_invoice_empname(Ent_invoice_empname);
+//		cgOep.setEnt_invoice_pkgcode(Ent_invoice_pkgcode);
+//		cgOep.setStoep_invoicename(Stoep_invoicename);
+//		cgOep.setStoep_invoiceno(Stoep_invoiceno);
+		
+		cgOep.setStatus(DOStatus.NEW);
+		IBlcgoepMDOCudService service = ServiceFinder.find(IBlcgoepMDOCudService.class);
+		BlCgOepDO[] save = service.save(new BlCgOepDO[]{cgOep});
+		return save[0];		
+	}
+
+	/**
+	 * 获取待转入集合
+	 * @param blPreIpParamDto
+	 * @param rowno
+	 * @return
+	 * @throws DAException
+	 */
+	private List<BlCgIpDO> getCgDos(BlPreIpParamDTO paramDto,Integer rowno,FBoolean fgPar,String idPar) throws DAException{
+		StringBuilder sql = new StringBuilder();
+		DAFacade daf = new DAFacade();
+		SqlParam param = new SqlParam();
+		this.SetSqlAndParam(sql, paramDto, param, rowno,fgPar,idPar);
+		@SuppressWarnings("unchecked")
+		List<BlCgIpDO> list = (List<BlCgIpDO>) daf.execQuery(sql.toString(), param, new BeanListHandler(BlCgIpDO.class));
+		return list;
+	}
+	
+	/**
+	 * 设置sql和param
+	 * @param paramDto
+	 * @param param
+	 */
+	private void SetSqlAndParam(StringBuilder sql,BlPreIpParamDTO paramDto,SqlParam param,Integer rowno ,FBoolean fgPar,String idPar){
+		sql.append("select * from (");
+		sql.append("select	");
+		sql.append("	rownum row_no, cg.*							");
+		sql.append("from bl_cg_ip cg	");
+		//查询父
+		if(FBoolean.TRUE.equals(fgPar)){
+			sql.append("join bl_cg_ip c on c.id_ent = cg.id_ent and c.id_par = cg.id_cgip and nvl(c.id_par,'~') != '~'	");
+		}
+		sql.append("left join ci_order cor on cor.id_or = cg.id_or			");
+		sql.append("where cg.code_enttp = ?	");
+		param.addParam(IBdFcDictCodeConst.SD_CODE_ENTP_IP_PRE);
+		sql.append("and cg.id_ent = ?	");
+		param.addParam(paramDto.getId_ent());		
+		sql.append("and not EXISTS(SELECT plg.id_cgip_pre FROM bl_cg_ippre_log plg where plg.id_cgip_pre = cg.id_cgip)	");
+		sql.append("and cg.fg_real = 'Y'	");
+		//查询子
+		if(FBoolean.FALSE.equals(fgPar)){
+			sql.append("and cg.id_par= ?	");
+			param.addParam(idPar);
+		}
+		if(paramDto.getDt_e() != null){
+			sql.append("and cg.dt_cg <= ?	");
+			param.addParam(paramDto.getDt_e());
+		}
+		//排序父-
+		if(FBoolean.TRUE.equals(fgPar)){
+			sql.append(" order by cg.id_cgip	");
+		}
+		//排序子
+		if(FBoolean.FALSE.equals(fgPar)){
+			sql.append(" order by cg.id_par	");
+		}
+		sql.append(" )  ");
+		if(rowno != null){
+			sql.append(" where row_no < ? ");
+			param.addParam(rowno);
+		}
+		
+	}
+
+}

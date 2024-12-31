@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 就诊信息 -->
+  <ent>
+    <!-- 所属集团 -->
+  	<code_grp>600903</code_grp>
+  	<!-- 所属组织 -->
+  	<code_org>600903</code_org>
+  	<!-- 患者编码 -->
+  	<code_pat>100039778200</code_pat>
+  	<!-- 就诊次数 -->
+  	<times_en>1</times_en>
+  	<!-- 就诊编码 -->
+  	<code_en>1900008334</code_en>
+  	<!-- 就诊类型编码 -->
+  	<code_entp>00</code_entp>
+  		<!-- 诊断信息 -->
+  		<diag>
+  			<!-- 开立医生编码   -->
+  			<code_emp_create>00062</code_emp_create>
+  			<!-- 开立科室     -->
+  			<code_dep_create>100101</code_dep_create>
+  			<!-- 开立时间     -->
+  			<dt_create>2019/06/18 11:11:11</dt_create>
+  			<!-- 序号       -->
+  			<sortno>1</sortno>
+  			<!-- 疾病诊断诊断编码 -->
+  			<code_didef>J04.000</code_didef>
+  			<!-- 诊断名称     -->
+  			<name_didef>急性喉炎</name_didef>
+  			<!-- 证候诊断编码   -->
+  			<code_didef_syn>1</code_didef_syn>
+  			<!-- 证候诊断名称   -->
+  			<name_didef_syn>啦啦啦</name_didef_syn>
+  			<!-- 主要诊断标识   -->
+  			<fg_majdi>Y</fg_majdi>
+  			<!-- 疑似诊断标识   -->
+  			<fg_suspdi>N</fg_suspdi>
+  			<!-- 传染病标识    -->
+  			<fg_infedi>N</fg_infedi>
+  			<!-- 父诊断序号    -->
+  			<sortno_parent>1</sortno_parent>
+  			<!-- 补充说明     -->
+  			<supplement>dfa</supplement>
+  			<!-- 自定义诊断标识  -->
+  			<fg_self>N</fg_self>
+  			<!-- 上报标识     -->
+  			<fg_ur>N</fg_ur>
+  			<!-- 慢性病标志    -->
+  			<fg_chronic>N</fg_chronic>
+  			<!-- 特种病标志    -->
+  			<fg_special>N</fg_special>
+  			<!-- 保外诊断标识   -->
+  			<eu_hpbeyond>1</eu_hpbeyond>
+  			<!-- 传染病种类编码  -->
+  			<sd_infectiontp>01</sd_infectiontp>
+  		</diag>
+  </ent>
+</root>
+
+
+
+
+
+
+
+
+
+
+

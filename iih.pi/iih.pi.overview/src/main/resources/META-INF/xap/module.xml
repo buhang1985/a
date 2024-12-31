@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+
+	<!-- 患者临床摘要AGG服务 -->
+	<bean id="IOverviewCrudService" class="iih.pi.overview.overview.s.OverviewCrudServiceImpl"></bean>
+	<xap:service ref="IOverviewCrudService" interface="iih.pi.overview.overview.i.IOverviewCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要过敏史服务 -->
+	<bean id="IPiPatAlDOCrudService" class="iih.pi.overview.overview.s.PiPatAlDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatAlDOCrudService" interface="iih.pi.overview.overview.i.IPiPatAlDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要输血史服务 -->
+	<bean id="IPiPatBTDOCrudService" class="iih.pi.overview.overview.s.PiPatBTDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatBTDOCrudService" interface="iih.pi.overview.overview.i.IPiPatBTDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要生育史服务 -->
+	<bean id="IPiPatCbhDOCrudService" class="iih.pi.overview.overview.s.PiPatCbhDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatCbhDOCrudService" interface="iih.pi.overview.overview.i.IPiPatCbhDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要生育史指标服务 -->
+	<bean id="IPiPatCbhindDOCrudService" class="iih.pi.overview.overview.s.PiPatCbhindDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatCbhindDOCrudService" interface="iih.pi.overview.overview.i.IPiPatCbhindDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要疾病史服务 -->
+	<bean id="IPiPatDiDOCrudService" class="iih.pi.overview.overview.s.PiPatDiDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatDiDOCrudService" interface="iih.pi.overview.overview.i.IPiPatDiDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要残疾状况服务 -->
+	<bean id="IPiPatDisaDOCrudService" class="iih.pi.overview.overview.s.PiPatDisaDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatDisaDOCrudService" interface="iih.pi.overview.overview.i.IPiPatDisaDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要既往用药史服务 -->
+	<bean id="IPiPatDrugDOCrudService" class="iih.pi.overview.overview.s.PiPatDrugDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatDrugDOCrudService" interface="iih.pi.overview.overview.i.IPiPatDrugDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要暴露史服务 -->
+	<bean id="IPiPatExpDOCrudService" class="iih.pi.overview.overview.s.PiPatExpDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatExpDOCrudService" interface="iih.pi.overview.overview.i.IPiPatExpDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要家族史服务 -->
+	<bean id="IPiPatFhDOCrudService" class="iih.pi.overview.overview.s.PiPatFhDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatFhDOCrudService" interface="iih.pi.overview.overview.i.IPiPatFhDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要免疫史服务 -->
+	<bean id="IPiPatImmDOCrudService" class="iih.pi.overview.overview.s.PiPatImmDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatImmDOCrudService" interface="iih.pi.overview.overview.i.IPiPatImmDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要关键检验指标服务 -->
+	<bean id="IPiPatLabDOCrudService" class="iih.pi.overview.overview.s.PiPatLabDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatLabDOCrudService" interface="iih.pi.overview.overview.i.IPiPatLabDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要婚姻史服务 -->
+	<bean id="IPiPatMarDOCrudService" class="iih.pi.overview.overview.s.PiPatMarDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatMarDOCrudService" interface="iih.pi.overview.overview.i.IPiPatMarDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要月经史服务 -->
+	<bean id="IPiPatMhDOCrudService" class="iih.pi.overview.overview.s.PiPatMhDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatMhDOCrudService" interface="iih.pi.overview.overview.i.IPiPatMhDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要关键检查报告服务 -->
+	<bean id="IPiPatObsDOCrudService" class="iih.pi.overview.overview.s.PiPatObsDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatObsDOCrudService" interface="iih.pi.overview.overview.i.IPiPatObsDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要个人史服务 -->
+	<bean id="IPiPatPsnDOCrudService" class="iih.pi.overview.overview.s.PiPatPsnDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatPsnDOCrudService" interface="iih.pi.overview.overview.i.IPiPatPsnDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要用药不良反应服务 -->
+	<bean id="IPiPatReactDOCrudService" class="iih.pi.overview.overview.s.PiPatReactDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatReactDOCrudService" interface="iih.pi.overview.overview.i.IPiPatReactDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要常用医疗服务项目服务 -->
+	<bean id="IPiPatSrvDOCrudService" class="iih.pi.overview.overview.s.PiPatSrvDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatSrvDOCrudService" interface="iih.pi.overview.overview.i.IPiPatSrvDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要手术史服务 -->
+	<bean id="IPiPatSugDOCrudService" class="iih.pi.overview.overview.s.PiPatSugDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatSugDOCrudService" interface="iih.pi.overview.overview.i.IPiPatSugDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要手术史服务 -->
+	<bean id="IPiPatVsDOCrudService" class="iih.pi.overview.overview.s.PiPatVsDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatVsDOCrudService" interface="iih.pi.overview.overview.i.IPiPatVsDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者生理信息服务-->
+	<bean id="IPiPatPhyDOCrudService" class="iih.pi.overview.overview.s.PiPatPhyDOCrudServiceImpl"></bean>
+    <xap:service ref="IPiPatPhyDOCrudService" interface="iih.pi.overview.overview.i.IPiPatPhyDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要维护服务 -->
+	<bean id="IPiOverviewMaintainService" class="iih.pi.overview.s.PiOverviewMaintainServiceImpl"></bean>
+    <xap:service ref="IPiOverviewMaintainService" interface="iih.pi.overview.i.IPiOverviewMaintainService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 患者临床摘要查询服务 -->
+	<bean id="IPiOverviewQryService" class="iih.pi.overview.s.PiOverviewQryServiceImpl"></bean>
+
+</beans>

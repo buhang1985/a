@@ -1,0 +1,65 @@
+package iih.bl.cg.s.bp.op;
+
+import java.util.ArrayList;
+
+import iih.bd.base.utils.StringUtils;
+import iih.bl.cg.blcgoeptf.d.BlCgItmOepTfRcdDO;
+import iih.bl.cg.blcgoeptf.i.IBlcgoeptfCudService;
+import iih.bl.cg.blcgoeptf.i.IBlcgoeptfRService;
+import iih.bl.cg.blcgquery.d.BlCgIpDO;
+import iih.bl.cg.blcgquery.i.IBlcgqueryCudService;
+import iih.bl.cg.s.bp.op.sql.AssembleCgIpSql;
+import iih.bl.params.BlParams;
+import iih.en.pv.pativisit.d.PatiVisitDO;
+import iih.en.pv.pativisit.i.IPativisitRService;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.DOStatus;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.BeanListHandler;
+
+/**
+ * 门诊费用转住院费用(真实转入) Title: oepCgTransferToIpCgRealBP.java
+ * 
+ * @author zhang.hw
+ * @date 2020年3月11日
+ * @version 1.0
+ */
+public class OepCgTransferToIpCgRealBP {
+
+	public void exec(String id_ent) throws BizException {
+		// 1、检查入参
+		if (!StringUtils.isNotEmpty(id_ent)) {
+			throw new BizException("入参为空，请检查参数！");
+		}
+		//1.1、查询转移的数据
+		IBlcgoeptfRService tfrService = ServiceFinder.find(IBlcgoeptfRService.class);
+		BlCgItmOepTfRcdDO[] oepTfRcdDOs = tfrService.findByAttrValString("Id_ent_tf", id_ent);
+		if (oepTfRcdDOs.length==0) {
+			return;
+		}
+		// 2、组装门诊中的数据到住院中,并保存
+		Integer hour = BlParams.BLSTOEP0041();
+		AssembleCgIpSql assembleSql = new AssembleCgIpSql(id_ent, hour);
+		DAFacade daFacade = new DAFacade();
+		ArrayList<BlCgIpDO> list = (ArrayList<BlCgIpDO>) daFacade.execQuery(assembleSql.getQrySQLStr(),
+				assembleSql.getQryParameter(null), new BeanListHandler(BlCgIpDO.class));
+		if (list.size()<=0) {
+			throw new BizException("未查询到该患者对应的门诊转住院费用，请检查后操作！");
+		}
+		
+		IBlcgqueryCudService cudService = ServiceFinder.find(IBlcgqueryCudService.class);
+		cudService.insert(list.toArray(new BlCgIpDO[list.size()]));
+		
+		//4、修改门诊转入记录表中的状态
+		//4.1、修改fg_tl值为Y
+		for (int i = 0; i < oepTfRcdDOs.length; i++) {
+			oepTfRcdDOs[i].setFg_tl(FBoolean.TRUE);
+			oepTfRcdDOs[i].setStatus(DOStatus.UPDATED);
+		}
+		IBlcgoeptfCudService tfcudService = ServiceFinder.find(IBlcgoeptfCudService.class);
+		tfcudService.save(oepTfRcdDOs);
+	}
+
+}

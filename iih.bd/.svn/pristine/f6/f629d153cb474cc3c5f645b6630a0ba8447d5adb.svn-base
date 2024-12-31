@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	<xap:service ref="iih.bd.bs.holiday.i.IHolidayCudService"
+		interface="iih.bd.bs.holiday.i.IHolidayCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="iih.bd.bs.holiday.i.IHolidayCudService"
+		class="iih.bd.bs.holiday.s.HolidayCrudServiceImpl">
+	</bean>
+	<xap:service ref="iih.bd.bs.holiday.i.IHolidayRService"
+		interface="iih.bd.bs.holiday.i.IHolidayRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 假日定义扩展服务 -->
+	<xap:service ref="HolidayService"
+		interface="iih.bd.bs.holiday.i.IHolidayService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="HolidayService"
+		class="iih.bd.bs.holiday.s.HolidayServiceImpl">
+	</bean>
+
+	<xap:service
+		ref="iih.bd.bs.workcalendarrule.i.IWorkcalendarruleCudService"
+		interface="iih.bd.bs.workcalendarrule.i.IWorkcalendarruleCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean
+		id="iih.bd.bs.workcalendarrule.i.IWorkcalendarruleCudService"
+		class="iih.bd.bs.workcalendarrule.s.WorkcalendarruleCrudServiceImpl">
+	</bean>
+	<xap:service
+		ref="iih.bd.bs.workcalendarrule.i.IWorkcalendarruleRService"
+		interface="iih.bd.bs.workcalendarrule.i.IWorkcalendarruleRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 工作日历相关服务 -->
+	<xap:service ref="WorkcalendarCrudService"
+		interface="iih.bd.bs.workcalendar.i.IWorkcalendarRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="WorkcalendarCrudService"
+		class="iih.bd.bs.workcalendar.s.WorkcalendarCrudServiceImpl">
+	</bean>
+	<xap:service ref="WorkcalendarCrudService"
+		interface="iih.bd.bs.workcalendar.i.IWorkcalendarCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<xap:service ref="WorkcalendarMDOCrudService"
+		interface="iih.bd.bs.workcalendar.i.IWorkcalendarMDORService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="WorkcalendarMDOCrudService"
+		class="iih.bd.bs.workcalendar.s.WorkcalendarMDOCrudServiceImpl">
+	</bean>
+	<xap:service ref="WorkcalendarMDOCrudService"
+		interface="iih.bd.bs.workcalendar.i.IWorkcalendarMDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<xap:service ref="WorkcalendarYearCrudService"
+		interface="iih.bd.bs.workcalendar.i.IWorkCalendYearDORService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="WorkcalendarYearCrudService"
+		class="iih.bd.bs.workcalendar.s.WorkCalendYearDOCrudServiceImpl">
+	</bean>
+	<xap:service ref="WorkcalendarYearCrudService"
+		interface="iih.bd.bs.workcalendar.i.IWorkCalendYearDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<xap:service ref="WorkcalendarDateCrudService"
+		interface="iih.bd.bs.workcalendar.i.IWorkCalendDateDORService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<bean id="WorkcalendarDateCrudService"
+		class="iih.bd.bs.workcalendar.s.WorkCalendDateDOCrudServiceImpl">
+	</bean>
+	<xap:service ref="WorkcalendarDateCrudService"
+		interface="iih.bd.bs.workcalendar.i.IWorkCalendDateDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 工作日历日期信息扩展服务 -->
+	<bean id="WorkcalendarDateExtService"
+		class="iih.bd.bs.workcalendar.s.WorkcalendarExtServiceImpl">
+	</bean>
+	<xap:service ref="WorkcalendarDateExtService"
+		interface="iih.bd.bs.workcalendar.i.IWorkcalendarExtService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 提供给临床域服务 -->
+	<bean id="BdBsCiService"
+		class="iih.bd.bs.s.external.provide.BdBsCiServiceImpl">
+	</bean>
+	<xap:service ref="BdBsCiService"
+		interface="iih.bd.bs.i.external.provide.IBdBsCiService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 标准接口基础服务 -->
+	<bean id="StditfCrudService"
+		class="iih.bd.bs.stditf.s.StditfCrudServiceImpl">
+	</bean>
+	<xap:service ref="StditfCrudService"
+		interface="iih.bd.bs.stditf.i.IStditfCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<xap:service ref="StditfCrudService"
+		interface="iih.bd.bs.stditf.i.IStditfRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 客开接口实现类基础服务 -->
+	<bean id="CtmimplCrudService"
+		class="iih.bd.bs.ctmitf.s.CtmimplCrudServiceImpl">
+	</bean>
+	<xap:service ref="CtmimplCrudService"
+		interface="iih.bd.bs.ctmitf.i.ICtmimplCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<xap:service ref="CtmimplCrudService"
+		interface="iih.bd.bs.ctmitf.i.ICtmimplRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 客开接口基础服务 -->
+	<bean id="CtmitfCrudService"
+		class="iih.bd.bs.ctmitf.s.CtmitfCrudServiceImpl">
+	</bean>
+	<xap:service ref="CtmitfCrudService"
+		interface="iih.bd.bs.ctmitf.i.ICtmitfCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<xap:service ref="CtmitfCrudService"
+		interface="iih.bd.bs.ctmitf.i.ICtmitfRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 客开接口关联信息基础服务 -->
+	<bean id="CtmitfrelCrudService"
+		class="iih.bd.bs.ctmitfrel.s.CtmitfrelCrudServiceImpl">
+	</bean>
+	<xap:service ref="CtmitfrelCrudService"
+		interface="iih.bd.bs.ctmitfrel.i.ICtmitfrelCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<xap:service ref="CtmitfrelCrudService"
+		interface="iih.bd.bs.ctmitfrel.i.ICtmitfrelRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 客开接口与实现类关系扩展服务 -->
+	<bean id="CtmItfImplRelExtCrudService"
+		class="iih.bd.bs.ctmitfrel.s.CtmItfImplRelExtCrudServiceImpl">
+	</bean>
+	<xap:service ref="CtmItfImplRelExtCrudService"
+		interface="iih.bd.bs.ctmitfrel.i.ICtmItfImplRelExtCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<xap:service ref="CtmItfImplRelExtCrudService"
+		interface="iih.bd.bs.ctmitfrel.i.ICtmItfImplRelExtRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+
+	<!-- 客开接口实现类扩展服务 -->
+	<bean id="CtmImplExtCrudService"
+		class="iih.bd.bs.ctmitf.s.CtmImplExtCrudServiceImpl"></bean>
+	<xap:service ref="CtmImplExtCrudService"
+		interface="iih.bd.bs.ctmitf.i.ICtmImplExtCudService" requires="tx">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+	<xap:service ref="CtmImplExtCrudService"
+		interface="iih.bd.bs.ctmitf.i.ICtmImplExtRService">
+		<xap:binding name="jsonrpc"></xap:binding>
+	</xap:service>
+</beans>

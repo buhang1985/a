@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+
+	<!-- 基础数据_数据导入日志服务 -->
+	<bean id="BdImportLogService"
+		class="iih.bd.base.dataimport.BdImportLogServiceImpl"></bean>
+	<xap:service ref="BdImportLogService"
+		interface="iih.bd.log.IBdImportLogService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 桌面主程序外部基础数据服务 -->
+	<bean id="DesktopExtBdDataCrudService"
+		class="iih.bd.base.ext.s.DesktopExtBdDataCrudServiceImpl"></bean>
+	<xap:service ref="DesktopExtBdDataCrudService"
+		interface="xap.rui.control.desktop.i.IDesktopExtBdDataCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<xap:service ref="DesktopExtBdDataCrudService"
+		interface="xap.rui.control.desktop.i.IDesktopExtBdDataRService">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+</beans>

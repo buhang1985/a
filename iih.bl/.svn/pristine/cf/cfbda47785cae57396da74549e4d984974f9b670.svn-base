@@ -1,0 +1,219 @@
+package iih.bl.inc.bp.reinc;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import iih.bd.bc.udi.pub.IBdPpCodeTypeConst;
+import iih.bd.bc.udi.pub.IBlDictCodeConst;
+import iih.bl.cg.blcgoep.d.BlCgItmOepDO;
+import iih.bl.cg.blcgoep.d.BlcgoepAggDO;
+import iih.bl.cg.blcgoep.i.IBlCgItmOepDORService;
+import iih.bl.cg.blcgoep.i.IBlcgoepRService;
+import iih.bl.cg.blcgquery.d.BlCgIpDO;
+import iih.bl.cg.blcgquery.i.IBlcgqueryRService;
+import iih.bl.cg.service.d.OperatorInfoDTO;
+import iih.bl.inc.blinccanc.d.BlIncCancDO;
+import iih.bl.inc.blinccanc.i.IBlinccancCudService;
+import iih.bl.inc.blincip.d.BlIncIpDO;
+import iih.bl.inc.blincip.d.BlincipAggDO;
+import iih.bl.inc.blincip.i.IBlincipCudService;
+import iih.bl.inc.blincip.i.IBlincipRService;
+import iih.bl.inc.blincoep.d.BlincoepAggDO;
+import iih.bl.inc.blincoep.i.IBlincoepCudService;
+import iih.bl.inc.blincoep.i.IBlincoepRService;
+import iih.bl.inc.blincquerydto.d.BlincQueryDTO;
+import iih.bl.inc.blreinccgitmdto.d.BlReIncCgItmDTO;
+import iih.bl.inc.blreinccgitmdto.d.BlReIncPageDTO;
+import iih.bl.inc.dto.blincprint.d.BlIncPrintDTO;
+import iih.bl.inc.i.IBlIncOutCmdService;
+import iih.bl.inc.s.bp.opinc.OpIncReprintInvioceBP;
+import iih.bl.inc.s.oldbp.InvalidateIpIncBp;
+import iih.bl.inc.s.util.InvoicePrintUtil;
+import iih.bl.pay.blpaypat.d.BlPrePayPatDO;
+import iih.bl.pay.i.IBlPayCmdService;
+import iih.bl.st.blpaypatip.d.BlPayItmPatIpDO;
+import iih.bl.st.blpaypatip.d.BlPayPatIpDO;
+import iih.bl.st.blpaypatip.d.BlpaypatipAggDO;
+import iih.bl.st.blpaypatip.i.IBlpaypatipRService;
+import iih.bl.st.blstip.d.BlStIpDO;
+import iih.bl.st.blstip.i.IBlstipRService;
+import iih.bl.st.blstoep.d.BlStOepDO;
+import iih.bl.st.blstoep.i.IBlstoepRService;
+import iih.bl.st.dto.d.BlStIpInccanoDTO;
+import iih.bl.st.i.IBlStCmdService;
+import iih.bl.st.service.i.IBLStMaintainService;
+import iih.en.pv.pativisit.d.PatiVisitDO;
+import iih.en.pv.pativisit.i.IPativisitRService;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.Context;
+import xap.mw.core.data.DOStatus;
+import xap.mw.core.data.FArrayList2;
+import xap.mw.core.utils.ListUtil;
+import xap.mw.core.utils.StringUtil;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.coreitf.d.FDouble;
+import xap.mw.sf.core.util.ServiceFinder;
+
+public class ReIncByCgItmBP {
+
+	public String exec(BlReIncPageDTO[] cgitms) throws BizException {
+		if (cgitms == null || cgitms.length == 0)
+			return null;
+
+		FArrayList2 arr = cgitms[0].getReincitms();
+		String strOldIdstoep = ((BlReIncCgItmDTO) arr.get(0)).getId_st();
+
+		IBlincoepRService blincoepService = ServiceFinder.find(IBlincoepRService.class);
+		BlincoepAggDO[] blincoepDOArr = blincoepService.find(" a0.id_stoep = '" + strOldIdstoep + "' ", null,
+				FBoolean.FALSE);
+		String inccaId = blincoepDOArr[0].getParentDO().getId_incca();
+
+		IBlstoepRService blstService = ServiceFinder.find(IBlstoepRService.class);
+		BlStOepDO oldstOepDO = blstService.findById(strOldIdstoep);
+
+		IBlCgItmOepDORService cgitmService = ServiceFinder.find(IBlCgItmOepDORService.class);
+		BlCgItmOepDO[] oldcgitms = cgitmService.find(" Id_stoep = '" + strOldIdstoep + "' ", null, FBoolean.FALSE);
+		Set<String> strCgIds = new HashSet<String>();
+		for (int i = 0; i < oldcgitms.length; i++) {
+			strCgIds.add(oldcgitms[i].getId_cgoep());
+		}
+
+		IBlcgoepRService cgService = ServiceFinder.find(IBlcgoepRService.class);
+		String[] cgIds = new String[strCgIds.size()];
+		cgIds = strCgIds.toArray(new String[0]);
+		BlcgoepAggDO[] oldcgAggs = cgService.findByIds(cgIds, FBoolean.FALSE);
+
+		FBoolean bPrint = blincoepDOArr[0].getParentDO().getFg_print();
+		if (bPrint == null) {
+			return null;
+		}
+
+		// 1、如果原票没打印，则删除原有未打印发票信息，重新生成正向发票
+		if (bPrint.equals(FBoolean.FALSE)) {
+			IBlincoepCudService incSaveService = ServiceFinder.find(IBlincoepCudService.class);
+			incSaveService.delete(blincoepDOArr);
+
+			IBlIncOutCmdService incService = ServiceFinder.find(IBlIncOutCmdService.class);
+			incService.saveReInvoice(oldcgAggs, cgitms);
+
+			return strOldIdstoep;
+		}
+		// 2、如果原票打印了，则红冲结算收付款发票，再重新生成结算收付款发票信息
+		else if (bPrint.equals(FBoolean.TRUE)) {
+			BlIncPrintDTO printSet = new BlIncPrintDTO();
+			printSet.setFgpay(FBoolean.FALSE);
+			printSet.setSd_pttp(IBlDictCodeConst.SD_PTTP_WINDOW);
+			printSet.setFgreg(FBoolean.FALSE); // 是否是挂号发票
+
+			Entry<String, String[]> printInfo = InvoicePrintUtil.print(inccaId, cgitms.length,
+					Context.get().getStuffId(), Context.get().getClientHost());
+
+			String codePkg = printInfo.getKey();
+			String[] incnos = printInfo.getValue();
+
+			OpIncReprintInvioceBP updateBp = new OpIncReprintInvioceBP();
+			updateBp.updateIncData(blincoepDOArr, codePkg, incnos, printSet);
+
+			IBlIncOutCmdService incService = ServiceFinder.find(IBlIncOutCmdService.class);
+			incService.saveReInvoice(oldcgAggs, cgitms);
+
+			return strOldIdstoep;
+		}
+
+		return "";
+	}
+
+	public String execIp(BlReIncPageDTO[] incItms) throws BizException {
+		if (incItms == null || incItms.length == 0)
+			return null;
+
+		String strOldIdstip = incItms[0].getId_st();
+
+		IBlincipRService blincipService = ServiceFinder.find(IBlincipRService.class);
+		BlincipAggDO[] blincipDOArr = blincipService.find(" a0.id_stip = '" + strOldIdstip + "' ", null,
+				FBoolean.FALSE);
+
+		IBlstipRService blstService = ServiceFinder.find(IBlstipRService.class);
+		BlStIpDO oldstIpDO = blstService.findById(strOldIdstip);
+
+		FBoolean bPrint = blincipDOArr[0].getParentDO().getFg_print();
+		if (bPrint == null) {
+			return null;
+		}
+
+		if (bPrint.equals(FBoolean.FALSE)) {
+			IBlincipCudService incSaveService = ServiceFinder.find(IBlincipCudService.class);
+			incSaveService.delete(blincipDOArr);
+
+			IBlIncOutCmdService incService = ServiceFinder.find(IBlIncOutCmdService.class);
+			incService.saveIpReInvoice(oldstIpDO, incItms);
+
+			return strOldIdstip;
+		} else {
+			List<String> incIdList = new ArrayList<String>();
+			for (int i = 0; i < blincipDOArr.length; i++) {
+				incIdList.add(blincipDOArr[i].getParentDO().getId_incip());
+			}
+			String[] incIds = incIdList.toArray(new String[0]);
+
+			InvalidateIpIncBp bp = new InvalidateIpIncBp();
+			bp.execReIncIp(incIds);
+
+
+			IBlIncOutCmdService incService = ServiceFinder.find(IBlIncOutCmdService.class);
+			incService.saveIpReInvoice(oldstIpDO, incItms);
+
+			return strOldIdstip;
+		}
+	}
+
+}
+
+//IBlOepChargeCmdService stService =
+			// ServiceFinder.find(IBlOepChargeCmdService.class);
+			//
+			// BlOepRechargeSetDTO rechargeSet = new BlOepRechargeSetDTO();
+			// rechargeSet.setId_patcanew(oldstOepDO.getId_patca());
+			// rechargeSet.setId_stoep(oldstOepDO.getId_stoep());
+			// rechargeSet.setId_pat(oldstOepDO.getId_pat());
+			// rechargeSet.setAmt_all(oldstOepDO.getAmt_ratio());
+			// rechargeSet.setId_pripatnew(oldcgAggs[0].getBlCgItmOepDO()[0].getId_pripat());
+			// rechargeSet.setFg_print(FBoolean.TRUE);
+			// rechargeSet.setFg_printred(FBoolean.FALSE);
+			// rechargeSet.setSd_pttp("01");
+			// rechargeSet.setCode_st(BlCodeUtils.generateOepStCode());
+			//
+			//
+			// BlPayOepPmDTO[] payOepPmDtos = new BlPayOepPmDTO[0];
+			//
+			// BlOepRechargeRltDTO re = stService.oepReIncReCharge(rechargeSet,
+			// payOepPmDtos, cgitms);
+			// return re.getId_strecharge();
+
+			// String idPc =
+			// BlParams.getRealPcId(Context.get().getClientHost());
+			// List<BlIncCancDO> cancList = new ArrayList<BlIncCancDO>();
+			//
+			// IBlincoepCudService incSaveService =
+			// ServiceFinder.find(IBlincoepCudService.class);
+			// for(int i= 0; i< blincoepDOArr.length; i++){
+			// BlIncOepDO incDO = blincoepDOArr[i].getParentDO();
+			// incDO.setFg_canc(FBoolean.TRUE);
+			// incDO.setId_dep_canc(Context.get().getDeptId());
+			// incDO.setId_emp_canc(Context.get().getStuffId());
+			// incDO.setId_reason_canc(IBdPpCodeTypeConst.ID_REINC);
+			// incDO.setSd_reason_canc(IBdPpCodeTypeConst.SD_REINC);
+			// incDO.setDes_reason_canc(IBdPpCodeTypeConst.DES_REINC);
+			// incDO.setId_pc(idPc);
+			// incDO.setStatus(DOStatus.UPDATED);
+			//
+			// if(!StringUtils.isEmpty(incDO.getIncno())){
+			// cancList.add(IncCancAssembleUtil.assemble(incDO));
+			// }
+			//
+			// logList.add(OpIncCancLogAssembleUtil.assemble(incDO, codePkg,
+			// incnos[i]));
+			// }

@@ -1,0 +1,354 @@
+package iih.ei.std.s.v1.bp.mp.downstockdata;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.transaction.TransactionStatus;
+
+import iih.bd.base.utils.AppUtils;
+import iih.bd.bc.udi.pub.IMmDictCodeConst;
+import iih.bd.mm.meterial.d.MMPackageUnitDO;
+import iih.bd.mm.meterial.d.MeterialDO;
+import iih.bd.mm.meterial.i.IMMPackageUnitDORService;
+import iih.bd.mm.meterial.i.IMeterialMDORService;
+import iih.bd.mm.supplier.d.SupplierDO;
+import iih.bd.mm.supplier.i.ISupplierRService;
+import iih.bd.res.warehouse.d.WarehouseDO;
+import iih.bd.res.warehouse.i.IWarehouseRService;
+import iih.ei.std.d.v1.mp.purchasedrug.d.PurchaseDrugInfo;
+import iih.mm.st.stockin.d.StockInDO;
+import iih.mm.st.stockin.d.StockInItemDO;
+import iih.mm.st.stockin.d.StockinAggDO;
+import iih.mm.st.stockin.i.IStockinCudService;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.BizRuntimeException;
+import xap.mw.core.data.Context;
+import xap.mw.core.data.DOStatus;
+import xap.mw.core.data.FArrayList;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.coreitf.d.FDate;
+import xap.mw.coreitf.d.FDouble;
+import xap.mw.jdbc.tx.TransactionExecutor;
+import xap.mw.jdbc.tx.TransactionalOperation;
+import xap.mw.sf.core.util.ServiceFinder;
+/**
+ * 
+* @ClassName: InsertPOsBP
+* @Description: 插入采购入库（新建状态）数据
+* @author zhy
+* @date 2019年10月17日
+*
+ */
+public class InsertPOsBP {
+
+	/**
+	 * 程序入口
+	 * @param purchasedruginfo
+	 * @param idList
+	 */
+	public void exec(FArrayList purchasedruginfo, List<String> idList) {
+		
+		// 1.根据仓库,供应商分组
+		Map<String, Map<String, List<PurchaseDrugInfo>>> whPOMap = getWhPOMap(purchasedruginfo);
+		
+		// 2.插入采购入库
+		insertPo(whPOMap,idList);
+		
+	}
+	
+	/**
+	 * 根据仓库,供应商分组
+	 * @param purchasedruginfo
+	 * @return
+	 */
+	private Map<String, Map<String, List<PurchaseDrugInfo>>> getWhPOMap(FArrayList purchasedruginfo) {
+		Map<String, Map<String, List<PurchaseDrugInfo>>> whPOMap = new HashMap<>();
+	    for (Object object : purchasedruginfo) {
+	    	PurchaseDrugInfo purchOr = (PurchaseDrugInfo) object;
+	    	if (whPOMap.containsKey(purchOr.getCode_wh())) {
+				Map<String, List<PurchaseDrugInfo>> oldSupMap = whPOMap.get(purchOr.getCode_wh());
+				if (oldSupMap.containsKey(purchOr.getCode_sup())) {
+					List<PurchaseDrugInfo> oldPurchOrList = oldSupMap.get(purchOr.getCode_sup());
+					oldPurchOrList.add(purchOr);
+				} else {
+					List<PurchaseDrugInfo> newPurchOrList = new ArrayList<>();
+					newPurchOrList.add(purchOr);
+					oldSupMap.put(purchOr.getCode_sup(), newPurchOrList);
+				}
+			} else {
+				Map<String, List<PurchaseDrugInfo>> newSupMap = new HashMap<>();
+				List<PurchaseDrugInfo> PurchOrList = new ArrayList<>();
+				PurchOrList.add(purchOr);
+				newSupMap.put(purchOr.getCode_sup(), PurchOrList);
+				whPOMap.put(purchOr.getCode_wh(), newSupMap);
+			}
+		}
+		
+		return whPOMap;
+	}
+	
+	/**
+	 * 插入采购入库
+	 * @param whPOMap
+	 * @param idList
+	 */
+	private void insertPo(Map<String, Map<String, List<PurchaseDrugInfo>>> whPOMap, List<String> idList) {
+		Set<String> whCodes = whPOMap.keySet();
+		for (final String whCode : whCodes) {
+			final Map<String, List<PurchaseDrugInfo>> supMap = whPOMap.get(whCode);
+			Set<String> supCodes = supMap.keySet();
+			for (final String supCode : supCodes) {
+				// 每一个入库单 ， 单独开启一个事务，如果入库失败之后，返回入库单序号给智能工具
+				try {
+					TransactionExecutor.executeNewTransaction(new TransactionalOperation<String>() {
+						@Override
+						public String doInTransaction(TransactionStatus arg0) {
+							try {
+								InsertPOs(whCode, supCode, supMap.get(supCode));
+							} catch (Exception e) {
+								throw new BizRuntimeException(e.getMessage(), e);
+							}
+							return null;
+						}
+
+					});
+				} catch (Exception ex) {
+					for (PurchaseDrugInfo purchaseDrug : supMap.get(supCode)) {
+						idList.add(purchaseDrug.getId() + ex.getMessage());
+					}
+				}
+
+			}
+		}
+	}
+	
+	/**
+	 * 生成MM_IN,MM_IN_ITM数据
+	 * @param whCode
+	 * @param supCode
+	 * @param list
+	 */
+	private void InsertPOs(String whCode, String supCode, List<PurchaseDrugInfo> purchaseDrugList) throws BizException {
+		// 入库单生成
+		StockinAggDO stockinAggDO = new StockinAggDO();
+		// 出库单主信息设置
+		this.setPurchOrderMainInfo(whCode, supCode, purchaseDrugList.get(0).getDt_orig(), stockinAggDO);
+		
+		List<StockInItemDO> stockInItemDOs = new ArrayList<>();
+
+		for (PurchaseDrugInfo purchaseDrug : purchaseDrugList) {
+			StockInItemDO stockInItemDO = new StockInItemDO();
+			// 出库单明细信息设置
+			this.setPurchOrderItemInfo(stockInItemDO, purchaseDrug, stockinAggDO);
+			stockInItemDOs.add(stockInItemDO);
+		}
+
+		stockinAggDO.setStockInItemDO(stockInItemDOs.toArray(new StockInItemDO[0]));
+		// 入库单保存
+		saveStockOut(stockinAggDO);
+		
+	}
+	
+
+	/**
+	 * 出库单主信息设置
+	 * @param whCode
+	 * @param supCode
+	 * @param dt_orig
+	 * @param stockinAggDO
+	 * @throws BizException 
+	 */
+	private void setPurchOrderMainInfo(String whCode, String supCode, String dt_orig, StockinAggDO stockinAggDO) throws BizException {
+		StockInDO stockInDO = new StockInDO();
+		stockInDO.setStatus(DOStatus.NEW);
+		stockInDO.setId_grp(Context.get().getGroupId());
+		stockInDO.setId_org(Context.get().getOrgId());
+		stockInDO.setRed_blue(FBoolean.FALSE);
+		stockInDO.setSd_sttp(IMmDictCodeConst.SD_STTP_IN_CAIGOU);
+		stockInDO.setId_mmstca("@@@@Z7100000000E6W3K");
+		if (StringUtils.isEmpty(whCode)) {
+			throw new BizException("入参仓库为null");
+		}
+		stockInDO.setId_wh(getIdwh(whCode));
+		if (StringUtils.isEmpty(supCode)) {
+			throw new BizException("入参供应商为null");
+		}
+		stockInDO.setId_sup(getIdsup(supCode));
+		stockInDO.setId_su_st("@@@@AA1000000001I3J6");
+		stockInDO.setSd_su_st("0");
+		if (StringUtils.isNotEmpty(dt_orig)) {
+			stockInDO.setDt_orig(new FDate(dt_orig));
+		}
+		stockInDO.setFg_inv(FBoolean.FALSE);
+		stockInDO.setFg_pay(FBoolean.FALSE);
+		stockInDO.setRate_actual(new FDouble(1));
+		stockInDO.setYear_month(AppUtils.getServerDateTime().toString());
+		stockInDO.setId_emp_st(Context.get().getStuffId());
+		stockInDO.setDt_st(AppUtils.getServerDateTime());
+		stockInDO.setDt_st_short(AppUtils.getServerDate());
+		stockInDO.setCreatedby(Context.get().getUserId());
+		stockInDO.setCreatedtime(AppUtils.getServerDateTime());
+		stockinAggDO.setParentDO(stockInDO);
+		
+	}
+	
+
+	/**
+	 * 根据仓库编码查询id
+	 * @param whCode
+	 * @return
+	 * @throws BizException 
+	 */
+	private String getIdwh(String code_wh) throws BizException {
+		IWarehouseRService iWarehouseRService = ServiceFinder.find(IWarehouseRService.class);
+		WarehouseDO[] warehouseDOs = iWarehouseRService.findByAttrValString("Code", code_wh);
+		if (ArrayUtils.isEmpty(warehouseDOs)) {
+			throw new BizException("仓库编码【" + code_wh + "】HIS对应仓库不存在");
+		}
+		return warehouseDOs[0].getId_wh();
+	}
+	
+	/**
+	 * 根据供应商编码查询id
+	 * @param supCode
+	 * @return
+	 * @throws BizException 
+	 */
+	private String getIdsup(String code_sup) throws BizException {
+		ISupplierRService iSupplierRService = ServiceFinder.find(ISupplierRService.class);
+		SupplierDO[] supplierDOs = iSupplierRService.findByAttrValString("Code", code_sup);
+		if (ArrayUtils.isEmpty(supplierDOs)) {
+			throw new BizException("供应商编码【" + code_sup + "】HIS对应供应商不存在");
+		}
+		return supplierDOs[0].getId_sup();
+	}
+	
+	/**
+	 * 出库单明细信息设置
+	 * @param stockInItemDO
+	 * @param purchaseDrug
+	 * @param stockinAggDO
+	 * @throws BizException 
+	 */
+	private void setPurchOrderItemInfo(StockInItemDO stockInItemDO, PurchaseDrugInfo purchaseDrug,
+			StockinAggDO stockinAggDO) throws BizException {
+		stockInItemDO.setSortno(new Integer(purchaseDrug.getId()));
+		if (StringUtils.isNotEmpty(purchaseDrug.getOrig_code())) {
+			stockInItemDO.setOrig_code(purchaseDrug.getOrig_code());
+		}
+		if (StringUtils.isEmpty(purchaseDrug.getCode_dg())) {
+			throw new BizException("第【" + purchaseDrug.getId() + "】条数据，药品编码为null");
+		}
+		stockInItemDO.setId_mm(getIdmm(purchaseDrug));
+		if (StringUtils.isEmpty(purchaseDrug.getCode_pkgu())) {
+			throw new BizException("第【" + purchaseDrug.getId() + "】条数据，药品单位为null");
+		}
+		MMPackageUnitDO[] packageUnitDOs = getMMPkguId(purchaseDrug);
+		for (MMPackageUnitDO mmPackageUnitDO : packageUnitDOs) {
+			if ("0".equals(mmPackageUnitDO.getSd_mmpkgupro())) {
+				stockInItemDO.setId_mmpkgu_base(mmPackageUnitDO.getId_mmpkgu());
+			}
+			if ("1".equals(mmPackageUnitDO.getSd_mmpkgupro())) {
+				stockInItemDO.setId_mmpkgu_sp(mmPackageUnitDO.getId_mmpkgu());
+			}
+		}
+		for (MMPackageUnitDO mmPackageUnitDO : packageUnitDOs) {
+			if (-1 != purchaseDrug.getCode_pkgu().indexOf(mmPackageUnitDO.getId_mm())
+					|| -1 != mmPackageUnitDO.getId_mm().indexOf(purchaseDrug.getCode_pkgu())) {
+				stockInItemDO.setId_mmpkgu_actual(mmPackageUnitDO.getId_mmpkgu());
+			}
+		}
+		if (StringUtils.isEmpty(purchaseDrug.getQuan_actual())) {
+			throw new BizException("第【" + purchaseDrug.getId() + "】条数据，药品数量为null");
+		}
+		stockInItemDO.setQuan_actual(new FDouble(purchaseDrug.getQuan_actual()));
+		if (StringUtils.isEmpty(purchaseDrug.getCode_sup())) {
+			throw new BizException("第【" + purchaseDrug.getId() + "】条数据，药品供应商为null");
+		}
+		stockInItemDO.setId_sup(getSupOrMfrsId(purchaseDrug));
+		if (StringUtils.isEmpty(purchaseDrug.getBatch())) {
+			throw new BizException("第【" + purchaseDrug.getId() + "】条数据，药品批次为null");
+		}
+		stockInItemDO.setBatch(purchaseDrug.getBatch());
+		if (StringUtils.isEmpty(purchaseDrug.getDate_expi())) {
+			throw new BizException("第【" + purchaseDrug.getId() + "】条数据，药品失效期为null");
+		}
+		stockInItemDO.setDate_expi(new FDate(purchaseDrug.getDate_expi()));
+		if (StringUtils.isEmpty(purchaseDrug.getPri_act())) {
+			throw new BizException("第【" + purchaseDrug.getId() + "】条数据，药品入库价格为null");
+		}
+		stockInItemDO.setPri_po(new FDouble(purchaseDrug.getPri_act()));
+		stockInItemDO.setPri_act(new FDouble(purchaseDrug.getPri_act()));
+		stockInItemDO.setPri_sa(new FDouble(purchaseDrug.getPri_act()));
+		stockInItemDO.setAmt(stockInItemDO.getPri_act().multiply(stockInItemDO.getQuan_actual()));
+		stockInItemDO.setFg_pay(FBoolean.FALSE);
+		stockInItemDO.setFg_inv(FBoolean.FALSE);
+		stockInItemDO.setRate_actual(new FDouble(1));
+		stockInItemDO.setFg_finish(FBoolean.FALSE);
+
+		
+	}
+
+	/**
+	 * 通过药品编码获取药品id
+	 * @param purchaseDrug
+	 * @return
+	 * @throws BizException 
+	 */
+	private String getIdmm(PurchaseDrugInfo purchaseDrug) throws BizException {
+		IMeterialMDORService mdorService = ServiceFinder.find(IMeterialMDORService.class);
+		MeterialDO[] meterialDOs = mdorService.findByAttrValString("Code", purchaseDrug.getCode_dg());
+		if (ArrayUtils.isEmpty(meterialDOs)) {
+			throw new BizException("第【" + purchaseDrug.getId() + "】条数据药品编码，HIS对应药品不存在");
+		}
+		return meterialDOs[0].getId_mm();
+	}
+	
+	/**
+	 * 获取药品单位主键集合
+	 * @param purchaseDrug
+	 * @return
+	 * @throws BizException 
+	 */
+	private MMPackageUnitDO[] getMMPkguId(PurchaseDrugInfo purchaseDrug) throws BizException {
+		IMMPackageUnitDORService unitDORService = ServiceFinder.find(IMMPackageUnitDORService.class);
+		MMPackageUnitDO[] packageUnitDOs = unitDORService.findByAttrValString("Id_mm", getIdmm(purchaseDrug));
+		if (ArrayUtils.isEmpty(packageUnitDOs)) {
+			throw new BizException("第【" + purchaseDrug.getId() + "】条数据，药品对应HIS单位不存在");
+		}
+		return packageUnitDOs;
+	}
+	
+	/**
+	 * 获取供应商及生成厂家id
+	 * @param purchaseDrug
+	 * @return
+	 * @throws BizException 
+	 */
+	private String getSupOrMfrsId(PurchaseDrugInfo purchaseDrug) throws BizException {
+		ISupplierRService rService = ServiceFinder.find(ISupplierRService.class);
+		SupplierDO[] supplierDOs = rService.findByAttrValString("Code", purchaseDrug.getCode_sup());
+		if (ArrayUtils.isEmpty(supplierDOs)) {
+			throw new BizException("第【" + purchaseDrug.getId() + "】条数据，供应商HIS不存在");
+		}
+		return supplierDOs[0].getId_sup();
+	}
+	
+	/**
+	 * 保存入库单
+	 * @param stockinAggDO
+	 * @throws BizException 
+	 */
+	private void saveStockOut(StockinAggDO stockinAggDO) throws BizException {
+		IStockinCudService iStockinCudService = ServiceFinder.find(IStockinCudService.class);
+		StockinAggDO[] stockinAggDOs = iStockinCudService.insert(new StockinAggDO[] { stockinAggDO });
+		if (stockinAggDOs == null || stockinAggDOs.length <= 0) {
+			throw new BizException("插入采购入库数据失败。");
+		}
+	}
+}

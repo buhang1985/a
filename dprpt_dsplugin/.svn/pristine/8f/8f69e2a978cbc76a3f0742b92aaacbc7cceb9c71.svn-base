@@ -1,0 +1,39 @@
+# local client configuration
+
+# system var
+format.date=yyyy-MM-dd
+format.time=HH\:mm\:ss
+font.dirs.linux=/usr/share/fonts;
+font.dirs.win=c:/winnt/fonts;c:/windows/fonts;
+
+# define classes loader of rpt-ext-functions
+clzreg.rpt_extfuncs=xap.rptdsplugin.comm.RptFuncExtLoader#GetRptFuncClzz
+
+# path of local report template
+csvdata.root=D:/Xap_Report_Fold/csvdatafile/
+rptfile.root=D:/Xap_Report_Fold/rpttempl/
+# iih-biz-modules name list
+rptfile.bizmodules=bd-基础数据, bl-费用管理, ci-临床信息, dg-, ei-, en-就诊
+rptfile.bizmodules_ext1=mkr-, mm-物品信息, mp-医疗执行, mr-病历, nm-护理, nmr-护理医嘱, pe-体检
+
+# report-tmpl file upload service [Name@Host:Port]
+rpt_serv.host=本地@localhost:8089
+rpt_serv.host1=产品开发sdlanling@172.18.128.62:8090
+rpt_serv.host2=兰陵sdlanling2@172.18.128.63:8089
+rpt_serv.host3=北大国际@172.18.44.177:8087
+rpt_serv.host4=江苏省人民@172.18.44.111:8089
+rpt_serv.host5=玉溪测试_远程@120.92.211.109:1375
+
+# local jdbc connect params
+jdbc.driver=oracle.jdbc.OracleDriver
+
+# 产品开发版DB
+#jdbc.url=jdbc:oracle:thin:@172.18.128.62:1521:iih
+#jdbc.user=sdlanling1
+#jdbc.xapass=1
+
+# 产品稳定版DB
+jdbc.url=jdbc:oracle:thin:@172.18.128.63:1521:iih
+jdbc.user=sdlanling2
+jdbc.xapass=PVQ36ZsrhApiBAiYzpYSak1xPk
+

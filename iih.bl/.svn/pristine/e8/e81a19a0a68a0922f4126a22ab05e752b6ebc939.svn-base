@@ -1,0 +1,21 @@
+package iih.bl.inc.blecinccomp.s;
+import xap.mw.core.annotation.Service;
+import xap.mw.core.service.constant.Binding;
+import xap.sys.appfw.orm.desc.DescManager;
+import xap.sys.appfw.orm.utils.IAppFwTempTbl;
+import xap.sys.appfw.orm.handle.dataobject.BaseDOService;
+import iih.bl.inc.blecinccomp.d.desc.BlEcIncCompDODesc;
+import iih.bl.inc.blecinccomp.d.BlEcIncCompDO;
+import iih.bl.inc.blecinccomp.i.IBlecinccompCudService;
+import iih.bl.inc.blecinccomp.i.IBlecinccompRService;
+
+
+/**
+ * 电子票据对照AggDO数据CRUD服务实现
+ */
+@Service(serviceInterfaces={IBlecinccompCudService.class,IBlecinccompRService.class}, binding=Binding.JSONRPC)
+public class BlecinccompCrudServiceImpl extends BaseDOService<BlEcIncCompDO> implements IBlecinccompCudService,IBlecinccompRService {
+    public BlecinccompCrudServiceImpl() {
+        super(DescManager.getInstance().getDODesc(BlEcIncCompDODesc.class),IAppFwTempTbl.tmp_iaw_16.name()); 
+    }
+}

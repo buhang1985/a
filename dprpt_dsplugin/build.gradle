@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+		maven {
+			url "http://172.18.40.98:8081/repository/maven-public/"
+		}
+    }
+    dependencies {
+        classpath "cn.sweeper:sweeper-gradle-plugin:1.0-SNAPSHOT"
+    }
+    
+	configurations.all {
+		resolutionStrategy {
+			cacheChangingModulesFor 0, 'seconds'
+		}
+	}
+}
+
+repositories {
+	maven {
+		url "http://172.18.40.98:8081/repository/maven-public/"
+	}
+	mavenLocal()
+}
+
+apply plugin: 'cn.sweeper.feature'
+
+group 'dprpt_dsplugin'
+version '0.0.0-SNAPSHOT'
+
+dependencies {
+	compile "sys:sys:0.0.0-SNAPSHOT"
+	compile "sys_base:sys_base:0.0.0-SNAPSHOT"
+	compile "system:system:0.0.0-SNAPSHOT"
+}
+
+configurations.all {
+	resolutionStrategy {
+		cacheChangingModulesFor 0, 'seconds'
+	}
+}

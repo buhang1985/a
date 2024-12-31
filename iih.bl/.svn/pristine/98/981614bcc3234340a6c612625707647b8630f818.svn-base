@@ -1,0 +1,19 @@
+package iih.bl.itf.transferqry.s;
+
+import iih.bl.itf.transferqry.bp.TransferInfoBP;
+import iih.bl.itf.transferqry.d.TransferInfoDTO;
+import iih.bl.itf.transferqry.i.TransferInfoQryService;
+import xap.mw.core.data.BizException;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+
+public class TransferInfoQryServiceImpl implements TransferInfoQryService {
+
+	@Override
+	public TransferInfoDTO[] transferInfoQry(QryRootNodeDTO qryNode)
+			throws BizException {
+		TransferInfoBP bp = new TransferInfoBP();
+		return bp.exec(qryNode);
+	}
+
+
+}

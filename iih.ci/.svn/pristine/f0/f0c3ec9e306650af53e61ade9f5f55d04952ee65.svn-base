@@ -1,0 +1,158 @@
+package iih.ci.ord.s.ems.ip.assi.cp.herbs;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import iih.ci.ord.ciorder.d.CiOrderDO;
+import iih.ci.ord.ciorder.d.OrdSrvDO;
+import iih.ci.ord.ciorder.i.ICiorderMDOCudService;
+import iih.ci.ord.ciorder.i.IOrdSrvDOCudService;
+import iih.ci.ord.content.d.CiOrContentDO;
+import iih.ci.ord.dws.ip.ems.d.EmsHerbsViewDTO;
+import iih.ci.ord.dws.ip.order.d.OrderListViewDTO;
+import iih.ci.ord.ems.d.CiEnContextDTO;
+import iih.ci.ord.i.error.ErrorEmsDTO;
+import iih.ci.ord.ordsrvmm.d.OrdSrvMmDO;
+import iih.ci.ord.pub.CiOrdAppUtils;
+import iih.ci.ord.pub.CiOrdUtils;
+import iih.ci.ord.s.ems.base.BaseCpValidate;
+import iih.ci.ord.s.ems.defsave.DefaultDrugsCreateOrderInfo;
+import iih.ci.ord.s.ems.ip.ems.herbs.EmsHerbsSaveBP;
+import iih.ci.ord.s.ems.ip.ems.herbs.EmsHerbsValidate;
+import iih.ci.ord.s.ems.meta.ErrorEmsList;
+import iih.ci.ord.s.ems.meta.OrderPackageInfo;
+import iih.ci.ord.s.ems.meta.OrderPackageInfoList;
+import iih.ci.ord.s.ems.orcontent.CiOrContentUtils;
+import iih.ci.ord.s.ems.orcontent.meta.CommonDrugItemOrContentParam;
+import iih.ci.ord.s.ems.orcontent.meta.HerbOrContentParam;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.DOStatus;
+import xap.mw.core.data.FArrayList;
+import xap.mw.sf.core.util.ServiceFinder;
+
+public class EmsHerbsSave4CP  extends EmsHerbsSaveBP{
+	
+
+	
+	public EmsHerbsSave4CP() {
+		this.setEmsValidate(new BaseCpValidate());
+		this.setDefaultCreateOrderInfo(new DefaultDrugsCreateOrderInfo());
+	}
+    @Override
+	protected EmsSaveRstInfo handleSaveOrderPackageList(CiEnContextDTO ctx, OrderPackageInfo[] szOrderPackageInfo)
+			throws BizException {
+    	EmsSaveRstInfo emsSaveRstInfo = new EmsSaveRstInfo();
+
+		OrderPackageInfoList orderPackageInfoList = new OrderPackageInfoList(szOrderPackageInfo);
+
+		// 保存医嘱服务物品信息
+		OrdSrvMmDO[] szOrdSrvMmInfo = orderPackageInfoList.asOrderSrvMmArray();
+		if (!CiOrdUtils.isEmpty(szOrdSrvMmInfo)) {
+			emsSaveRstInfo.szOrderSrvMmInfo = CiOrdAppUtils.getOrsrvmmService().save(szOrdSrvMmInfo);
+		}
+
+		// 保存医嘱服务信息
+		OrdSrvDO[] szOrdSrvInfo = orderPackageInfoList.asOrderSrvArray();
+		if (!CiOrdUtils.isEmpty(szOrdSrvInfo)) {
+			emsSaveRstInfo.szOrderSrvInfo = ServiceFinder.find(IOrdSrvDOCudService.class).save(szOrdSrvInfo);
+		}
+
+		// 保存医嘱信息
+		CiOrderDO[] szOrderInfo = orderPackageInfoList.asOrderArray();
+		validateErroInfo( ctx, orderPackageInfoList);
+		this.setOrdSortno(szOrderInfo, ctx.getId_en());// 设置医嘱序号
+		if (!CiOrdUtils.isEmpty(szOrderInfo)) {
+			emsSaveRstInfo.szOrderInfo = ServiceFinder.find(ICiorderMDOCudService.class).save(szOrderInfo);
+		}
+		return emsSaveRstInfo;
+	}
+    
+    private void validateErroInfo(CiEnContextDTO ctx,OrderPackageInfoList orderPackageInfoList) throws BizException {
+    	OrderPackageInfo[] pkgs=orderPackageInfoList.asArray();
+    	for (OrderPackageInfo orderPackageInfo : pkgs) {  
+    		ArrayList obj=(ArrayList)orderPackageInfo.getUiModel();
+    		ErrorEmsList errorlist=new EmsHerbsValidate().viewModelValidate(obj.toArray(), ctx);
+    		if (!CiOrdUtils.isEmpty(errorlist)) {
+    			//存在错误信息
+    			setErroInfo( errorlist,orderPackageInfo);
+    			CiOrContentDO orcontent=this.getOrderContent2(ctx, obj,orderPackageInfo.getOrderInfo());
+    			orderPackageInfo.getOrderInfo().setContent_or(orcontent.toString());
+    		}else {
+    			
+    			errorlist=new BaseCpValidate().afterSaveValidate(ctx,new CiOrderDO[] {orderPackageInfo.getOrderInfo()},orderPackageInfo.getOrderSrvList(),orderPackageInfo.asOrderSrvMmList().toArray(new OrdSrvMmDO[0]),null);
+    			if (!CiOrdUtils.isEmpty(errorlist)) {
+        			//存在错误信息
+        			setErroInfo( errorlist,orderPackageInfo);
+        			CiOrContentDO orcontent=this.getOrderContent2(ctx, obj,orderPackageInfo.getOrderInfo());
+        			orderPackageInfo.getOrderInfo().setContent_or(orcontent.toString());
+        		}
+    		}
+    		
+		}
+    	
+    }
+    
+    private void setErroInfo(ErrorEmsList errorAllList,OrderPackageInfo orderPackageInfo) {
+    	String error_des = "";
+    	if(orderPackageInfo.getOrderInfo().getError_des()!=null)
+    	 error_des =  orderPackageInfo.getOrderInfo().getError_des();
+    	for(ErrorEmsDTO error:errorAllList){
+    		error_des += error.getError_message();
+		}
+    	orderPackageInfo.getOrderInfo().setError_level(errorAllList.get(0).getError_level());
+		orderPackageInfo.getOrderInfo().setError_des(error_des);
+		
+    }
+    
+    protected CiOrContentDO getOrderContent2(CiEnContextDTO ctx, Object uiModel,CiOrderDO orderInfo) {
+    	List<OrderListViewDTO> uiList = (List<OrderListViewDTO>) uiModel;
+
+		HerbOrContentParam content = new HerbOrContentParam();
+		OrderListViewDTO orderlistviewdto = uiList.get(0);
+		if (orderlistviewdto instanceof EmsHerbsViewDTO) {
+			content.setNote(((EmsHerbsViewDTO) orderlistviewdto).getDes_or());
+		}
+
+		content.setDays_or(orderlistviewdto.getDays_or());
+		content.setFg_urgent(orderlistviewdto.getFg_urgent());
+		content.setIsmuldose(orderlistviewdto.getIsmuldose());
+		content.setIsmulexec(orderlistviewdto.getIsmulexec());
+		content.setName_freq(orderlistviewdto.getName_freq());
+		content.setName_route(orderlistviewdto.getName_route());
+		content.setName_srv(orderlistviewdto.getName_srv());
+		content.setName_unit_med(orderlistviewdto.getName_unit_med());
+		content.setPri(orderlistviewdto.getPri());
+
+		content.setSd_srvtp(orderlistviewdto.getSd_srvtp());
+		content.setTotal_pri(orderlistviewdto.getTotalprice());
+
+		FArrayList items = new FArrayList();
+		for (int i = 0; i < uiList.size(); i++) {
+			EmsHerbsViewDTO ui = (EmsHerbsViewDTO) uiList.get(i);
+			if (DOStatus.DELETED != ui.getStatus()) {
+				CommonDrugItemOrContentParam item = new CommonDrugItemOrContentParam();
+				item.setName_mm(ui.getName_mm());
+				item.setName_srv(ui.getName_srv());
+				item.setName_unit_sale(ui.getName_unit_cur());
+				item.setQuan_total_medu(ui.getQuan_total_medu());
+				item.setFg_self(ui.getFg_self());
+				item.setFg_selfsrv(ui.getFg_selfsrv());
+				item.setQuan_med(ui.getQuan_med());
+				item.setFg_or(ui.getFg_or());
+				item.setSd_nodispense(ui.getSd_nodispense());
+				item.setFg_nothingwithorders(ui.getFg_nothingwithorders());
+				items.add(item);
+			}
+		}
+		content.setItems(items);
+		CiOrContentDO ciOrContentDO = CiOrContentUtils.create(content);
+		ciOrContentDO.setTitle(orderInfo.getOrders() == null ? "" : orderInfo.getOrders() + "");
+		ArrayList<ArrayList<String>> list =ciOrContentDO.getItemInfos();
+		ArrayList<String> tailInfos = new ArrayList<>();
+		tailInfos.add(orderInfo.getError_des());
+		list.add(tailInfos);
+		return ciOrContentDO;
+	}
+
+
+}

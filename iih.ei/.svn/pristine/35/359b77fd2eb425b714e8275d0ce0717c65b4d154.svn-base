@@ -1,0 +1,37 @@
+package iih.ei.std.s.v1.bp.en;
+
+import iih.ei.std.d.v1.en.ipinfo.d.IpInfoByDepParamDTO;
+import iih.ei.std.d.v1.en.ipinfo.d.IpInfoParamDTO;
+import iih.ei.std.d.v1.en.ipinfo.d.IpInfoResultDTO;
+import iih.ei.std.s.v1.bp.IIHServiceBaseBP;
+import xap.mw.core.data.BizException;
+import xap.mw.core.utils.StringUtil;
+
+public class GetIpInfoByDepBp extends IIHServiceBaseBP<IpInfoByDepParamDTO, IpInfoResultDTO> {
+
+	@Override
+	protected void checkParam(IpInfoByDepParamDTO param) throws BizException {
+		if (StringUtil.isEmpty(param.getSd_status())) {
+			throw new BizException("查询状态不能为空");
+		}
+	}
+
+	@Override
+	protected IpInfoResultDTO process(IpInfoByDepParamDTO param) throws BizException {
+		GetIpInfoUtilsBP getIpInfoUtilsBP = new GetIpInfoUtilsBP();
+		return getIpInfoUtilsBP.getResults(setValue(param));
+	}
+
+	private IpInfoParamDTO setValue(IpInfoByDepParamDTO param) {
+		IpInfoParamDTO dto = new IpInfoParamDTO();
+		dto.setCode_dep(param.getCode_dep());
+		dto.setCode_nur(param.getCode_nur());
+		dto.setDate_b_in(param.getDate_b_in());
+		dto.setDate_b_out(param.getDate_b_out());
+		dto.setDate_e_in(param.getDate_e_in());
+		dto.setDate_e_out(param.getDate_e_out());
+		dto.setSd_status(param.getSd_status());
+		return dto;
+	}
+
+}

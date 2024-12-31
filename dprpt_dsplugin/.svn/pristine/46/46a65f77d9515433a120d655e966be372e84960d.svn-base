@@ -1,0 +1,16 @@
+package iih.mp.nr.common;
+
+public interface IMpDictCodeConst {
+
+	/**
+	 * 频次
+	 */
+	public static final String SD_FREQ_AWAYS = "always";// 持续医嘱
+	public static final String ID_FREQ_AWAYS = "@@@@AA1000000006AEHV";// 持续医嘱
+
+	/**
+	 * 进口药
+	 */
+	public static final String SD_ABRD = "1";//进口药
+	public static final String ID_ABRD = "@@@@AA1000000000ELOI";//进口药
+}

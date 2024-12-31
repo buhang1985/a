@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xap="http://xap.org/xap"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+
+	<bean id="CiMiOrdRServiceImpl" class="iih.ci.mi.ord.CiMiOrdRServiceImpl"></bean>
+	<xap:service ref="CiMiOrdRServiceImpl"
+		interface="iih.ci.mi.ord.i.ICiMiOrdRService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+		
+	<!-- 医保信息更新接口 -->
+	<bean id="CiMiOrdCudServiceImpl" class="iih.ci.mi.ord.CiMiOrdCudServiceImpl"></bean>
+	<xap:service ref="CiMiOrdCudServiceImpl"
+		interface="iih.ci.mi.ord.i.ICiMiOrdCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 对外接口 begin-->
+	
+	<!-- 医保平台接口 -->
+	<bean id="CiMiMcRServiceImpl" class="iih.ci.mi.external.obtain.mi.CiMiMcRServiceImpl"></bean>
+	<xap:service ref="CiMiMcRServiceImpl"
+		interface="iih.ci.mi.external.obtain.mi.ICiMiMcRService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 对外接口 end-->
+	
+</beans>

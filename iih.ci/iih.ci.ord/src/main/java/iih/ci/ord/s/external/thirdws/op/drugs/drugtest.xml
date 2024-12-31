@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<!-- 就诊信息 -->
+	<ent>
+		<weight/>
+		<code_emp_nur/>
+		<sd_bloodtype_pi/>
+		<code_pat>100039778900</code_pat>
+		<sd_rhd_pi/>
+		<times_en/>
+		<code_entp>00</code_entp>
+		<code_dep_nur/>
+		<code_org/>
+		<code_emp_phy/>
+		<code_grp/>
+		<preslist/>
+		<fg_hecominsur/>
+		<code_bed/>
+		<code_en>1900008328</code_en>
+		<code_dep_phy/>
+		<fg_vip/>
+		<code_weight_unit/>
+		<!-- 处方信息 1..n -->
+		<pres>
+			<!-- 处方号 -->
+			<ordlist/>
+			<names_diag/>
+			<sd_prestp>0001</sd_prestp>
+			<code_pois/>
+			<sd_prestpword/>
+			<code_pres>R0001</code_pres>
+			<codes_diag>L30.900</codes_diag>
+			<!-- 医嘱信息 1..n-->
+			<order>
+				<code_freq_or>QD</code_freq_or>
+				<des_or>这个药要每天吃</des_or>
+				<code_org_or/>
+				<code_dep_mp_or>600903</code_dep_mp_or>
+				<code_dep_or>103901</code_dep_or>
+				<code_or>600903103901</code_or>
+				<sortno_or>2</sortno_or>
+				<sd_dripspeed/>
+				<code_emp_or/>
+				<dt_entry_or>2019-06-20 00:01:49</dt_entry_or>
+				<code_route>062</code_route>
+				<sd_excessive_reason/>
+				<code_org_mp_or/>
+				<fg_pay_unit/>
+				<days_or>3</days_or>
+				<code_wg_or/>
+				<fg_urgent>Y</fg_urgent>
+				<srvlist/>
+				<!-- 药品及费用信息1..n -->
+				<srv>
+					<fg_specill>N</fg_specill>
+					<code_routedes>0009</code_routedes>
+					<code_medu_cur>XD</code_medu_cur>
+					<quan_medu_cur>2</quan_medu_cur>
+					<code_mm>000131</code_mm>
+					<code_researchproject/>
+					<sd_propc>Y</sd_propc>
+					<fg_research/>
+					<quan_num_base>1</quan_num_base>
+					<code_org_mp_srv/>
+					<factor_pgku_cur>3</factor_pgku_cur>
+					<pri_ratio>1</pri_ratio>
+					<code_dep_mp_srv>600903</code_dep_mp_srv>
+					<code_pgku_cur>059</code_pgku_cur>
+					<code_dep_wh>600903</code_dep_wh>
+					<fg_base>Y</fg_base>
+					<sortno_srv>12</sortno_srv>
+					<factor_cur>4</factor_cur>
+					<quan_den_base>3</quan_den_base>
+					<fg_or>Y</fg_or>
+					<pri>4</pri>
+					<fg_selfpay/>
+					<pri_std>5</pri_std>
+					<code_pgku_base>M3</code_pgku_base>
+					<quan_cur>6</quan_cur>
+					<sd_nodispense/>
+					<sd_skintest_skip_reason/>
+					<sd_hpsrvtp>2</sd_hpsrvtp>
+					<name_mm>注射液治病的</name_mm>
+				</srv>
+			</order>
+		</pres>	
+	</ent>
+</root>

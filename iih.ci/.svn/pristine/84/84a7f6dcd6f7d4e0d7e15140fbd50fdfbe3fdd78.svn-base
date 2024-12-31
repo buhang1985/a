@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+XAP-Component-Version: 0.2.0-sdlanling2-SNAPSHOT
+XAP-Component-Name: iih.ci
+XAP-Component-Namespace: iih.ci
+XAP-Component-Dependencies: iih.bd/iih.bd/0.2.0-sdlanling2-SNAPSHOT,ii
+ h_pub/iih_pub/0.2.0-sdlanling2-SNAPSHOT
+

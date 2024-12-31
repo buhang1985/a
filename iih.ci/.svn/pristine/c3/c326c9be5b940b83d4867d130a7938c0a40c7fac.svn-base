@@ -1,0 +1,7 @@
+package iih.ci.event.ord.reissue.action.lis;
+
+import iih.ci.event.ord.reissue.common.ReissueCommonAction;
+
+public abstract class ReissueLisCommonAction extends ReissueCommonAction  {
+
+}

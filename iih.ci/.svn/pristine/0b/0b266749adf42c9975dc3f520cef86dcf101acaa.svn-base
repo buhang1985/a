@@ -1,0 +1,24 @@
+package iih.ci.ord.s.bp;
+
+import iih.bd.srv.medsrv.refs.sql.ip.relhp.IpOrderRefMMRelHpSQLBuilder;
+import iih.bd.srv.medsrv.refs.sql.ip.relhp.IpOrderRefSrvRelHpSQLBuilder;
+import iih.bd.srv.medsrv.refs.sql.op.OpOrderRefMMSQLBuilder;
+import iih.bd.srv.medsrv.refs.sql.op.OpOrderRefSrvSQLBuilder;
+/**
+ * 住院参照框，显示医保备注信息
+ * @author zhangwq
+ *
+ */
+public class GetMedSrvScBindMMRelHpBP extends GetMedSrvScBindMMBP{
+
+	@Override
+	protected OpOrderRefSrvSQLBuilder getOrderRefSrvSQLBuilder(String code_entp) {
+		return new IpOrderRefSrvRelHpSQLBuilder();
+	}
+
+	@Override
+	protected OpOrderRefMMSQLBuilder getOrderRefMMSQLBuilder(String code_entp) {
+		return new IpOrderRefMMRelHpSQLBuilder();
+	}
+	
+}

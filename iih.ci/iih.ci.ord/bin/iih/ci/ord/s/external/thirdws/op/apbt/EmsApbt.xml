@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+  <root>
+	<!-- 就诊信息 -->
+	<ent>
+		<weight></weight>
+		<code_emp_nur></code_emp_nur>
+		<sd_bloodtype_pi></sd_bloodtype_pi>
+		<code_pat></code_pat>
+		<sd_rhd_pi></sd_rhd_pi>
+		<times_en></times_en>
+		<code_entp></code_entp>
+		<code_dep_nur></code_dep_nur>
+		<code_org></code_org>
+		<code_emp_phy></code_emp_phy>
+		<code_grp></code_grp>
+		<fg_hecominsur></fg_hecominsur>
+		<code_bed></code_bed>
+		<code_en></code_en>
+		<code_dep_phy></code_dep_phy>
+		<fg_vip></fg_vip>
+		<code_weight_unit></code_weight_unit>
+		<fg_bb></fg_bb>
+		<!-- 医嘱信息list -->
+		<order>
+			<fg_db></fg_db>
+			<des_or></des_or>
+			<dt_bt_pl></dt_bt_pl>
+			<sd_mode_bt></sd_mode_bt>
+			<code_org_or></code_org_or>
+			<code_dep_mp_or></code_dep_mp_or>
+			<code_dep_or></code_dep_or>
+			<no_db></no_db>
+			<code_or></code_or>
+			<checklist></checklist>
+			<fg_newborn></fg_newborn>
+			
+			<no_applyform></no_applyform>
+			<dt_entry_or></dt_entry_or>
+			<sd_bloodtype_ap></sd_bloodtype_ap>
+			<code_diag></code_diag>
+			<code_org_mp_or></code_org_mp_or>
+			<parturition_cnt></parturition_cnt>
+			<sd_pps_bt></sd_pps_bt>
+			
+			<sd_his_bt></sd_his_bt>
+			<name_diag></name_diag>
+			<des_pps_bt></des_pps_bt>
+			<sortno_or></sortno_or>
+			
+			<code_emp_or></code_emp_or>
+			<sd_rhd_ap></sd_rhd_ap>
+			<sd_demandsu_bt></sd_demandsu_bt>
+			<pregnant_num></pregnant_num>
+			<code_wg_or></code_wg_or>
+          <!-- 血液成分list -->
+			<blooditem>
+			<code_srv_or></code_srv_or>
+			<name_srv_or></name_srv_or>
+			<quan_medu_bt></quan_medu_bt>
+			<code_medu_bt></code_medu_bt>
+			</blooditem>
+			<!-- 检验list -->
+
+				<check>
+				<code_srv_viewitm></code_srv_viewitm>
+				<sortno_viewitm></sortno_viewitm>
+				<val_rstrptla_viewitm></val_rstrptla_viewitm>
+				<name_or_viewitm></name_or_viewitm>
+			</check>
+			<!-- 费用list -->
+			
+			<srv>
+				<code_dep_mp_srv></code_dep_mp_srv>
+				<pri_ratio></pri_ratio>
+				<fg_specill></fg_specill>
+				<name_srv></name_srv>
+				<code_srv></code_srv>
+				<quan_medu_srv></quan_medu_srv>
+				<pri></pri>
+				<fg_selfpay></fg_selfpay>
+				<code_researchproject></code_researchproject>
+				<fg_research></fg_research>
+				<pri_std></pri_std>
+				<sd_hpsrvtp></sd_hpsrvtp>
+				<code_org_mp_srv></code_org_mp_srv>
+			</srv>
+			
+		</order>
+	</ent>
+</root>

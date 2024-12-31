@@ -1,0 +1,83 @@
+package iih.bl.itf.tasktransfered.bp;
+
+import java.util.List;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import iih.bl.itf.tasktransfered.d.TaskTransferedDTO;
+import iih.bl.st.dto.d.BlUrgeStPatEntDTO;
+import xap.mw.core.data.BizException;
+import xap.mw.core.utils.ListUtil;
+import xap.mw.core.utils.StringUtil;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.rui.control.qrysqlgenerator.i.IQrySQLGeneratorService;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.BeanListHandler;
+import xap.sys.jdbc.kernel.SqlParam;
+
+public class TaskTransferedQryBP {
+	/**
+	 * 转账处理节点    查询待转账任务的数据
+	 * @param id_pat
+	 * @param begin_date
+	 * @param end_date
+	 * @return
+	 * @throws BizException
+	 * @author dongjiye
+	 */
+	public TaskTransferedDTO[] exec(QryRootNodeDTO qryNode) throws BizException{
+		IQrySQLGeneratorService qrySQLGeneratorService = ServiceFinder.find(IQrySQLGeneratorService.class);
+	    String whereStr = qrySQLGeneratorService.getQueryStringWithoutDesc(qryNode);
+		StringBuffer sql = new StringBuffer();
+		sql.append("select Pat_name,Code_amr_ip,sum(Pre_amt) Pre_amt,Id_pat from (");
+		sql.append(" select pat.name Pat_name, ent.code_amr_ip Code_amr_ip, pre.amt Pre_amt,pat.id_pat Id_pat");
+		sql.append("  from bl_prepay_pat pre");
+		sql.append(" inner join pi_pat pat");
+		sql.append("    on pat.id_pat = pre.id_pat");
+		sql.append(" inner join (select ip.code_amr_ip, ip.dt_disc, ip.id_dep_phyadm, en.id_ent");
+		sql.append("               from en_ent_ip ip");
+		sql.append("              inner join en_ent en");
+		sql.append("                 on en.id_ent = ip.id_ent) ent");
+		sql.append("    on ent.id_ent = pre.id_ent");
+		sql.append(" where pre.eu_direct = '-1'");
+		sql.append("   and pre.sd_pm = '02'");
+		sql.append("   and pre.sd_paytp = '12'");
+		sql.append("   and pre.fg_refund_manual = 'Y'");	
+		if(whereStr != null){
+			sql.append("and").append(whereStr).append("");
+		}
+		sql.append("union all");
+		sql.append(" select pat.name Pat_name, ent.code_amr_ip Code_amr_ip, pay.amt Pre_amt,pat.id_pat Id_pat");
+		sql.append("  from bl_pay_pat_ip pay");
+		sql.append(" inner join (select ip.code_amr_ip, ip.dt_disc, ip.id_dep_phyadm, en.id_ent");
+		sql.append("               from en_ent_ip ip");
+		sql.append("              inner join en_ent en");
+		sql.append("                 on en.id_ent = ip.id_ent) ent");
+		sql.append("    on ent.id_ent = pay.id_ent");
+		sql.append(" inner join pi_pat pat");
+		sql.append("    on pat.id_pat = pay.id_pat");
+		sql.append(" inner join bl_pay_itm_pat_ip itm");
+		sql.append("    on pay.id_paypatip = itm.id_paypatip");
+		sql.append(" inner join bl_st_ip st");
+		sql.append("    on pay.id_stip = st.id_stip");
+		sql.append(" where st.fg_canc <> 'Y'");
+		sql.append("   and itm.id_paypat is not null");
+		sql.append("    and itm.sd_pm = '02'");
+		sql.append("   and itm.fg_realpay = 'Y'");
+		sql.append("   and itm.fg_refund_manual='Y'");
+		if(whereStr != null){
+			sql.append("and").append(whereStr).append("");
+		}
+		sql.append(") group by  Pat_name,Code_amr_ip,Id_pat");
+		List<TaskTransferedDTO> list = (List<TaskTransferedDTO>) new DAFacade().execQuery(sql.toString(), 
+				new BeanListHandler(TaskTransferedDTO.class));
+		if(ListUtil.isEmpty(list)){
+			return null;
+		}
+		return list.toArray(new TaskTransferedDTO []{});		
+		
+	}
+
+}

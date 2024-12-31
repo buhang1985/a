@@ -1,0 +1,92 @@
+package iih.ei.std.s.v1.bp.hr;
+
+import iih.ei.std.d.v1.hr.depscheddata.d.SchedDataInfoDTO;
+import iih.ei.std.d.v1.hr.depscheddata.d.WeekSchedInfoResultDTO;
+import iih.ei.std.s.v1.bp.IIHServiceBaseBP;
+import iih.hr.hsc.hscschedweek.d.HscSchedDO;
+import iih.hr.hsc.hscschedweek.d.HscSchedWeekDO;
+import iih.hr.hsc.hscschedweek.d.HscschedweekAggDO;
+import iih.hr.hsc.hscschedweek.i.IHscschedweekCudService;
+import iih.hr.hsc.hscschedweek.i.IHscschedweekRService;
+import xap.mw.core.data.BizException;
+import xap.mw.core.utils.StringUtil;
+import xap.mw.coreitf.d.FDate;
+import xap.mw.coreitf.d.FDateTime;
+import xap.mw.sf.core.util.ServiceFinder;
+
+public class DepSchedBp extends IIHServiceBaseBP<WeekSchedInfoResultDTO, WeekSchedInfoResultDTO> {
+	@Override
+	protected void checkParam(WeekSchedInfoResultDTO param) throws BizException {
+		if (param == null) {
+			throw new BizException("科室排班入参为空！");
+		} else if (StringUtil.isEmptyWithTrim(param.getId_dep())) {
+			throw new BizException("科室排班[科室Id]为空！");
+		} else if (param.getDt_monday() == null) {
+			throw new BizException("科室排班参[周一日期]为空！");
+		} else if (FDate.getDaysBetween(param.getDt_monday(), new FDate()) > 7){
+			throw new BizException("历史周排班数据不可修改！");
+		}
+	}
+
+	@Override
+	protected WeekSchedInfoResultDTO process(WeekSchedInfoResultDTO param) throws BizException {
+		// 1.检查给定科室下给定周排班数据并删除
+		vertifyAndDel(param);
+
+		// 2.写入排班数据
+		saveSchedData(param);
+
+		// 3.查询并返回
+		SelectDepSchedDataBp bp = new SelectDepSchedDataBp();
+		return bp.exec(param.getId_dep(), param.getDt_monday());
+	}
+
+	/**
+	 * 检查给定科室下给定周排班数据并删除
+	 * 
+	 * @param param
+	 * @throws BizException
+	 */
+	private void vertifyAndDel(WeekSchedInfoResultDTO param) throws BizException {
+		IHscschedweekRService weekR_srv = ServiceFinder.find(IHscschedweekRService.class);
+		String wherePart = String.format("id_dep='%s' and dt_monday='%s' ", param.getId_dep(), param.getDt_monday().toString());
+		HscschedweekAggDO[] weekAggDos = weekR_srv.find(wherePart, null, null);
+		if (weekAggDos == null || weekAggDos.length == 0) {
+			return;
+		}
+		IHscschedweekCudService week_cud = ServiceFinder.find(IHscschedweekCudService.class);
+		week_cud.delete(weekAggDos);
+	}
+
+	private void saveSchedData(WeekSchedInfoResultDTO param) throws BizException {
+		HscschedweekAggDO weekAggDo = new HscschedweekAggDO();
+		HscSchedWeekDO schedWeekDO = new HscSchedWeekDO();
+		for (String key : param.getAttrNames()) {
+			key = key.substring(0,1).toUpperCase() + key.substring(1);
+			if ("Hscscheds".equals(key)) {
+				continue;
+			}
+			schedWeekDO.setAttrVal(key, param.getAttrVal(key));
+			weekAggDo.setParentDO(schedWeekDO);
+		}
+		if (param.getHscscheds() != null && param.getHscscheds().size() > 0) {
+			HscSchedDO[] schedDos = new HscSchedDO[param.getHscscheds().size()];
+			for (int i = 0; i < param.getHscscheds().size(); i++) {
+				SchedDataInfoDTO data = (SchedDataInfoDTO) param.getHscscheds().get(i);
+				for (String key : data.getAttrNames()) {
+					key = key.substring(0,1).toUpperCase() + key.substring(1);
+					schedDos[i] = new HscSchedDO();
+					if ("Shortname_hsc_si".equals(key)) {
+						schedDos[i].setAttrVal("Ctrl1", data.getAttrVal(key));
+						continue;
+					}
+					schedDos[i].setAttrVal(key, data.getAttrVal(key));
+				}
+			}
+			weekAggDo.setHscSchedDO(schedDos);
+		}
+
+		IHscschedweekCudService week_cud = ServiceFinder.find(IHscschedweekCudService.class);
+		week_cud.insert(new HscschedweekAggDO[] { weekAggDo });
+	}
+}

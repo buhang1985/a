@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	<!-- 门急体结算 -->
+	<bean id="iBlstoepCudService" class="iih.bl.st.blstoep.s.BlstoepCrudServiceImpl"></bean>
+	<!-- 门急体结算应收  主 -->
+	<bean id="iBlstaroepMDOCudService" class="iih.bl.st.blstaroep.s.BlstaroepMDOCrudServiceImpl"></bean>
+	<!-- 门急体结算应收  AGG -->
+	<bean id="iBlstaroepCudService" class="iih.bl.st.blstaroep.s.BlstaroepCrudServiceImpl"></bean>
+	<!-- 门诊收付款明细 -->
+	<bean id="IBlPayItmPatOepDORService" class="iih.bl.st.blpaypatoep.s.BlPayItmPatOepDOCrudServiceImpl"></bean>
+	<!-- 住院患者结算收付款 -->
+	<bean id="IBlpaypatipCudService" class="iih.bl.st.blpaypatip.s.BlpaypatipCrudServiceImpl"></bean>
+	<bean id="IBlpaypatipMDOCudService" class="iih.bl.st.blpaypatip.s.BlpaypatipMDOCrudServiceImpl"></bean>
+	<bean id="IBlpaypatoepCudService" class="iih.bl.st.blpaypatoep.s.BlpaypatoepCrudServiceImpl"></bean>
+	<bean id="IBlpaypatoepMDOCudService" class="iih.bl.st.blpaypatoep.s.BlpaypatoepMDOCrudServiceImpl"></bean>
+	<bean id="IBlprepaysrcpmoepCudService" class="iih.bl.st.blprepaysrcpmoep.s.BlprepaysrcpmoepCrudServiceImpl"></bean>
+	<!-- 住院患者结算收付款日志 -->
+	<bean id="IBlpaypatiplogCudService" class="iih.bl.st.blpaypatiplog.s.BlpaypatiplogCrudServiceImpl"></bean>
+	
+	<!-- 公共接口 -->
+	<bean id="iBLStQueService" class="iih.bl.st.service.s.IBLStQueServiceImpl"></bean>
+	<bean id="iBLStMaintainService" class="iih.bl.st.service.s.IBLStMaintainServiceImpl"></bean>
+	<xap:service ref="iBLStMaintainService" interface="iih.bl.st.service.i.IBLStMaintainService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 住院收付款子表-->
+	<bean id="IBlPayItmPatIpDOCudService" class="iih.bl.st.blpaypatip.s.BlPayItmPatIpDOCrudServiceImpl"></bean>
+	<!-- 住院结算 -->
+	<bean id="IBlstipCrudService" class="iih.bl.st.blstip.s.BlstipCrudServiceImpl"></bean>
+	<!-- 住院费用审核 -->
+	<!--  <bean id="IBlauditipCudService" class="iih.bl.st.blauditip.s.BlauditipCrudServiceImpl"></bean>
+	<bean id="IBlauditipMDORService" class="iih.bl.st.blauditip.s.BlauditipMDOCrudServiceImpl"></bean>-->
+	<bean id="IBlauditipRService" class="iih.bl.st.blauditip.s.BlauditipCrudServiceImpl"></bean>
+	<bean id="IBlauditipMDOCudService" class="iih.bl.st.blauditip.s.BlauditipMDOCrudServiceImpl"></bean>
+	<bean id="IBlhperrorCudService" class="iih.bl.st.blhperror.s.BlhperrorCrudServiceImpl"></bean>
+	
+	<!-- 医保前置流程 -->
+	<bean id="IHpPrePositionFlowService" class="iih.bl.st.ip.s.HpPrePositionFlowServiceImpl"></bean>
+	<xap:service ref="IHpPrePositionFlowService" interface="iih.bl.st.ip.i.IHpPrePositionFlowService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 结算查询服务 -->
+	<bean id="IBlStQryService" class="iih.bl.st.s.BlStQryServiceImpl"/>
+	<!-- 结算命令服务 -->
+	<bean id="IBlStCmdService" class="iih.bl.st.s.BlStCmdServiceImpl"/>   
+    <xap:service ref="IBlStCmdService" interface="iih.bl.st.i.IBlStCmdService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>	
+	
+	<!-- 结算验证服务 -->
+	<bean id="IBlStValidateService" class="iih.bl.st.s.BlStValidateServiceImpl"/>
+	
+	<!-- 门诊收费查询服务 -->
+	<bean id="IBlOepChargeQryService" class="iih.bl.st.s.BlOepChargeQryServiceImpl"/>
+	<!-- 门诊收费命令服务 -->
+	 <bean id="IBlOepChargeCmdService" class="iih.bl.st.s.IBlOepChargeCmdServiceImpl"/>
+	<xap:service ref="IBlOepChargeCmdService" interface="iih.bl.st.i.IBlOepChargeCmdService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>	
+	
+	<!-- 第三方支付门诊退费监听 -->
+	<bean id="IBlOpThirdPaymentRefundListner" class="iih.bl.st.s.listener.BlOpThirdPaymentRefundListner"/>
+	<xap:service ref="IBlOpThirdPaymentRefundListner" interface="iih.bl.st.i.listener.IBlOpThirdPaymentRefundListner"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>	
+	
+	<!-- 门诊转住院结算表 -->
+	<bean id="IBlstproxyhpRService" class="iih.bl.st.blstproxyhp.s.BlstproxyhpCrudServiceImpl"/>
+	<xap:service ref="IBlstproxyhpRService" interface="iih.bl.st.blstproxyhp.i.IBlstproxyhpCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>	
+	
+	<!-- 住院医保预审核 -->
+	<bean id="IBlpreauditipMDOCudService" class="iih.bl.st.blpreauditip.s.BlpreauditipMDOCrudServiceImpl"></bean>
+	<xap:service ref="IBlpreauditipMDOCudService" interface="iih.bl.st.blpreauditip.i.IBlpreauditipMDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 住院医保预审核日志 -->
+	<bean id="IBlPreauditLogIpDOCudService" class="iih.bl.st.blpreauditip.s.BlPreauditLogIpDOCrudServiceImpl"></bean>
+	<xap:service ref="IBlPreauditLogIpDOCudService" interface="iih.bl.st.blpreauditip.i.IBlPreauditLogIpDOCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 门诊合票重结结算关系CRUD服务 -->
+	<bean id="IBlstmgoepCrudService" class="iih.bl.st.blstmgoep.s.BlstmgoepCrudServiceImpl"></bean>
+	<xap:service ref="IBlstmgoepCrudService" interface="iih.bl.st.blstmgoep.i.IBlstmgoepCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<!-- 结算对外查询接口 -->
+	<bean id="IBlStOutQryService" class="iih.bl.st.s.BlStOutQryServiceImpl"></bean>
+	<xap:service ref="IBlStOutQryService" interface="iih.bl.st.i.IBlStOutQryService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+</beans>

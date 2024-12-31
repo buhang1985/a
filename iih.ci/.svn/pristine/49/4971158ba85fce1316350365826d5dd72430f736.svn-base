@@ -1,0 +1,30 @@
+package iih.ci.mi.external.obtain.mi.bp;
+
+import iih.ci.ord.ems.d.CiEnContextDTO;
+import xap.lui.core.xml.StringUtils;
+import xap.mw.core.data.BizException;
+
+public abstract  class BasicMiVerifyBP {
+
+	public boolean isMiVerifyEnabled(CiEnContextDTO ctx) throws BizException{
+		return isEnabledVerify(ctx);
+	}
+	
+	/**
+	 * 判断当前患者是否为医保就诊患者
+	 * @param CiEnContextDTO 当前患者就诊环境对象
+	 * @return true 医保就诊， false 非医保就诊
+	 */
+	public static boolean isHpPat(CiEnContextDTO ctx) {
+
+		// 有医保计划，并且医保类型为社保，并且是医保基金支付标识（持卡）才确认是社保
+		if (ctx != null && StringUtils.isNotEmpty(ctx.getId_hp()) && StringUtils.isNotEmpty(ctx.getSd_hptp())
+				&& ctx.getSd_hptp().startsWith("1") /*&& ctx.getFg_hpfundpay() == FBoolean.TRUE 住院医保基金标志为空，暂时把这个判断去掉*/) {
+			return true;
+		}
+
+		return false;
+	}
+	
+	public abstract boolean isEnabledVerify(CiEnContextDTO ctx) throws BizException;
+}

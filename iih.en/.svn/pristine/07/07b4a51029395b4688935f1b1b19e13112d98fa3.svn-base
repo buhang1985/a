@@ -1,0 +1,122 @@
+package iih.en.pv.s.bp.op.st;
+
+import iih.bl.cg.blcgoep.d.FeeOriginEnum;
+import iih.bl.st.dto.bloepregcharge.d.BlOepRegChargePricingPayDTO;
+import iih.bl.st.dto.bloepregcharge.d.BlOepRegChargePricingPayItmDTO;
+import iih.bl.st.dto.bloepregcharge.d.BlOepRegChargePricingPayRltDTO;
+import iih.bl.st.dto.blpayoep.d.BlPayOepPmDTO;
+import iih.bl.st.i.IBlOepChargeCmdService;
+import iih.en.comm.util.EnAppUtils;
+import iih.en.comm.util.EnContextUtils;
+import iih.en.pv.outpatient.dto.d.PayInfoDTO;
+import iih.en.pv.outpatient.dto.d.PayPmItemDTO;
+import iih.en.pv.outpatient.dto.d.RegInfoDTO;
+import iih.pi.reg.pat.d.PatDO;
+import iih.sc.scbd.schedulesrv.d.ScheduleSrvRelDO;
+import iih.sc.scbd.schedulesrv.i.IScheduleSrvRelDORService;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.FArrayList;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.coreitf.d.FDouble;
+import xap.mw.sf.core.util.ServiceFinder;
+/***
+ * 多种支付方式结算
+ * @author fanlq
+ * @date: 2019年11月21日 下午6:28:18
+ */
+public class ManyPayPmSettleBP {
+
+	/***
+	 * @Description:多种支付方式结算
+	 * @param patDO
+	 * @param regInfo
+	 * @param payInfoDTO
+	 * @return
+	 * @throws BizException
+	 */
+	public String exec(PatDO patDO, RegInfoDTO regInfo, PayInfoDTO payInfoDTO) throws BizException{
+		PayPmItemDTO[] payPmItemDTOs = (PayPmItemDTO[]) payInfoDTO.getPaypmitem().toArray(new PayPmItemDTO[0]);
+		BlOepRegChargePricingPayDTO chargeDto = AssPringDTO(patDO,payInfoDTO,payPmItemDTOs);
+		BlOepRegChargePricingPayItmDTO[] blOepChargePricingRlts = this.AssPricingPayItmDTO(regInfo);
+		BlPayOepPmDTO[] blPayOepPmDTOs = this.AssPayPmItmDTO(payPmItemDTOs);
+		IBlOepChargeCmdService service = ServiceFinder.find(IBlOepChargeCmdService.class);
+		BlOepRegChargePricingPayRltDTO payRltDTO = service.oepRegPricingAndPay(chargeDto, blOepChargePricingRlts, blPayOepPmDTOs);
+		return (String) (payRltDTO != null && payRltDTO.getId_cg().size() > 0 ? payRltDTO.getId_cg().get(0) : null);
+	}
+	/***
+	 * @Description:
+	 * @param patDO
+	 * @param payInfoDTO
+	 * @return
+	 */
+	private BlOepRegChargePricingPayDTO AssPringDTO(PatDO patDO,PayInfoDTO payInfoDTO,PayPmItemDTO[] payPmItemDTOs){
+		BlOepRegChargePricingPayDTO pricingdto = new BlOepRegChargePricingPayDTO();
+		FDouble amt = FDouble.ZERO_DBL;
+		for(PayPmItemDTO pmdto : payPmItemDTOs){
+			amt = amt.add(pmdto.getAmt());
+		}
+		pricingdto.setId_pat(patDO.getId_pat());
+		pricingdto.setId_patca(patDO.getId_paticate());
+		pricingdto.setAmt_pay(amt);
+		pricingdto.setIncno(payInfoDTO.getInvoiceno());
+		pricingdto.setSd_pttp(payInfoDTO.getSd_pttp());
+		pricingdto.setFg_print(pricingdto.getFg_print());
+		pricingdto.setId_emp_pay(EnContextUtils.getPsnId());
+		pricingdto.setId_hp(pricingdto.getId_hp());
+		pricingdto.setAmt_all(amt);
+		pricingdto.setAmt_hp(payInfoDTO.getAmt_hp());
+		pricingdto.setAmt_psnacc(payInfoDTO.getAmt_ct());
+		pricingdto.setSrcfunc_des(FeeOriginEnum.ENCOUNTER_FEE.toString());
+		pricingdto.setFg_print(FBoolean.FALSE);
+		return pricingdto;
+	}
+	/****
+	 * @Description:
+	 * @param blOepChargePricingRltDTOs
+	 * @return
+	 * @throws BizException 
+	 */
+	private BlOepRegChargePricingPayItmDTO[] AssPricingPayItmDTO(RegInfoDTO regInfo) throws BizException{
+		FArrayList list = new FArrayList();
+		IScheduleSrvRelDORService _srvRelService =ServiceFinder.find(IScheduleSrvRelDORService.class);
+		ScheduleSrvRelDO[] scheduleSrvRelDOs = _srvRelService.findByAttrValString(ScheduleSrvRelDO.ID_SCSRV, regInfo.getId_scsrv());
+		for(ScheduleSrvRelDO rltdto : scheduleSrvRelDOs){
+			BlOepRegChargePricingPayItmDTO pricingdto = new BlOepRegChargePricingPayItmDTO();
+			pricingdto.setId_ent(regInfo.getId_ent());
+			pricingdto.setId_srv(rltdto.getId_mdsrv());
+			pricingdto.setQuan(new FDouble(1));
+			pricingdto.setPrice_std(rltdto.getPri_mdsrv());
+			pricingdto.setPrice_ratio(rltdto.getPri_mdsrv());
+			pricingdto.setId_dep_or(EnContextUtils.getDeptId());
+			pricingdto.setId_emp_or(EnContextUtils.getPsnId());
+			pricingdto.setDt_or(EnAppUtils.getServerDateTime());
+			list.add(pricingdto);
+		}
+		return (BlOepRegChargePricingPayItmDTO[]) list.toArray(new BlOepRegChargePricingPayItmDTO[0]);
+	}
+	/***
+	 * @Description:
+	 * @param payPmItemDTOs
+	 * @return
+	 */
+	private BlPayOepPmDTO[] AssPayPmItmDTO(PayPmItemDTO[] payPmItemDTOs){
+		if(payPmItemDTOs == null || payPmItemDTOs.length < 0) return null;
+		FArrayList list = new FArrayList();
+		for(PayPmItemDTO pmdto : payPmItemDTOs){
+			BlPayOepPmDTO pricingdto = new BlPayOepPmDTO();
+			pricingdto.setId_pm(pmdto.getId_pm());
+			pricingdto.setSd_pm(pmdto.getSd_pm());
+			pricingdto.setId_cust(pmdto.getId_cust());
+			pricingdto.setAmt(pmdto.getAmt());
+			pricingdto.setBankno(pmdto.getBankno());
+			pricingdto.setPaymodenode(pmdto.getPaymodenode());
+			pricingdto.setEu_direct(pmdto.getEu_direct());
+			pricingdto.setFg_charge(pmdto.getFg_charge());
+			pricingdto.setFg_refund_manual(pmdto.getFg_refund_manual());
+			pricingdto.setId_paypat(pmdto.getId_paypat());
+			pricingdto.setFg_transfer(pmdto.getFg_transfer());
+			list.add(pricingdto);
+		}
+		return (BlPayOepPmDTO[]) list.toArray(new BlPayOepPmDTO[0]);
+	}
+}

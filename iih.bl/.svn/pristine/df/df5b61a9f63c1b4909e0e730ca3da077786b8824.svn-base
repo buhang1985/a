@@ -1,0 +1,32 @@
+package iih.bl.cg.s.bp.op;
+
+import iih.bl.cg.dto.oepcg4en.d.BlCgOep4EnDTO;
+import iih.bl.cg.s.bp.qry.GetOepCgDataByEntIdQry;
+import xap.mw.core.data.BizException;
+import xap.mw.core.utils.StringUtil;
+import xap.sys.appfw.orm.utils.AppFwUtil;
+
+/**
+ * 根据就诊主键查询门诊记账数据
+ * @author ly 2018/10/30
+ *
+ */
+public class GetOepCgDataByEntIdBP {
+	
+	/**
+	 * 根据就诊主键查询门诊记账数据
+	 * @param entId
+	 * @return
+	 * @throws BizException
+	 */
+	public BlCgOep4EnDTO[] exec(String entId) throws BizException{
+		
+		if(StringUtil.isEmpty(entId))
+			return null;
+		
+		GetOepCgDataByEntIdQry qry = new GetOepCgDataByEntIdQry(entId);
+		BlCgOep4EnDTO[] rlt = (BlCgOep4EnDTO[])AppFwUtil.getDORstWithDao(qry, BlCgOep4EnDTO.class);
+		
+		return rlt;
+	}
+}

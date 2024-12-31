@@ -1,0 +1,90 @@
+package iih.ci.mrqc.qcremindmsgdto.s;
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import iih.ci.mrqc.qcremindmsgdto.d.QcRemindMsgDTO;
+import xap.mw.core.data.BaseDO;
+import xap.mw.core.data.BaseDTO;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.FMap;
+import xap.sys.message.message.i.IGenerateRouserMsg;
+
+public class TerminalQcRemindMsgController implements IGenerateRouserMsg{
+
+	@Override
+	public String getContent(Map<String, Object> arg0) throws BizException {
+		// 消息内容
+		QcRemindMsgDTO msgdto = getMessageDataInfo(arg0);
+		
+		if (msgdto != null ) {
+			
+			String idRevision=msgdto.getId_qcremind();
+			String msg="收到"+msgdto.getDep_phy_name()+"患者："+msgdto.getPat_name()+"  就诊号："+msgdto.getId_ent()+"的"
+					+ "<a funcode='46504015' idrevision='"+idRevision+"'>终末质控缺陷整改通知书</a>"+"，请及时处理！";	
+			
+			return msg;
+		}
+		return null;
+	}
+
+	@Override
+	public String getContents(BaseDO[] arg0, BaseDTO[] arg1) throws BizException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getDep(Map<String, Object> arg0) throws BizException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] getRecipient(Map<String, Object> arg0) throws BizException {
+		// 消息接收用户
+		QcRemindMsgDTO msgdto = getMessageDataInfo(arg0);
+		FMap map=msgdto.getCreator();
+		if(map==null) return null;
+		List<String> list=new ArrayList<String>();
+		if(msgdto.getId_psn()!=null)
+			list.add(msgdto.getId_psn());
+		for(String key : map.keySet()){
+			list.add(key);
+		}
+		return  (String[])list.toArray(new String[list.size()]);
+	}
+
+	@Override
+	public String[] getRecipients(BaseDO[] arg0, BaseDTO[] arg1) throws BizException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getTitle(Map<String, Object> arg0) throws BizException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getTitles(BaseDO[] arg0, BaseDTO[] arg1) throws BizException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public URI getURI() throws BizException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public QcRemindMsgDTO getMessageDataInfo(Map<String, Object> arg0) {
+		
+		if (arg0 != null && arg0.size() > 0 && arg0.containsKey("CIMRTERMINALQC")) {
+			return (QcRemindMsgDTO) arg0.get("CIMRTERMINALQC");
+		}
+		return null;
+	}
+}

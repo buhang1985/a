@@ -1,0 +1,28 @@
+package iih.bl.st.s.bp.oepcharge;
+
+import iih.bl.st.dto.bloepregcharge.d.BlOepRegChargePricingPayDTO;
+import iih.bl.st.dto.bloepregcharge.d.BlOepRegChargePricingPayItmDTO;
+import iih.bl.st.dto.bloepregcharge.d.BlOepRegChargePricingPayRltDTO;
+import iih.bl.st.dto.blpayoep.d.BlPayOepPmDTO;
+import xap.mw.core.data.BizException;
+
+/**
+ * 门诊挂号划价收费一体化方法
+ * @author ly 2019/07/16
+ *
+ */
+public class BlOepRegChargePricingPayBP {
+
+	/**
+	 * 门诊挂号划价收费一体化方法
+	 * @param chargeDto 收费信息
+	 * @param chargeItmDtos 费用明细信息
+	 * @param payPmDtos 支付方式信息
+	 * @return 收费结果
+	 * @throws BizException
+	 */
+	public BlOepRegChargePricingPayRltDTO exec(BlOepRegChargePricingPayDTO chargeDto, BlOepRegChargePricingPayItmDTO[] chargeItmDtos, BlPayOepPmDTO[] payPmDtos) throws BizException{
+		
+		return null;
+	}
+}

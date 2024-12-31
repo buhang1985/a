@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	<!-- 门诊预交金 -->
+	<bean id="iBlpaypatCudService" class="iih.bl.pay.blpaypat.s.BlpaypatCrudServiceImpl"></bean>
+	<!-- 门诊预交金补充查询服务 -->
+	<bean id="IBlpaypatRExtService" class="iih.bl.pay.blpaypat.s.BlpaypatRExtServiceImpl"></bean>
+	<!-- 患者专用款 -->
+	<bean id="IBlspclpatCudService" class="iih.bl.pay.blspclpat.s.BlspclpatCrudServiceImpl"></bean>
+	<!-- 收付款-专用款 -->
+	<bean id="IBlpayspclCudService" class="iih.bl.pay.blpayspcl.s.BlpayspclCrudServiceImpl"></bean>
+	<bean id="IBlpayspclMDOCudService" class="iih.bl.pay.blpayspcl.s.BlpayspclMDOCrudServiceImpl"></bean> 
+	<!-- 预交金_患者_收支总金额 -->
+	<bean id="IBlprepaypatpmamtoepCudService" class="iih.bl.pay.blprepaypatpmamtoep.s.BlprepaypatpmamtoepCrudServiceImpl"></bean>
+	<!-- 公共接口 -->
+	<bean id="iBLPayQueService" class="iih.bl.pay.service.s.BLPayQueServiceImpl"></bean>
+	<bean id="iBLPayMaintainService" class="iih.bl.pay.service.s.BLPayMaintainServiceImpl"></bean>
+	<xap:service ref="iBLPayMaintainService" interface="iih.bl.pay.service.i.IBLPayMaintainService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 住院结算相关接口集合 -->
+	<bean id="IIpSettlementService" class="iih.bl.pay.ip.s.IpSettlementServiceImpl"></bean>
+	<xap:service ref="IIpSettlementService" interface="iih.bl.pay.ip.i.IIpSettlementService" requires="tx">
+	       <xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!--住院患者账户查询接口集合 -->
+	<bean id="IIpEntAccInfoQryService" class="iih.bl.pay.ip.s.IpEntAccInfoQryServiceImpl"></bean>
+	
+	<!-- 收付款查询服务 -->
+	<bean id="IBlPayQryService" class="iih.bl.pay.s.BlPayQryServiceImpl"/>
+	<!-- 收付款命令服务 -->
+	<bean id="IBlPayCmdService" class="iih.bl.pay.s.BlPayCmdServiceImpl"/>   
+    <xap:service ref="IBlPayCmdService" interface="iih.bl.pay.i.IBlPayCmdService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>	
+	<!-- 收付款对外查询服务 -->
+	<bean id="IBlPayOutQryService" class="iih.bl.pay.s.BlPayOutQryServiceImpl"/>
+	
+	<!-- 预交金重打命令服务 -->
+	<bean id="IBlpaypatreprintCrudService" class="iih.bl.pay.blpaypat.s.BlpaypatreprintCrudServiceImpl"/>   
+    <xap:service ref="IBlpaypatreprintCrudService" interface="iih.bl.pay.blpaypat.i.IBlpaypatreprintCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>	
+	
+	<!-- 预交金命令服务 -->
+	<bean id="IBlPrepayCmdService" class="iih.bl.pay.s.BlPrepayCmdServiceImpl"></bean>
+	<xap:service ref="IBlPrepayCmdService" interface="iih.bl.pay.i.IBlPrepayCmdService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 费用收付款域对移动医疗提供服务 -->
+	<bean id="IBlPayForMbhService" class="iih.bl.pay.s.BlPayForMbhServiceImpl"></bean>
+	<xap:service ref="IBlPayForMbhService" interface="iih.bl.pay.i.IBlPayForMbhService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+		<!-- 预交金票据记录CRUD命令服务 -->
+	<bean id="IPrepaypatrcptCrudService" class="iih.bl.pay.prepaypatrcpt.s.PrepaypatrcptCrudServiceImpl"/>   
+    <xap:service ref="IPrepaypatrcptCrudService" interface="iih.bl.pay.prepaypatrcpt.i.IPrepaypatrcptCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+		<!-- 强制退预交金基础CRUD命令服务 -->
+	<bean id="IPrepayrefundCudService" class="iih.bl.pay.refundpay.s.PrepayrefundCrudServiceImpl"/>   
+    <xap:service ref="IPrepayrefundCudService" interface="iih.bl.pay.prepayrefund.i.IPrepayrefundCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<!-- 第三方支付预交金退费监听 -->
+	<bean id="IBlThirdPrepaymentRefundListner" class="iih.bl.pay.s.listener.BlThirdPrepaymentRefundListner"/>   
+    <xap:service ref="IBlThirdPrepaymentRefundListner" interface="iih.bl.pay.i.listener.IBlThirdPrepaymentRefundListner"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+</beans>

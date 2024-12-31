@@ -1,0 +1,78 @@
+package iih.ci.event.ord.reissue.action.ris;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import iih.ci.event.ord.reissue.action.ris.pathy.IpReissuePathyBP;
+import iih.ci.event.ord.reissue.action.ris.pathy.OpReissuePathyBP;
+import iih.ci.event.ord.reissue.common.ReissueCommonAction;
+import iih.ci.event.ord.reissue.common.ReissueCommonBP;
+import iih.ci.event.ord.utils.OrdEventUtil;
+import iih.ci.event.reissue.d.IEMsgReissueRstDTO;
+import iih.ci.ord.ciorder.d.CiOrderDO;
+import xap.mw.core.data.BaseDTO;
+import xap.mw.core.data.BizException;
+
+public abstract class ReissueRisCommonAction extends ReissueCommonAction  {
+
+	private static final Map<String, ReissueCommonBP> bpMap = new HashMap<>();
+	
+	static {
+		bpMap.put(OrdEventUtil.SD_SRVTP_RIS_BINGLI, new IpReissuePathyBP());//住院病理
+		bpMap.put(OrdEventUtil.SD_SRVTP_RIS, new IpReissueRisBP());//住院检查
+		bpMap.put(OrdEventUtil.SD_SRVTP_RIS_BINGLI, new OpReissuePathyBP());//门诊病理
+		bpMap.put(OrdEventUtil.SD_SRVTP_RIS, new OpReissueRisBP());//门诊检查
+	}
+	
+	@Override
+	public IEMsgReissueRstDTO asseble() throws BizException {
+
+		Map<String, List<CiOrderDO>> ordMap = getRisOrPathyOrders();
+		List<BaseDTO> dtos = new ArrayList<BaseDTO>();
+		if (ordMap != null && ordMap.size() > 0) {
+			for (String type : ordMap.keySet()) {
+				if (bpMap.containsKey(type)) {
+					ReissueCommonBP bp = bpMap.get(type);
+					bp.setiEMsgReissueDTO(this.iEMsgReissueDTO);
+					bp.setOrders(ordMap.get(type).toArray(new CiOrderDO[ordMap.get(type).size()]));
+					BaseDTO[] risdtos = bp.getAssebleData();
+					if(risdtos != null){
+						dtos.addAll(Arrays.asList(risdtos));
+					}
+				}
+			}
+		}
+		
+		if(dtos != null && dtos.size()>0){
+			return assembleData(dtos);
+		}
+		return null;		
+	}
+	
+	protected IEMsgReissueRstDTO assembleData(List<BaseDTO> dtos) throws BizException {
+		return null;
+	}
+	
+	public Map<String, List<CiOrderDO>> getRisOrPathyOrders() throws BizException {
+		// TODO 过滤出检查医嘱
+		List<CiOrderDO> orderList = new ArrayList<>();
+		Map<String, List<CiOrderDO>> ordMap = new HashMap<>();
+		CiOrderDO[] orders = this.getOrders();
+		if (orders != null && orders.length > 0) {
+			for (CiOrderDO order : orders) {
+				if (OrdEventUtil.SD_SRVTP_RIS_BINGLI.equals(order.getSd_srvtp())) {
+					orderList.add(order);//病理
+					ordMap.put(OrdEventUtil.SD_SRVTP_RIS_BINGLI, orderList);
+				} else {
+					orderList.add(order);//检查
+					ordMap.put(OrdEventUtil.SD_SRVTP_RIS, orderList);
+				}
+			}
+		}
+		return ordMap;
+	}
+
+}

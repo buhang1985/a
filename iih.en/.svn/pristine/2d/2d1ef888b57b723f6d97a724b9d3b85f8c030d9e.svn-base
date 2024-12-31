@@ -1,0 +1,406 @@
+package iih.en.er.bp.enprquery;
+
+import iih.bd.base.utils.SqlUtils;
+import iih.bd.bc.udi.pub.IEnDictCodeConst;
+import iih.bd.bc.udi.pub.IEnDictCodeTypeConst;
+import iih.en.comm.ep.ErPreEP;
+import iih.en.comm.util.DateTimeUtils;
+import iih.en.comm.util.EnAppUtils;
+import iih.en.comm.validator.EnValidator;
+import iih.en.er.dto.d.EnErPrQueryDTO;
+import iih.en.er.dto.d.EuUrgInOutTransStatus;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.FArrayList;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.coreitf.d.FDateTime;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.appfw.orm.handle.dataobject.paging.PaginationInfo;
+import xap.sys.appfw.orm.handle.dataobject.paging.PagingRtnData;
+import xap.sys.appfw.orm.handle.dataobject.paging.PagingServiceImpl;
+import xap.sys.appfw.xapformula.utils.AgeCalcUtil;
+import xap.sys.jdbc.facade.DAFacade;
+import xap.sys.jdbc.handler.BeanListHandler;
+import xap.sys.jdbc.kernel.SqlParam;
+import xap.sys.xbd.udi.d.UdidocDO;
+import xap.sys.xbd.udi.i.IUdidocServiceExt;
+/**
+ * 急诊预检查询卡
+ * @author 黄炎
+ *
+ */
+public class GetEnErPrQuery {
+
+	public PagingRtnData<EnErPrQueryDTO> exec(EnErPrQueryDTO enErPrQueryDTO, PaginationInfo pageInfo) throws BizException {
+		FDateTime endDateTime = EnAppUtils.getServerDateTime();
+		SqlParam sqlParam = new SqlParam();
+		//获取SQL
+		String sql = this.getSql(enErPrQueryDTO, sqlParam);
+		//执行SQL
+		PagingRtnData<EnErPrQueryDTO> ret = this.getRtnData(pageInfo, sql, sqlParam);
+	    FArrayList list = ret.getPageData();
+	    if(list == null || list.size() <= 0)
+	    	return ret;
+	    IUdidocServiceExt  iUdidocServiceExt = ServiceFinder.find(IUdidocServiceExt.class);
+	    Map<String, String> triageto = this.getUdidocMap(iUdidocServiceExt.findByUdidoclistCode(IEnDictCodeTypeConst.SD_ERPRE_TRIAGETO));
+	    Map<String, String> goMap = this.getUdidocMap(iUdidocServiceExt.findByUdidoclistCode(IEnDictCodeTypeConst.SD_ER_GOWHERE));
+	    //分诊分级的获取
+	    ErPreEP erPreEP = new ErPreEP();
+		erPreEP.setErScoleName((EnErPrQueryDTO[])list.toArray(new EnErPrQueryDTO[]{}), "Sd_scale_hm", "Name_scale_hm");
+		//处理预检中留观数据，fanlq-2019-06-13
+		EnErPrQueryDTO[] enErPrQueryDTOs = this.setEtObsData((EnErPrQueryDTO[])list.toArray(new EnErPrQueryDTO[]{}));
+	    //3.处理查询结果
+        if (ret != null) {
+			for(Object obj: enErPrQueryDTOs) {
+				EnErPrQueryDTO outDTO = (EnErPrQueryDTO)obj;
+	    		//计算年龄
+	            this.getPatAge(outDTO);
+	            //判断患者身份
+	            this.getPatstatus(outDTO);
+	            //获取滞留时间
+	            this.getDetDura(outDTO,endDateTime);
+	            //判断分诊去向
+	            this.getNameLevel(outDTO, triageto);
+	            //设置就诊状态
+	            this.setNameStatus(outDTO);
+	            //设置就诊去向，fanlq-2019-04-08
+	            this.getNameGoWhere(outDTO,goMap);
+            }
+	    } 
+		return ret;
+	}
+	
+	public String getSql(EnErPrQueryDTO enErPrQueryDTO, SqlParam sqlParam) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("select ent.id_ent, ");//就诊id
+		stringBuilder.append("pat.id_pat, ");//患者id
+		stringBuilder.append("pre.id_erpre, ");//预检id
+		stringBuilder.append("pre.dt_entry as dt_entry, ");//到院日期
+		stringBuilder.append("pre.dt_end as dt_end, ");//出院日期
+		stringBuilder.append("pre.id_ent_ip, ");//留观id
+		stringBuilder.append("pat.code as pat_code, ");//患者编码
+		stringBuilder.append("pat.name as pat_name, ");//患者姓名
+		stringBuilder.append("pat.dt_birth as pat_birth, ");//患者出生日期
+		stringBuilder.append("pre.code as erpre_code, ");//预检码
+		stringBuilder.append("pre.fg_nonperson as fg_nonperson, ");//三无人员
+		stringBuilder.append("nvl(er.sd_scale_triage,pre.sd_scale_hm) as sd_scale_hm, ");//预检分级
+        stringBuilder.append("ent.dt_acpt as dt_pat, ");//入科日期
+        stringBuilder.append("pre.sd_triage_to as sd_triage_to, ");//分诊去向
+        stringBuilder.append("gowhere.code as sd_gowhere_er_ref, ");//就诊去向
+        stringBuilder.append("dep.name as name_dep_phy, ");//科室名称
+        stringBuilder.append("ent.id_dep_phy as id_dep_phy, ");//科室id
+        stringBuilder.append("pat.id_paticate, ");//患者分类
+        stringBuilder.append("patca.name as name_paticate, ");//患者分类名称
+        stringBuilder.append("pat.id_patpritp, ");//价格分类
+        stringBuilder.append("pripat.name as name_patpritp, ");//价格分类名称
+        stringBuilder.append("op.ticketno, ");//就诊序号
+        stringBuilder.append("op.id_dateslot as op_iddata, ");//午别
+        stringBuilder.append("dayslot.name as id_dateslot, ");//午别名称
+        stringBuilder.append("pre.sd_status as sd_status_ref, ");//就诊状态
+        stringBuilder.append("nvl(op.sd_status,pre.sd_status) as sd_status, ");
+        stringBuilder.append("pre.id_emp_pre as id_emp_operator, ");//预检人员id
+        stringBuilder.append("psndoc.name as name_emp_operator, ");//预检人员名称
+        stringBuilder.append("op.times_op as ent_count, ");//就诊次数
+        stringBuilder.append("ent.fg_canc as fg_canc, ");//是否取消挂号
+        stringBuilder.append("ent.fg_acptvalid as fg_acpt_nur ");//入病区状态
+        stringBuilder.append("from en_erpre pre ");
+        stringBuilder.append("left join en_ent ent on ent.id_ent = pre.id_ent_last ");
+        stringBuilder.append("left join en_ent_op op on op.id_ent = pre.id_ent_last ");
+        stringBuilder.append("left join pi_pat pat on pat.id_pat = pre.id_pat ");
+        stringBuilder.append("left join en_ent_op_er er on er.id_ent = pre.id_ent_last ");
+        stringBuilder.append("left join bd_dep dep on pre.id_dep_to = dep.id_dep ");
+        stringBuilder.append("left join bd_psndoc psndoc on pre.id_emp_pre = psndoc.id_psndoc ");
+        stringBuilder.append("left join pi_pat_ca patca on patca.id_patca = pat.id_paticate ");
+        stringBuilder.append("left join bd_pri_pat pripat on pripat.id_pripat = pat.id_patpritp ");
+        stringBuilder.append("left join bd_dayslot dayslot on dayslot.id_dayslot = op.id_dateslot ");
+        stringBuilder.append("left join bd_udidoc gowhere on gowhere.id_udidoc = er.id_gowhere_er ");
+        stringBuilder.append("where 1 = 1 ");
+        /**
+	     * 开始时间
+	     */
+	    if (enErPrQueryDTO.getBegin_time() != null) {
+	    	stringBuilder.append(" And pre.dt_entry >= ? ");
+	    	sqlParam.addParam(enErPrQueryDTO.getBegin_time());
+		}
+	    /**
+	     * 结束时间
+	     */
+	    if (enErPrQueryDTO.getEnd_time() != null) {
+	    	stringBuilder.append(" And pre.dt_entry < ? ");
+	    	sqlParam.addParam(enErPrQueryDTO.getEnd_time().getDateAfter(1));
+		}
+	    /**
+	     * 科室ID
+	     */
+	    if (!EnValidator.isEmpty(enErPrQueryDTO.getId_dep_phy_ref())) {
+	    	stringBuilder.append(" And pre.id_dep_to = ? ");
+	    	sqlParam.addParam(enErPrQueryDTO.getId_dep_phy_ref());
+		}
+	    /**
+	     * 患者状态
+	     */
+	    if (!EnValidator.isEmpty(enErPrQueryDTO.getSd_status_ref())) {
+	    	stringBuilder.append(" And pre.sd_status = ? ");
+	    	sqlParam.addParam(enErPrQueryDTO.getId_dep_phy_ref());
+		}
+	    /**
+	     * 预检人员id
+	     */
+	    if (!EnValidator.isEmpty(enErPrQueryDTO.getId_createby_ref())) {
+	    	stringBuilder.append(" And pre.id_emp_pre = ? ");
+	    	sqlParam.addParam(enErPrQueryDTO.getId_createby_ref());
+		}
+	    /**
+	     * 分诊去向
+	     */
+	    if (!EnValidator.isEmpty(enErPrQueryDTO.getSd_triage_to_ref())) {
+	    	stringBuilder.append(" And pre.sd_triage_to = ? ");
+	    	sqlParam.addParam(enErPrQueryDTO.getSd_triage_to_ref());
+		}
+	    /**
+	     * 预检分级
+	     */
+	    if (!EnValidator.isEmpty(enErPrQueryDTO.getSd_scale_hm_ref())) {
+	    	stringBuilder.append(" And pre.sd_scale_hm = ? ");
+	    	sqlParam.addParam(enErPrQueryDTO.getSd_scale_hm_ref());
+		}
+	    /**
+	     * 就诊去向
+	     */
+	    if (!EnValidator.isEmpty(enErPrQueryDTO.getId_gowhere_er_ref())) {
+	    	stringBuilder.append(" And er.id_gowhere_er = ? ");
+	    	sqlParam.addParam(enErPrQueryDTO.getId_gowhere_er_ref());
+		}
+	    /**
+	     * 患者姓名
+	     */
+	    if (!EnValidator.isEmpty(enErPrQueryDTO.getPat_name())) {
+	    	stringBuilder.append(" And pre.name_pat = ? ");
+	    	sqlParam.addParam(enErPrQueryDTO.getPat_name());
+		}
+	    /**
+	     * 患者编号
+	     */
+	    if (!EnValidator.isEmpty(enErPrQueryDTO.getPat_code())) {
+	    	stringBuilder.append(" And pat.code = ? ");
+	    	sqlParam.addParam(enErPrQueryDTO.getPat_code());
+		}
+	    /**
+	     * 预检状态
+	     */
+	    if (!EnValidator.isEmpty(enErPrQueryDTO.getErpre_status()) 
+	    		&& !("-1".equals(enErPrQueryDTO.getErpre_status()))) {//"-1"代表查询"全部" zhang.zl  2019.5.21
+	    	stringBuilder.append(" And pre.sd_status = ? ");
+	    	sqlParam.addParam(enErPrQueryDTO.getErpre_status());
+		}
+	    stringBuilder.append(" order by pre.dt_entry ");
+	    return stringBuilder.toString();
+	}
+	
+	private PagingRtnData<EnErPrQueryDTO> getRtnData(PaginationInfo pageInfo, String sql, SqlParam param) throws BizException {
+		PagingServiceImpl<EnErPrQueryDTO> pageQryService = new PagingServiceImpl<EnErPrQueryDTO>();
+		return pageQryService.findByPageInfo(new EnErPrQueryDTO(), pageInfo, sql, null, param);
+	}
+	
+	/**
+	 * 查询身份
+	 * @param depDTO
+	 */
+	private void getPatstatus(EnErPrQueryDTO depDTO) {
+	    if (!EnValidator.isEmpty(depDTO.getSd_status_ref()) && depDTO.getFg_acpt_nur() != null) {
+			if (IEnDictCodeConst.SD_STATUS_ERPRE_VISIT.equals(depDTO.getSd_status_ref()) && depDTO.getFg_acpt_nur().equals(FBoolean.FALSE)) {
+					depDTO.setPat_status(EuUrgInOutTransStatus.UNENTRY);//未入科
+			}
+			if (IEnDictCodeConst.SD_STATUS_ERPRE_VISIT.equals(depDTO.getSd_status_ref()) && depDTO.getFg_acpt_nur().equals(FBoolean.TRUE)) {
+					depDTO.setPat_status(EuUrgInOutTransStatus.INDEP);//已入科
+			}
+			if (IEnDictCodeConst.SD_STATUS_ERPRE_END.equals(depDTO.getSd_status_ref())) {
+					depDTO.setPat_status(EuUrgInOutTransStatus.OUTDEP);//出科
+			}
+		}
+	}
+	
+	/**
+	 * 获取患者的滞留时间
+	 * @param depDTO
+	 * @param endDateTime
+	 */
+	private void getDetDura(EnErPrQueryDTO depDTO, FDateTime endDateTime) {
+	    if (depDTO.getDt_entry() != null) {
+	    	String result = null;
+	    	if(depDTO.getDt_end() != null){
+	    		result = DateTimeUtils.getTimeLength(depDTO.getDt_entry(), depDTO.getDt_end());
+	    	}else{
+	    		result = DateTimeUtils.getTimeLength(depDTO.getDt_entry(), endDateTime);
+	    	}
+	    		depDTO.setDet_dura(result);
+		}
+	}
+	
+	/**
+     * 查询年龄
+     * @param depDTO
+     */
+	private void getPatAge(EnErPrQueryDTO depDTO) {
+		depDTO.setPat_age(AgeCalcUtil.getAge(depDTO.getPat_birth()));
+	}
+	
+	/**
+	 * 获得患者分诊去向
+	 * @param depDTO
+	 * @param udidocDOsLevel
+	 * @throws BizException
+	 */
+	private void getNameLevel(EnErPrQueryDTO depDTO, Map<String, String> map) throws BizException {
+		if (!EnValidator.isEmpty(depDTO.getSd_triage_to())) {
+	    	depDTO.setName_triage_to(map.get(depDTO.getSd_triage_to()));
+		}
+	}
+	
+	/**
+	 * 获得患者就诊去向
+	 * @param depDTO
+	 * @param udidocDOsLevel
+	 * @throws BizException
+	 */
+	private void getNameGoWhere(EnErPrQueryDTO depDTO, Map<String, String> map) throws BizException {
+		if (!EnValidator.isEmpty(depDTO.getSd_gowhere_er_ref())) {
+	    	depDTO.setName_gowhere_er_ref(map.get(depDTO.getSd_gowhere_er_ref()));
+		}
+	}
+	
+	/**
+     * 将bd_udidoc数组转换为map
+     */
+	private Map<String, String> getUdidocMap(UdidocDO[] udidocDOs) {
+		Map<String, String> map = new HashMap<>();
+		for (int i = 0; i < udidocDOs.length; i++) {
+			map.put(udidocDOs[i].getCode(), udidocDOs[i].getName());
+		}
+		return map;
+	}
+	/***
+	 * 设置就诊状态
+	 * 
+	 * @param erDTO
+	 */
+	private void setNameStatus(EnErPrQueryDTO erDTO){
+		if(erDTO != null && !EnValidator.isEmpty(erDTO.getSd_status())){
+			String nameStatus = "未知";
+			if(erDTO.getFg_canc()!=null && FBoolean.TRUE.equals(erDTO.getFg_canc())){
+				nameStatus = "取消";
+				erDTO.setName_status(nameStatus);
+				return;
+			}
+            switch (erDTO.getSd_status())
+            {
+                case IEnDictCodeConst.SD_ENSTATUS_OP_REGISTER: //门诊挂号
+                	nameStatus = "挂号";
+                    break;
+                case IEnDictCodeConst.SD_ENSTATUS_OP_ENCOUNTER: //门诊就诊
+                case IEnDictCodeConst.SD_STATUS_ERPRE_VISIT: //急诊就诊
+                	nameStatus = "就诊";
+                    break;
+                case IEnDictCodeConst.SD_ENSTATUS_OP_FINISH: //门诊诊毕
+                case IEnDictCodeConst.SD_STATUS_ERPRE_END: //急诊结束
+                	nameStatus = "诊毕";
+                    break;
+                case IEnDictCodeConst.SD_ENSTATUS_OP_CONTINUE: //门诊续诊
+                	nameStatus = "续诊";
+                    break;
+                case IEnDictCodeConst.SD_STATUS_ERPRE_NEW: //急诊预检
+                	nameStatus = "预检";
+                    break;
+                case IEnDictCodeConst.SD_STATUS_ERPRE_CANCEL: //急诊取消
+                	nameStatus = "取消";
+                    break;
+                case IEnDictCodeConst.SD_ENSTATUS_EM_REGISTER: //急诊登记
+                	nameStatus = "急诊登记";
+                    break;
+                case IEnDictCodeConst.SD_ENSTATUS_EM_ENCOUNTER: //急诊接诊
+                	nameStatus = "急诊接诊";
+                    break;
+                case IEnDictCodeConst.SD_ENSTATUS_EM_FINISH: //急诊诊毕
+                	nameStatus = "急诊诊毕";
+                    break;
+                case IEnDictCodeConst.SD_ENSTATUS_EM_REPORT: //急诊出报告
+                	nameStatus = "急诊出报告";
+                    break;
+                case IEnDictCodeConst.SD_ENSTATUS_IN_ORDER: //住院预约
+                	nameStatus = "预约";
+                    break;
+                case IEnDictCodeConst.SD_ENSTATUS_IN_HOSPITALIN: //住院入院
+                	nameStatus = "入院";
+                    break;
+                case IEnDictCodeConst.SD_ENSTATUS_IN_DEPTIN: //住院入科
+                	nameStatus = "入科";
+                    break;
+                case IEnDictCodeConst.SD_ENSTATUS_IN_HOSPITALOUT: //住院出院
+                	nameStatus = "出院";
+                    break;
+                case IEnDictCodeConst.SD_ENSTATUS_IN_HOSPITALQUIT: //住院退院
+                	nameStatus = "退院";
+                    break;
+                case IEnDictCodeConst.SD_ENSTATUS_PE_REGISTER: //体检登记
+                	nameStatus = "体检登记";
+                    break;
+                case IEnDictCodeConst.SD_ENSTATUS_PE_ENCOUNTER: //体检接诊
+                	nameStatus = "体检接诊";
+                    break;
+                case IEnDictCodeConst.SD_ENSTATUS_PE_FINISH: //体检诊毕
+                	nameStatus = "体检诊毕";
+                    break;
+                case IEnDictCodeConst.SD_ENSTATUS_PE_REPORT: //体检出报告
+                	nameStatus = "体检出报告";
+                    break;
+            }
+            erDTO.setName_status(nameStatus);
+		}
+	}
+	/***
+	 * 重新设置留观患者的数据
+	 * @param enErPrQueryDTOs
+	 * @return
+	 * @throws BizException
+	 */
+	private EnErPrQueryDTO[] setEtObsData(EnErPrQueryDTO[] enErPrQueryDTOs) throws BizException{
+		if(enErPrQueryDTOs == null || enErPrQueryDTOs.length <= 0)
+			return enErPrQueryDTOs;
+		List<String> idEntList = new ArrayList<String>();
+		for(Object obj: enErPrQueryDTOs){ 
+			EnErPrQueryDTO dto = (EnErPrQueryDTO)obj;
+			if(!EnValidator.isEmpty(dto.getId_ent_ip()) && !idEntList.contains(dto.getId_ent_ip())){
+				idEntList.add(dto.getId_ent_ip());
+			}
+		}
+		if(idEntList == null || idEntList.size() <= 0)
+			return enErPrQueryDTOs;
+		StringBuffer sql = new StringBuffer();
+		sql.append("select ent.id_ent,ip.sd_status,gowhere.code as sd_gowhere_er_ref,ent.dt_end  from en_erpre pre ");
+		sql.append("inner join en_ent_ip ip on ip.id_ent = pre.id_ent_ip " );
+		sql.append("inner join en_ent_ip_er er on er.id_ent = ip.id_ent " );
+		sql.append("inner join en_ent ent on ent.id_ent = ip.id_ent " );
+		sql.append("left join bd_udidoc gowhere on gowhere.id_udidoc = er.id_gowhere_er " );
+		sql.append("where pre.id_ent_ip is not null ");
+		sql.append("and "+SqlUtils.getInSqlByBigIds("ent.id_ent", idEntList.toArray(new String[0])));
+		List<EnErPrQueryDTO> list = (List<EnErPrQueryDTO>) new DAFacade().execQuery(sql.toString(),new BeanListHandler(EnErPrQueryDTO.class));
+		if(list != null && list.size() > 0){
+			for(EnErPrQueryDTO dto : list){
+				for(EnErPrQueryDTO enErPrQueryDTO : enErPrQueryDTOs){
+					if(!EnValidator.isEmpty(dto.getId_ent()) && !EnValidator.isEmpty(enErPrQueryDTO.getId_ent_ip())
+							&& dto.getId_ent().equals(enErPrQueryDTO.getId_ent_ip())){
+						enErPrQueryDTO.setSd_status(dto.getSd_status());
+						enErPrQueryDTO.setSd_gowhere_er_ref(dto.getSd_gowhere_er_ref());
+						enErPrQueryDTO.setDt_end(dto.getDt_end());
+					}
+				}
+			}
+		}
+		return enErPrQueryDTOs;
+	} 
+}

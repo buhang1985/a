@@ -1,0 +1,110 @@
+package iih.ei.std.s.v1.bp.mp.dispdruginfo.qry;
+
+import iih.mp.dg.opdrugdisp.d.PresMpStatus;
+import xap.mw.core.data.Context;
+import xap.sys.appfw.orm.utils.ITransQry;
+import xap.sys.jdbc.kernel.SqlParam;
+/**
+ * 
+* @ClassName: GetOPDispDrugInfoSql
+* @Description: 查询门诊发药明细
+* @author zhy
+* @date 2019年10月16日
+*
+ */
+public class GetOPDispDrugInfoSql implements ITransQry{
+
+	private String id_pres;
+	private String deptId;
+	
+	public GetOPDispDrugInfoSql(String id_pres,String deptId) {
+		super();
+		this.id_pres = id_pres;
+		this.deptId = deptId;
+	}
+
+	@Override
+	public SqlParam getQryParameter(StringBuffer arg0) {
+		SqlParam sqlParam = new SqlParam();
+		sqlParam.addParam(this.id_pres);
+//		sqlParam.addParam(this.deptId);
+		sqlParam.addParam(PresMpStatus.DISP_YES);
+		return sqlParam;
+	}
+
+	@Override
+	public String getQrySQLStr() {
+		StringBuffer sqlStr = new StringBuffer();
+		sqlStr.append("    select                                                                                        ");
+		sqlStr.append("    presst.id_pres                                                              as id_pres,       ");
+		sqlStr.append("    pat.name                                                                    as name_pat,      ");
+		sqlStr.append("    case sexdoc.name                                                                              ");
+		sqlStr.append("    when '女性'                                                                                   ");
+		sqlStr.append("      then '女'                                                                                   ");
+		sqlStr.append("    when '男性'                                                                                   ");
+		sqlStr.append("      then '男'                                                                                   ");
+		sqlStr.append("    end                                                                         as name_sex,      ");
+		sqlStr.append("    round(months_between(sysdate, to_date(pat.dt_birth, 'yyyy-mm-dd')) / 12, 0) as age,           ");
+		sqlStr.append("    nvl(pat.tel, pat.mob)                                                       as tel,           ");
+		sqlStr.append("    bddep.name                                                                  as name_dep,      ");
+		sqlStr.append("    bdpsndoc.name                                                               as name_doctor,   ");
+		sqlStr.append("    pres.dt_entry                                                               as dt_entry,      ");
+		sqlStr.append("    srvmm.price_pgku_cur                                                        as price,         ");
+		sqlStr.append("    ciorder.orders                                                              as quantityday,   ");
+		sqlStr.append("    srvmm.quan_cur                                                              as pricetotal,    ");
+		sqlStr.append("    patca.name                                                                  as paymenttype,   ");
+		sqlStr.append("    'payed'                                                                     as paymentstatus, ");
+		sqlStr.append("    'his'                                                                       as datasource,    ");
+		sqlStr.append("    'new'                                                                       as processstatus, ");
+		sqlStr.append("    mm.code                                                                     as code_mm,       ");
+		sqlStr.append("    mm.name                                                                     as name_mm,       ");
+		sqlStr.append("    orsrv.quan_medu                                                             as quan_medu,     ");
+		sqlStr.append("    srvmm.price_pgku_cur                                                        as pricedt        ");
+		sqlStr.append("  from mp_dg_presst presst                                                                        ");
+		sqlStr.append("    join ci_pres pres                                                                             ");
+		sqlStr.append("      on presst.id_pres = pres.id_pres                                                            ");
+		sqlStr.append("    left join en_ent ent                                                                          ");
+		sqlStr.append("      on ent.id_ent = pres.id_en                                                                  ");
+		sqlStr.append("    left join pi_pat pat                                                                          ");
+		sqlStr.append("      on pat.id_pat = pres.id_pati                                                                ");
+		sqlStr.append("    left join pi_pat_ca patca                                                                     ");
+		sqlStr.append("      on pat.id_paticate = patca.id_patca                                                         ");
+		sqlStr.append("    left join bd_udidoc sexdoc                                                                    ");
+		sqlStr.append("      on sexdoc.id_udidoc = pat.id_sex                                                            ");
+		sqlStr.append("    join ci_or_srv orsrv                                                                          ");
+		sqlStr.append("      on orsrv.id_pres = presst.id_pres                                                           ");
+		sqlStr.append("    left join ci_order ciorder                                                                    ");
+		sqlStr.append("      on ciorder.id_or = orsrv.id_or                                                              ");
+		sqlStr.append("    join ci_or_srv_mm srvmm                                                                       ");
+		sqlStr.append("      on srvmm.id_orsrv = orsrv.id_orsrv                                                          ");
+		sqlStr.append("    left join bd_mm mm                                                                            ");
+		sqlStr.append("      on srvmm.id_mm = mm.id_mm                                                                   ");
+		sqlStr.append("    left join bd_srv_drug srvdrug                                                                 ");
+		sqlStr.append("      on srvdrug.id_srv = mm.id_srv                                                               ");
+		sqlStr.append("    left join bd_udidoc dosage                                                                    ");
+		sqlStr.append("      on dosage.id_udidoc = srvdrug.id_dosage                                                     ");
+		sqlStr.append("    left join bd_dep bddep                                                                        ");
+		sqlStr.append("      on bddep.id_dep = orsrv.id_dep_srv                                                          ");
+		sqlStr.append("    left join bd_psndoc bdpsndoc                                                                  ");
+		sqlStr.append("      on bdpsndoc.id_psndoc = orsrv.id_emp_srv                                                    ");
+		sqlStr.append("    join ci_order ord                                                                             ");
+		sqlStr.append("      on ord.id_or = orsrv.id_or                                                                  ");
+		sqlStr.append("    left join bd_measdoc bdmeasdoc                                                                ");
+		sqlStr.append("      on bdmeasdoc.id_measdoc = orsrv.id_medu                                                     ");
+		sqlStr.append("    left join bd_dep bddep                                                                        ");
+		sqlStr.append("      on bddep.id_dep = ord.id_dep_or                                                             ");
+		sqlStr.append("    left join bd_psndoc bdpsndoc                                                                  ");
+		sqlStr.append("      on bdpsndoc.id_psndoc = ord.id_emp_or                                                       ");
+		sqlStr.append("    left join bd_route bdroute                                                                    ");
+		sqlStr.append("      on bdroute.id_route = ord.id_route                                                          ");
+		sqlStr.append("    left join bd_freq bdfreq                                                                      ");
+		sqlStr.append("      on bdfreq.id_freq = ord.id_freq                                                             ");
+		sqlStr.append("    left join bd_measdoc measdoc                                                                  ");
+		sqlStr.append("      on measdoc.id_measdoc = srvmm.id_pgku_cur                                                   ");
+		sqlStr.append("  where  presst.id_pres = ?                                                                       ");
+//		sqlStr.append("        and orsrv.id_dep_wh = ?                                                                   ");
+		sqlStr.append("        and presst.eu_su_mpdgop = ?                                                               ");
+		return sqlStr.toString();
+	}
+
+}

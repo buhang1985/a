@@ -1,0 +1,22 @@
+package iih.ci.rcm.reportcardmissqry.bp;
+
+import iih.bd.srv.reportcardtypediagdo.d.ReportCardTypeDiagDO;
+import iih.bd.srv.reportcardtypediagdo.i.IReportcardtypediagdoRService;
+import xap.mw.core.data.BizException;
+import xap.mw.sf.core.util.ServiceFinder;
+
+/**
+ * 判断当前诊断是否关联报卡类型，如果关联则返回报卡类型主键
+ */
+public class HasDiagPassBp {
+
+	public String hasDiagPass(String id_di) throws BizException {
+		IReportcardtypediagdoRService diagSer=ServiceFinder.find(IReportcardtypediagdoRService.class);
+		ReportCardTypeDiagDO [] diagDos=diagSer.findByAttrValString("Id_di", id_di);
+		if(diagDos!=null && diagDos.length>0){
+			return diagDos[0].getId_bd_rcm_tp();
+		}	
+		
+		return null;
+	}
+}

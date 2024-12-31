@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+	
+	<bean id="iAccountCrudService" class="iih.pi.acc.account.s.AccountCrudServiceImpl"/>
+	<xap:service ref="iAccountCrudService" interface="iih.pi.acc.account.i.IAccountCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="iPiaccbankCrudService" class="iih.pi.acc.piaccbank.s.PiaccbankCrudServiceImpl"/>
+	<xap:service ref="iPiaccbankCrudService" interface="iih.pi.acc.piaccbank.i.IPiaccbankCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="iAccountBizService" class="iih.pi.acc.account.s.AccountBizServiceImpl"/>
+	<xap:service ref="iAccountBizService" interface="iih.pi.acc.account.i.IAccountBizService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="iAccountMDOCrudService" class="iih.pi.acc.account.s.AccountMDOCrudServiceImpl"/>
+	<xap:service ref="iAccountMDOCrudService" interface="iih.pi.acc.account.i.IAccountMDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+	<bean id="IPatAccServiceExt" class="iih.pi.acc.account.s.PatAccServiceExtImpl"/>
+	<xap:service ref="IPatAccServiceExt" interface="iih.pi.acc.account.i.IPatAccServiceExt" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<bean id="iPiPatAccActDOCrudService" class="iih.pi.acc.account.s.PiPatAccActDOCrudServiceImpl"/>
+	<xap:service ref="iPiPatAccActDOCrudService" interface="iih.pi.acc.account.i.IPiPatAccActDOCudService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	<bean id="IPIAccQryService" class="iih.pi.acc.s.IPIAccQryServiceImpl"/>
+	<xap:service ref="IPIAccQryService" interface="iih.pi.acc.i.IPIAccQryService" requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+
+</beans>

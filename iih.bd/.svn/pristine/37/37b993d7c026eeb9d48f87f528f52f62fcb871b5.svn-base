@@ -1,0 +1,132 @@
+package iih.bd.pp.accountsrv.s.bp;
+
+import java.util.ArrayList;
+
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+
+import iih.bd.bc.udi.pub.IBdPpDictCodeConst;
+import iih.bd.pp.accountsrv.d.AccountSrvDO;
+import iih.bd.pp.accountsrv.i.IAccountsrvCudService;
+import iih.bd.pp.accountsrvrel.d.MedsrvAccountRelDTO;
+import iih.bd.utils.BdPpParamUtils;
+import xap.mw.core.data.BizException;
+import xap.mw.core.data.Context;
+import xap.mw.coreitf.d.FBoolean;
+import xap.mw.sf.core.util.ServiceFinder;
+import xap.sys.jdbc.facade.DAException;
+
+/**
+ * 更新医疗服务与核算科目关系业务逻辑
+ * 
+ * @author hao_wu 2018-10-27
+ *
+ */
+public class UpdateMedsrvAccountRelBp {
+
+	/**
+	 * 更新医疗服务与核算科目关系
+	 * 
+	 * @param srvAccountRelDtos 医疗服务与核算科目关系集合
+	 * @throws BizException
+	 */
+	public void exec(MedsrvAccountRelDTO[] srvAccountRelDtos) throws BizException {
+		if (ArrayUtils.isEmpty(srvAccountRelDtos)) {
+			return;
+		}
+
+		FBoolean useAccountSystem = BdPpParamUtils.getUseAccountSystemFlag();
+		if (FBoolean.FALSE.equals(useAccountSystem)) {
+			// 不使用财务核算体系
+			return;
+		}
+
+		updateMedsrvAccountRel(srvAccountRelDtos);
+	}
+
+	/**
+	 * 更新医疗服务与核算科目关系
+	 * 
+	 * @param srvAccountRelDtos
+	 * @throws BizException
+	 */
+	private void updateMedsrvAccountRel(MedsrvAccountRelDTO[] srvAccountRelDtos) throws BizException {
+		FBoolean shareAcountSystem = BdPpParamUtils.getShareAcountSystemFlag();
+
+		ArrayList<AccountSrvDO> accountSrvDOList = new ArrayList<AccountSrvDO>();
+		ArrayList<String> medsrvIds = new ArrayList<String>();
+		for (MedsrvAccountRelDTO medsrvAccountRelDTO : srvAccountRelDtos) {
+			if (StringUtils.isEmpty(medsrvAccountRelDTO.getId_srv())) {
+				continue;
+			}
+
+			medsrvIds.add(medsrvAccountRelDTO.getId_srv());
+
+			if (FBoolean.TRUE.equals(shareAcountSystem)) {
+				// 共用
+				AccountSrvDO accountSrvDO = getNewAccountSrvDO(medsrvAccountRelDTO.getId_srv());
+				accountSrvDO.setId_account(IBdPpDictCodeConst.ID_ACCOUNT_GY);
+				accountSrvDO.setId_accountca(medsrvAccountRelDTO.getId_account());
+				accountSrvDOList.add(accountSrvDO);
+			} else {
+				// 门诊
+				AccountSrvDO accountSrvDO = getNewAccountSrvDO(medsrvAccountRelDTO.getId_srv());
+				accountSrvDO.setId_account(IBdPpDictCodeConst.ID_ACCOUNT_MZ);
+				accountSrvDO.setId_accountca(medsrvAccountRelDTO.getId_account_op());
+				accountSrvDOList.add(accountSrvDO);
+				// 住院
+				accountSrvDO = getNewAccountSrvDO(medsrvAccountRelDTO.getId_srv());
+				accountSrvDO.setId_account(IBdPpDictCodeConst.ID_ACCOUNT_ZY);
+				accountSrvDO.setId_accountca(medsrvAccountRelDTO.getId_account_ip());
+				accountSrvDOList.add(accountSrvDO);
+			}
+		}
+
+		deleteAccMedsrvRel(medsrvIds.toArray(new String[0]));
+		insertAccMedsrvRel(accountSrvDOList.toArray(new AccountSrvDO[0]));
+	}
+
+	/**
+	 * 删除核算项目和医疗服务关系
+	 * 
+	 * @param medSrvIds
+	 * @throws DAException
+	 */
+	private void deleteAccMedsrvRel(String[] medSrvIds) throws DAException {
+		if (ArrayUtils.isEmpty(medSrvIds)) {
+			return;
+		}
+
+		DeleteRelByMedsrvIdBp bp = new DeleteRelByMedsrvIdBp();
+		bp.exec(medSrvIds);
+	}
+
+	/**
+	 * 插入核算项目和医疗服务关系
+	 * 
+	 * @param accSrvRels
+	 * @throws BizException
+	 */
+	private void insertAccMedsrvRel(AccountSrvDO[] accSrvRels) throws BizException {
+		if (ArrayUtils.isEmpty(accSrvRels)) {
+			return;
+		}
+		IAccountsrvCudService accountsrvCudService = ServiceFinder.find(IAccountsrvCudService.class);
+		accountsrvCudService.insert(accSrvRels);
+	}
+
+	/**
+	 * 获取新医疗服务与核算科目关系
+	 * 
+	 * @param id_srv
+	 * @return
+	 */
+	private AccountSrvDO getNewAccountSrvDO(String id_srv) {
+		AccountSrvDO accountSrvDO = new AccountSrvDO();
+		accountSrvDO.setId_grp(Context.get().getGroupId());
+		accountSrvDO.setId_org(Context.get().getOrgId());
+		accountSrvDO.setId_srv(id_srv);
+		return accountSrvDO;
+	}
+
+}

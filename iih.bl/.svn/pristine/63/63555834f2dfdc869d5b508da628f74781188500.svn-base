@@ -1,0 +1,20 @@
+package iih.bl.itf.tasktransfered.s;
+
+import xap.mw.core.annotation.Service;
+import xap.mw.core.data.BizException;
+import xap.mw.core.service.constant.Binding;
+import xap.sys.appfw.tmpl.qryscheme.qrydto.QryRootNodeDTO;
+import iih.bl.itf.tasktransfered.bp.TaskTransferedQryBP;
+import iih.bl.itf.tasktransfered.d.TaskTransferedDTO;
+import iih.bl.itf.tasktransfered.i.TaskTransferService;
+
+@Service(serviceInterfaces = {TaskTransferService.class}, binding = Binding.JSONRPC)
+public class TaskTransferServiceImpl implements TaskTransferService {
+
+	@Override
+	public TaskTransferedDTO[] taskTransferedQry(QryRootNodeDTO qryNode) throws BizException {
+		TaskTransferedQryBP bp = new TaskTransferedQryBP();
+		return bp.exec(qryNode);
+	}
+
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+
+	<!-- 产科建档查询服务 -->
+	<bean id="IPregDocQryService" class="iih.en.doc.s.PregDocQryServiceImpl"></bean>
+
+	<!-- 产科建档命令服务 -->
+	<bean id="IPregDocCmdService" class="iih.en.doc.s.PregDocCmdServiceImpl"></bean>
+
+	<!-- 随访记录服务 -->
+	<bean id="IEntdocflupCrudService" class="iih.en.doc.endoc.s.EntdocflupCrudServiceImpl"></bean>
+
+	<!-- 建档查询服务 -->
+	<bean id="IDocRService" class="iih.en.doc.endoc.s.DocCrudServiceImpl"></bean>
+	<!-- 建档命令服务 -->
+	<bean id="IDocCudService" class="iih.en.doc.endoc.s.DocCrudServiceImpl"></bean>
+
+	<!-- -->
+	<bean id="IPregdocRService" class="iih.en.doc.pregdoc.s.PregdocCrudServiceImpl"></bean>
+	<!-- -->
+	<bean id="IPregdocCudService" class="iih.en.doc.pregdoc.s.PregdocCrudServiceImpl"></bean>
+
+	<!-- 产科建档主DO查询服务 -->
+	<bean id="IPregdocMDORService" class="iih.en.doc.pregdoc.s.PregdocMDOCrudServiceImpl"></bean>
+	<!-- 产科建档主DO命令服务 -->
+	<bean id="IPregdocMDOCudService" class="iih.en.doc.pregdoc.s.PregdocMDOCrudServiceImpl"></bean>
+
+	<!-- 产妇状况查询服务 -->
+	<bean id="IPregDocStatDORService" class="iih.en.doc.pregdoc.s.PregDocStatDOCrudServiceImpl"></bean>
+	<!-- 产妇状况命令服务 -->
+	<bean id="IPregDocStatDOCudService" class="iih.en.doc.pregdoc.s.PregDocStatDOCrudServiceImpl"></bean>
+</beans>

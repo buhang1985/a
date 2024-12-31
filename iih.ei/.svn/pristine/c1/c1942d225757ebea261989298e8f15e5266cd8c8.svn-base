@@ -1,0 +1,21 @@
+package iih.ei.bl.ecinc.bosssoft.v2.s;
+
+import iih.ei.bl.ecinc.s.EcIncManageBaseServiceImpl;
+
+/**
+ * 博思电子发票票据管理处理
+ * @author ly 2019/12/03
+ *
+ */
+public class BossSoftEcIncManageServiceImpl extends EcIncManageBaseServiceImpl{
+
+	private static BossSoftEcIncManageServiceImpl instance;
+	
+	static{
+		instance = new BossSoftEcIncManageServiceImpl();
+	}
+	
+	public static BossSoftEcIncManageServiceImpl getInstance(){
+		return instance;
+	}
+}

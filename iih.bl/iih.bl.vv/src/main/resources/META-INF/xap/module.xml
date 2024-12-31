@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xap="http://xap.org/xap" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://xap.org/xap http://xap.org/xap-0.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	<xap:std-bundle />
+
+	<!-- 优惠券服务 -->
+	<bean id="ICpnCrudService" class="iih.bl.vv.cpn.s.CpnCrudServiceImpl" />
+	<xap:service ref="ICpnCrudService" interface="iih.bl.vv.cpn.i.ICpnCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 结算命令服务 -->
+	<bean id="ICpninCrudService" class="iih.bl.vv.cpnin.s.CpninCrudServiceImpl" />
+	<xap:service ref="ICpninCrudService" interface="iih.bl.vv.cpnin.i.ICpninCudService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+
+	<!-- 优惠券模块查询服务 -->
+	<bean id="IBlVvQryService" class="iih.bl.vv.s.BlVvQryServiceImpl" />
+
+	<!-- 优惠券模块数据维护服务 -->
+	<bean id="IBlVvCmdService" class="iih.bl.vv.s.BlVvCmdServiceImpl" />
+	<xap:service ref="IBlVvCmdService" interface="iih.bl.vv.i.IBlVvCmdService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+	
+		<!-- 优惠券模块数据维护服务 -->
+	<bean id="IBlcpninService" class="iih.bl.vv.cpnin.s.IBlcpninServiceImpl" />
+	<xap:service ref="IBlcpninService" interface="iih.bl.vv.cpnin.i.IBlcpninService"
+		requires="tx">
+		<xap:binding name="jsonrpc" />
+	</xap:service>
+</beans>
